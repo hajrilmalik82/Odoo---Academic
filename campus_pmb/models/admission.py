@@ -30,8 +30,12 @@ class CampusAdmission(models.Model):
     registration_date = fields.Date(
         string='Registration Date', default=fields.Date.context_today, tracking=True
     )
+    faculty_id = fields.Many2one(
+        'academic.faculty', string='Faculty', required=True, tracking=True, check_company=True
+    )
     program_id = fields.Many2one(
-        'academic.program', string='Program', required=True, tracking=True, check_company=True
+        'academic.program', string='Program', required=True, tracking=True, check_company=True,
+        domain="[('faculty_id', '=', faculty_id)]"
     )
     academic_year_id = fields.Many2one(
         'academic.year', string='Academic Year', required=True, tracking=True, check_company=True

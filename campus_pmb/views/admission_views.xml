@@ -36,6 +36,7 @@
                         <group string="Application Details">
                             <field name="registration_date"/>
                             <field name="admission_path"/>
+                            <field name="faculty_id"/>
                             <field name="program_id"/>
                             <field name="academic_year_id"/>
                             <field name="partner_id" invisible="1"/>
@@ -88,6 +89,7 @@
                 <filter string="Accepted" name="accepted" domain="[('state', '=', 'accepted')]"/>
                 <group name="group_by">
                     <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Faculty" name="group_by_faculty" context="{'group_by': 'faculty_id'}"/>
                     <filter string="Program" name="group_by_program" context="{'group_by': 'program_id'}"/>
                     <filter string="Academic Year" name="group_by_year" context="{'group_by': 'academic_year_id'}"/>
                     <filter string="Admission Path" name="group_by_path" context="{'group_by': 'admission_path'}"/>
@@ -106,6 +108,7 @@
                 <field name="name"/>
                 <field name="email"/>
                 <field name="admission_path"/>
+                <field name="faculty_id"/>
                 <field name="program_id"/>
                 <field name="academic_year_id"/>
                 <field name="registration_date"/>
