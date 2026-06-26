@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Search View -->
+    <record id="view_academic_class_schedule_search" model="ir.ui.view">
+        <field name="name">academic.class.schedule.search</field>
+        <field name="model">academic.class.schedule</field>
+        <field name="arch" type="xml">
+            <search string="Search Schedules">
+                <!-- Left Sidebar Search Panel -->
+                <searchpanel>
+                    <field name="class_id" string="Class" select="multi" enable_counters="1"/>
+                    <field name="day_of_week" string="Day of Week" select="one" enable_counters="1"/>
+                    <field name="lecturer_id" string="Lecturer" select="multi" enable_counters="1"/>
+                    <field name="room_id" string="Room" select="multi" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_academic_class_schedule_tree" model="ir.ui.view">
+        <field name="name">academic.class.schedule.tree</field>
+        <field name="model">academic.class.schedule</field>
+        <field name="arch" type="xml">
+            <list string="Class Schedules">
+                <field name="class_id"/>
+                <field name="day_of_week"/>
+                <field name="start_time" widget="float_time"/>
+                <field name="end_time" widget="float_time"/>
+                <field name="room_id"/>
+                <field name="lecturer_id"/>
+                <field name="capacity_display" string="Capacity (Max/Filled)"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_academic_class_schedule_form" model="ir.ui.view">
+        <field name="name">academic.class.schedule.form</field>
+        <field name="model">academic.class.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Class Schedule">
+                <sheet>
+                    <group>
+                        <group name="class_info" string="Class Information">
+                            <field name="class_id"/>
+                            <field name="class_code"/>
+                            <field name="lecturer_id"/>
+                        </group>
+                        <group string="Schedule">
+                            <field name="day_of_week"/>
+                            <field name="start_time" widget="float_time"/>
+                            <field name="end_time" widget="float_time"/>
+                        </group>
+                    </group>
+                    <group string="Room Information">
+                        <group>
+                            <field name="room_id"/>
+                            <field name="room_capacity"/>
+                        </group>
+                        <group>
+                            <field name="enrolled_count"/>
+                            <field name="capacity_display"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_academic_class_schedule" model="ir.actions.act_window">
+        <field name="name">Class Schedules</field>
+        <field name="res_model">academic.class.schedule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No schedules found. Schedules are created from within a Class record.
+            </p>
+        </field>
+    </record>
+
+</odoo>

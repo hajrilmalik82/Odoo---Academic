@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Faculty Views -->
+    <record id="view_academic_faculty_tree" model="ir.ui.view">
+        <field name="name">academic.faculty.tree</field>
+        <field name="model">academic.faculty</field>
+        <field name="arch" type="xml">
+            <list string="Faculties">
+                <field name="name"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_faculty_form" model="ir.ui.view">
+        <field name="name">academic.faculty.form</field>
+        <field name="model">academic.faculty</field>
+        <field name="arch" type="xml">
+            <form string="Faculty">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="dean_id"/>
+                        <field name="company_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Program Views -->
+    <record id="view_academic_program_tree" model="ir.ui.view">
+        <field name="name">academic.program.tree</field>
+        <field name="model">academic.program</field>
+        <field name="arch" type="xml">
+            <list string="Programs">
+                <field name="name"/>
+                <field name="faculty_id"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_program_form" model="ir.ui.view">
+        <field name="name">academic.program.form</field>
+        <field name="model">academic.program</field>
+        <field name="arch" type="xml">
+            <form string="Program">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="faculty_id"/>
+                        <field name="head_id"/>
+                        <field name="company_id" invisible="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Subject Views -->
+    <record id="view_academic_subject_tree" model="ir.ui.view">
+        <field name="name">academic.subject.tree</field>
+        <field name="model">academic.subject</field>
+        <field name="arch" type="xml">
+            <list string="Subjects">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="credits"/>
+                <field name="semester"/>
+                <field name="term_type"/>
+                <field name="program_id"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_subject_form" model="ir.ui.view">
+        <field name="name">academic.subject.form</field>
+        <field name="model">academic.subject</field>
+        <field name="arch" type="xml">
+            <form string="Subject">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="credits"/>
+                        </group>
+                        <group>
+                            <field name="semester"/>
+                            <field name="term_type"/>
+                            <field name="program_id"/>
+                            <field name="prerequisite_ids" widget="many2many_tags"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_academic_subject_search" model="ir.ui.view">
+        <field name="name">academic.subject.search</field>
+        <field name="model">academic.subject</field>
+        <field name="arch" type="xml">
+            <search string="Search Subjects">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="program_id"/>
+                <field name="faculty_id"/>
+                <searchpanel>
+                    <field name="program_id" icon="fa-building" enable_counters="1" groupby="faculty_id" select="multi"/>
+                    <field name="semester" icon="fa-list" enable_counters="1" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- Academic Year Views -->
+    <record id="view_academic_year_tree" model="ir.ui.view">
+        <field name="name">academic.year.tree</field>
+        <field name="model">academic.year</field>
+        <field name="arch" type="xml">
+            <list string="Academic Years">
+                <field name="name"/>
+                <field name="active"/>
+                <field name="krs_start_date"/>
+                <field name="krs_end_date"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_year_form" model="ir.ui.view">
+        <field name="name">academic.year.form</field>
+        <field name="model">academic.year</field>
+        <field name="arch" type="xml">
+            <form string="Academic Year">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="krs_start_date"/>
+                            <field name="krs_end_date"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

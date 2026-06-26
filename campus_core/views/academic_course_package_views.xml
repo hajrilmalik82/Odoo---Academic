@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Course Package Tree -->
+    <record id="view_academic_course_package_tree" model="ir.ui.view">
+        <field name="name">academic.course.package.tree</field>
+        <field name="model">academic.course.package</field>
+        <field name="arch" type="xml">
+            <list string="Course Packages">
+                <field name="name"/>
+                <field name="program_id"/>
+                <field name="term_type"/>
+                <field name="academic_year_id"/>
+                <field name="total_credits"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Course Package Form -->
+    <record id="view_academic_course_package_form" model="ir.ui.view">
+        <field name="name">academic.course.package.form</field>
+        <field name="model">academic.course.package</field>
+        <field name="arch" type="xml">
+            <form string="Course Package">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="program_id"/>
+                            <field name="term_type"/>
+                        </group>
+                        <group>
+                            <field name="academic_year_id"/>
+                            <field name="total_credits"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Subjects">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="subject_id"/>
+                                    <field name="credits"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

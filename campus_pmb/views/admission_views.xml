@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Form View -->
+    <record id="view_campus_admission_form" model="ir.ui.view">
+        <field name="name">campus.admission.form</field>
+        <field name="model">campus.admission</field>
+        <field name="arch" type="xml">
+            <form string="Admission">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_start_document_review" string="Start Document Review" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
+                    <button name="action_verify_documents" string="Verify Documents" type="object" class="oe_highlight" invisible="state != 'document_review'"/>
+                    <button name="action_verify_payment" string="Verify Payment" type="object" class="oe_highlight" invisible="state != 'payment_pending'"/>
+                    <button name="action_accept" string="Accept" type="object" class="btn-success" invisible="state != 'payment_verified'"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state in ('accepted', 'registered', 'rejected')"/>
+                    <button name="action_register" type="object" string="Register Student" class="oe_highlight" invisible="state != 'accepted'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,document_review,payment_pending,payment_verified,accepted,registered" options="{'clickable': True}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Applicant Name"/>
+                        <h2>
+                            <field name="registration_number"/>
+                        </h2>
+                        <h1>
+                            <field name="name" placeholder="e.g. John Doe"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group string="Personal Information">
+                            <field name="email" widget="email"/>
+                            <field name="phone" widget="phone"/>
+                            <field name="previous_school"/>
+                        </group>
+                        <group string="Application Details">
+                            <field name="registration_date"/>
+                            <field name="admission_path"/>
+                            <field name="program_id"/>
+                            <field name="academic_year_id"/>
+                            <field name="partner_id" invisible="1"/>
+                            <field name="user_id" invisible="1"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Verification">
+                        <group>
+                            <field name="required_document_count" readonly="1"/>
+                            <field name="received_document_count" readonly="1"/>
+                            <field name="documents_complete" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="payment_reference"/>
+                            <field name="payment_date"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Documents">
+                            <field name="document_line_ids">
+                                <list editable="bottom">
+                                    <field name="document_type"/>
+                                    <field name="required"/>
+                                    <field name="received"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_campus_admission_search" model="ir.ui.view">
+        <field name="name">campus.admission.search</field>
+        <field name="model">campus.admission</field>
+        <field name="arch" type="xml">
+            <search string="Search Admissions">
+                <field name="registration_number"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="phone"/>
+                <separator/>
+                <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
+                <filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter string="Accepted" name="accepted" domain="[('state', '=', 'accepted')]"/>
+                <group name="group_by">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Program" name="group_by_program" context="{'group_by': 'program_id'}"/>
+                    <filter string="Academic Year" name="group_by_year" context="{'group_by': 'academic_year_id'}"/>
+                    <filter string="Admission Path" name="group_by_path" context="{'group_by': 'admission_path'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_campus_admission_tree" model="ir.ui.view">
+        <field name="name">campus.admission.tree</field>
+        <field name="model">campus.admission</field>
+        <field name="arch" type="xml">
+            <list string="Admissions">
+                <field name="registration_number"/>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="admission_path"/>
+                <field name="program_id"/>
+                <field name="academic_year_id"/>
+                <field name="registration_date"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="state" widget="badge" 
+                       decoration-info="state in ('submitted', 'document_review', 'payment_pending', 'payment_verified')"
+                       decoration-success="state in ('accepted', 'registered')"
+                       decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_campus_admission" model="ir.actions.act_window">
+        <field name="name">Admissions</field>
+        <field name="res_model">campus.admission</field>
+        <field name="view_mode">list,form,activity</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first admission record!
+            </p>
+        </field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_campus_pmb_root" name="Admissions" sequence="10" web_icon="campus_pmb,static/description/icon.png"/>
+    
+    <menuitem id="menu_campus_admission" name="Applicants" parent="menu_campus_pmb_root" action="action_campus_admission" sequence="10"/>
+
+</odoo>

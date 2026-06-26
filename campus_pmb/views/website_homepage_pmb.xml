@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="pmb_homepage_docs" inherit_id="campus_core.core_homepage_docs" name="PMB ERP Documentation">
+        
+        <!-- Inject into Sidebar Navigation -->
+        <xpath expr="//div[@id='docs-tab']" position="inside">
+            <button class="nav-link fw-bold py-3 text-start mb-1 text-danger" id="tab-pmb" data-bs-toggle="pill" data-bs-target="#content-pmb" type="button" role="tab" aria-controls="content-pmb" aria-selected="false">
+                <i class="fa fa-graduation-cap me-2"/> Modul Penerimaan (PMB)
+            </button>
+        </xpath>
+
+        <!-- Inject into Content Area -->
+        <xpath expr="//div[@id='docs-tabContent']" position="inside">
+            
+            <!-- MODUL PMB PANE -->
+            <div class="tab-pane fade" id="content-pmb" role="tabpanel" aria-labelledby="tab-pmb">
+                <section class="mb-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                            <i class="fa fa-graduation-cap"/>
+                        </div>
+                        <h2 class="fw-bold mb-0 text-danger">Modul PMB (Penerimaan Mahasiswa Baru)</h2>
+                    </div>
+                    <p class="text-muted lead mb-4">
+                        Modul ini mengautomasi siklus penuh proses admisi kandidat mahasiswa. Dari titik pengisian formulir pendaftaran secara publik pada website hingga orkestrasi pemrosesan seleksi melalui antarmuka Kanban dan integrasi fitur rekrutmen.
+                    </p>
+
+                    <div class="mb-4 ps-3 border-start border-4 border-dark">
+                        <h5 class="fw-bold"><i class="fa fa-lock text-dark me-2"/> Langkah 1: Pengaturan Hak Akses Panitia (Row-Level Security)</h5>
+                        <p class="mb-0">
+                            Sebelum membuka pendaftaran, pastikan setiap Panitia/Staf PMB telah diatur wewenangnya melalui modul Employees. 
+                            Sistem PMB ini dilengkapi <strong>Kompartementalisasi Data</strong> tingkat lanjut. Staf PMB hanya dapat melihat data pendaftar yang memilih program studi atau fakultas sesuai dengan yurisdiksi staf tersebut. Jika seorang staf dikhususkan untuk Fakultas Teknik, maka pendaftar Fakultas Hukum tidak akan terlihat di layarnya. Biarkan wewenangnya kosong jika staf tersebut bertugas sebagai Admin Pusat (bisa melihat semua pendaftar).
+                        </p>
+                    </div>
+
+                    <div class="mb-4 ps-3 border-start border-4 border-danger">
+                        <h5 class="fw-bold">Langkah 2: Pendaftaran Publik (Frontend Web Form)</h5>
+                        <p>Inisiasi data dimulai secara mandiri oleh kandidat melalui antarmuka web publik:</p>
+                        <ol>
+                            <li>Kandidat mahasiswa mengakses URL endpoint pendaftaran (<code>/pmb/register</code>).</li>
+                            <li>Kandidat mengisi borang elektronik yang mencakup informasi krusial (Nama, Email, Telepon, Tanggal Lahir) serta memilih <strong>Program Studi</strong> (relasi <em>Many2One</em> ke <code>academic.program</code>).</li>
+                            <li>Sistem melakukan sanitasi input dan mengirimkan (*submit*) data tersebut langsung ke dalam <em>Backend Odoo Models</em>.</li>
+                            <li>Beban kerja tim administrasi berkurang drastis karena sistem mendemokratisasi proses entri data awal (Data Entry Democratization).</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-4 ps-3 border-start border-4 border-warning">
+                        <h5 class="fw-bold">Langkah 3: Tinjauan Awal Pipeline Admisi (Status: DRAFT)</h5>
+                        <p>Setelah data terkirim, dokumen tersebut mendarat di meja virtual panitia seleksi:</p>
+                        <ol>
+                            <li>Panitia PMB (Administrator) membuka modul <strong>Campus PMB &gt; Admissions</strong>.</li>
+                            <li>Sistem menyajikan data pendaftar dalam representasi visual <strong>Kanban Board</strong> bergaya <em>Agile</em>.</li>
+                            <li>Pendaftar baru secara default dikategorikan pada kolom (Stage) <strong>"Draft"</strong>.</li>
+                            <li>Panitia melakukan verifikasi kelengkapan administrasi. Jika berkas dinyatakan valid, panitia memindahkan (<em>Drag &amp; Drop</em>) kartu kandidat tersebut menuju kolom <strong>"Interview"</strong>.</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-4 ps-3 border-start border-4 border-info">
+                        <h5 class="fw-bold">Langkah 4: Proses Penjadwalan &amp; Wawancara (Status: INTERVIEW)</h5>
+                        <p>Fase ini mengisolasi kandidat yang sedang menjalani proses seleksi akademis maupun wawancara:</p>
+                        <ol>
+                            <li>Kandidat kini berada pada tahap <strong>"Interview"</strong>.</li>
+                            <li>Sistem terintegrasi secara <em>native</em> dengan <strong>Odoo Chatter &amp; Mail Thread</strong>. Panitia dapat menggunakan fitur <em>Schedule Activity</em> langsung dari dalam dokumen pendaftar untuk merencanakan jadwal wawancara, rapat internal tim seleksi, hingga mencatat <em>Log Note</em> hasil tes masuk.</li>
+                            <li>Seluruh rekam jejak komunikasi (Audit Trail) terpusat pada satu dokumen, menghilangkan dependensi komunikasi eksternal seperti email terpisah atau aplikasi pihak ketiga.</li>
+                        </ol>
+                    </div>
+
+                    <div class="mb-4 ps-3 border-start border-4 border-success">
+                        <h5 class="fw-bold">Langkah 5: Keputusan Final &amp; Automasi Provisi (Status: PASSED / FAILED)</h5>
+                        <p>Langkah pamungkas ini merupakan unjuk gigi dari kemampuan logika <em>Post-Acceptance Automation</em> berbasis Python (Server Action &amp; ORM Callback):</p>
+                        <ol>
+                            <li>Jika kandidat dinyatakan <strong>Tidak Lulus</strong>: Panitia menyeret kartu ke kolom <strong>"Failed"</strong>. Dokumen secara sistematis akan diarsipkan untuk keperluan historis tanpa membebani tabel aktif.</li>
+                            <li>Jika kandidat dinyatakan <strong>Lulus</strong>: Panitia memindahkan kartu ke kolom <strong>"Passed"</strong>.</li>
+                            <li><strong>Trigger Automasi Tingkat Lanjut:</strong> Transisi ke status "Passed" secara mikrosekon memicu sekumpulan kode Python untuk mengeksekusi 3 tahapan krusial secara absolut:
+                                <ul class="text-muted mt-2">
+                                    <li><i class="fa fa-cogs text-dark me-2"></i> <strong>Penciptaan Master Kontak:</strong> Sistem secara mandiri (<em>self-generating</em>) menginstansiasi dokumen (Record) baru di tabel Master Kontak (<code>res.partner</code>).</li>
+                                    <li><i class="fa fa-cogs text-dark me-2"></i> <strong>Asignasi Peran Mahasiswa:</strong> Sistem menyuntikkan <em>flagging</em> atribut <code>is_student = True</code> pada kontak tersebut dan membangun relasi <em>Many2One</em> permanen terhadap entitas Program Studi yang sebelumnya didaftarkan.</li>
+                                    <li><i class="fa fa-cogs text-dark me-2"></i> <strong>Provisi Otomatis Akun Portal:</strong> Tanpa campur tangan manusia (Zero-Touch Provisioning), sistem Odoo langsung menciptakan akun <strong>Portal User</strong> (<code>res.users</code>) yang terafiliasi dengan profil mahasiswa tersebut. Mahasiswa yang lulus akan seketika memperoleh kapabilitas otorisasi untuk *login* ke website kampus dan memulai interaksi akademik dengan modul `campus_portal`.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </div>
+
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

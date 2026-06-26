@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Portal Home: Add KRS and KHS counters -->
+    <template id="portal_my_home" inherit_id="portal.portal_my_home" priority="100">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">KRS Saya</t>
+                <t t-set="url" t-value="'/my/krs'"/>
+                <t t-set="placeholder_count" t-value="'krs_count'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">KHS Saya</t>
+                <t t-set="url" t-value="'/my/khs'"/>
+                <t t-set="placeholder_count" t-value="'khs_count'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Breadcrumbs -->
+    <template id="portal_my_breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="100">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'krs'" class="breadcrumb-item active">
+                KRS Saya
+            </li>
+            <li t-if="page_name == 'krs_detail'" class="breadcrumb-item">
+                <a href="/my/krs">KRS Saya</a>
+            </li>
+
+            <li t-if="page_name == 'krs_detail'" class="breadcrumb-item active">
+                <span t-field="krs.name"/>
+            </li>
+            <li t-if="page_name == 'khs'" class="breadcrumb-item active">
+                KHS Saya
+            </li>
+        </xpath>
+    </template>
+
+    <!-- KRS List Page -->
+    <template id="portal_my_krs" name="My KRS">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-if="error">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <i class="fa fa-warning me-2"/> <t t-esc="error"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </t>
+
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <t t-call="portal.portal_searchbar">
+                    <t t-set="title">Course Packages (KRS)</t>
+                </t>
+                <a href="/my/krs/register" class="btn btn-primary"><i class="fa fa-edit"/> Daftar KRS Sekarang</a>
+            </div>
+            <t t-if="not krs_records">
+                <p>There are currently no KRS records for your account.</p>
+            </t>
+            <t t-if="krs_records" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>KRS Number</th>
+                        <th>Academic Year</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="krs_records" t-as="krs">
+                        <tr>
+                            <td><a t-attf-href="/my/krs/#{krs.id}"><span t-field="krs.name"/></a></td>
+                            <td><span t-field="krs.academic_year_id.name"/></td>
+                            <td>
+                                <span t-if="krs.state == 'draft'" class="badge rounded-pill text-bg-secondary">Draft</span>
+                                <span t-if="krs.state == 'submitted'" class="badge rounded-pill text-bg-info">Submitted</span>
+                                <span t-if="krs.state == 'approved'" class="badge rounded-pill text-bg-success">Approved</span>
+                                <span t-if="krs.state == 'revision'" class="badge rounded-pill text-bg-warning">Needs Revision</span>
+                                <span t-if="krs.state == 'rejected'" class="badge rounded-pill text-bg-danger">Rejected</span>
+                                <span t-if="krs.state == 'locked'" class="badge rounded-pill text-bg-dark">Locked</span>
+                            </td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+            <t t-call="portal.pager"/>
+        </t>
+    </template>
+
+    <!-- KHS List Page -->
+    <template id="portal_my_khs" name="My KHS">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Academic Transcripts (KHS)</t>
+            </t>
+            <t t-if="not khs_records">
+                <p>There are currently no KHS records for your account.</p>
+            </t>
+            <t t-if="khs_records" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>KHS Number</th>
+                        <th>Academic Year</th>
+                        <th>Term</th>
+                        <th>Total Credits</th>
+                        <th>Term GPA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <t t-foreach="khs_records" t-as="khs">
+                        <tr>
+                            <td><span t-field="khs.name"/></td>
+                            <td><span t-field="khs.academic_year_id.name"/></td>
+                            <td><span t-field="khs.term_type"/></td>
+                            <td><span t-field="khs.total_credits"/></td>
+                            <td><span t-field="khs.term_gpa"/></td>
+                        </tr>
+                    </t>
+                </tbody>
+            </t>
+            <t t-call="portal.pager"/>
+        </t>
+    </template>
+
+
+
+    <!-- KRS Detail Page -->
+    <template id="portal_krs_detail" name="Detail KRS">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <div class="bg-white p-4 rounded shadow-sm mb-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Detail KRS: <t t-esc="krs.name"/></h3>
+                    <div>
+                        <span t-if="krs.state == 'draft'" class="badge bg-secondary fs-6">Draft</span>
+                        <span t-if="krs.state == 'submitted'" class="badge bg-info fs-6">Waiting for Approval</span>
+                        <span t-if="krs.state == 'approved'" class="badge bg-success fs-6">Approved</span>
+                        <span t-if="krs.state == 'revision'" class="badge bg-warning fs-6">Needs Revision</span>
+                        <span t-if="krs.state == 'rejected'" class="badge bg-danger fs-6">Rejected</span>
+                        <span t-if="krs.state == 'locked'" class="badge bg-dark fs-6">Locked</span>
+                    </div>
+                </div>
+
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <p><strong>Tahun Akademik:</strong> <t t-esc="krs.academic_year_id.name"/></p>
+                        <p><strong>Term:</strong> <t t-esc="krs.term_type"/></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Total SKS:</strong> <t t-esc="krs.total_credits"/></p>
+                    </div>
+                </div>
+
+                <t t-if="error">
+                    <div class="alert alert-danger" role="alert">
+                        <i class="fa fa-warning me-2"/> <t t-esc="error"/>
+                    </div>
+                </t>
+
+                <h4 class="mb-3">Daftar Mata Kuliah</h4>
+                <div class="table-responsive mb-4">
+                    <table class="table table-bordered table-striped">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Kode</th>
+                                <th>Mata Kuliah</th>
+                                <th>SKS</th>
+                                <th t-if="krs.state == 'draft'">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="krs.line_ids" t-as="line">
+                                <tr>
+                                    <td><t t-esc="line.subject_id.code"/></td>
+                                    <td><t t-esc="line.subject_id.name"/></td>
+                                    <td><t t-esc="line.credits"/></td>
+                                    <td t-if="krs.state == 'draft'">
+                                        <a t-attf-href="/my/krs/#{krs.id}/delete_line/#{line.id}" class="btn btn-sm btn-danger"><i class="fa fa-trash"/> Hapus</a>
+                                    </td>
+                                </tr>
+                            </t>
+                            <t t-if="not krs.line_ids">
+                                <tr>
+                                    <td colspan="4" class="text-center text-muted">Belum ada mata kuliah yang ditambahkan.</td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+
+                <t t-if="krs.state == 'draft'">
+                    <div class="card bg-light border-0 mb-4">
+                        <t t-if="krs.state in ['draft', 'revision']">
+                        <h5 class="mt-5 mb-3">Daftar Jadwal yang Tersedia</h5>
+                        <div class="table-responsive bg-white rounded shadow-sm">
+                            <table class="table table-hover align-middle mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Mata Kuliah</th>
+                                        <th>Kelas</th>
+                                        <th>Dosen Pengajar</th>
+                                        <th>Jadwal &amp; Ruangan</th>
+                                        <th>SKS</th>
+                                        <th class="text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="available_schedules" t-as="sch">
+                                        <!-- Don't show if already in KRS -->
+                                        <t t-set="is_enrolled" t-value="len(krs.line_ids.filtered(lambda l: l.schedule_id.id == sch.id)) > 0"/>
+                                        <tr t-att-class="'table-success opacity-50' if is_enrolled else ''">
+                                            <td class="fw-bold"><t t-esc="sch.class_id.subject_id.name"/></td>
+                                            <td>Kelas <t t-esc="sch.class_code"/></td>
+                                            <td>
+                                                <t t-if="sch.lecturer_id">
+                                                    <span class="badge bg-secondary mb-1"><t t-esc="sch.lecturer_id.name"/></span>
+                                                </t>
+                                                <t t-else="">-</t>
+                                            </td>
+                                            <td>
+                                                <div class="small">
+                                                    <i class="fa fa-clock-o text-muted me-1"/>
+                                                    <t t-esc="sch.display_name"/>
+                                                    <span class="ms-1 px-1 bg-light border rounded text-dark"><i class="fa fa-map-marker text-danger"/> <t t-esc="sch.room_id.name"/></span>
+                                                </div>
+                                            </td>
+                                            <td><span class="badge bg-info"><t t-esc="sch.class_id.subject_id.credits"/> SKS</span></td>
+                                            <td class="text-center">
+                                                <t t-if="is_enrolled">
+                                                    <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Diambil</button>
+                                                </t>
+                                                <t t-else="">
+                                                    <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">
+                                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                        <input type="hidden" name="schedule_id" t-att-value="sch.id"/>
+                                                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"/> Ambil</button>
+                                                    </form>
+                                                </t>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                    <tr t-if="not available_schedules">
+                                        <td colspan="6" class="text-center py-4 text-muted">Belum ada jadwal yang dibuka untuk semester ini.</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        </t>
+                    </div>
+
+                    <div class="text-end">
+                        <form t-attf-action="/my/krs/#{krs.id}/submit" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <button type="submit" class="btn btn-primary btn-lg">Submit ke Dosen PA</button>
+                        </form>
+                    </div>
+                </t>
+            </div>
+        </t>
+    </template>
+
+</odoo>

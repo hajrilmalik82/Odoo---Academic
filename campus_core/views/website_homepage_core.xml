@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="core_homepage_docs" inherit_id="website.homepage" name="Campus ERP Documentation">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="bg-light pb-5">
+                <!-- Header -->
+                <section class="bg-white border-bottom pt-5 pb-4 mb-5 shadow-sm">
+                    <div class="container text-center">
+                        <h1 class="display-5 fw-bold mb-3 text-primary">Dokumentasi Teknis Sistem Informasi Akademik (SIAKAD)</h1>
+                        <p class="lead text-muted mx-auto" style="max-width: 900px;">
+                            Dokumen ini memuat spesifikasi teknis dan Standard Operating Procedure (SOP) dari Enterprise Resource Planning (ERP) Pendidikan. 
+                            Sistem ini dirancang dengan arsitektur modular Odoo, mengimplementasikan automasi Python ORM, validasi bisnis komprehensif, dan sistem keamanan berlapis.
+                        </p>
+                    </div>
+                </section>
+
+                <div class="container py-5">
+                    <div class="row">
+                        <!-- Navigation Sidebar -->
+                        <div class="col-lg-3 mb-4">
+                            <div class="sticky-top" style="top: 100px;">
+                                <div class="nav flex-column nav-pills shadow-sm border-0 rounded-4 bg-white p-2" id="docs-tab" role="tablist" aria-orientation="vertical">
+                                    <button class="nav-link active fw-bold py-3 text-start mb-1" id="tab-core" data-bs-toggle="pill" data-bs-target="#content-core" type="button" role="tab" aria-controls="content-core" aria-selected="true">
+                                        <i class="fa fa-cogs me-2"/> Modul Campus Core
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Documentation Content -->
+                        <div class="col-lg-9">
+                            <div class="tab-content bg-white shadow-sm rounded-4 p-5" id="docs-tabContent">
+                                
+                                <!-- MODUL CAMPUS CORE -->
+                                <div class="tab-pane fade show active" id="content-core" role="tabpanel" aria-labelledby="tab-core">
+                                    <section class="mb-5">
+                                        <div class="d-flex align-items-center mb-4">
+                                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                                                <i class="fa fa-cogs"/>
+                                            </div>
+                                            <h2 class="fw-bold mb-0 text-primary">Modul Campus Core (Fondasi Akademik)</h2>
+                                        </div>
+                                        <p class="text-muted lead mb-4">
+                                            Modul ini merupakan mesin utama (Core Engine) yang mengelola struktur data relasional kampus. Dibangun dengan mematuhi prinsip desain pola MVC (Model-View-Controller) Odoo, mengelola Master Data hierarkis, serta mengeksekusi logika bisnis akademik yang kompleks melalui Python.
+                                        </p>
+                                        
+                                        <!-- Langkah 1 -->
+                                        <div class="mb-4 ps-3 border-start border-4 border-danger">
+                                            <h5 class="fw-bold">Langkah 1: Setup Master Data &amp; Arsitektur Kurikulum (Pre-requisite)</h5>
+                                            <p>Administrator Akademik wajib merancang fondasi sistem sebelum perkuliahan dimulai:</p>
+                                            <ol>
+                                                <li><strong>Mendefinisikan Tahun Akademik:</strong> Admin menavigasi ke menu <em>Configuration &gt; Academic Years</em> untuk mencatatkan siklus aktif (contoh: 2026/2027) dan menetapkan Term (Ganjil/Genap). Siklus ini bertindak sebagai filter global untuk seluruh transaksi KRS/KHS.</li>
+                                                <li><strong>Membangun Kurikulum (Subjects):</strong> Admin memasukkan daftar Mata Kuliah, menentukan kode unik, serta menetapkan bobot Sistem Kredit Semester (SKS).</li>
+                                                <li><strong>Inisialisasi Kapasitas Ruangan:</strong> Melalui menu <em>Facilities</em>, sistem merekam daya tampung maksimal (Max Capacity) setiap ruang kelas untuk mencegah pendaftaran melebihi kuota fisik.</li>
+                                                <li><strong>Asignasi Dosen Pembimbing (PA):</strong> Profil setiap mahasiswa pada menu <em>Contacts</em> harus ditautkan dengan Dosen Pembimbing Akademik yang ditarik dari modul <code>hr.employee</code>. Relasi ini mutlak diperlukan untuk mengaktifkan <em>Approval Workflow</em> pada dokumen KRS.</li>
+                                            </ol>
+                                        </div>
+
+                                        <!-- Langkah 2 -->
+                                        <div class="mb-4 ps-3 border-start border-4 border-primary">
+                                            <h5 class="fw-bold">Langkah 2: Prosedur Pengisian Kartu Rencana Studi (KRS)</h5>
+                                            <p>Proses registrasi kelas mematuhi tata kelola (governance) yang ketat. Pengisian dapat dilakukan melalui dua jalur:</p>
+                                            <div class="mb-3 p-3 bg-light rounded">
+                                                <strong>Jalur A: Self-Service via Portal Mahasiswa</strong><br/>
+                                                Mahasiswa melakukan *login* ke website, membuka menu <strong>My KRS</strong>, dan menekan tombol <strong>"Ambil"</strong> pada jadwal spesifik (misal: Kelas A - Senin). Sistem langsung memproses permintaan tersebut tanpa entri manual.
+                                            </div>
+                                            <div class="mb-3 p-3 bg-light rounded">
+                                                <strong>Jalur B: Pendampingan via Backend Administrator</strong><br/>
+                                                Admin membuat dokumen KRS baru, lalu memilih Mata Kuliah (*Subject*). Berkat fitur <em>Dynamic Domain Filtering</em>, *dropdown* Jadwal (*Schedule*) akan mengecilkan ruang lingkupnya secara otomatis untuk hanya menampilkan jadwal yang berafiliasi dengan Mata Kuliah tersebut, meniadakan *human error*.
+                                            </div>
+                                            <p><strong>Penegakan Aturan (System Interventions):</strong></p>
+                                            <ul class="text-muted mt-2">
+                                                <li><i class="fa fa-shield text-danger"/> <strong>Inspeksi Kapasitas SKS Berbasis IPK:</strong> <em>Python API Constrains</em> secara <em>real-time</em> menghitung akumulasi SKS KRS yang sedang diajukan dan membandingkannya dengan IPK historis mahasiswa (Misal: IPK &lt; 2.5 maksimal 18 SKS). Jika terdeteksi pelanggaran, sistem seketika memblokir penyimpanan dokumen (Raise ValidationError).</li>
+                                                <li><i class="fa fa-shield text-danger"/> <strong>Validasi Jadwal Bentrok &amp; Duplikasi:</strong> Sistem memeriksa irisan waktu (Time Overlap) antar kelas dan mencegah pendaftaran jadwal ganda untuk mata kuliah yang sama.</li>
+                                            </ul>
+                                            <p><strong>Alur Pengesahan:</strong> KRS diajukan (Submit) &#8594; Dosen PA meninjau dan Menyetujui (Approve) &#8594; KRS Terkunci (Locked).</p>
+                                        </div>
+
+                                        <!-- Langkah 3 -->
+                                        <div class="mb-4 ps-3 border-start border-4 border-success">
+                                            <h5 class="fw-bold">Langkah 3: Penciptaan Kartu Hasil Studi (KHS) &amp; Perhitungan Transkrip</h5>
+                                            <p>Di akhir periode akademik, administrasi nilai diselesaikan melalui proses serba-otomatis:</p>
+                                            <ol>
+                                                <li><strong>Trigger Penciptaan KHS via KRS:</strong> Administrator tidak perlu memindahkan data secara manual. Cukup buka dokumen KRS mahasiswa yang bersangkutan (Status: Approved), lalu tekan tombol <strong>"Lock"</strong>. Seketika, skrip <em>Background Generation</em> akan menyalin seluruh struktur mata kuliah dan SKS ke dalam satu dokumen KHS baru secara otomatis.</li>
+                                                <li><strong>Entri Nilai Mentah (Raw Score):</strong> Dosen/Admin memasukkan Nilai Akhir (Skala 0-100) pada masing-masing baris mata kuliah di tabel KHS.</li>
+                                                <li><strong>Automasi Komputasi Akademik:</strong> Fungsi <code>@api.depends</code> mengambil alih komputasi:
+                                                    <ul class="text-muted mt-1">
+                                                        <li>Mengonversi Nilai Angka (85) menjadi Indeks Huruf (A) dan Poin Mutu (4.0).</li>
+                                                        <li>Mengalikan Poin Mutu dengan Bobot SKS.</li>
+                                                        <li>Membagi total kumulatif dengan total SKS untuk menghasilkan Indeks Prestasi Semester (IPS) secara absolut dan <em>real-time</em>.</li>
+                                                    </ul>
+                                                </li>
+                                            </ol>
+                                        </div>
+
+                                        <!-- Langkah 4 -->
+                                        <div class="mb-4 ps-3 border-start border-4 border-dark">
+                                            <h5 class="fw-bold">Langkah 4: Enkapsulasi Keamanan Akses (Security Posture)</h5>
+                                            <p>Untuk melindungi integritas data akademik tingkat institusi, infrastruktur <em>backend</em> menerapkan pengamanan ganda:</p>
+                                            <ol>
+                                                <li><strong>Access Control Lists (ACL):</strong> Otoritas CRUD (Create, Read, Update, Delete) didistribusikan secara eksklusif berdasar hierarki grup. Administrator menguasai kontrol vertikal, Dosen dibatasi pada otorisasi manajerial, sedangkan Mahasiswa tertahan pada mode <em>Read-Only</em> di portal web.</li>
+                                                <li><strong>Record Rules (Row-Level Security):</strong> Meskipun seorang Dosen memiliki hak akses, Odoo akan menolak operasi modifikasi pada KRS apabila mahasiswa tersebut tidak teregistrasi sebagai anak wali/bimbingan dari Dosen yang sedang <em>login</em>. Intervensi ilegal akan diisolasi oleh domain filter keamanan Odoo.</li>
+                                            </ol>
+                                        </div>
+                                    </section>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+        <!-- Activity Type: KRS Review -->
+        <record id="mail_activity_type_krs_review" model="mail.activity.type">
+            <field name="name">Review KRS</field>
+            <field name="summary">Review and approve/reject the student's KRS submission</field>
+            <field name="res_model">academic.krs</field>
+            <field name="category">default</field>
+            <field name="delay_count">3</field>
+            <field name="delay_unit">days</field>
+            <field name="icon">fa-check-square</field>
+        </record>
+
+        <!-- Activity Type: KRS Revision Required -->
+        <record id="mail_activity_type_krs_revision" model="mail.activity.type">
+            <field name="name">KRS Revision Required</field>
+            <field name="summary">Student needs to revise and resubmit their KRS</field>
+            <field name="res_model">academic.krs</field>
+            <field name="category">default</field>
+            <field name="delay_count">7</field>
+            <field name="delay_unit">days</field>
+            <field name="icon">fa-pencil</field>
+        </record>
+
+        <!-- Activity Type: Input Grades -->
+        <record id="mail_activity_type_input_grades" model="mail.activity.type">
+            <field name="name">Input Student Grades</field>
+            <field name="summary">Enter grades for students in the KHS</field>
+            <field name="res_model">academic.khs</field>
+            <field name="category">default</field>
+            <field name="delay_count">14</field>
+            <field name="delay_unit">days</field>
+            <field name="icon">fa-graduation-cap</field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_hr_employee_lecturer" model="ir.actions.act_window">
+        <field name="name">Lecturers</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('is_lecturer', '=', True)]</field>
+        <field name="context">{'default_is_lecturer': True}</field>
+    </record>
+
+    <menuitem id="menu_academic_lecturer" 
+              name="Lecturers" 
+              parent="campus_core.menu_academic_people" 
+              action="action_hr_employee_lecturer" 
+              sequence="20"/>
+
+    <menuitem id="menu_academic_pmb_staff" 
+              name="PMB Staff" 
+              parent="campus_core.menu_academic_people" 
+              action="action_hr_employee_pmb_staff" 
+              sequence="30"/>
+</odoo>

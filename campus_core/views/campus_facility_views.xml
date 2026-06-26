@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Campus Building Views -->
+    <record id="view_campus_building_tree" model="ir.ui.view">
+        <field name="name">campus.building.tree</field>
+        <field name="model">campus.building</field>
+        <field name="arch" type="xml">
+            <list string="Buildings">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="location"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_campus_building_form" model="ir.ui.view">
+        <field name="name">campus.building.form</field>
+        <field name="model">campus.building</field>
+        <field name="arch" type="xml">
+            <form string="Building">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="location"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Campus Room Views -->
+    <record id="view_campus_room_tree" model="ir.ui.view">
+        <field name="name">campus.room.tree</field>
+        <field name="model">campus.room</field>
+        <field name="arch" type="xml">
+            <list string="Rooms">
+                <field name="name"/>
+                <field name="building_id"/>
+                <field name="capacity"/>
+                <field name="room_type"/>
+                <field name="company_id" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_campus_room_form" model="ir.ui.view">
+        <field name="name">campus.room.form</field>
+        <field name="model">campus.room</field>
+        <field name="arch" type="xml">
+            <form string="Room">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="building_id"/>
+                        </group>
+                        <group>
+                            <field name="capacity"/>
+                            <field name="room_type"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

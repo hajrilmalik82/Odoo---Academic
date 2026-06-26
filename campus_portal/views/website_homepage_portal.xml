@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_homepage_docs" inherit_id="campus_core.core_homepage_docs" name="Portal ERP Documentation">
+        
+        <!-- Inject into Sidebar Navigation -->
+        <xpath expr="//div[@id='docs-tab']" position="inside">
+            <button class="nav-link fw-bold py-3 text-start mb-1 text-success" id="tab-portal" data-bs-toggle="pill" data-bs-target="#content-portal" type="button" role="tab" aria-controls="content-portal" aria-selected="false">
+                <i class="fa fa-laptop me-2"/> Modul Campus Portal
+            </button>
+        </xpath>
+
+        <!-- Inject into Content Area -->
+        <xpath expr="//div[@id='docs-tabContent']" position="inside">
+            
+            <!-- MODUL PORTAL PANE -->
+            <div class="tab-pane fade" id="content-portal" role="tabpanel" aria-labelledby="tab-portal">
+                <section class="mb-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                            <i class="fa fa-laptop"/>
+                        </div>
+                        <h2 class="fw-bold mb-0 text-success">Modul Campus Portal (Self-Service Frontend)</h2>
+                    </div>
+                    <p class="text-muted lead mb-4">
+                        Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem Core ERP dengan Mahasiswa sebagai End-User. Dibangun di atas web controller Odoo, modul ini mengutamakan User Experience (UX) yang mulus sekaligus menjaga integritas data secara real-time dari dan menuju database utama.
+                    </p>
+
+                    <!-- Fitur & Fungsi -->
+                    <div class="card border-0 shadow-sm rounded-4 mb-4 border-success border-top border-4">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h4 class="fw-bold"><i class="fa fa-star text-warning me-2"/> Langkah Operasional Self-Service</h4>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item px-0 border-0 mb-3">
+                                    <h6 class="fw-bold">Langkah 1: Mengakses Dasbor Eksekutif Mahasiswa</h6>
+                                    <p class="mb-0 text-muted">Mahasiswa melakukan <em>login</em> dan secara default akan diarahkan ke rute <code>/my/home</code> (Portal My Account). Antarmuka ini dirancang secara ergonomis untuk menampilkan agregasi metrik utama, seperti total KRS yang sedang berjalan dan transkrip nilai.</p>
+                                </li>
+                                <li class="list-group-item px-0 border-0 mb-3">
+                                    <h6 class="fw-bold">Langkah 2: Automasi Penyusunan KRS (One-Click Enrollment)</h6>
+                                    <p class="mb-0 text-muted">Saat mahasiswa membuka dokumen KRS berstatus <em>Draft</em>, tabel di bagian bawah secara dinamis me-<em>render</em> seluruh Jadwal Kelas yang sedang ditawarkan (*Available Schedules*). Mahasiswa melakukan interaksi *Point-and-Click* (menekan tombol <strong>"Ambil"</strong>) pada kelas yang diinginkan. Permintaan HTTP dikirimkan melalui <em>Web Controller</em> ke <em>Backend Odoo</em> untuk langsung mengikat data tanpa perlu entri pengetikan manual. Jika melebihi kuota SKS, UI portal akan langsung memblokir dengan *Flash Message*.</p>
+                                </li>
+                                <li class="list-group-item px-0 border-0">
+                                    <h6 class="fw-bold">Langkah 3: Pemantauan Transkrip KHS Real-Time</h6>
+                                    <p class="mb-0 text-muted">Melalui menu KHS, mahasiswa memantau pergerakan nilai secara <em>real-time</em>. Prinsip <em>Single Source of Truth</em> memastikan bahwa detik ketika Dosen mempublikasikan nilai di backend, detik itu pula nilai tersebut ter-<em>propagate</em> dan terenkripsi ke layar portal mahasiswa, meminimalisir keterlambatan arus informasi.</p>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Security -->
+                    <div class="card border-0 shadow-sm rounded-4">
+                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
+                            <h4 class="fw-bold"><i class="fa fa-lock text-dark me-2"/> B. Enkapsulasi Keamanan Cyber &amp; Isolasi Data</h4>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-3 text-muted">
+                                <i class="fa fa-shield text-danger me-2"></i> <strong>Sesi Terenkripsi &amp; Middleware Otorisasi:</strong> Setiap rute URL (Controller) pada modul ini dibentengi oleh dekorator <code>@http.route(auth='user')</code>. Lapisan <em>Middleware</em> Odoo akan menendang (*redirect*) setiap lalu-lintas anonim yang mencoba melakukan *bypass*, serta menetralkan ancaman peretasan *Cross-Site Request Forgery* (CSRF).
+                            </p>
+                            <p class="mb-0 text-muted">
+                                <i class="fa fa-eye-slash text-dark me-2"></i> <strong>Isolasi Data Horizontal (Data Leakage Prevention):</strong> Implementasi <em>Domain Filtering</em> yang diinjeksikan secara absolut pada tingkat <em>Query ORM</em>. Mahasiswa A tidak dapat melakukan <em>URL Spoofing</em> (misal: mengganti ID pada URL web dari /krs/1 menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo akan mengembalikan *Error 403 Forbidden* secara otomatis jika hak kepemilikan dokumen (Partner ID) tidak beririsan dengan sesi *login* saat ini.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>
