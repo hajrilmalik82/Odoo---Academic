@@ -94,6 +94,10 @@
                     <filter string="Academic Year" name="group_by_year" context="{'group_by': 'academic_year_id'}"/>
                     <filter string="Admission Path" name="group_by_path" context="{'group_by': 'admission_path'}"/>
                 </group>
+                <searchpanel>
+                    <field name="program_id" icon="fa-building" enable_counters="1" groupby="faculty_id" select="multi"/>
+                    <field name="state" icon="fa-tasks" enable_counters="1" select="multi"/>
+                </searchpanel>
             </search>
         </field>
     </record>
@@ -104,6 +108,8 @@
         <field name="model">campus.admission</field>
         <field name="arch" type="xml">
             <list string="Admissions">
+                <field name="state" column_invisible="True"/>
+
                 <field name="registration_number"/>
                 <field name="name"/>
                 <field name="email"/>
@@ -118,6 +124,91 @@
                        decoration-success="state in ('accepted', 'registered')"
                        decoration-danger="state == 'rejected'"/>
             </list>
+        </field>
+    </record>
+
+    <!-- Server Actions for Mass Actions in Dropdown -->
+    <record id="action_server_admission_submit" model="ir.actions.server">
+        <field name="name">Submit</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_submit()
+        </field>
+    </record>
+
+    <record id="action_server_admission_start_review" model="ir.actions.server">
+        <field name="name">Start Document Review</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_start_document_review()
+        </field>
+    </record>
+
+    <record id="action_server_admission_verify_docs" model="ir.actions.server">
+        <field name="name">Verify Documents</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_verify_documents()
+        </field>
+    </record>
+
+    <record id="action_server_admission_verify_payment" model="ir.actions.server">
+        <field name="name">Verify Payment</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_verify_payment()
+        </field>
+    </record>
+
+    <record id="action_server_admission_accept" model="ir.actions.server">
+        <field name="name">Accept</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_accept()
+        </field>
+    </record>
+
+    <record id="action_server_admission_reject" model="ir.actions.server">
+        <field name="name">Reject</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_reject()
+        </field>
+    </record>
+
+    <record id="action_server_admission_register" model="ir.actions.server">
+        <field name="name">Register Student</field>
+        <field name="model_id" ref="model_campus_admission"/>
+        <field name="binding_model_id" ref="model_campus_admission"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+if records:
+    records.action_register()
         </field>
     </record>
 
