@@ -198,16 +198,79 @@ class CampusAdmission(models.Model):
                 # If exists, just link it to avoid duplicate constraint error
                 record.user_id = existing_user.id
                 record.partner_id = existing_user.partner_id.id
-                # Ensure partner is marked as student
-                existing_user.partner_id.is_student = True
+                
+                # Update existing partner if they don't have student info yet
+                update_vals = {'is_student': True}
+                if not existing_user.partner_id.nim:
+                    # Generate NIM
+                    current_date = fields.Date.today()
+                    year_short = current_date.strftime('%y')
+                    batch_year = current_date.strftime('%Y')
+                    
+                    fac_name = record.faculty_id.name or 'FA'
+                    prog_name = record.program_id.name or 'PR'
+                    
+                    faculty_str = "".join([w[0].upper() for w in fac_name.split() if w.isalpha()])[:2]
+                    program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2]
+                    if not faculty_str: faculty_str = "FA"
+                    if not program_str: program_str = "PR"
+                    
+                    prefix = f"{faculty_str}-{program_str}-{year_short}-"
+                    last_student = self.env['res.partner'].search([('nim', '=like', f'{prefix}%')], order='nim desc', limit=1)
+                    if last_student and last_student.nim:
+                        try:
+                            last_seq = int(last_student.nim.split('-')[-1])
+                            new_seq = last_seq + 1
+                        except ValueError:
+                            new_seq = 1
+                    else:
+                        new_seq = 1
+                        
+                    update_vals.update({
+                        'nim': f"{prefix}{new_seq:04d}",
+                        'batch_year': batch_year,
+                        'semester': '1',
+                        'program_id': record.program_id.id,
+                    })
+                
+                existing_user.partner_id.write(update_vals)
                 continue
+            # Generate NIM
+            current_date = fields.Date.today()
+            year_short = current_date.strftime('%y')
+            batch_year = current_date.strftime('%Y')
             
+            fac_name = record.faculty_id.name or 'FA'
+            prog_name = record.program_id.name or 'PR'
+            
+            faculty_str = "".join([w[0].upper() for w in fac_name.split() if w.isalpha()])[:2]
+            program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2]
+            if not faculty_str: faculty_str = "FA"
+            if not program_str: program_str = "PR"
+            
+            prefix = f"{faculty_str}-{program_str}-{year_short}-"
+            last_student = self.env['res.partner'].search([('nim', '=like', f'{prefix}%')], order='nim desc', limit=1)
+            if last_student and last_student.nim:
+                try:
+                    last_seq = int(last_student.nim.split('-')[-1])
+                    new_seq = last_seq + 1
+                except ValueError:
+                    new_seq = 1
+            else:
+                new_seq = 1
+                
+            nim = f"{prefix}{new_seq:04d}"
+
             # Create Partner
             partner = self.env['res.partner'].create({
                 'name': record.name,
                 'email': record.email,
                 'phone': record.phone,
                 'is_student': True,
+                'nim': nim,
+                'batch_year': batch_year,
+                'semester': '1',
+                'program_id': record.program_id.id,
                 'company_id': self.env.company.id,
             })
             record.partner_id = partner.id

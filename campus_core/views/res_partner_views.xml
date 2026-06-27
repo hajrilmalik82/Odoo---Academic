@@ -68,6 +68,7 @@
                             <field name="company_type" invisible="1"/>
                         </group>
                         <group>
+                            <field name="faculty_id"/>
                             <field name="program_id"/>
                             <field name="batch_year"/>
                             <field name="semester"/>

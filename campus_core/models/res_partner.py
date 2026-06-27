@@ -9,6 +9,7 @@ class ResPartner(models.Model):
     
     academic_advisor_id = fields.Many2one('hr.employee', string="Academic Advisor")
     program_id = fields.Many2one('academic.program', string="Study Program")
+    faculty_id = fields.Many2one('academic.faculty', related='program_id.faculty_id', string="Faculty", store=True)
     student_status = fields.Selection([
         ('active', 'Active'),
         ('leave', 'On Leave'),

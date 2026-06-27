@@ -112,7 +112,8 @@
                         <p class="mb-2"><strong>Aktor:</strong> Sistem Automasi (Odoo Backend)</p>
                         <p class="mb-2">Tahap pamungkas yang mendemonstrasikan keunggulan Odoo ERP. Saat panitia menekan opsi <strong>Register Student</strong>, sederet kode Python berjalan di latar belakang tanpa campur tangan manusia:</p>
                         <ul class="text-muted mt-2">
-                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Penciptaan Master Kontak (Res.Partner):</strong> Data pendaftar otomatis dipindahkan menjadi database Kontak Kampus resmi.</li>
+                            <li><i class="fa fa-id-card text-dark me-2"></i> <strong>Automasi NIM &amp; Atribut Akademik:</strong> Sistem cerdas akan langsung menciptakan Nomor Induk Mahasiswa (NIM) berdasar singkatan Fakultas, Program Studi, dan Tahun. Sistem juga akan menge-set status mahasiswa ke <em>Semester 1</em> dan tahun angkatan secara presisi.</li>
+                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Penciptaan Master Kontak (Res.Partner):</strong> Data pendaftar otomatis dipindahkan menjadi database Kontak Kampus resmi dengan relasi Fakultas dan Program Studi yang langsung terkoneksi.</li>
                             <li><i class="fa fa-magic text-dark me-2"></i> <strong>Pembuatan Akun Portal (Res.Users):</strong> Odoo secara otomatis membuatkan akun <em>login</em> untuk mahasiswa bersangkutan dengan <em>username</em> berupa Email mereka.</li>
                             <li><i class="fa fa-magic text-dark me-2"></i> <strong>Pemberian Akses:</strong> Akun mahasiswa langsung dihubungkan dengan hak akses Portal sehingga mereka bisa segera <em>login</em> untuk melihat jadwal atau mengisi KRS.</li>
                         </ul>
