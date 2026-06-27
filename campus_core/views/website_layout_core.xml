@@ -61,6 +61,16 @@
 
         <!-- Dynamic Header Adjustments -->
         <xpath expr="//head" position="inside">
+            <style type="text/css">
+                /* Hapus Your Logo dari Header */
+                header .navbar-brand {
+                    display: none !important;
+                }
+                /* Hapus menu/tombol Contact Us dari Header */
+                header a[href*="/contactus"] {
+                    display: none !important;
+                }
+            </style>
             <script type="text/javascript">
                 document.addEventListener("DOMContentLoaded", function() {
                     const phoneLinks = document.querySelectorAll('header a[href^="tel:"]');
