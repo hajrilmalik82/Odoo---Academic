@@ -80,6 +80,20 @@
                         link.classList.add("text-success", "fw-bold");
                         link.innerHTML = '<i class="fa fa-whatsapp text-success me-1"></i><span>085287212730</span>';
                     });
+
+                    // Sembunyikan menu Pendaftaran PMB jika user sudah login
+                    // Cek elemen khusus di header yang hanya muncul saat login
+                    const isLoggedIn = document.querySelector('header a[href*="/web/session/logout"]') || 
+                                     document.querySelector('header .o_user_menu') || 
+                                     document.querySelector('header a[href="/my/home"]');
+                    if (isLoggedIn) {
+                        const pmbMenu = document.querySelector('header a[href*="/admission"]');
+                        if (pmbMenu) {
+                            if (pmbMenu.parentElement) {
+                                pmbMenu.parentElement.style.display = 'none';
+                            }
+                        }
+                    }
                 });
             </script>
         </xpath>
