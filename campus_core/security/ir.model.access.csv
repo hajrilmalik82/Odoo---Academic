@@ -35,3 +35,4 @@ access_academic_khs_portal,academic.khs portal,model_academic_khs,base.group_por
 access_academic_khs_line_admin,academic.khs.line admin,model_academic_khs_line,group_campus_administrator,1,1,1,1
 access_academic_khs_line_lecturer,academic.khs.line lecturer,model_academic_khs_line,group_campus_lecturer,1,0,0,0
 access_academic_khs_line_portal,academic.khs.line portal,model_academic_khs_line,base.group_portal,1,0,0,0
+access_krs_generator_wizard,krs.generator.wizard,model_krs_generator_wizard,group_campus_administrator,1,1,1,1

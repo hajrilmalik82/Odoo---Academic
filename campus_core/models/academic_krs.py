@@ -19,7 +19,7 @@ class AcademicCoursePackage(models.Model):
             record.total_credits = sum(record.line_ids.mapped('credits'))
 
     @api.depends('name', 'academic_year_id')
-    def _compute_display_name(self):w
+    def _compute_display_name(self):
         for record in self:
             if record.name and record.academic_year_id:
                 record.display_name = f"{record.name} - {record.academic_year_id.display_name}"
@@ -196,6 +196,9 @@ class AcademicKrs(models.Model):
             if not record.line_ids:
                 raise ValidationError(_("Please add at least one class before submitting the KRS."))
                 
+            if any(not line.schedule_id for line in record.line_ids):
+                raise ValidationError(_("All subjects must have a selected schedule before submitting."))
+                
             # 1. Student Status
             if record.student_id.student_status != 'active':
                 raise ValidationError(_("Student status must be active to submit a KRS."))
@@ -371,6 +374,12 @@ class AcademicKrs(models.Model):
     @api.onchange('package_id')
     def _onchange_package_id(self):
         if self.package_id:
+            if self.package_id.program_id:
+                self.faculty_id = self.package_id.program_id.faculty_id
+                self.program_id = self.package_id.program_id
+            if self.package_id.academic_year_id:
+                self.academic_year_id = self.package_id.academic_year_id
+                
             # Clear existing lines and add new ones from package
             lines = [(5, 0, 0)]
             for pkg_line in self.package_id.line_ids:
@@ -385,7 +394,7 @@ class AcademicKrsLine(models.Model):
     _description = 'Academic KRS Line'
 
     krs_id = fields.Many2one('academic.krs', string='KRS', ondelete='cascade')
-    schedule_id = fields.Many2one('academic.class.schedule', string='Schedule', required=True)
+    schedule_id = fields.Many2one('academic.class.schedule', string='Schedule')
     class_id = fields.Many2one(related='schedule_id.class_id', store=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', compute='_compute_subject_id', store=True, readonly=False)
     credits = fields.Integer(related='subject_id.credits', string='Credits', store=True)

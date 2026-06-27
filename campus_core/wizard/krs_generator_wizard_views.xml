@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_krs_generator_wizard_form" model="ir.ui.view">
+        <field name="name">krs.generator.wizard.form</field>
+        <field name="model">krs.generator.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generate KRS">
+                <group>
+                    <group>
+                        <field name="package_id"/>
+                    </group>
+                    <group>
+                        <field name="program_id"/>
+                        <field name="academic_year_id"/>
+                    </group>
+                </group>
+                <notebook>
+                    <page string="Target Students">
+                        <p class="text-muted">
+                            Select the students you want to generate KRS for. 
+                            Students who already have a KRS for this academic year will not appear here.
+                        </p>
+                        <field name="student_ids">
+                            <list>
+                                <field name="name"/>
+                                <field name="nim"/>
+                                <field name="program_id"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+                <footer>
+                    <button name="action_generate_krs" string="Generate KRS" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_krs_generator_wizard" model="ir.actions.act_window">
+        <field name="name">Generate KRS</field>
+        <field name="res_model">krs.generator.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="binding_model_id" ref="model_academic_course_package"/>
+        <field name="binding_view_types">form,list</field>
+    </record>
+</odoo>

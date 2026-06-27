@@ -21,6 +21,9 @@
         <field name="model">academic.course.package</field>
         <field name="arch" type="xml">
             <form string="Course Package">
+                <header>
+                    <button name="%(action_krs_generator_wizard)d" string="Generate KRS" type="action" class="oe_highlight"/>
+                </header>
                 <sheet>
                     <group>
                         <group>
