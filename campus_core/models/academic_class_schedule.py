@@ -20,7 +20,7 @@ class AcademicClassSchedule(models.Model):
     ], string='Day of Week', required=True)
     start_time = fields.Float(string='Start Time', required=True)
     end_time = fields.Float(string='End Time', required=True)
-    room_id = fields.Many2one('campus.room', string='Room', required=True, domain=[('room_type', '=', 'theory')], check_company=True)
+    room_id = fields.Many2one('campus.room', string='Room', required=True)
     room_capacity = fields.Integer(related='room_id.capacity', string='Capacity', readonly=True)
     lecturer_id = fields.Many2one('hr.employee', string='Lecturer')
     company_id = fields.Many2one(related='class_id.company_id', store=True)
