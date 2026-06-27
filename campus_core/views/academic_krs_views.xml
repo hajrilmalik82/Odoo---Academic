@@ -76,8 +76,10 @@
                     </div>
                     <group>
                         <group string="Student Information">
-                            <field name="student_id" readonly="state not in ('draft', 'revision')"/>
-                            <field name="program_id"/>
+                            <field name="faculty_id" readonly="state not in ('draft', 'revision')" options="{'no_create': True}"/>
+                            <field name="program_id" readonly="state not in ('draft', 'revision')" options="{'no_create': True}" domain="[('faculty_id', '=?', faculty_id)]"/>
+                            <field name="nim_id" readonly="state not in ('draft', 'revision')" context="{'display_nim': True}" options="{'no_create': True}" domain="[('is_student', '=', True), ('program_id', '=?', program_id), ('program_id.faculty_id', '=?', faculty_id)]"/>
+                            <field name="student_id" readonly="state not in ('draft', 'revision')" options="{'no_create': True}" domain="[('is_student', '=', True), ('program_id', '=?', program_id), ('program_id.faculty_id', '=?', faculty_id)]"/>
                             <field name="advisor_id"/>
                         </group>
                         <group string="Academic Period">

@@ -43,6 +43,22 @@ class AcademicKrs(models.Model):
 
     name = fields.Char(string='KRS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
     student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True)
+    nim_id = fields.Many2one('res.partner', string='Student ID (NIM)', domain=[('is_student', '=', True)])
+    
+    @api.onchange('nim_id')
+    def _onchange_nim_id(self):
+        if self.nim_id:
+            self.student_id = self.nim_id
+            self.program_id = self.nim_id.program_id
+            self.faculty_id = self.nim_id.faculty_id
+
+    @api.onchange('student_id')
+    def _onchange_student_id(self):
+        if self.student_id:
+            self.nim_id = self.student_id
+            self.program_id = self.student_id.program_id
+            self.faculty_id = self.student_id.faculty_id
+            
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
     semester = fields.Selection([
         ('1', 'Semester 1'), ('2', 'Semester 2'), 
@@ -56,8 +72,41 @@ class AcademicKrs(models.Model):
     term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True, index=True)
     
     advisor_id = fields.Many2one('hr.employee', related='student_id.academic_advisor_id', string='Academic Advisor', readonly=True)
-    program_id = fields.Many2one('academic.program', related='student_id.program_id', string='Study Program', readonly=True)
+    faculty_id = fields.Many2one('academic.faculty', string='Faculty')
+    program_id = fields.Many2one('academic.program', string='Study Program')
     
+    @api.onchange('faculty_id')
+    def _onchange_faculty_id(self):
+        domain = {}
+        if self.faculty_id:
+            domain['program_id'] = [('faculty_id', '=', self.faculty_id.id)]
+            if self.program_id.faculty_id != self.faculty_id:
+                self.program_id = False
+                self.student_id = False
+                self.nim_id = False
+        else:
+            domain['program_id'] = []
+            
+        return {'domain': domain}
+
+    @api.onchange('program_id')
+    def _onchange_program_id(self):
+        domain = {}
+        student_domain = [('is_student', '=', True)]
+        
+        if self.program_id:
+            student_domain.append(('program_id', '=', self.program_id.id))
+            if not self.faculty_id or self.faculty_id != self.program_id.faculty_id:
+                self.faculty_id = self.program_id.faculty_id
+            if self.student_id.program_id != self.program_id:
+                self.student_id = False
+                self.nim_id = False
+                
+        domain['student_id'] = student_domain
+        domain['nim_id'] = student_domain
+        
+        return {'domain': domain}
+
     package_id = fields.Many2one('academic.course.package', string='Course Package')
     state = fields.Selection([
         ('draft', 'Draft'), 
