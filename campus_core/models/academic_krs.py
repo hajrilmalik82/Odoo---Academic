@@ -18,6 +18,14 @@ class AcademicCoursePackage(models.Model):
         for record in self:
             record.total_credits = sum(record.line_ids.mapped('credits'))
 
+    @api.depends('name', 'academic_year_id')
+    def _compute_display_name(self):w
+        for record in self:
+            if record.name and record.academic_year_id:
+                record.display_name = f"{record.name} - {record.academic_year_id.display_name}"
+            else:
+                record.display_name = record.name or ""
+
 
 class AcademicCoursePackageLine(models.Model):
     _name = 'academic.course.package.line'
@@ -359,6 +367,17 @@ class AcademicKrs(models.Model):
             if record.state == 'approved' and not self.env.user.has_group('campus_core.group_campus_administrator'):
                 raise ValidationError(_("Only campus administrators can reset an approved KRS to draft."))
             record.state = 'draft'
+
+    @api.onchange('package_id')
+    def _onchange_package_id(self):
+        if self.package_id:
+            # Clear existing lines and add new ones from package
+            lines = [(5, 0, 0)]
+            for pkg_line in self.package_id.line_ids:
+                lines.append((0, 0, {
+                    'subject_id': pkg_line.subject_id.id,
+                }))
+            self.line_ids = lines
 
 
 class AcademicKrsLine(models.Model):

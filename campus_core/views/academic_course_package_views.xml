@@ -37,7 +37,7 @@
                         <page string="Subjects">
                             <field name="line_ids">
                                 <list editable="bottom">
-                                    <field name="subject_id"/>
+                                    <field name="subject_id" domain="[('program_id', '=', parent.program_id)]"/>
                                     <field name="credits"/>
                                 </list>
                             </field>

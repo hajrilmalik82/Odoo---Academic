@@ -93,7 +93,7 @@
                         <page string="KRS Lines">
                             <field name="line_ids" readonly="state not in ('draft', 'revision')">
                                 <list editable="bottom">
-                                    <field name="subject_id" options="{'no_create': True}"/>
+                                    <field name="subject_id" options="{'no_create': True}" domain="[('program_id', '=', parent.program_id)]"/>
                                     <field name="schedule_id" domain="[('class_id.subject_id', '=', subject_id)]" options="{'no_create': True}"/>
                                     <field name="class_id" column_invisible="1"/>
                                     <field name="credits"/>
