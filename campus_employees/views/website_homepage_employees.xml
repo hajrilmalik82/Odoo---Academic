@@ -19,32 +19,78 @@
                         <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
                             <i class="fa fa-users"/>
                         </div>
-                        <h2 class="fw-bold mb-0 text-info">Modul SDM &amp; Kepegawaian (HR/Academic Advisor)</h2>
+                        <h2 class="fw-bold mb-0 text-info">Modul SDM &amp; Tenaga Kependidikan (HR)</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        Sebagai sub-sistem yang merekayasa ulang kerangka kerja SDM standar Odoo (<code>hr.employee</code>), modul ini menyuntikkan kapabilitas dan atribut spesifik akademis ke dalam profil pegawai reguler, mengubah mereka menjadi tenaga pengajar dan staf akademik.
+                        Modul ini memodifikasi kerangka kerja SDM standar Odoo (<code>hr.employee</code>), menyuntikkan kapabilitas spesifik akademis ke dalam profil pegawai. Sistem ini memungkinkan Anda untuk mengelola Dosen dan Staf PMB dengan hierarki data yang terintegrasi penuh ke modul akademik lainnya.
                     </p>
 
-                    <!-- Fitur & Fungsi -->
-                    <div class="card border-0 shadow-sm rounded-4 mb-4 border-info border-top border-4">
-                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
-                            <h4 class="fw-bold"><i class="fa fa-sitemap text-primary me-2"/> Tata Cara Penggunaan &amp; Operasional</h4>
+                    <!-- HIGHLIGHT FITUR -->
+                    <div class="row mb-5">
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-vcard-o text-info me-2"/>Dynamic UI Profil Pegawai</h5>
+                                    <p class="text-muted small mb-0">Antarmuka (Form) profil pegawai akan berubah secara otomatis tergantung pada jabatannya. Dosen akan mendapatkan kolom NIDN dan Kepangkatan, sedangkan Staf PMB mendapat kolom yurisdiksi pendaftaran.</p>
+                                </div>
+                            </div>
                         </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item px-0 border-0 mb-3">
-                                    <h6 class="fw-bold">Langkah 1: Pengaturan Master Jabatan (Job Position)</h6>
-                                    <p class="mb-0 text-muted">Admin HR mengakses menu <strong>Configuration &gt; Job Positions</strong> dan membuat daftar jabatan kampus. Di dalam setiap jabatan (misalnya: "Dosen Pembimbing" atau "Panitia PMB"), centang opsi <code>Is a Lecturer</code> atau <code>Is PMB Staff</code>. Penandaan ini adalah kunci yang menentukan apakah jabatan tersebut memiliki hak akses ke fitur akademik.</p>
-                                </li>
-                                <li class="list-group-item px-0 border-0 mb-3">
-                                    <h6 class="fw-bold">Langkah 2: Pembuatan Profil Pegawai &amp; UI Dinamis</h6>
-                                    <p class="mb-0 text-muted">Arahkan ke menu <strong>Lecturers</strong> atau <strong>PMB Staff</strong>, lalu klik <em>New</em> untuk mendaftarkan pegawai. Saat Anda memilih <em>Job Position</em>, sistem akan langsung memfilter dan hanya menampilkan daftar jabatan yang relevan (misal: hanya jabatan Dosen yang muncul di menu Lecturers). Setelah jabatan dipilih, antarmuka profil akan berubah seketika: Dosen mendapatkan tab eksklusif <strong>"Lecturer Profile"</strong>, sedangkan Staf PMB mendapatkan tab <strong>"PMB Jurisdiction"</strong>.</p>
-                                </li>
-                                <li class="list-group-item px-0 border-0">
-                                    <h6 class="fw-bold">Langkah 3: Pengaturan Wewenang Akademik</h6>
-                                    <p class="mb-0 text-muted">Lengkapi data pada tab khusus tersebut. Untuk Dosen, isi data NIDN, Jabatan Fungsional (Pangkat Akademik), dan Fakultas. Untuk Staf PMB, atur <strong>PMB Jurisdiction</strong> dengan memilih Fakultas atau Prodi mana saja yang boleh mereka kelola. Profil pegawai ini akan terhubung langsung dengan proses validasi pengesahan KRS mahasiswa dan visibilitas data PMB.</p>
-                                </li>
-                            </ul>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-sitemap text-primary me-2"/>Hierarki Pembimbingan</h5>
+                                    <p class="text-muted small mb-0">Pegawai berstatus Dosen dapat ditautkan langsung dengan Mahasiswa sebagai Dosen Pembimbing Akademik (PA). Relasi ini men-*trigger* kewenangan mereka untuk menyetujui KRS.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-lock text-success me-2"/>Yurisdiksi Keamanan PMB</h5>
+                                    <p class="text-muted small mb-0">Hak akses panitia ujian atau pendaftaran dapat disempitkan hanya pada tingkat Fakultas atau Program Studi tertentu langsung dari profil pegawainya.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="fw-bold border-bottom pb-2 mb-4">Alur Kerja (Workflow) Manajemen SDM Kampus</h4>
+
+                    <!-- TAHAP 1 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
+                        <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
+                        <h5 class="fw-bold text-dark pt-1">Pengaturan Master Jabatan (Job Positions)</h5>
+                        <p class="mb-2"><strong>Aktor:</strong> Manajer HR</p>
+                        <p class="mb-2">Admin HR membuat arsitektur struktur organisasi kampus.</p>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Admin mencentang parameter <code>Is a Lecturer</code> untuk jabatan Dosen, atau <code>Is PMB Staff</code> untuk jabatan Staf Pendaftaran. Sistem akan menggunakan parameter ini sebagai penanda logika di tahap selanjutnya.
+                        </div>
+                    </div>
+
+                    <!-- TAHAP 2 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
+                        <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
+                        <h5 class="fw-bold text-dark pt-1">Pembuatan Profil Tenaga Kependidikan</h5>
+                        <p class="mb-2"><strong>Aktor:</strong> Staf HR</p>
+                        <p class="mb-2">Staf memasukkan data pegawai baru ke dalam sistem.</p>
+                        <div class="bg-light p-3 rounded mb-2">
+                            <i class="fa fa-magic text-dark me-2"/> <strong>Automasi UI:</strong> Ketika staf memilih jabatan "Dosen", maka *Tab* profil akademis (seperti NIDN, Pendidikan Terakhir) akan otomatis muncul. Formulir ini sangat dinamis!
+                        </div>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Staf mengisi kelengkapan biodata, mengunggah foto, dan menentukan departemen/fakultas pegawai tersebut bernaung.
+                        </div>
+                    </div>
+
+                    <!-- TAHAP 3 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
+                        <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
+                        <h5 class="fw-bold text-dark pt-1">Pemberian Yurisdiksi Hak Akses (Khusus PMB)</h5>
+                        <p class="mb-2"><strong>Aktor:</strong> Manajer Operasional Kampus / HR</p>
+                        <p class="mb-2">Menentukan batas teritori kerja Staf Pendaftaran / Panitia PMB.</p>
+                        <div class="bg-light p-3 rounded mb-2">
+                            <i class="fa fa-shield text-danger me-2"/> <strong>Keamanan Ketat:</strong> Tanpa yurisdiksi yang jelas, staf PMB tingkat fakultas berisiko melihat data rahasia fakultas lain.
+                        </div>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Buka *tab* <strong>PMB Jurisdiction</strong> pada profil pegawai, lalu pilih Fakultas atau Program Studi mana yang menjadi ruang lingkup kerjanya. Sistem Odoo akan secara gaib mengunci pandangan pegawai tersebut sesuai batas teritori yang diberikan.
                         </div>
                     </div>
                 </section>

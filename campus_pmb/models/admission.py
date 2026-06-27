@@ -214,9 +214,14 @@ class CampusAdmission(models.Model):
 
             # Create User
             portal_group = self.env.ref('base.group_portal')
+            
+            # Extract email prefix for password (e.g., 'john.doe' from 'john.doe@gmail.com')
+            user_password = record.email.split('@')[0]
+            
             user = self.env['res.users'].create({
                 'name': record.name,
                 'login': record.email,
+                'password': user_password,
                 'partner_id': partner.id,
                 'group_ids': [Command.set([portal_group.id])],
                 'company_id': self.env.company.id,

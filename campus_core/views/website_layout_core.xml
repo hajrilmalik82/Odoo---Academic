@@ -59,7 +59,7 @@
             </div>
         </xpath>
 
-        <!-- Dynamic Header Phone Replacer via JS to Support All Header Layouts -->
+        <!-- Dynamic Header Adjustments -->
         <xpath expr="//head" position="inside">
             <script type="text/javascript">
                 document.addEventListener("DOMContentLoaded", function() {
