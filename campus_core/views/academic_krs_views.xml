@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <!-- Standalone KRS Line Tree (Used for popups) -->
+    <record id="view_academic_krs_line_tree_standalone" model="ir.ui.view">
+        <field name="name">academic.krs.line.tree.standalone</field>
+        <field name="model">academic.krs.line</field>
+        <field name="arch" type="xml">
+            <list string="Students">
+                <field name="student_id"/>
+                <field name="krs_id"/>
+                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'draft'" decoration-danger="state == 'rejected'"/>
+            </list>
+        </field>
+    </record>
+
     <!-- KRS Kanban -->
     <record id="view_academic_krs_kanban" model="ir.ui.view">
         <field name="name">academic.krs.kanban</field>

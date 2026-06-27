@@ -203,12 +203,13 @@ class AcademicKrs(models.Model):
             if record.student_id.student_status != 'active':
                 raise ValidationError(_("Student status must be active to submit a KRS."))
                 
-            # 2. Period Open
-            today = fields.Date.context_today(self)
-            if not record.academic_year_id.krs_start_date or not record.academic_year_id.krs_end_date:
-                raise ValidationError(_("Academic year KRS period is not configured."))
-            if not (record.academic_year_id.krs_start_date <= today <= record.academic_year_id.krs_end_date):
-                raise ValidationError(_("Current date is outside the allowed KRS period."))
+            # 2. Period Open (Only enforced for students / portal users)
+            if not self.env.user.has_group('base.group_user'):
+                today = fields.Date.context_today(self)
+                if not record.academic_year_id.krs_start_date or not record.academic_year_id.krs_end_date:
+                    raise ValidationError(_("Academic year KRS period is not configured."))
+                if not (record.academic_year_id.krs_start_date <= today <= record.academic_year_id.krs_end_date):
+                    raise ValidationError(_("Current date is outside the allowed KRS period."))
                 
             # 3. Has Advisor (Admin can bypass)
             if not record.advisor_id and not self.env.user.has_group('campus_core.group_campus_administrator'):
@@ -272,8 +273,9 @@ class AcademicKrs(models.Model):
                 if enrolled_students >= total_capacity:
                     raise ValidationError(_("Class '%s' has reached its maximum capacity.") % class_record.name)
                     
-                # Collect schedules for overlap check
-                for sched in class_record.schedule_ids:
+                # Collect the specific schedule selected
+                if line.schedule_id:
+                    sched = line.schedule_id
                     schedules.append({
                         'day': sched.day_of_week,
                         'start': sched.start_time,
@@ -299,29 +301,8 @@ class AcademicKrs(models.Model):
             user = self.env.user
             if record.advisor_id not in user.employee_ids and not user.has_group('campus_core.group_campus_administrator'):
                 raise ValidationError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
-                
-            # Class Enrollment — batch search + batch create
-            class_ids = record.line_ids.mapped('class_id').ids
-            existing_class_ids = set(
-                self.env['academic.class.student.line'].search([
-                    ('class_id', 'in', class_ids),
-                    ('student_id', '=', record.student_id.id),
-                ]).mapped('class_id.id')
-            )
-            to_create = [
-                {
-                    'class_id': line.class_id.id,
-                    'student_id': record.student_id.id,
-                    'schedule_ids': [(4, line.schedule_id.id)],
-                }
-                for line in record.line_ids
-                if line.class_id.id not in existing_class_ids
-            ]
-            # Set state to approved FIRST so the class constraint passes
+            # Set state to approved
             record.state = 'approved'
-            
-            if to_create:
-                self.env['academic.class.student.line'].create(to_create)
 
     def action_request_revision(self):
         for record in self:
@@ -394,6 +375,8 @@ class AcademicKrsLine(models.Model):
     _description = 'Academic KRS Line'
 
     krs_id = fields.Many2one('academic.krs', string='KRS', ondelete='cascade')
+    student_id = fields.Many2one(related='krs_id.student_id', string='Student', store=True)
+    state = fields.Selection(related='krs_id.state', string='Status', store=True)
     schedule_id = fields.Many2one('academic.class.schedule', string='Schedule')
     class_id = fields.Many2one(related='schedule_id.class_id', store=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', compute='_compute_subject_id', store=True, readonly=False)

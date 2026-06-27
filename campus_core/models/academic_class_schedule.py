@@ -37,10 +37,11 @@ class AcademicClassSchedule(models.Model):
             if record.end_time > 24:
                 raise ValidationError(_("Schedule end time cannot be later than 24:00."))
 
-    @api.depends('room_capacity', 'class_id.student_line_ids.schedule_ids')
+    @api.depends('room_capacity', 'class_id.student_line_ids.schedule_id', 'class_id.student_line_ids.state')
     def _compute_capacity_display(self):
         for record in self:
-            enrolled = len(record.class_id.student_line_ids.filtered(lambda s: record.id in s.schedule_ids.ids))
+            valid_lines = record.class_id.student_line_ids.filtered(lambda s: s.state in ['submitted', 'approved', 'locked'])
+            enrolled = len(valid_lines.filtered(lambda s: s.schedule_id.id == record.id))
             record.enrolled_count = enrolled
             record.capacity_display = f"{record.room_capacity} / {enrolled}"
 

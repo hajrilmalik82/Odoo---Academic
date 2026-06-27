@@ -27,7 +27,6 @@ access_academic_class_admin,academic.class admin,model_academic_class,group_camp
 access_academic_class_portal,academic.class portal,model_academic_class,base.group_portal,1,0,0,0
 access_academic_class_schedule_admin,class.schedule admin,model_academic_class_schedule,group_campus_administrator,1,1,1,1
 access_academic_class_schedule_portal,class.schedule portal,model_academic_class_schedule,base.group_portal,1,0,0,0
-access_academic_class_student_line_admin,class.student.line admin,model_academic_class_student_line,group_campus_administrator,1,1,1,1
 access_academic_class_session_admin,class.session admin,model_academic_class_session,group_campus_administrator,1,1,1,1
 access_academic_khs_admin,academic.khs admin,model_academic_khs,group_campus_administrator,1,1,1,1
 access_academic_khs_lecturer,academic.khs lecturer,model_academic_khs,group_campus_lecturer,1,0,0,0
@@ -36,3 +35,4 @@ access_academic_khs_line_admin,academic.khs.line admin,model_academic_khs_line,g
 access_academic_khs_line_lecturer,academic.khs.line lecturer,model_academic_khs_line,group_campus_lecturer,1,0,0,0
 access_academic_khs_line_portal,academic.khs.line portal,model_academic_khs_line,base.group_portal,1,0,0,0
 access_krs_generator_wizard,krs.generator.wizard,model_krs_generator_wizard,group_campus_administrator,1,1,1,1
+access_assign_schedule_wizard,assign.schedule.wizard,model_assign_schedule_wizard,group_campus_administrator,1,1,1,1

@@ -18,7 +18,7 @@ class AcademicClass(models.Model):
     start_date = fields.Date(string='Start Date', required=True, tracking=True, help="Used as the starting point to generate 14 sessions.")
     class_capacity_display = fields.Char(string='Total Class Capacity', compute='_compute_class_capacity_display')
     schedule_ids = fields.One2many('academic.class.schedule', 'class_id', string='Schedules')
-    student_line_ids = fields.One2many('academic.class.student.line', 'class_id', string='Students')
+    student_line_ids = fields.One2many('academic.krs.line', 'class_id', string='Students')
     session_ids = fields.One2many('academic.class.session', 'class_id', string='Sessions')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
@@ -30,12 +30,14 @@ class AcademicClass(models.Model):
             else:
                 record.name = _("New Class")
 
-    @api.depends('schedule_ids.room_capacity', 'student_line_ids')
+    @api.depends('schedule_ids.room_capacity', 'student_line_ids', 'student_line_ids.state')
     def _compute_class_capacity_display(self):
         for record in self:
             capacities = [capacity for capacity in record.schedule_ids.mapped('room_capacity') if capacity]
             total_capacity = min(capacities) if capacities else 0
-            total_students = len(record.student_line_ids)
+            # Only count students who have submitted, approved, or locked their KRS
+            valid_students = record.student_line_ids.filtered(lambda l: l.state in ['submitted', 'approved', 'locked'])
+            total_students = len(valid_students)
             record.class_capacity_display = f"{total_capacity} / {total_students}"
 
     def action_generate_sessions(self):
@@ -87,55 +89,6 @@ class AcademicClass(models.Model):
 
         self.write({'session_ids': sessions})
 
-
-
-
-class AcademicClassStudentLine(models.Model):
-    _name = 'academic.class.student.line'
-    _description = 'Academic Class Student Line'
-    _student_class_unique = models.Constraint(
-        'unique(student_id, class_id)',
-        'A student can only be enrolled once in the same class.',
-    )
-
-    class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)])
-    schedule_ids = fields.Many2many('academic.class.schedule', string='Schedules', domain="[('class_id', '=', class_id)]")
-
-    @api.constrains('student_id', 'class_id')
-    def _check_krs_approval(self):
-        for record in self:
-            if not record.student_id or not record.class_id:
-                continue
-
-            krs_line = self.env['academic.krs.line'].search([
-                ('krs_id.student_id', '=', record.student_id.id),
-                ('krs_id.state', '=', 'approved'),
-                ('krs_id.academic_year_id', '=', record.class_id.academic_year_id.id),
-                ('subject_id', '=', record.class_id.subject_id.id)
-            ], limit=1)
-
-            if not krs_line:
-                raise ValidationError(_(
-                    "%(student)s is not approved to attend %(subject)s for this academic year. "
-                    "Please approve the student's KRS first."
-                ) % {
-                    'student': record.student_id.name,
-                    'subject': record.class_id.subject_id.name,
-                })
-
-    @api.constrains('schedule_ids')
-    def _check_schedule_capacity(self):
-        for record in self:
-            for schedule in record.schedule_ids:
-                enrolled = self.search_count([
-                    ('class_id', '=', record.class_id.id),
-                    ('schedule_ids', 'in', schedule.id),
-                ])
-                if enrolled > schedule.room_capacity:
-                    raise ValidationError(_(
-                        "Schedule %(schedule)s exceeds room capacity."
-                    ) % {'schedule': schedule.display_name})
 
 
 class AcademicClassSession(models.Model):

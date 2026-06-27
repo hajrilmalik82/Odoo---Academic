@@ -12,6 +12,7 @@
         'data/ir_sequence_data.xml',
         'data/mail_activity_type_data.xml',
         'wizard/krs_generator_wizard_views.xml',
+        'wizard/assign_schedule_wizard_views.xml',
         'views/res_partner_views.xml',
         'views/campus_facility_views.xml',
         'views/academic_institution_views.xml',

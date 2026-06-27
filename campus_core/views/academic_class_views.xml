@@ -56,11 +56,15 @@
                             </field>
                         </page>
                         <page string="Students">
+                            <div class="mb-2">
+                                <button name="%(action_assign_schedule_wizard)d" string="Assign Schedule (Massive)" type="action" class="oe_highlight" icon="fa-magic"/>
+                            </div>
                             <field name="student_line_ids">
-                                <list editable="bottom">
+                                <list editable="bottom" create="0" delete="0">
                                     <field name="class_id" column_invisible="1"/>
-                                    <field name="student_id"/>
-                                    <field name="schedule_ids" widget="many2many_tags"/>
+                                    <field name="student_id" readonly="1"/>
+                                    <field name="schedule_id" readonly="1"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'draft'" decoration-danger="state == 'rejected'" readonly="1"/>
                                 </list>
                             </field>
                         </page>

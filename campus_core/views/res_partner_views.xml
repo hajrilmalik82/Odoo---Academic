@@ -70,6 +70,7 @@
                             <field name="program_id"/>
                             <field name="batch_year"/>
                             <field name="academic_advisor_id"/>
+                            <field name="cgpa"/>
                         </group>
                     </group>
                     <notebook>

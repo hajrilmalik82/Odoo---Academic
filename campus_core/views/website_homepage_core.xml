@@ -87,9 +87,23 @@
                                             </ul>
                                         </div>
 
-                                        <!-- TAHAP 2 -->
+                                        <!-- TAHAP 2 (BARU) -->
+                                        <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
+                                            <span class="badge bg-info position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
+                                            <h5 class="fw-bold text-dark pt-1">Penjadwalan &amp; Pembukaan Kelas</h5>
+                                            <p class="mb-2"><strong>Aktor:</strong> Administrator Akademik (Biro Akademik)</p>
+                                            <p class="mb-2">Admin membuat <strong>Kelas (Class)</strong> untuk mata kuliah yang akan diajarkan, kemudian menyusun <strong>Jadwal Kelas (Class Schedule)</strong>.</p>
+                                            <div class="bg-light p-3 rounded mb-2">
+                                                <i class="fa fa-calendar text-dark me-2"/> <strong>Sistem Jadwal:</strong> Jadwal menentukan Hari, Jam Mulai, Jam Selesai, Ruangan, dan Dosen Pengampu. Anda dapat membuat beberapa jadwal untuk satu kelas (misalnya teori dan lab).
+                                            </div>
+                                            <div class="bg-light p-3 rounded">
+                                                <i class="fa fa-users text-info me-2"/> <strong>Kapasitas Otomatis:</strong> Odoo secara otomatis menghitung jumlah kapasitas maksimal kelas berdasarkan daya tampung Ruangan yang dipilih pada jadwal tersebut!
+                                            </div>
+                                        </div>
+
+                                        <!-- TAHAP 3 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
-                                            <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
+                                            <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
                                             <h5 class="fw-bold text-dark pt-1">Pengisian Kartu Rencana Studi (KRS)</h5>
                                             <p class="mb-2"><strong>Aktor:</strong> Mahasiswa / Admin Akademik</p>
                                             <p class="mb-2">Mahasiswa menyusun rencana studi untuk semester berjalan. Pengisian bisa dilakukan mandiri via Portal atau dibantu Admin.</p>
@@ -101,9 +115,9 @@
                                             </div>
                                         </div>
 
-                                        <!-- TAHAP 3 -->
+                                        <!-- TAHAP 4 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
-                                            <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
+                                            <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
                                             <h5 class="fw-bold text-dark pt-1">Persetujuan Dosen Wali (Approval KRS)</h5>
                                             <p class="mb-2"><strong>Aktor:</strong> Dosen Pembimbing Akademik (PA)</p>
                                             <p class="mb-2">Dosen PA melakukan peninjauan terhadap mata kuliah yang diajukan oleh mahasiswa bimbingannya.</p>
@@ -115,9 +129,9 @@
                                             </div>
                                         </div>
 
-                                        <!-- TAHAP 4 -->
+                                        <!-- TAHAP 5 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
-                                            <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
+                                            <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
                                             <h5 class="fw-bold text-dark pt-1">Penerbitan KHS &amp; Penilaian (Akhir Semester)</h5>
                                             <p class="mb-2"><strong>Aktor:</strong> Dosen Pengampu / Admin Akademik</p>
                                             <p class="mb-2">Di akhir masa perkuliahan, nilai harus diterbitkan dalam bentuk Kartu Hasil Studi (KHS).</p>
@@ -126,6 +140,20 @@
                                             </div>
                                             <div class="bg-light p-3 rounded">
                                                 <i class="fa fa-calculator text-success me-2"/> <strong>Aksi:</strong> Dosen menginput nilai akhir (misal: 80). Sistem seketika (real-time) mengalkulasi Nilai Mutu dan IPK (Indeks Prestasi Kumulatif) mahasiswa bersangkutan.
+                                            </div>
+                                        </div>
+
+                                        <!-- TAHAP 6 (BARU) -->
+                                        <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
+                                            <span class="badge bg-info position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
+                                            <h5 class="fw-bold text-dark pt-1">Mass KRS Generator &amp; Course Packages (Fitur Otomatisasi Lanjut)</h5>
+                                            <p class="mb-2"><strong>Aktor:</strong> Admin Akademik</p>
+                                            <p class="mb-2">Tidak perlu lagi menyusun KRS satu per satu! Kini Anda bisa menggunakan alat <em>Wizard</em> pintar.</p>
+                                            <div class="bg-light p-3 rounded mb-2">
+                                                <i class="fa fa-cubes text-dark me-2"/> <strong>Course Packages:</strong> Kumpulkan mata kuliah wajib untuk setiap Program Studi ke dalam satu Paket (Package) per Tahun Akademik.
+                                            </div>
+                                            <div class="bg-light p-3 rounded">
+                                                <i class="fa fa-flash text-info me-2"/> <strong>Aksi (Generate KRS):</strong> Tekan tombol "Generate KRS" pada Paket, lalu sistem akan memfilter mahasiswa prodi tersebut yang belum membuat KRS. Centang puluhan nama mahasiswa, dan <em>Draft KRS</em> massal (berikut baris-baris mata kuliahnya) akan terbit dalam sekejap mata!
                                             </div>
                                         </div>
 

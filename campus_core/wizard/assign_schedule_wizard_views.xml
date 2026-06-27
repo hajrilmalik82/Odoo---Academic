@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_assign_schedule_wizard_form" model="ir.ui.view">
+        <field name="name">assign.schedule.wizard.form</field>
+        <field name="model">assign.schedule.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Mass Assign Schedule">
+                <sheet>
+                    <div class="alert alert-info text-center" role="alert">
+                        Select a schedule and the students you wish to assign to it. Only students who have added this subject to their KRS but haven't selected a schedule yet are shown.
+                    </div>
+                    <group>
+                        <field name="class_id" options="{'no_open': True}"/>
+                        <field name="schedule_id" options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+                    <notebook>
+                        <page string="Unassigned Students">
+                            <field name="krs_line_ids">
+                                <list>
+                                    <control>
+                                        <create name="add_product_control" string="Select Students..."/>
+                                    </control>
+                                    <field name="student_id"/>
+                                    <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'draft'" decoration-danger="state == 'rejected'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <footer>
+                    <button string="Assign Schedule" name="action_assign_schedule" type="object" class="oe_highlight" icon="fa-check"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" icon="fa-times"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_assign_schedule_wizard" model="ir.actions.act_window">
+        <field name="name">Mass Assign Schedule</field>
+        <field name="res_model">assign.schedule.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
