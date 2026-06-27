@@ -104,9 +104,8 @@
                     <tr class="active">
                         <th>KHS Number</th>
                         <th>Academic Year</th>
-                        <th>Term</th>
                         <th>Total Credits</th>
-                        <th>Term GPA</th>
+                        <th>GPA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -114,7 +113,6 @@
                         <tr>
                             <td><span t-field="khs.name"/></td>
                             <td><span t-field="khs.academic_year_id.name"/></td>
-                            <td><span t-field="khs.term_type"/></td>
                             <td><span t-field="khs.total_credits"/></td>
                             <td><span t-field="khs.term_gpa"/></td>
                         </tr>
@@ -147,7 +145,6 @@
                 <div class="row mb-4">
                     <div class="col-md-6">
                         <p><strong>Tahun Akademik:</strong> <t t-esc="krs.academic_year_id.name"/></p>
-                        <p><strong>Term:</strong> <t t-esc="krs.term_type"/></p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>Total SKS:</strong> <t t-esc="krs.total_credits"/></p>

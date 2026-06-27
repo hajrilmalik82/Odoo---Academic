@@ -12,16 +12,15 @@ class AcademicKhs(models.Model):
     name = fields.Char(string='KHS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
     student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True)
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
-    term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term', required=True, index=True)
-    semester = fields.Selection([
-        ('1', 'Semester 1'), ('2', 'Semester 2'), 
-        ('3', 'Semester 3'), ('4', 'Semester 4'), 
-        ('5', 'Semester 5'), ('6', 'Semester 6'), 
-        ('7', 'Semester 7'), ('8', 'Semester 8'),
-        ('9', 'Semester 9'), ('10', 'Semester 10'),
-        ('11', 'Semester 11'), ('12', 'Semester 12'),
-        ('13', 'Semester 13'), ('14', 'Semester 14')
-    ], string='Semester', required=True, default='1')
+    semester = fields.Char(string='Semester', compute='_compute_semester', store=True)
+
+    @api.depends('academic_year_id')
+    def _compute_semester(self):
+        for record in self:
+            if record.academic_year_id:
+                record.semester = record.academic_year_id.name
+            else:
+                record.semester = False
     line_ids = fields.One2many('academic.khs.line', 'khs_id', string='Grade Lines')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     # Computed GPA fields
@@ -29,10 +28,11 @@ class AcademicKhs(models.Model):
     total_grade_points = fields.Float(string='Total Grade Points', compute='_compute_term_gpa', store=True, digits=(16, 2))
     term_gpa = fields.Float(string='Term GPA', compute='_compute_term_gpa', store=True, digits=(5, 2))
 
-    _unique_khs_period = models.Constraint(
-        'unique(student_id, academic_year_id, term_type)',
-        'A KHS already exists for this student and academic period.',
-    )
+    _sql_constraints = [
+        ('unique_khs', 
+        'unique(student_id, academic_year_id)', 
+        'A student can only have one KHS per Academic Year!'),
+    ]
 
     @api.depends('line_ids.grade_points', 'line_ids.credits')
     def _compute_term_gpa(self):
@@ -50,16 +50,20 @@ class AcademicKhs(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code('academic.khs') or 'New'
         return super().create(vals_list)
 
-    @api.constrains('student_id', 'academic_year_id', 'term_type')
-    def _check_approved_krs_exists(self):
+    @api.constrains('student_id', 'academic_year_id')
+    def _check_unique_khs(self):
         for record in self:
-            if not record.student_id or not record.academic_year_id or not record.term_type:
+            if not record.student_id or not record.academic_year_id:
                 continue
-
+                
+            domain = [
+                ('student_id', '=', record.student_id.id),
+                ('academic_year_id', '=', record.academic_year_id.id),
+                ('id', '!=', record.id)
+            ]
             approved_krs = self.env['academic.krs'].search_count([
                 ('student_id', '=', record.student_id.id),
                 ('academic_year_id', '=', record.academic_year_id.id),
-                ('term_type', '=', record.term_type),
                 ('state', 'in', ('approved', 'locked')),
             ])
             if not approved_krs:
@@ -67,14 +71,13 @@ class AcademicKhs(models.Model):
                     _("An approved KRS is required before creating a KHS for this academic period.")
                 )
 
-    @api.onchange('student_id', 'academic_year_id', 'term_type')
-    def _onchange_pull_krs_data(self):
-        if self.student_id and self.academic_year_id and self.term_type:
+    @api.onchange('student_id', 'academic_year_id')
+    def _onchange_student_year(self):
+        if self.student_id and self.academic_year_id:
             krs = self.env['academic.krs'].search([
                 ('student_id', '=', self.student_id.id),
                 ('academic_year_id', '=', self.academic_year_id.id),
-                ('term_type', '=', self.term_type),
-                ('state', 'in', ('approved', 'locked'))
+                ('state', 'in', ['approved', 'locked'])
             ], limit=1)
 
             lines = [Command.clear()]

@@ -9,7 +9,6 @@
                 <field name="student_id"/>
                 <field name="academic_year_id"/>
                 <field name="semester"/>
-                <field name="term_type"/>
                 <field name="total_credits"/>
                 <field name="term_gpa" string="Term GPA"/>
                 <field name="company_id" column_invisible="1"/>
@@ -34,8 +33,7 @@
                             <field name="academic_year_id"/>
                         </group>
                         <group>
-                            <field name="semester"/>
-                            <field name="term_type"/>
+                            <field name="semester" readonly="1" force_save="1"/>
                             <field name="company_id" invisible="1"/>
                         </group>
                     </group>
@@ -78,13 +76,9 @@
                 <field name="student_id"/>
                 <field name="academic_year_id"/>
                 <separator/>
-                <filter string="Odd Semester" name="filter_odd" domain="[('term_type','=','odd')]"/>
-                <filter string="Even Semester" name="filter_even" domain="[('term_type','=','even')]"/>
-                <separator/>
                 <group name="group_by">
                     <filter string="Student" name="group_student" context="{'group_by': 'student_id'}"/>
                     <filter string="Academic Year" name="group_year" context="{'group_by': 'academic_year_id'}"/>
-                    <filter string="Term" name="group_term" context="{'group_by': 'term_type'}"/>
                 </group>
             </search>
         </field>

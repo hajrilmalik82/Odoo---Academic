@@ -12,7 +12,6 @@
                             <field name="is_student"/>
                             <field name="nim" invisible="is_student == False"/>
                             <field name="student_status" invisible="is_student == False"/>
-                            <field name="semester" invisible="is_student == False"/>
                             <field name="batch_year" invisible="is_student == False"/>
                         </group>
                         <group invisible="is_student == False">
@@ -34,7 +33,6 @@
                 <field name="nim"/>
                 <field name="name"/>
                 <field name="program_id"/>
-                <field name="semester"/>
                 <field name="academic_advisor_id"/>
                 <field name="student_status"/>
             </list>
@@ -71,7 +69,6 @@
                             <field name="faculty_id"/>
                             <field name="program_id"/>
                             <field name="batch_year"/>
-                            <field name="semester"/>
                             <field name="academic_advisor_id"/>
                         </group>
                     </group>

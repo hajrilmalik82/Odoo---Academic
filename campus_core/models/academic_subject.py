@@ -65,6 +65,7 @@ class AcademicYear(models.Model):
     _order = 'name desc'
 
     name = fields.Char(string='Name', required=True)
+    term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True)
     active = fields.Boolean(string='Active', default=True)
     krs_start_date = fields.Date(string="KRS Start Date")
     krs_end_date = fields.Date(string="KRS End Date")
@@ -72,3 +73,12 @@ class AcademicYear(models.Model):
         'res.company', string='Company',
         default=lambda self: self.env.company
     )
+
+    @api.depends('name', 'term_type')
+    def _compute_display_name(self):
+        for record in self:
+            if record.name and record.term_type:
+                term = dict(self._fields['term_type'].selection).get(record.term_type)
+                record.display_name = f"{record.name} ({term})"
+            else:
+                record.display_name = record.name or ""

@@ -66,13 +66,10 @@ class CampusPortal(CustomerPortal):
         if not active_year:
             return request.redirect('/my/krs?error=Masa pengisian KRS sedang ditutup atau Tahun Akademik belum diatur.')
             
-        term_type = 'odd' if today.month >= 7 else 'even'
-
         # 2. Prevent duplicate: Find existing KRS for this term regardless of state
         existing_krs = request.env['academic.krs'].search([
             ('student_id', '=', partner.id),
-            ('academic_year_id', '=', active_year.id),
-            ('term_type', '=', term_type)
+            ('academic_year_id', '=', active_year.id)
         ], limit=1)
         
         if existing_krs:
@@ -83,7 +80,6 @@ class CampusPortal(CustomerPortal):
             new_krs = request.env['academic.krs'].create({
                 'student_id': partner.id,
                 'academic_year_id': active_year.id,
-                'term_type': term_type,
             })
             return request.redirect('/my/krs/%s' % new_krs.id)
         except Exception as e:

@@ -17,15 +17,6 @@ class ResPartner(models.Model):
         ('dropout', 'Drop Out')
     ], default='active', string="Student Status", index=True)
     batch_year = fields.Char(string="Batch / Generation")
-    semester = fields.Selection([
-        ('1', 'Semester 1'), ('2', 'Semester 2'), 
-        ('3', 'Semester 3'), ('4', 'Semester 4'), 
-        ('5', 'Semester 5'), ('6', 'Semester 6'), 
-        ('7', 'Semester 7'), ('8', 'Semester 8'),
-        ('9', 'Semester 9'), ('10', 'Semester 10'),
-        ('11', 'Semester 11'), ('12', 'Semester 12'),
-        ('13', 'Semester 13'), ('14', 'Semester 14')
-    ], string='Current Semester')
 
     khs_ids = fields.One2many(
         'academic.khs', 'student_id', string='KHS Records'

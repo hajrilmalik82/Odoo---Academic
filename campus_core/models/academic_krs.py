@@ -8,7 +8,6 @@ class AcademicCoursePackage(models.Model):
 
     name = fields.Char(string='Name', required=True)
     program_id = fields.Many2one('academic.program', string='Program', required=True)
-    term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True)
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True)
     total_credits = fields.Integer(string='Total Credits', compute='_compute_total_credits', store=True)
     line_ids = fields.One2many('academic.course.package.line', 'package_id', string='Lines')
@@ -60,16 +59,15 @@ class AcademicKrs(models.Model):
             self.faculty_id = self.student_id.faculty_id
             
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
-    semester = fields.Selection([
-        ('1', 'Semester 1'), ('2', 'Semester 2'), 
-        ('3', 'Semester 3'), ('4', 'Semester 4'), 
-        ('5', 'Semester 5'), ('6', 'Semester 6'), 
-        ('7', 'Semester 7'), ('8', 'Semester 8'),
-        ('9', 'Semester 9'), ('10', 'Semester 10'),
-        ('11', 'Semester 11'), ('12', 'Semester 12'),
-        ('13', 'Semester 13'), ('14', 'Semester 14')
-    ], string='Semester', required=True, default='1')
-    term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True, index=True)
+    semester = fields.Char(string='Semester', compute='_compute_semester', store=True)
+
+    @api.depends('academic_year_id')
+    def _compute_semester(self):
+        for record in self:
+            if record.academic_year_id:
+                record.semester = record.academic_year_id.name
+            else:
+                record.semester = False
     
     advisor_id = fields.Many2one('hr.employee', related='student_id.academic_advisor_id', string='Academic Advisor', readonly=True)
     faculty_id = fields.Many2one('academic.faculty', string='Faculty')
@@ -122,8 +120,8 @@ class AcademicKrs(models.Model):
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     _unique_student_academic_year_term = models.Constraint(
-        'unique(student_id, academic_year_id, term_type)',
-        'A student can only have one KRS per academic year and term.',
+        'unique(student_id, academic_year_id)',
+        'A student can only have one KRS per academic year.',
     )
 
 
@@ -335,8 +333,7 @@ class AcademicKrs(models.Model):
             # Auto-generate KHS
             existing_khs = self.env['academic.khs'].search([
                 ('student_id', '=', record.student_id.id),
-                ('academic_year_id', '=', record.academic_year_id.id),
-                ('term_type', '=', record.term_type)
+                ('academic_year_id', '=', record.academic_year_id.id)
             ], limit=1)
             
             if not existing_khs:
@@ -351,7 +348,6 @@ class AcademicKrs(models.Model):
                 self.env['academic.khs'].create({
                     'student_id': record.student_id.id,
                     'academic_year_id': record.academic_year_id.id,
-                    'term_type': record.term_type,
                     'semester': record.semester,
                     'line_ids': khs_lines,
                 })

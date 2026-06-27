@@ -8,7 +8,6 @@
             <list string="Course Packages">
                 <field name="name"/>
                 <field name="program_id"/>
-                <field name="term_type"/>
                 <field name="academic_year_id"/>
                 <field name="total_credits"/>
                 <field name="company_id" column_invisible="1"/>
@@ -27,7 +26,6 @@
                         <group>
                             <field name="name"/>
                             <field name="program_id"/>
-                            <field name="term_type"/>
                         </group>
                         <group>
                             <field name="academic_year_id"/>

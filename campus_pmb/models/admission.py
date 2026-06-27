@@ -229,12 +229,12 @@ class CampusAdmission(models.Model):
                     update_vals.update({
                         'nim': f"{prefix}{new_seq:04d}",
                         'batch_year': batch_year,
-                        'semester': '1',
                         'program_id': record.program_id.id,
                     })
                 
                 existing_user.partner_id.write(update_vals)
                 continue
+            
             # Generate NIM
             current_date = fields.Date.today()
             year_short = current_date.strftime('%y')
@@ -269,7 +269,6 @@ class CampusAdmission(models.Model):
                 'is_student': True,
                 'nim': nim,
                 'batch_year': batch_year,
-                'semester': '1',
                 'program_id': record.program_id.id,
                 'company_id': self.env.company.id,
             })
