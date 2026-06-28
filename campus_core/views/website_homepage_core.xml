@@ -167,8 +167,95 @@
                                                 <i class="fa fa-magic text-primary me-2"/> <strong>Aksi (Assign Schedule):</strong> Buka form Kelas, klik tab <strong>Students</strong>, lalu tekan tombol <strong>Assign Schedule (Massive)</strong>. Sistem akan mencari semua mahasiswa yang mengambil kelas ini tetapi belum memiliki jadwal, dan Anda bisa memasukkan mereka ke dalam sebuah jadwal sekaligus dalam satu tarikan napas!
                                             </div>
                                         </div>
+                                        <!-- TAHAP 8 (BARU) -->
+                                        <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
+                                            <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">8</span>
+                                            <h5 class="fw-bold text-dark pt-1">Perpindahan Status Massal via Menu Actions</h5>
+                                            <p class="mb-2"><strong>Aktor:</strong> Admin Akademik / Dosen PA</p>
+                                            <p class="mb-2">Tidak perlu membuka satu per satu dokumen KRS untuk mengubah statusnya! Cukup gunakan fitur <em>Actions</em> di tampilan daftar.</p>
+                                            <div class="bg-light p-3 rounded mb-2">
+                                                <i class="fa fa-list-ul text-dark me-2"/> <strong>Cara Penggunaan:</strong> Buka menu <strong>Study Plan (KRS)</strong> → Centang satu atau beberapa baris KRS yang ingin diproses → Klik tombol <strong>"⚙️ Actions"</strong> di bagian atas tabel.
+                                            </div>
+                                            <div class="bg-light p-3 rounded mb-2">
+                                                <i class="fa fa-bolt text-danger me-2"/> <strong>Opsi yang tersedia di menu Actions:</strong>
+                                                <ul class="mt-2 mb-0 text-muted">
+                                                    <li><strong>Mass Submit</strong> — Kirim semua KRS berstatus <em>Draft</em> yang dicentang sekaligus ke Dosen PA.</li>
+                                                    <li><strong>Mass Approve</strong> — Setujui semua KRS berstatus <em>Submitted</em> yang dicentang sekaligus (khusus Dosen PA / Admin).</li>
+                                                    <li><strong>Mass Lock</strong> — Kunci semua KRS berstatus <em>Approved</em> dan otomatis buatkan KHS-nya (khusus Admin).</li>
+                                                    <li><strong>Mass Reject</strong> — Tolak semua KRS berstatus <em>Submitted</em> yang dicentang sekaligus.</li>
+                                                    <li><strong>Mass Unlock</strong> — Buka kembali KRS yang sudah terkunci ke status <em>Approved</em> jika diperlukan koreksi (khusus Admin).</li>
+                                                </ul>
+                                            </div>
+                                            <div class="bg-light p-3 rounded">
+                                                <i class="fa fa-info-circle text-info me-2"/> <strong>Catatan Cerdas:</strong> Sistem akan secara otomatis melewati (skip) baris yang statusnya tidak sesuai. Misalnya, jika Anda mencentang 10 KRS lalu memilih <em>Mass Approve</em>, hanya KRS yang berstatus <em>Submitted</em> yang akan diproses; KRS berstatus Draft tidak akan tersentuh.
+                                            </div>
+                                        </div>
 
-                                    </section>
+                                        <!-- SECTION: PERAN & HAK AKSES -->
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Peran Pengguna &amp; Hak Akses (Roles &amp; Permissions)</h4>
+                                        <p class="text-muted mb-4">Sistem ini dirancang dengan hierarki keamanan berlapis. Setiap pengguna hanya dapat melihat dan melakukan tindakan yang sesuai dengan perannya.</p>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered table-hover align-middle">
+                                                <thead class="table-dark">
+                                                    <tr>
+                                                        <th>Tindakan</th>
+                                                        <th class="text-center">Mahasiswa (Portal)</th>
+                                                        <th class="text-center">Dosen PA</th>
+                                                        <th class="text-center">Admin Akademik</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Buat &amp; Edit KRS (saat periode buka)</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                        <td class="text-center text-muted">—</td>
+                                                        <td class="text-center text-success fw-bold">✓ (kapan saja)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Submit KRS</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                        <td class="text-center text-muted">—</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Approve / Reject KRS</td>
+                                                        <td class="text-center text-danger">✗</td>
+                                                        <td class="text-center text-success fw-bold">✓ (mahasiswa bimbingannya saja)</td>
+                                                        <td class="text-center text-success fw-bold">✓ (semua)</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Lock KRS &amp; Generate KHS</td>
+                                                        <td class="text-center text-danger">✗</td>
+                                                        <td class="text-center text-danger">✗</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Input Nilai (KHS)</td>
+                                                        <td class="text-center text-danger">✗</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Kelola Master Data (Prodi, Ruangan, dll)</td>
+                                                        <td class="text-center text-danger">✗</td>
+                                                        <td class="text-center text-danger">✗</td>
+                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        <!-- SECTION: PERIODE KRS -->
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Konfigurasi Periode KRS</h4>
+                                        <p class="text-muted mb-3">Sistem mendukung pembatasan waktu pengisian KRS agar mahasiswa hanya bisa mengisi pada periode yang sudah ditentukan.</p>
+                                        <div class="bg-light p-3 rounded mb-2">
+                                            <i class="fa fa-calendar-check-o text-primary me-2"/> <strong>Cara Setting:</strong> Buka menu <strong>Configuration → Academic Years</strong> → Pilih Tahun Akademik yang aktif → Isi kolom <strong>KRS Start Date</strong> dan <strong>KRS End Date</strong>.
+                                        </div>
+                                        <div class="bg-light p-3 rounded">
+                                            <i class="fa fa-info-circle text-info me-2"/> <strong>Catatan:</strong> Pembatasan periode ini <strong>hanya berlaku untuk Mahasiswa</strong> (pengguna Portal). Admin Akademik dapat membuat atau mengedit KRS kapan saja tanpa terikat periode, sehingga dapat membantu mahasiswa yang berhalangan mengisi sendiri.
+                                        </div>
+
                                 </div>
                                 
                             </div>

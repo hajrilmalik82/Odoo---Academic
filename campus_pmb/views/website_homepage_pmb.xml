@@ -119,6 +119,71 @@
                         </ul>
                     </div>
 
+                    <!-- TAHAP 6 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
+                        <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
+                        <h5 class="fw-bold text-dark pt-1">Penolakan Pendaftaran (Reject)</h5>
+                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB / Pimpinan</p>
+                        <p class="mb-2">Jika kandidat tidak memenuhi syarat di tahap manapun (misalnya dokumen palsu, pembayaran tidak valid), proses dapat dihentikan.</p>
+                        <div class="bg-light p-3 rounded mb-2">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Batasan:</strong> Kandidat yang sudah berstatus <em>Accepted</em> atau <em>Registered</em> <strong>tidak dapat</strong> lagi ditolak untuk mencegah pembatalan yang disengaja setelah akun dibuat.
+                        </div>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-times-circle text-danger me-2"/> <strong>Aksi:</strong> Panitia menekan opsi <strong>Reject</strong> dari form atau menu <em>Actions</em>. Status akan berubah menjadi <em>Rejected</em> dan tidak dapat diproses lebih lanjut.
+                        </div>
+                    </div>
+
+                    <!-- SECTION: PENDAFTARAN ONLINE -->
+                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Pendaftaran Mandiri via Website (Online)</h4>
+                    <p class="text-muted mb-3">Modul PMB juga menyediakan halaman pendaftaran publik yang dapat diakses oleh calon mahasiswa langsung dari website kampus tanpa perlu login terlebih dahulu.</p>
+                    <div class="bg-light p-3 rounded mb-2">
+                        <i class="fa fa-globe text-primary me-2"/> <strong>URL Akses:</strong> Calon mahasiswa cukup membuka halaman <strong>/admission/apply</strong> pada website kampus, mengisi formulir online, lalu menekan tombol <strong>Kirim Pendaftaran</strong>. Sistem otomatis membuat record baru di menu Admissions dengan status <em>Draft</em>.
+                    </div>
+                    <div class="bg-light p-3 rounded">
+                        <i class="fa fa-check-circle text-success me-2"/> Selanjutnya, panitia melanjutkan proses review dari dalam sistem Odoo (backend) mengikuti alur tahapan di atas.
+                    </div>
+
+                    <!-- SECTION: PERAN & HAK AKSES PMB -->
+                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Peran Pengguna &amp; Hak Akses (PMB)</h4>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Tindakan</th>
+                                    <th class="text-center">Calon Mhs (Publik)</th>
+                                    <th class="text-center">Staf PMB</th>
+                                    <th class="text-center">Manajer PMB</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Daftar via website (online)</td>
+                                    <td class="text-center text-success fw-bold">✓</td>
+                                    <td class="text-center text-success fw-bold">✓</td>
+                                    <td class="text-center text-success fw-bold">✓</td>
+                                </tr>
+                                <tr>
+                                    <td>Review Dokumen &amp; Verifikasi Pembayaran</td>
+                                    <td class="text-center text-danger">✗</td>
+                                    <td class="text-center text-success fw-bold">✓ (prodi yurisdiksinya)</td>
+                                    <td class="text-center text-success fw-bold">✓ (semua)</td>
+                                </tr>
+                                <tr>
+                                    <td>Accept / Tolak Pendaftar</td>
+                                    <td class="text-center text-danger">✗</td>
+                                    <td class="text-center text-danger">✗</td>
+                                    <td class="text-center text-success fw-bold">✓</td>
+                                </tr>
+                                <tr>
+                                    <td>Register Student (buat akun &amp; NIM)</td>
+                                    <td class="text-center text-danger">✗</td>
+                                    <td class="text-center text-danger">✗</td>
+                                    <td class="text-center text-success fw-bold">✓</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
                 </section>
             </div>
         </xpath>
