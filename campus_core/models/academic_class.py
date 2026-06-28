@@ -1,4 +1,4 @@
-from odoo import _, api, fields, models, Command
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 from datetime import datetime, time, timedelta
 import pytz

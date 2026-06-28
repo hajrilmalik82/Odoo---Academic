@@ -160,4 +160,74 @@
         </field>
     </record>
 
+    <!-- Mass Action: Submit -->
+    <record id="action_krs_mass_submit" model="ir.actions.server">
+        <field name="name">Mass Submit</field>
+        <field name="model_id" ref="model_academic_krs"/>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                if rec.state == 'draft':
+                    rec.action_submit()
+        </field>
+    </record>
+
+    <!-- Mass Action: Approve -->
+    <record id="action_krs_mass_approve" model="ir.actions.server">
+        <field name="name">Mass Approve</field>
+        <field name="model_id" ref="model_academic_krs"/>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                if rec.state == 'submitted':
+                    rec.action_approve()
+        </field>
+    </record>
+
+    <!-- Mass Action: Lock -->
+    <record id="action_krs_mass_lock" model="ir.actions.server">
+        <field name="name">Mass Lock</field>
+        <field name="model_id" ref="model_academic_krs"/>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                if rec.state == 'approved':
+                    rec.action_lock()
+        </field>
+    </record>
+
+    <!-- Mass Action: Reject -->
+    <record id="action_krs_mass_reject" model="ir.actions.server">
+        <field name="name">Mass Reject</field>
+        <field name="model_id" ref="model_academic_krs"/>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                if rec.state == 'submitted':
+                    rec.action_reject()
+        </field>
+    </record>
+
+    <!-- Mass Action: Unlock -->
+    <record id="action_krs_mass_unlock" model="ir.actions.server">
+        <field name="name">Mass Unlock</field>
+        <field name="model_id" ref="model_academic_krs"/>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+            for rec in records:
+                if rec.state == 'locked':
+                    rec.action_unlock()
+        </field>
+    </record>
+
 </odoo>

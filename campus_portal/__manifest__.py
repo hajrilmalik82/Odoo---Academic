@@ -7,7 +7,7 @@
         Course Packages (KRS) and Academic Transcripts (KHS).
     """,
     'category': 'Education',
-    'author': 'Hajril',
+    'author': 'Hajril Malik',
     'depends': ['base', 'portal', 'campus_core', 'website'],
     'data': [
         'views/portal_templates.xml',

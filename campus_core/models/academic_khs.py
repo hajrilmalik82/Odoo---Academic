@@ -28,11 +28,10 @@ class AcademicKhs(models.Model):
     total_grade_points = fields.Float(string='Total Grade Points', compute='_compute_term_gpa', store=True, digits=(16, 2))
     term_gpa = fields.Float(string='Term GPA', compute='_compute_term_gpa', store=True, digits=(5, 2))
 
-    _sql_constraints = [
-        ('unique_khs', 
-        'unique(student_id, academic_year_id)', 
-        'A student can only have one KHS per Academic Year!'),
-    ]
+    _unique_khs = models.Constraint(
+        'unique(student_id, academic_year_id)',
+        'A student can only have one KHS per Academic Year!',
+    )
 
     @api.depends('line_ids.grade_points', 'line_ids.credits')
     def _compute_term_gpa(self):
@@ -51,16 +50,12 @@ class AcademicKhs(models.Model):
         return super().create(vals_list)
 
     @api.constrains('student_id', 'academic_year_id')
-    def _check_unique_khs(self):
+    def _check_requires_approved_krs(self):
+        """Ensure a KHS can only be created when an Approved or Locked KRS exists
+        for the same student and academic period."""
         for record in self:
             if not record.student_id or not record.academic_year_id:
                 continue
-                
-            domain = [
-                ('student_id', '=', record.student_id.id),
-                ('academic_year_id', '=', record.academic_year_id.id),
-                ('id', '!=', record.id)
-            ]
             approved_krs = self.env['academic.krs'].search_count([
                 ('student_id', '=', record.student_id.id),
                 ('academic_year_id', '=', record.academic_year_id.id),

@@ -157,6 +157,17 @@
                                             </div>
                                         </div>
 
+                                        <!-- TAHAP 7 (BARU) -->
+                                        <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
+                                            <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">7</span>
+                                            <h5 class="fw-bold text-dark pt-1">Mass Schedule Assignment (Penjadwalan Massal)</h5>
+                                            <p class="mb-2"><strong>Aktor:</strong> Admin Akademik</p>
+                                            <p class="mb-2">Setelah KRS di-generate, Admin tidak perlu lagi mengatur jadwal mahasiswa satu per satu secara manual!</p>
+                                            <div class="bg-light p-3 rounded">
+                                                <i class="fa fa-magic text-primary me-2"/> <strong>Aksi (Assign Schedule):</strong> Buka form Kelas, klik tab <strong>Students</strong>, lalu tekan tombol <strong>Assign Schedule (Massive)</strong>. Sistem akan mencari semua mahasiswa yang mengambil kelas ini tetapi belum memiliki jadwal, dan Anda bisa memasukkan mereka ke dalam sebuah jadwal sekaligus dalam satu tarikan napas!
+                                            </div>
+                                        </div>
+
                                     </section>
                                 </div>
                                 

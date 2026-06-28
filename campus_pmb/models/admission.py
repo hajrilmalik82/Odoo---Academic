@@ -181,6 +181,32 @@ class CampusAdmission(models.Model):
             record._create_account()
             record.state = 'registered'
 
+    def _generate_nim(self, faculty_id, program_id):
+        """Generate a unique NIM (Student ID Number) based on faculty, program, and year.
+        Format: {FACULTY_ABBR}-{PROG_ABBR}-{YY}-{SEQUENCE:04d}
+        e.g., TI-IF-26-0001
+        """
+        current_date = fields.Date.today()
+        year_short = current_date.strftime('%y')
+        batch_year = current_date.strftime('%Y')
+
+        fac_name = faculty_id.name or 'FA'
+        prog_name = program_id.name or 'PR'
+
+        faculty_str = "".join([w[0].upper() for w in fac_name.split() if w.isalpha()])[:2] or "FA"
+        program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2] or "PR"
+
+        prefix = f"{faculty_str}-{program_str}-{year_short}-"
+        last_student = self.env['res.partner'].search(
+            [('nim', '=like', f'{prefix}%')], order='nim desc', limit=1
+        )
+        try:
+            new_seq = int(last_student.nim.split('-')[-1]) + 1 if last_student and last_student.nim else 1
+        except ValueError:
+            new_seq = 1
+
+        return f"{prefix}{new_seq:04d}", batch_year
+
     def _create_account(self):
         for record in self:
             if record.state not in ('accepted', 'registered'):
@@ -202,64 +228,18 @@ class CampusAdmission(models.Model):
                 # Update existing partner if they don't have student info yet
                 update_vals = {'is_student': True}
                 if not existing_user.partner_id.nim:
-                    # Generate NIM
-                    current_date = fields.Date.today()
-                    year_short = current_date.strftime('%y')
-                    batch_year = current_date.strftime('%Y')
-                    
-                    fac_name = record.faculty_id.name or 'FA'
-                    prog_name = record.program_id.name or 'PR'
-                    
-                    faculty_str = "".join([w[0].upper() for w in fac_name.split() if w.isalpha()])[:2]
-                    program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2]
-                    if not faculty_str: faculty_str = "FA"
-                    if not program_str: program_str = "PR"
-                    
-                    prefix = f"{faculty_str}-{program_str}-{year_short}-"
-                    last_student = self.env['res.partner'].search([('nim', '=like', f'{prefix}%')], order='nim desc', limit=1)
-                    if last_student and last_student.nim:
-                        try:
-                            last_seq = int(last_student.nim.split('-')[-1])
-                            new_seq = last_seq + 1
-                        except ValueError:
-                            new_seq = 1
-                    else:
-                        new_seq = 1
-                        
+                    nim, batch_year = record._generate_nim(record.faculty_id, record.program_id)
                     update_vals.update({
-                        'nim': f"{prefix}{new_seq:04d}",
+                        'nim': nim,
                         'batch_year': batch_year,
                         'program_id': record.program_id.id,
                     })
-                
+
                 existing_user.partner_id.write(update_vals)
                 continue
             
-            # Generate NIM
-            current_date = fields.Date.today()
-            year_short = current_date.strftime('%y')
-            batch_year = current_date.strftime('%Y')
-            
-            fac_name = record.faculty_id.name or 'FA'
-            prog_name = record.program_id.name or 'PR'
-            
-            faculty_str = "".join([w[0].upper() for w in fac_name.split() if w.isalpha()])[:2]
-            program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2]
-            if not faculty_str: faculty_str = "FA"
-            if not program_str: program_str = "PR"
-            
-            prefix = f"{faculty_str}-{program_str}-{year_short}-"
-            last_student = self.env['res.partner'].search([('nim', '=like', f'{prefix}%')], order='nim desc', limit=1)
-            if last_student and last_student.nim:
-                try:
-                    last_seq = int(last_student.nim.split('-')[-1])
-                    new_seq = last_seq + 1
-                except ValueError:
-                    new_seq = 1
-            else:
-                new_seq = 1
-                
-            nim = f"{prefix}{new_seq:04d}"
+            # Generate NIM using centralized method
+            nim, batch_year = record._generate_nim(record.faculty_id, record.program_id)
 
             # Create Partner
             partner = self.env['res.partner'].create({
@@ -277,9 +257,10 @@ class CampusAdmission(models.Model):
             # Create User
             portal_group = self.env.ref('base.group_portal')
             
-            # Extract email prefix for password (e.g., 'john.doe' from 'john.doe@gmail.com')
+            # NOTE: Password auto-generated from email prefix for demo/onboarding convenience.
+            # In production, remove this and use Odoo's built-in 'Reset Password' email flow instead.
             user_password = record.email.split('@')[0]
-            
+
             user = self.env['res.users'].create({
                 'name': record.name,
                 'login': record.email,

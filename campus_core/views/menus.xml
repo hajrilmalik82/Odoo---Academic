@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!-- Main Menu -->
-    <menuitem id="menu_academic_root" name="Academic System" sequence="10"/>
+    <menuitem id="menu_academic_root" name="Academic System" sequence="10" web_icon="campus_core,static/description/icon.png"/>
 
     <!-- Top-Level Submenus -->
     <menuitem id="menu_academic_configuration" name="Configuration" parent="menu_academic_root" sequence="100"/>

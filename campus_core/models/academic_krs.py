@@ -344,6 +344,24 @@ class AcademicKrs(models.Model):
                     'line_ids': khs_lines,
                 })
 
+    def action_unlock(self):
+        """Unlock a locked KRS back to Approved state.
+        Restricted to Campus Administrators only. The linked KHS is NOT deleted
+        to preserve any grade data that may have already been entered.
+        """
+        if not self.env.user.has_group('campus_core.group_campus_administrator'):
+            raise ValidationError(_(
+                "Only Campus Administrators can unlock a KRS record."
+            ))
+        for record in self:
+            if record.state != 'locked':
+                raise ValidationError(_(
+                    "Only locked KRS records can be unlocked. "
+                    "'%(name)s' is currently '%(state)s'."
+                ) % {'name': record.name, 'state': record.state})
+            record.state = 'approved'
+
+
     def action_set_draft(self):
         for record in self:
             if record.state == 'locked':
