@@ -6,25 +6,30 @@
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="inside">
-                <page string="Lecturer Profile" invisible="not is_lecturer">
+                <page string="Lecturer Profile" invisible="academic_role != 'lecturer'">
                     <group>
-                        <field name="is_lecturer" invisible="1"/>
+                        <field name="academic_role" invisible="1"/>
                         <field name="nidn"/>
                         <field name="academic_rank"/>
                         <field name="faculty_id"/>
                         <field name="program_id"/>
                     </group>
                 </page>
-                <page string="PMB Jurisdiction" invisible="not is_pmb_staff">
+                <page string="PMB Jurisdiction" invisible="academic_role != 'pmb'">
                     <group>
-                        <field name="is_pmb_staff" invisible="1"/>
                         <field name="pmb_faculty_ids" widget="many2many_tags"/>
                         <field name="pmb_program_ids" widget="many2many_tags"/>
                     </group>
                 </page>
+                <page string="Academic Jurisdiction" invisible="academic_role != 'academic'">
+                    <group>
+                        <field name="academic_faculty_ids" widget="many2many_tags"/>
+                        <field name="academic_program_ids" widget="many2many_tags"/>
+                    </group>
+                </page>
             </xpath>
             <xpath expr="//field[@name='job_id']" position="attributes">
-                <attribute name="context">{'filter_lecturer': context.get('default_is_lecturer', False), 'filter_pmb': context.get('default_is_pmb_staff', False)}</attribute>
+                <attribute name="context">{'default_academic_role': context.get('default_academic_role')}</attribute>
             </xpath>
         </field>
     </record>
@@ -34,11 +39,25 @@
         <field name="name">PMB Staff</field>
         <field name="res_model">hr.employee</field>
         <field name="view_mode">kanban,list,form</field>
-        <field name="domain">[('is_pmb_staff', '=', True)]</field>
-        <field name="context">{'default_is_pmb_staff': True}</field>
+        <field name="domain">[('academic_role', '=', 'pmb')]</field>
+        <field name="context">{'default_academic_role': 'pmb'}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
                 Create a new PMB Staff
+            </p>
+        </field>
+    </record>
+
+    <!-- Action for Academic Staff -->
+    <record id="action_hr_employee_academic_staff" model="ir.actions.act_window">
+        <field name="name">Academic Staff</field>
+        <field name="res_model">hr.employee</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('academic_role', '=', 'academic')]</field>
+        <field name="context">{'default_academic_role': 'academic'}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Academic Staff (Staf TU)
             </p>
         </field>
     </record>

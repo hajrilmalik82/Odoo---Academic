@@ -3,8 +3,7 @@ from odoo import fields, models
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    is_lecturer = fields.Boolean(string="Is a Lecturer", related="job_id.is_lecturer", store=True, readonly=True)
-    is_pmb_staff = fields.Boolean(string="Is PMB Staff", related="job_id.is_pmb_staff", store=True, readonly=True)
+    academic_role = fields.Selection(string="Academic Role", related="job_id.academic_role", store=True, readonly=True)
     nidn = fields.Char(string="NIDN (Nomor Induk Dosen Nasional)")
     academic_rank = fields.Selection([
         ('asisten_ahli', 'Asisten Ahli'),
@@ -31,5 +30,20 @@ class HrEmployee(models.Model):
         'hr_employee_pmb_program_rel', 
         string="PMB Assigned Programs",
         domain="[('faculty_id', 'in', pmb_faculty_ids)]",
+        help="If empty, it means no restriction by program."
+    )
+
+    # Academic Staff Row-Level Security Wewenang (Jurisdiction)
+    academic_faculty_ids = fields.Many2many(
+        'academic.faculty', 
+        'hr_employee_academic_faculty_rel', 
+        string="Academic Assigned Faculties",
+        help="If empty, it means no restriction by faculty (can access all, or restricted by program)."
+    )
+    academic_program_ids = fields.Many2many(
+        'academic.program', 
+        'hr_employee_academic_program_rel', 
+        string="Academic Assigned Programs",
+        domain="[('faculty_id', 'in', academic_faculty_ids)]",
         help="If empty, it means no restriction by program."
     )

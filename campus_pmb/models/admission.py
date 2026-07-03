@@ -169,10 +169,10 @@ class CampusAdmission(models.Model):
             if record.state != 'payment_verified':
                 raise UserError(_("Only payment-verified applications can be accepted."))
             if not (
-                self.env.user.has_group('campus_pmb.group_pmb_manager')
+                self.env.user.has_group('campus_pmb.group_pmb')
                 or self.env.user.has_group('base.group_system')
             ):
-                raise UserError(_("Only admissions managers can accept applications."))
+                raise UserError(_("Only PMB can accept applications."))
             record.state = 'accepted'
 
     def action_register(self):

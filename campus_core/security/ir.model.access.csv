@@ -32,7 +32,24 @@ access_academic_khs_admin,academic.khs admin,model_academic_khs,group_campus_adm
 access_academic_khs_lecturer,academic.khs lecturer,model_academic_khs,group_campus_lecturer,1,0,0,0
 access_academic_khs_portal,academic.khs portal,model_academic_khs,base.group_portal,1,0,0,0
 access_academic_khs_line_admin,academic.khs.line admin,model_academic_khs_line,group_campus_administrator,1,1,1,1
-access_academic_khs_line_lecturer,academic.khs.line lecturer,model_academic_khs_line,group_campus_lecturer,1,0,0,0
+access_academic_khs_line_lecturer,academic.khs.line lecturer,model_academic_khs_line,group_campus_lecturer,1,1,0,0
 access_academic_khs_line_portal,academic.khs.line portal,model_academic_khs_line,base.group_portal,1,0,0,0
 access_krs_generator_wizard,krs.generator.wizard,model_krs_generator_wizard,group_campus_administrator,1,1,1,1
 access_assign_schedule_wizard,assign.schedule.wizard,model_assign_schedule_wizard,group_campus_administrator,1,1,1,1
+access_campus_building_staff,campus.building staff,model_campus_building,group_campus_academic_staff,1,1,1,1
+access_campus_room_staff,campus.room staff,model_campus_room,group_campus_academic_staff,1,1,1,1
+access_academic_faculty_staff,academic.faculty staff,model_academic_faculty,group_campus_academic_staff,1,1,1,1
+access_academic_program_staff,academic.program staff,model_academic_program,group_campus_academic_staff,1,1,1,1
+access_academic_subject_staff,academic.subject staff,model_academic_subject,group_campus_academic_staff,1,1,1,1
+access_academic_year_staff,academic.year staff,model_academic_year,group_campus_academic_staff,1,1,1,1
+access_academic_course_package_staff,course.package staff,model_academic_course_package,group_campus_academic_staff,1,1,1,1
+access_academic_course_package_line_staff,package.line staff,model_academic_course_package_line,group_campus_academic_staff,1,1,1,1
+access_academic_krs_staff,academic.krs staff,model_academic_krs,group_campus_academic_staff,1,1,1,1
+access_academic_krs_line_staff,academic.krs.line staff,model_academic_krs_line,group_campus_academic_staff,1,1,1,1
+access_academic_class_staff,academic.class staff,model_academic_class,group_campus_academic_staff,1,1,1,1
+access_academic_class_schedule_staff,class.schedule staff,model_academic_class_schedule,group_campus_academic_staff,1,1,1,1
+access_academic_class_session_staff,class.session staff,model_academic_class_session,group_campus_academic_staff,1,1,1,1
+access_academic_khs_staff,academic.khs staff,model_academic_khs,group_campus_academic_staff,1,1,1,1
+access_academic_khs_line_staff,academic.khs.line staff,model_academic_khs_line,group_campus_academic_staff,1,1,1,1
+access_krs_generator_wizard_staff,krs.generator.wizard staff,model_krs_generator_wizard,group_campus_academic_staff,1,1,1,1
+access_assign_schedule_wizard_staff,assign.schedule.wizard staff,model_assign_schedule_wizard,group_campus_academic_staff,1,1,1,1

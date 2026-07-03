@@ -7,8 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//group" position="after">
                 <group string="Academic Profile">
-                    <field name="is_lecturer" widget="boolean_toggle"/>
-                    <field name="is_pmb_staff" widget="boolean_toggle"/>
+                    <field name="academic_role"/>
                 </group>
             </xpath>
         </field>
