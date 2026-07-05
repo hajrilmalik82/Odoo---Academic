@@ -5,7 +5,7 @@
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">
             <button class="nav-link fw-bold py-3 text-start mb-1 text-danger" id="tab-pmb" data-bs-toggle="pill" data-bs-target="#content-pmb" type="button" role="tab" aria-controls="content-pmb" aria-selected="false">
-                <i class="fa fa-graduation-cap me-2"/> Modul Penerimaan (PMB)
+                <i class="fa fa-graduation-cap me-2"/> PMB Admission Module
             </button>
         </xpath>
 
@@ -19,10 +19,10 @@
                         <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
                             <i class="fa fa-graduation-cap"/>
                         </div>
-                        <h2 class="fw-bold mb-0 text-danger">Modul PMB (Penerimaan Mahasiswa Baru)</h2>
+                        <h2 class="fw-bold mb-0 text-danger">PMB Module (New Student Admissions)</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        Modul ini dirancang untuk mendigitalisasi dan mengotomatisasi seluruh siklus pendaftaran mahasiswa baru. Dari pengisian formulir pendaftaran hingga proses verifikasi dokumen, pembayaran, dan penciptaan akun portal secara otomatis. Modul ini memastikan tidak ada data yang terlewat dan meminimalisir kesalahan manusia (*human error*).
+                        This module is designed to digitize and automate the entire student admissions cycle. From filling out application forms to document verification, payment verification, and automatic portal account creation. This module ensures that no data is missed and minimizes human error.
                     </p>
 
                     <!-- HIGHLIGHT FITUR -->
@@ -30,155 +30,155 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Keamanan Data (Row-Level Security)</h5>
-                                    <p class="text-muted small mb-0">Sistem membatasi hak akses Panitia PMB. Panitia hanya dapat melihat dan memproses pendaftar yang melamar ke Fakultas atau Program Studi yang menjadi tanggung jawabnya. Privasi pendaftar terjamin.</p>
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Data Security (Row-Level Security)</h5>
+                                    <p class="text-muted small mb-0">The system restricts PMB Committee access rights. Committee members can only view and process candidates who apply to the Faculty or Study Program under their responsibility. Candidate privacy is guaranteed.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold text-dark"><i class="fa fa-filter text-primary me-2"/>Navigasi Pintar (Search Panel)</h5>
-                                    <p class="text-muted small mb-0">Dilengkapi dengan *Search Panel* interaktif di sisi kiri tabel. HRD atau Panitia dapat memfilter ribuan data pendaftar hanya dengan satu klik berdasarkan Fakultas, Program Studi, atau Status Pendaftaran.</p>
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-filter text-primary me-2"/>Smart Navigation (Search Panel)</h5>
+                                    <p class="text-muted small mb-0">Equipped with an interactive *Search Panel* on the left side of the table. The committee can filter thousands of application records with one click by Faculty, Program, or Application Status.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold text-dark"><i class="fa fa-cogs text-success me-2"/>Automasi Dokumen &amp; Validasi</h5>
-                                    <p class="text-muted small mb-0">Sistem akan menolak proses kelulusan jika syarat dokumen belum lengkap atau bukti pembayaran belum divalidasi. Transisi antar status diatur sangat ketat oleh algoritma *Backend*.</p>
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-cogs text-success me-2"/>Document Automation &amp; Validation</h5>
+                                    <p class="text-muted small mb-0">The system will block acceptance if the required documents are incomplete or payment proof is unverified. Transitions between states are tightly controlled by backend algorithms.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <h4 class="fw-bold border-bottom pb-2 mb-4">Alur Kerja (Workflow) Penerimaan Mahasiswa</h4>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4">Student Admission Workflow</h4>
 
                     <!-- TAHAP 1 -->
                     <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
                         <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
-                        <h5 class="fw-bold text-dark pt-1">Pendaftaran &amp; Draft Awal</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Kandidat / Calon Mahasiswa</p>
-                        <p class="mb-2">Proses dimulai saat kandidat mengisi formulir. Setiap pendaftar akan otomatis diberikan Nomor Registrasi unik (Misal: PMB/2026/0001).</p>
+                        <h5 class="fw-bold text-dark pt-1">Registration &amp; Initial Draft</h5>
+                        <p class="mb-2"><strong>Actor:</strong> Candidate / Prospective Student</p>
+                        <p class="mb-2">The process starts when the candidate fills out the form. Each applicant is automatically assigned a unique Registration Number (e.g. PMB/2026/0001).</p>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Panitia menekan opsi <strong>Submit</strong> dari menu <em>Actions</em> (Gear Icon).
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Committee clicks <strong>Submit</strong> from the <em>Actions</em> menu (Gear Icon) or form view.
                         </div>
                     </div>
 
                     <!-- TAHAP 2 -->
                     <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
                         <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
-                        <h5 class="fw-bold text-dark pt-1">Pemeriksaan Berkas (Document Review)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB</p>
-                        <p class="mb-2">Saat masuk ke tahap ini, sistem secara cerdas akan membuatkan <em>Checklist</em> dokumen wajib (Ijazah, KTP, Pasfoto) berdasarkan Jalur Pendaftaran kandidat.</p>
+                        <h5 class="fw-bold text-dark pt-1">Document Review</h5>
+                        <p class="mb-2"><strong>Actor:</strong> PMB Committee</p>
+                        <p class="mb-2">When entering this stage, the system intelligently creates a *Checklist* of required documents (Diploma, ID Card, Photo) based on the candidate's admission path.</p>
                         <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Validasi Ketat:</strong> Panitia <strong>tidak akan bisa</strong> melanjutkan ke tahap berikutnya jika masih ada dokumen wajib yang belum diterima (Checklist belum 100%).
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> The committee <strong>cannot</strong> proceed to the next stage if there are still mandatory documents that have not been received (Checklist is not 100%).
                         </div>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Jika berkas lengkap, panitia menekan opsi <strong>Verify Documents</strong>.
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> If all documents are complete, the committee clicks <strong>Verify Documents</strong>.
                         </div>
                     </div>
 
                     <!-- TAHAP 3 -->
                     <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
                         <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
-                        <h5 class="fw-bold text-dark pt-1">Verifikasi Pembayaran (Payment Verification)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Bagian Keuangan / Panitia</p>
-                        <p class="mb-2">Kandidat harus melampirkan bukti atau nomor referensi pembayaran biaya pendaftaran.</p>
+                        <h5 class="fw-bold text-dark pt-1">Payment Verification</h5>
+                        <p class="mb-2"><strong>Actor:</strong> Finance Department / Committee</p>
+                        <p class="mb-2">Candidates must attach proof or reference numbers of their application fee payment.</p>
                         <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Validasi Ketat:</strong> Jika kolom "Payment Reference" masih kosong, sistem akan memblokir kelulusan kandidat dan memunculkan notifikasi peringatan.
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> If the "Payment Reference" column is empty, the system blocks candidate acceptance and displays a warning alert.</p>
                         </div>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Panitia menekan opsi <strong>Verify Payment</strong> untuk mengesahkan pembayaran.
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> The committee clicks <strong>Verify Payment</strong> to validate the payment.
                         </div>
                     </div>
 
                     <!-- TAHAP 4 -->
                     <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
                         <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
-                        <h5 class="fw-bold text-dark pt-1">Kelulusan &amp; Penerimaan (Acceptance)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB / Administrator</p>
-                        <p class="mb-2">Kandidat yang telah lolos seluruh verifikasi kini siap diterima secara resmi sebagai calon mahasiswa.</p>
+                        <h5 class="fw-bold text-dark pt-1">Graduation &amp; Acceptance</h5>
+                        <p class="mb-2"><strong>Actor:</strong> PMB Committee / Administrator</p>
+                        <p class="mb-2">Candidates who have passed all verifications are now ready to be officially accepted as prospective students.</p>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Panitia menekan opsi <strong>Accept</strong>. Status berubah menjadi <em>Accepted</em>.
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Committee clicks <strong>Accept</strong>. The status changes to <em>Accepted</em>.
                         </div>
                     </div>
 
                     <!-- TAHAP 5 -->
                     <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
                         <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
-                        <h5 class="fw-bold text-dark pt-1">Registrasi Final (Zero-Touch Provisioning)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Sistem Automasi (Odoo Backend)</p>
-                        <p class="mb-2">Tahap pamungkas yang mendemonstrasikan keunggulan Odoo ERP. Saat panitia menekan opsi <strong>Register Student</strong>, sederet kode Python berjalan di latar belakang tanpa campur tangan manusia:</p>
+                        <h5 class="fw-bold text-dark pt-1">Final Registration (Zero-Touch Provisioning)</h5>
+                        <p class="mb-2"><strong>Actor:</strong> Automation System (Odoo Backend)</p>
+                        <p class="mb-2">The final stage demonstrating the power of Odoo ERP. When the committee clicks <strong>Register Student</strong>, python code executes in the background without human intervention:</p>
                         <ul class="text-muted mt-2">
-                            <li><i class="fa fa-id-card text-dark me-2"></i> <strong>Automasi NIM &amp; Atribut Akademik:</strong> Sistem cerdas akan langsung menciptakan Nomor Induk Mahasiswa (NIM) berdasar singkatan Fakultas, Program Studi, dan Tahun. Sistem juga akan menge-set tahun angkatan secara otomatis dan presisi.</li>
-                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Penciptaan Master Kontak (Res.Partner):</strong> Data pendaftar otomatis dipindahkan menjadi database Kontak Kampus resmi dengan relasi Fakultas dan Program Studi yang langsung terkoneksi.</li>
-                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Pembuatan Akun Portal (Res.Users):</strong> Odoo secara otomatis membuatkan akun <em>login</em> untuk mahasiswa bersangkutan dengan <em>username</em> berupa Email mereka.</li>
-                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Pemberian Akses:</strong> Akun mahasiswa langsung dihubungkan dengan hak akses Portal sehingga mereka bisa segera <em>login</em> untuk melihat jadwal atau mengisi KRS.</li>
+                            <li><i class="fa fa-id-card text-dark me-2"></i> <strong>Automatic Student ID &amp; Academic Attributes:</strong> The system automatically creates the Student Registration Number (NIM) based on Faculty, Study Program, and Year. It also sets the enrollment generation automatically.</li>
+                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Contact Creation (Res.Partner):</strong> Candidate data is automatically migrated into a official Campus Contact database with Faculty and Study Program linked.</li>
+                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Portal Account Creation (Res.Users):</strong> Odoo automatically creates login accounts for students with their Email as the username.</li>
+                            <li><i class="fa fa-magic text-dark me-2"></i> <strong>Access Provisioning:</strong> Student accounts are instantly linked with Portal access so they can log in to view schedules or fill out KRS.</li>
                         </ul>
                     </div>
 
                     <!-- TAHAP 6 -->
                     <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
                         <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
-                        <h5 class="fw-bold text-dark pt-1">Penolakan Pendaftaran (Reject)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB / Administrator</p>
-                        <p class="mb-2">Jika kandidat tidak memenuhi syarat di tahap manapun (misalnya dokumen palsu, pembayaran tidak valid), proses dapat dihentikan.</p>
+                        <h5 class="fw-bold text-dark pt-1">Application Rejection (Reject)</h5>
+                        <p class="mb-2"><strong>Actor:</strong> PMB Committee / Administrator</p>
+                        <p class="mb-2">If the candidate does not meet the requirements at any stage (e.g., fake documents, invalid payment), the process can be terminated.</p>
                         <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Batasan:</strong> Kandidat yang sudah berstatus <em>Accepted</em> atau <em>Registered</em> <strong>tidak dapat</strong> lagi ditolak untuk mencegah pembatalan yang disengaja setelah akun dibuat.
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Restrictions:</strong> Candidates who are already in <em>Accepted</em> or <em>Registered</em> status <strong>cannot</strong> be rejected anymore to prevent accidental cancellation after account creation.
                         </div>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-times-circle text-danger me-2"/> <strong>Aksi:</strong> Panitia menekan opsi <strong>Reject</strong> dari form atau menu <em>Actions</em>. Status akan berubah menjadi <em>Rejected</em> dan tidak dapat diproses lebih lanjut.
+                            <i class="fa fa-times-circle text-danger me-2"/> <strong>Action:</strong> Committee clicks <strong>Reject</strong> from the form or <em>Actions</em> menu. The status changes to <em>Rejected</em> and cannot be processed further.
                         </div>
                     </div>
 
                     <!-- SECTION: PENDAFTARAN ONLINE -->
-                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Pendaftaran Mandiri via Website (Online)</h4>
-                    <p class="text-muted mb-3">Modul PMB juga menyediakan halaman pendaftaran publik yang dapat diakses oleh calon mahasiswa langsung dari website kampus tanpa perlu login terlebih dahulu.</p>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Self-Registration via Website (Online)</h4>
+                    <p class="text-muted mb-3">The PMB module also provides a public application page that prospective students can access directly from the campus website without needing to log in first.</p>
                     <div class="bg-light p-3 rounded mb-2">
-                        <i class="fa fa-globe text-primary me-2"/> <strong>URL Akses:</strong> Calon mahasiswa cukup membuka halaman <strong>/admission/apply</strong> pada website kampus, mengisi formulir online, lalu menekan tombol <strong>Kirim Pendaftaran</strong>. Sistem otomatis membuat record baru di menu Admissions dengan status <em>Draft</em>.
+                        <i class="fa fa-globe text-primary me-2"/> <strong>URL Access:</strong> Prospective students simply open the page <strong>/admission/apply</strong> on the campus website, fill out the online form, and click <strong>Submit Application</strong>. The system automatically creates a new record in Admissions with <em>Draft</em> status.
                     </div>
                     <div class="bg-light p-3 rounded">
-                        <i class="fa fa-check-circle text-success me-2"/> Selanjutnya, panitia melanjutkan proses review dari dalam sistem Odoo (backend) mengikuti alur tahapan di atas.
+                        <i class="fa fa-check-circle text-success me-2"/> Next, the committee continues the review process from within the Odoo backend following the workflow stages above.
                     </div>
 
                     <!-- SECTION: PERAN & HAK AKSES PMB -->
-                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Peran Pengguna &amp; Hak Akses (PMB)</h4>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">User Roles &amp; Permissions (PMB)</h4>
                     <div class="table-responsive">
                         <table class="table table-bordered table-hover align-middle">
                             <thead class="table-dark">
                                 <tr>
-                                    <th>Tindakan</th>
-                                    <th class="text-center">Calon Mhs (Publik)</th>
-                                    <th class="text-center">Panitia PMB</th>
+                                    <th>Action</th>
+                                    <th class="text-center">Candidate (Public)</th>
+                                    <th class="text-center">PMB Committee</th>
                                     <th class="text-center">Administrator</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Daftar via website (online)</td>
+                                    <td>Register via website (online)</td>
                                     <td class="text-center text-success fw-bold">✓</td>
                                     <td class="text-center text-success fw-bold">✓</td>
                                     <td class="text-center text-success fw-bold">✓</td>
                                 </tr>
                                 <tr>
-                                    <td>Review Dokumen &amp; Verifikasi Pembayaran</td>
+                                    <td>Document Review &amp; Payment Verification</td>
                                     <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-success fw-bold">✓ (prodi yurisdiksinya)</td>
-                                    <td class="text-center text-success fw-bold">✓ (semua)</td>
+                                    <td class="text-center text-success fw-bold">✓ (only their program jurisdictions)</td>
+                                    <td class="text-center text-success fw-bold">✓ (all)</td>
                                 </tr>
                                 <tr>
-                                    <td>Accept / Tolak Pendaftar</td>
+                                    <td>Accept / Reject Candidate</td>
                                     <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-success fw-bold">✓ (prodi yurisdiksinya)</td>
-                                    <td class="text-center text-success fw-bold">✓ (semua)</td>
+                                    <td class="text-center text-success fw-bold">✓ (only their program jurisdictions)</td>
+                                    <td class="text-center text-success fw-bold">✓ (all)</td>
                                 </tr>
                                 <tr>
-                                    <td>Register Student (buat akun &amp; NIM)</td>
+                                    <td>Register Student (Create account &amp; Student ID)</td>
                                     <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-success fw-bold">✓ (prodi yurisdiksinya)</td>
-                                    <td class="text-center text-success fw-bold">✓ (semua)</td>
+                                    <td class="text-center text-success fw-bold">✓ (only their program jurisdictions)</td>
+                                    <td class="text-center text-success fw-bold">✓ (all)</td>
                                 </tr>
                             </tbody>
                         </table>

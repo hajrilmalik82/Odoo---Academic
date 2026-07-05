@@ -6,49 +6,49 @@
                 <t t-call="web.external_layout">
                     <div class="page" style="font-family: 'Times New Roman', Times, serif;">
 
-                        <!-- JUDUL DOKUMEN -->
+                        <!-- DOCUMENT TITLE -->
                         <div class="text-center mb-4">
                             <h3 style="font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2px;">
-                                Transkrip Nilai Akademik
+                                Academic Transcript
                             </h3>
-                            <p style="font-size: 10pt; color: #555; margin-bottom: 0;">(Academic Transcript)</p>
+                            <p style="font-size: 10pt; color: #555; margin-bottom: 0;">(Official Academic Record)</p>
                             <hr style="border-top: 2px solid #000; margin-top: 10px;"/>
                         </div>
 
-                        <!-- INFORMASI MAHASISWA -->
+                        <!-- STUDENT INFORMATION -->
                         <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
                             <tr>
-                                <td style="width: 15%; padding: 3px 0;">NIM</td>
+                                <td style="width: 15%; padding: 3px 0;">Student ID (NIM)</td>
                                 <td style="width: 2%;">:</td>
                                 <td style="width: 35%;"><strong><t t-esc="o.student_id.nim or '-'"/></strong></td>
-                                <td style="width: 15%; padding: 3px 0;">Fakultas</td>
+                                <td style="width: 15%; padding: 3px 0;">Faculty</td>
                                 <td style="width: 2%;">:</td>
                                 <td style="width: 31%;"><t t-esc="o.student_id.faculty_id.name or '-'"/></td>
                             </tr>
                             <tr>
-                                <td style="padding: 3px 0;">Nama</td>
+                                <td style="padding: 3px 0;">Name</td>
                                 <td>:</td>
                                 <td><strong><t t-esc="o.student_id.name"/></strong></td>
-                                <td style="padding: 3px 0;">Program Studi</td>
+                                <td style="padding: 3px 0;">Study Program</td>
                                 <td>:</td>
                                 <td><t t-esc="o.student_id.program_id.name or '-'"/></td>
                             </tr>
                             <tr>
-                                <td style="padding: 3px 0;">Angkatan</td>
+                                <td style="padding: 3px 0;">Generation</td>
                                 <td>:</td>
                                 <td><t t-esc="o.student_id.batch_year or '-'"/></td>
                                 <td style="padding: 3px 0;">Status</td>
                                 <td>:</td>
                                 <td>
-                                    <t t-if="o.student_id.student_status == 'active'">Aktif</t>
-                                    <t t-if="o.student_id.student_status == 'leave'">Cuti</t>
-                                    <t t-if="o.student_id.student_status == 'graduated'">Lulus</t>
+                                    <t t-if="o.student_id.student_status == 'active'">Active</t>
+                                    <t t-if="o.student_id.student_status == 'leave'">On Leave</t>
+                                    <t t-if="o.student_id.student_status == 'graduated'">Graduated</t>
                                     <t t-if="o.student_id.student_status == 'dropout'">Drop Out</t>
                                 </td>
                             </tr>
                         </table>
 
-                        <!-- TABEL NILAI PER SEMESTER -->
+                        <!-- GRADES TABLE BY SEMESTER -->
                         <t t-set="all_khs" t-value="o.student_id.khs_ids.sorted(key=lambda k: k.academic_year_id.name)"/>
                         <t t-set="grand_total_credits" t-value="0"/>
                         <t t-set="grand_total_grade_points" t-value="0"/>
@@ -58,12 +58,12 @@
                             <thead>
                                 <tr style="background-color: #2c3e50; color: white; text-align: center;">
                                     <th style="width: 5%; padding: 8px;">No</th>
-                                    <th style="width: 12%; padding: 8px;">Kode MK</th>
-                                    <th style="padding: 8px;">Nama Mata Kuliah</th>
-                                    <th style="width: 8%; padding: 8px;">SKS</th>
-                                    <th style="width: 10%; padding: 8px;">Nilai Huruf</th>
-                                    <th style="width: 10%; padding: 8px;">Bobot</th>
-                                    <th style="width: 10%; padding: 8px;">Mutu (SKS×Bobot)</th>
+                                    <th style="width: 12%; padding: 8px;">Subject Code</th>
+                                    <th style="padding: 8px;">Subject Name</th>
+                                    <th style="width: 8%; padding: 8px;">Credits</th>
+                                    <th style="width: 10%; padding: 8px;">Letter Grade</th>
+                                    <th style="width: 10%; padding: 8px;">Weight</th>
+                                    <th style="width: 10%; padding: 8px;">Grade Points (Credits×Weight)</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,9 +88,9 @@
                                     </t>
                                     <!-- Subtotal per semester -->
                                     <tr style="background-color: #f8f9fa; font-style: italic;">
-                                        <td colspan="3" style="text-align: right; padding: 5px;">Sub-total Semester</td>
+                                        <td colspan="3" style="text-align: right; padding: 5px;">Semester Subtotal</td>
                                         <td style="text-align: center; padding: 5px;"><t t-esc="khs.total_credits"/></td>
-                                        <td colspan="2" style="text-align: right; padding: 5px;">IP Semester</td>
+                                        <td colspan="2" style="text-align: right; padding: 5px;">Semester GPA</td>
                                         <td style="text-align: center; padding: 5px;"><t t-esc="'%.2f' % khs.term_gpa"/></td>
                                     </tr>
                                     <t t-set="grand_total_credits" t-value="grand_total_credits + khs.total_credits"/>
@@ -99,9 +99,9 @@
                             </tbody>
                             <tfoot>
                                 <tr style="background-color: #2c3e50; color: white; font-weight: bold;">
-                                    <td colspan="3" style="text-align: right; padding: 10px;">TOTAL KUMULATIF</td>
+                                    <td colspan="3" style="text-align: right; padding: 10px;">CUMULATIVE TOTAL</td>
                                     <td style="text-align: center; padding: 10px;"><t t-esc="grand_total_credits"/></td>
-                                    <td colspan="2" style="text-align: right; padding: 10px;">Indeks Prestasi Kumulatif (IPK)</td>
+                                    <td colspan="2" style="text-align: right; padding: 10px;">Cumulative GPA (CGPA)</td>
                                     <td style="text-align: center; padding: 10px; font-size: 12pt;">
                                         <t t-esc="'%.2f' % o.student_id.cgpa"/>
                                     </td>
@@ -109,80 +109,80 @@
                             </tfoot>
                         </table>
 
-                        <!-- SKALA PENILAIAN -->
+                        <!-- GRADING SCALE -->
                         <div style="margin-top: 15px; font-size: 9pt; page-break-inside: avoid;">
-                            <p style="font-weight: bold; margin-bottom: 5px;">Skala Penilaian:</p>
+                            <p style="font-weight: bold; margin-bottom: 5px;">Grading Scale:</p>
                             <table style="width: 60%; border-collapse: collapse;">
                                 <tr style="background-color: #f5f5f5;">
-                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Nilai Angka</th>
-                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Huruf</th>
-                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Bobot</th>
-                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Keterangan</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Numeric Grade</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Letter</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Weight</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Description</th>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">80 – 100</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">A</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">4.00</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Sangat Baik</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Excellent</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">75 – 79</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">A-</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">3.75</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Hampir Sangat Baik</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Very Good</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">70 – 74</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">B+</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">3.50</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Lebih dari Baik</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Good</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">65 – 69</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">B</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">3.00</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Baik</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Satisfactory</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">60 – 64</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">B-</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">2.75</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Hampir Baik</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Almost Satisfactory</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">55 – 59</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">C+</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">2.50</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Lebih dari Cukup</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Fair</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">50 – 54</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">C</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">2.00</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Cukup</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Pass</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">40 – 49</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">D</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">1.00</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Kurang</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Fail</td>
                                 </tr>
                                 <tr>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">0 – 39</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">E</td>
                                     <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">0.00</td>
-                                    <td style="border: 1px solid #ccc; padding: 4px;">Sangat Kurang</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Unsatisfactory</td>
                                 </tr>
                             </table>
                         </div>
 
-                        <!-- TANDA TANGAN -->
+                        <!-- SIGNATURES -->
                         <div style="margin-top: 30px; font-size: 10pt; page-break-inside: avoid;">
                             <table style="width: 100%;">
                                 <tr>
                                     <td style="width: 50%; text-align: center;">
-                                        <p style="margin-bottom: 0;">Mengetahui,</p>
-                                        <p style="margin-bottom: 0;">Ketua Program Studi</p>
+                                        <p style="margin-bottom: 0;">Approved by,</p>
+                                        <p style="margin-bottom: 0;">Head of Study Program</p>
                                         <br/><br/><br/>
                                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
                                             <t t-if="o.student_id.program_id.head_id">
@@ -192,8 +192,8 @@
                                         </p>
                                     </td>
                                     <td style="width: 50%; text-align: center;">
-                                        <p style="margin-bottom: 0;">Mengetahui,</p>
-                                        <p style="margin-bottom: 0;">Dekan Fakultas</p>
+                                        <p style="margin-bottom: 0;">Approved by,</p>
+                                        <p style="margin-bottom: 0;">Dean of Faculty</p>
                                         <br/><br/><br/>
                                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
                                             <t t-if="o.student_id.faculty_id.dean_id">

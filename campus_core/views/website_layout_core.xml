@@ -11,14 +11,14 @@
                         <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
                             <h5 class="text-uppercase mb-4 fw-bold text-white">Campus Academic SIAKAD</h5>
                             <p class="text-light">
-                                Sistem Informasi Akademik Terintegrasi yang dibangun menggunakan teknologi modern Odoo. 
-                                Mendukung manajemen penuh dari proses Penerimaan Mahasiswa Baru, Portal Akademik, hingga Manajemen Dosen.
+                                Integrated Academic Information System built using modern Odoo technology.
+                                Supports full management of New Student Admissions, Academic Portal, and Employee Management.
                             </p>
                         </div>
 
                         <!-- Developer Info -->
                         <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
-                            <h5 class="text-uppercase mb-4 fw-bold text-white">Dikembangkan Oleh</h5>
+                            <h5 class="text-uppercase mb-4 fw-bold text-white">Developed By</h5>
                             <p>
                                 <i class="fa fa-user me-3 text-primary"></i> <strong>Hajril Malik</strong>
                             </p>
@@ -62,11 +62,11 @@
         <!-- Dynamic Header Adjustments -->
         <xpath expr="//head" position="inside">
             <style type="text/css">
-                /* Hapus Your Logo dari Header */
+                /* Remove Your Logo from Header */
                 header .navbar-brand {
                     display: none !important;
                 }
-                /* Hapus menu/tombol Contact Us dari Header */
+                /* Remove Contact Us menu/button from Header */
                 header a[href*="/contactus"] {
                     display: none !important;
                 }
@@ -81,8 +81,8 @@
                         link.innerHTML = '<i class="fa fa-whatsapp text-success me-1"></i><span>085287212730</span>';
                     });
 
-                    // Sembunyikan menu Pendaftaran PMB jika user sudah login
-                    // Cek elemen khusus di header yang hanya muncul saat login
+                    // Hide PMB Admission menu if user is logged in
+                    // Check special element in header that only appears when logged in
                     const isLoggedIn = document.querySelector('header a[href*="/web/session/logout"]') || 
                                      document.querySelector('header .o_user_menu') || 
                                      document.querySelector('header a[href="/my/home"]');

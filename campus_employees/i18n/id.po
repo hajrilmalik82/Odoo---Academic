@@ -1,0 +1,116 @@
+# Translation of Odoo Server.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-05 22:54+0000\n"
+"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+# Models and Fields
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_role
+#: model:ir.model.fields,field_description:campus_employees.field_hr_job__academic_role
+msgid "Academic Role"
+msgstr "Peran Akademis"
+
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__nidn
+msgid "NIDN (Nomor Induk Dosen Nasional)"
+msgstr "NIDN"
+
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_rank
+msgid "Academic Rank"
+msgstr "Jabatan Fungsional"
+
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__faculty_id
+msgid "Faculty"
+msgstr "Fakultas"
+
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__program_id
+msgid "Program"
+msgstr "Program Studi"
+
+# Website Homepage Docs Employees
+msgid "HR &amp; Staff Module"
+msgstr "Modul Manajemen SDM"
+
+msgid "HR &amp; Staff Module (HR)"
+msgstr "Modul SDM &amp; Tenaga Kependidikan (HR)"
+
+msgid "This module modifies the standard Odoo HR framework (<code>hr.employee</code>), injecting academic-specific capabilities into employee profiles. The system allows you to manage Lecturers, PMB Staff, and Academic Staff (TU) with a data hierarchy fully integrated into other academic modules."
+msgstr "Modul ini memodifikasi kerangka kerja SDM standar Odoo (<code>hr.employee</code>), menyuntikkan kapabilitas spesifik akademis ke dalam profil pegawai. Sistem ini memungkinkan Anda untuk mengelola Dosen, Staf PMB, dan Staf Akademik (TU) dengan hierarki data yang terintegrasi penuh ke modul akademik lainnya."
+
+msgid "Dynamic Employee Profile UI"
+msgstr "Dynamic UI Profil Pegawai"
+
+msgid "The employee profile form interface changes automatically based on their job role. Lecturers get the NIDN field, while PMB Staff and Academic Staff get different jurisdiction fields."
+msgstr "Antarmuka (Form) profil pegawai akan berubah secara otomatis tergantung pada peran jabatannya. Dosen akan mendapatkan kolom NIDN, sedangkan Staf PMB dan Staf Akademik mendapat kolom yurisdiksi yang berbeda."
+
+msgid "Advisory Hierarchy"
+msgstr "Hierarki Pembimbingan"
+
+msgid "Employees with Lecturer status can be linked directly with students as Academic Advisors (PA). This relation triggers their authority to approve KRS."
+msgstr "Pegawai berstatus Dosen dapat ditautkan langsung dengan Mahasiswa sebagai Dosen Pembimbing Akademik (PA). Relasi ini men-trigger kewenangan mereka untuk menyetujui KRS."
+
+msgid "Security Jurisdictions"
+msgstr "Yurisdiksi Keamanan PMB"
+
+msgid "Operational access rights (PMB, KRS, KHS) are restricted only to specific Faculty or Study Program levels directly from the employee profile (Jurisdiction)."
+msgstr "Hak akses operasional (PMB, KRS, KHS) disempitkan hanya pada tingkat Fakultas atau Program Studi tertentu langsung dari profil pegawainya (Yurisdiksi)."
+
+msgid "HR Management Workflow"
+msgstr "Alur Kerja (Workflow) Manajemen SDM Kampus"
+
+msgid "Job Positions Setup"
+msgstr "Pengaturan Master Jabatan (Job Positions)"
+
+msgid "Actor: HR Manager"
+msgstr "Aktor: Manajer HR"
+
+msgid "HR Admin creates the campus organizational structure."
+msgstr "Admin HR membuat arsitektur struktur organisasi kampus."
+
+msgid "Admin selects the role from the <code>Academic Role</code> dropdown (Lecturer / PMB Staff / Academic Staff) on the Job form. The system will use this parameter as a logic indicator in the next steps."
+msgstr "Admin memilih peran dari dropdown <code>Academic Role</code> (Lecturer / PMB Staff / Academic Staff) pada form Jabatan. Sistem akan menggunakan parameter ini sebagai penanda logika di tahap selanjutnya."
+
+msgid "Employee Profile Creation"
+msgstr "Pembuatan Profil Tenaga Kependidikan"
+
+msgid "Actor: HR Staff"
+msgstr "Aktor: Staf HR"
+
+msgid "Staff enters new employee data into the system."
+msgstr "Staf memasukkan data pegawai baru ke dalam sistem."
+
+msgid "UI Automation:"
+msgstr "Automasi UI:"
+
+msgid "When staff selects a job position that has the \"Lecturer\" role, the academic profile *Tab* will appear. If the job role is \"PMB Staff\" or \"Academic Staff\", the relevant jurisdiction *Tab* will appear. This form is highly dynamic!"
+msgstr "Ketika staf memilih jabatan yang memiliki peran \"Lecturer\", maka *Tab* profil akademis akan muncul. Jika peran jabatannya adalah \"PMB Staff\" atau \"Academic Staff\", maka *Tab* yurisdiksi yang relevan akan muncul. Formulir ini sangat dinamis!"
+
+msgid "Staff fills in the biodata, uploads photos, and determines the department/faculty the employee belongs to."
+msgstr "Staf mengisi kelengkapan biodata, mengunggah foto, dan menentukan departemen/fakultas pegawai tersebut bernaung."
+
+msgid "Assigning Security Jurisdictions"
+msgstr "Pemberian Yurisdiksi Hak Akses (Khusus PMB)"
+
+msgid "Actor: Campus Operations Manager / HR"
+msgstr "Aktor: Manajer Operasional Kampus / HR"
+
+msgid "Defines the working territory limits of Registration Staff (PMB) or Academic Staff (TU)."
+msgstr "Menentukan batas teritori kerja Staf Pendaftaran (PMB) atau Staf Akademik (TU)."
+
+msgid "Strict Security:"
+msgstr "Keamanan Ketat:"
+
+msgid "Without a clear jurisdiction, faculty-level staff risk viewing/modifying confidential data of other faculties."
+msgstr "Tanpa yurisdiksi yang jelas, staf tingkat fakultas berisiko melihat/mengubah data rahasia mahasiswa fakultas lain."
+
+msgid "Open the *tab* <strong>PMB/Academic Jurisdiction</strong> on the employee profile, then select the Faculty or Study Program that is within their work scope. Odoo will lock data access according to those territory limits."
+msgstr "Buka *tab* <strong>PMB/Academic Jurisdiction</strong> pada profil pegawai, lalu pilih Fakultas atau Program Studi mana yang menjadi ruang lingkup kerjanya. Odoo akan mengunci akses data sesuai batas teritori tersebut."

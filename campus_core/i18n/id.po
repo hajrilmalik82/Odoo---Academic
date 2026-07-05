@@ -1,0 +1,543 @@
+# Translation of Odoo Server.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-05 22:54+0000\n"
+"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+# Models and Fields
+#: model:ir.model,name:campus_core.model_academic_krs
+msgid "Academic KRS"
+msgstr "Kartu Rencana Studi (KRS)"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__name
+msgid "KRS Number"
+msgstr "Nomor KRS"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__student_id
+msgid "Student"
+msgstr "Mahasiswa"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__nim_id
+msgid "Student ID (NIM)"
+msgstr "NIM Mahasiswa"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__academic_year_id
+msgid "Academic Year"
+msgstr "Tahun Akademik"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__semester
+msgid "Semester"
+msgstr "Semester"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__advisor_id
+msgid "Academic Advisor"
+msgstr "Dosen Wali / Pembimbing Akademik"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__faculty_id
+msgid "Faculty"
+msgstr "Fakultas"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__program_id
+msgid "Study Program"
+msgstr "Program Studi"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__package_id
+msgid "Course Package"
+msgstr "Paket Mata Kuliah"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__state
+msgid "Status"
+msgstr "Status"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__total_credits
+msgid "Total Credits"
+msgstr "Total SKS"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__line_ids
+msgid "KRS Lines"
+msgstr "Baris KRS"
+
+#: model:ir.model,name:campus_core.model_academic_khs
+msgid "Academic Transcript (KHS)"
+msgstr "Kartu Hasil Studi (KHS)"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__name
+msgid "KHS Number"
+msgstr "Nomor KHS"
+
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__term_gpa
+msgid "Term GPA"
+msgstr "IP Semester"
+
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__cgpa
+msgid "CGPA"
+msgstr "IPK Kumulatif"
+
+# Website Homepage Docs Core
+msgid "Academic Information System (SIAKAD) Technical Documentation"
+msgstr "Dokumentasi Teknis Sistem Informasi Akademik (SIAKAD)"
+
+msgid "This document contains the technical specifications and Standard Operating Procedure (SOP) of the Educational Enterprise Resource Planning (ERP)."
+msgstr "Dokumen ini memuat spesifikasi teknis dan Standard Operating Procedure (SOP) dari Enterprise Resource Planning (ERP) Pendidikan."
+
+msgid "The system is designed with Odoo's modular architecture, implementing Python ORM automation, comprehensive business validation, and layered security systems."
+msgstr "Sistem ini dirancang dengan arsitektur modular Odoo, mengimplementasikan automasi Python ORM, validasi bisnis komprehensif, dan sistem keamanan berlapis."
+
+msgid "Campus Core Module"
+msgstr "Modul Campus Core"
+
+msgid "Campus Core Module (Core Academic Management)"
+msgstr "Modul Campus Core (Manajemen Akademik Inti)"
+
+msgid "This module is the heart of your campus system. It manages all academic foundation data, starting from curriculum management, course scheduling, Study Plan (KRS) entry, to grade transcript (KHS) printing. Designed to keep academic processes running smoothly, automatically, and with minimal administrative errors."
+msgstr "Modul ini adalah jantung dari sistem kampus Anda. Fungsinya mengelola seluruh fondasi data akademik, mulai dari manajemen kurikulum, penyusunan jadwal kuliah, pengisian Kartu Rencana Studi (KRS), hingga pencetakan transkrip nilai (KHS). Dirancang agar proses akademik berjalan lancar, otomatis, dan minim kesalahan administrasi."
+
+msgid "Smart Constraints"
+msgstr "Smart Constraints (Cerdas)"
+
+msgid "The system automatically blocks students from taking credits (SKS) exceeding their GPA limit, and prevents registration if the class capacity is full. No more manual administrative leniency."
+msgstr "Sistem otomatis memblokir mahasiswa yang mengambil SKS melebihi batas IPK-nya, serta mencegah pendaftaran jika kapasitas ruangan kelas sudah penuh. Tidak ada lagi kelonggaran administrasi manual."
+
+msgid "Dynamic Scheduling"
+msgstr "Dynamic Scheduling (Penjadwalan Dinamis)"
+
+msgid "The system detects class schedule conflict (Time Overlap) in real-time when students compile their KRS, ensuring students do not choose two classes at the same time."
+msgstr "Sistem mendeteksi bentrok jadwal kuliah (Time Overlap) secara real-time saat mahasiswa menyusun KRS, memastikan mahasiswa tidak memilih dua kelas di waktu yang bersamaan."
+
+msgid "KHS Transcript Automation"
+msgstr "Automasi Transkrip KHS"
+
+msgid "Lecturers only need to enter the final numeric score (e.g. 85). The system automatically converts it to a letter grade (A), multiplies the points (4.0) by credits (SKS), and calculates the student's GPA without manual calculation."
+msgstr "Dosen cukup memasukkan nilai akhir angka (misal: 85). Sistem otomatis mengonversi ke huruf (A), mengkalikan poin (4.0) dengan SKS, dan menghitung IPK (Indeks Prestasi) mahasiswa tanpa hitungan manual."
+
+msgid "Academic Workflow"
+msgstr "Alur Kerja (Workflow) Kegiatan Akademik"
+
+msgid "Master Data Preparation (Prerequisites)"
+msgstr "Persiapan Master Data (Pre-requisite)"
+
+msgid "Actor: Academic Administrator (Academic Office)"
+msgstr "Aktor: Administrator Akademik (Biro Akademik)"
+
+msgid "Before the semester starts, the Admin must prepare the curriculum foundation:"
+msgstr "Sebelum semester dimulai, Admin wajib mempersiapkan fondasi kurikulum:"
+
+msgid "Create active <strong>Academic Year</strong> (Example: 2026/2027 Odd)."
+msgstr "Membuat <strong>Tahun Akademik</strong> aktif (Contoh: 2026/2027 Ganjil)."
+
+msgid "Enter the list of <strong>Subjects</strong> and assign credits (SKS) weights."
+msgstr "Memasukkan daftar <strong>Mata Kuliah</strong> dan menetapkan bobot SKS."
+
+msgid "Register <strong>Classrooms</strong> along with <em>Maximum Capacity</em> (Max Capacity)."
+msgstr "Mendaftarkan <strong>Ruangan Kelas</strong> beserta <em>Kapasitas Maksimal</em> (Max Capacity)."
+
+msgid "Scheduling &amp; Opening Classes"
+msgstr "Penjadwalan &amp; Pembukaan Kelas"
+
+msgid "Admin creates a <strong>Class (Class)</strong> for the subject to be taught, then arranges the <strong>Class Schedule (Class Schedule)</strong>."
+msgstr "Admin membuat <strong>Kelas (Class)</strong> untuk mata kuliah yang akan diajarkan, kemudian menyusun <strong>Jadwal Kelas (Class Schedule)</strong>."
+
+msgid "Scheduling System:"
+msgstr "Sistem Jadwal:"
+
+msgid "Schedule determines Day, Start Time, End Time, Room, and Lecturer. You can create multiple schedules for one class (e.g., theory and lab)."
+msgstr "Jadwal menentukan Hari, Jam Mulai, Jam Selesai, Ruangan, dan Dosen Pengampu. Anda dapat membuat beberapa jadwal untuk satu kelas (misalnya teori dan lab)."
+
+msgid "Automatic Capacity:"
+msgstr "Kapasitas Otomatis:"
+
+msgid "Odoo automatically calculates the class maximum capacity based on the capacity of the selected Room in the schedule!"
+msgstr "Odoo secara otomatis menghitung jumlah kapasitas maksimal kelas berdasarkan daya tampung Ruangan yang dipilih pada jadwal tersebut!"
+
+msgid "Study Plan (KRS) Filling"
+msgstr "Pengisian Kartu Rencana Studi (KRS)"
+
+msgid "Actor: Student / Academic Admin"
+msgstr "Aktor: Mahasiswa / Admin Akademik"
+
+msgid "Students compile their study plan for the current semester. It can be filled independently via the Portal or assisted by the Admin."
+msgstr "Mahasiswa menyusun rencana studi untuk semester berjalan. Pengisian bisa dilakukan mandiri via Portal atau dibantu Admin."
+
+msgid "Strict Validation:"
+msgstr "Validasi Ketat:"
+
+msgid "The system <strong>rejects</strong> KRS submissions if: (1) SKS exceeds the GPA limit, (2) Schedule conflicts, (3) Class quota is full, or (4) Student has not passed the prerequisite subjects."
+msgstr "Sistem <strong>menolak</strong> pengajuan KRS jika: (1) SKS melebihi jatah IPK, (2) Jadwal kelas berbenturan, (3) Kuota kelas sudah penuh, atau (4) Mahasiswa belum lulus mata kuliah prasyarat."
+
+msgid "Action: Student clicks <strong>Submit</strong> to send KRS to the Academic Advisor (PA)."
+msgstr "Aksi: Mahasiswa menekan tombol <strong>Submit</strong> untuk mengirim KRS ke Dosen Pembimbing (PA)."
+
+msgid "Academic Advisor Approval (KRS Approval)"
+msgstr "Persetujuan Dosen Wali (Approval KRS)"
+
+msgid "Actor: Academic Advisor (PA)"
+msgstr "Aktor: Dosen Pembimbing Akademik (PA)"
+
+msgid "The Advisor reviews the subjects submitted by their advised students."
+msgstr "Dosen PA melakukan peninjauan terhadap mata kuliah yang diajukan oleh mahasiswa bimbingannya."
+
+msgid "Security (Row-Level Security):"
+msgstr "Keamanan (Row-Level Security):"
+
+msgid "Advisor A <strong>cannot</strong> approve or view KRS from Advisor B's students. Access rights are absolutely restricted."
+msgstr "Dosen A <strong>tidak akan bisa</strong> menyetujui atau melihat KRS dari mahasiswa bimbingan Dosen B. Hak akses dibatasi secara absolut."
+
+msgid "Action: Advisor clicks <strong>Approve</strong>. KRS is locked and the student is officially registered in the class."
+msgstr "Aksi: Dosen menekan <strong>Approve</strong>. KRS terkunci dan mahasiswa resmi terdaftar di kelas."
+
+msgid "KHS Issuance &amp; Grading (End of Semester)"
+msgstr "Penerbitan KHS &amp; Penilaian (Akhir Semester)"
+
+msgid "Actor: Course Lecturer / Academic Admin"
+msgstr "Aktor: Dosen Pengampu / Admin Akademik"
+
+msgid "At the end of the lecture period, grades must be issued in the form of a Study Result Card (KHS)."
+msgstr "Di akhir masa perkuliahan, nilai harus diterbitkan dalam bentuk Kartu Hasil Studi (KHS)."
+
+msgid "Automatic Creation:"
+msgstr "Automasi Penciptaan:"
+
+msgid "Admin does not need to create KHS from scratch. Simply click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the system automatically creates an exact copy in the KHS module!"
+msgstr "Admin tidak perlu membuat KHS dari nol. Cukup tekan tombol <strong>Lock &amp; Generate KHS</strong> pada KRS mahasiswa, sistem otomatis membuatkan salinan persis di modul KHS!"
+
+msgid "Action: Lecturer inputs final grade (e.g. 80). The system instantly calculates the grade points and GPA (Cumulative Grade Point Average) of the student."
+msgstr "Aksi: Dosen menginput nilai akhir (misal: 80). Sistem seketika (real-time) mengalkulasi Nilai Mutu dan IPK (Indeks Prestasi Kumulatif) mahasiswa bersangkutan."
+
+msgid "Mass KRS Generator &amp; Course Packages (Advanced Automation)"
+msgstr "Mass KRS Generator &amp; Course Packages (Fitur Otomatisasi Lanjut)"
+
+msgid "Actor: Academic Admin"
+msgstr "Aktor: Admin Akademik"
+
+msgid "No need to compile KRS one by one anymore! Now you can use our smart <em>Wizard</em>."
+msgstr "Tidak perlu lagi menyusun KRS satu per satu! Kini Anda bisa menggunakan alat <em>Wizard</em> pintar."
+
+msgid "Course Packages:"
+msgstr "Course Packages (Paket Mata Kuliah):"
+
+msgid "Collect mandatory subjects for each Study Program into a Package per Academic Year."
+msgstr "Kumpulkan mata kuliah wajib untuk setiap Program Studi ke dalam satu Paket (Package) per Tahun Akademik."
+
+msgid "Action (Generate KRS):"
+msgstr "Aksi (Generate KRS):"
+
+msgid "Click \"Generate KRS\" on the Package, and the system will filter students of that program who have not created KRS. Check dozens of student names, and mass <em>Draft KRS</em> (with their subject lines) will be issued in the blink of an eye!"
+msgstr "Tekan tombol \"Generate KRS\" pada Paket, lalu sistem akan memfilter mahasiswa prodi tersebut yang belum membuat KRS. Centang puluhan nama mahasiswa, dan <em>Draft KRS</em> massal (berikut baris-baris mata kuliahnya) akan terbit dalam sekejap mata!"
+
+msgid "Mass Schedule Assignment"
+msgstr "Mass Schedule Assignment (Penjadwalan Massal)"
+
+msgid "After KRS is generated, the Admin no need to set student schedules one by one manually!"
+msgstr "Setelah KRS di-generate, Admin tidak perlu lagi mengatur jadwal mahasiswa satu per satu secara manual!"
+
+msgid "Action (Assign Schedule):"
+msgstr "Aksi (Assign Schedule):"
+
+msgid "Open Class form, click <strong>Students</strong> tab, then click <strong>Assign Schedule (Massive)</strong>. The system will search for all students taking this class but have no schedule, and you can assign them to a schedule at once!"
+msgstr "Buka form Kelas, klik tab <strong>Students</strong>, lalu tekan tombol <strong>Assign Schedule (Massive)</strong>. Sistem akan mencari semua mahasiswa yang mengambil kelas ini tetapi belum memiliki jadwal, dan Anda bisa memasukkan mereka ke dalam sebuah jadwal sekaligus dalam satu tarikan napas!"
+
+msgid "Mass Status Transitions via Actions Menu"
+msgstr "Perpindahan Status Massal via Menu Actions"
+
+msgid "Actor: Academic Admin / Academic Advisor"
+msgstr "Aktor: Admin Akademik / Dosen PA"
+
+msgid "No need to open KRS documents one by one to change status! Simply use the <em>Actions</em> feature in list view."
+msgstr "Tidak perlu membuka satu per satu dokumen KRS untuk mengubah statusnya! Cukup gunakan fitur <em>Actions</em> di tampilan daftar."
+
+msgid "How to Use:"
+msgstr "Cara Penggunaan:"
+
+msgid "Open <strong>Study Plan (KRS)</strong> menu → Check one or more KRS lines to process → Click <strong>\"⚙️ Actions\"</strong> button at the top of the table."
+msgstr "Buka menu <strong>Study Plan (KRS)</strong> → Centang satu atau beberapa baris KRS yang ingin diproses → Klik tombol <strong>\"⚙️ Actions\"</strong> di bagian atas tabel."
+
+msgid "Available Options in Actions Menu:"
+msgstr "Opsi yang tersedia di menu Actions:"
+
+msgid "Mass Submit"
+msgstr "Kirim Massal"
+
+msgid "Send all checked Draft KRS at once to Academic Advisor."
+msgstr "Kirim semua KRS berstatus Draft yang dicentang sekaligus ke Dosen PA."
+
+msgid "Mass Approve"
+msgstr "Setujui Massal"
+
+msgid "Approve all checked Submitted KRS at once (Advisor / Admin only)."
+msgstr "Setujui semua KRS berstatus Submitted yang dicentang sekaligus (khusus Dosen PA / Admin)."
+
+msgid "Mass Lock"
+msgstr "Kunci Massal"
+
+msgid "Lock all checked Approved KRS and automatically generate KHS (Admin only)."
+msgstr "Kunci semua KRS berstatus Approved dan otomatis buatkan KHS-nya (khusus Admin)."
+
+msgid "Mass Reject"
+msgstr "Tolak Massal"
+
+msgid "Reject all checked Submitted KRS at once."
+msgstr "Tolak semua KRS berstatus Submitted yang dicentang sekaligus."
+
+msgid "Mass Unlock"
+msgstr "Buka Kunci Massal"
+
+msgid "Reopen locked KRS back to Approved status if corrections are needed (Admin only)."
+msgstr "Buka kembali KRS yang sudah terkunci ke status Approved jika diperlukan koreksi (khusus Admin)."
+
+msgid "Smart Note:"
+msgstr "Catatan Cerdas:"
+
+msgid "The system automatically skips lines with mismatching status. For example, if you check 10 KRS and select <em>Mass Approve</em>, only KRS in Submitted status will be processed; Draft KRS will remain untouched."
+msgstr "Sistem akan secara otomatis melewati (skip) baris yang statusnya tidak sesuai. Misalnya, jika Anda mencentang 10 KRS lalu memilih <em>Mass Approve</em>, hanya KRS yang berstatus <em>Submitted</em> yang akan diproses; KRS berstatus Draft tidak akan tersentuh."
+
+msgid "User Roles &amp; Permissions"
+msgstr "Peran Pengguna &amp; Hak Akses (Roles &amp; Permissions)"
+
+msgid "This system is designed with a layered security hierarchy. Each user can only see and perform actions appropriate to their role."
+msgstr "Sistem ini dirancang dengan hierarki keamanan berlapis. Setiap pengguna hanya dapat melihat dan melakukan tindakan yang sesuai dengan perannya."
+
+msgid "Action"
+msgstr "Tindakan"
+
+msgid "Student (Portal)"
+msgstr "Mahasiswa (Portal)"
+
+msgid "Academic Advisor"
+msgstr "Dosen PA"
+
+msgid "Academic Admin"
+msgstr "Admin Akademik"
+
+msgid "Create &amp; Edit KRS (during open period)"
+msgstr "Buat &amp; Edit KRS (saat periode buka)"
+
+msgid "Submit KRS"
+msgstr "Submit KRS"
+
+msgid "Approve / Reject KRS"
+msgstr "Approve / Reject KRS"
+
+msgid "only their advised students"
+msgstr "mahasiswa bimbingannya saja"
+
+msgid "all"
+msgstr "semua"
+
+msgid "Lock KRS &amp; Generate KHS"
+msgstr "Lock KRS &amp; Generate KHS"
+
+msgid "Input Grades (KHS)"
+msgstr "Input Nilai (KHS)"
+
+msgid "Manage Master Data (Programs, Rooms, etc)"
+msgstr "Kelola Master Data (Prodi, Ruangan, dll)"
+
+msgid "KRS Period Configuration"
+msgstr "Konfigurasi Periode KRS"
+
+msgid "The system supports limiting KRS entry time so students can only fill during the specified period."
+msgstr "Sistem mendukung pembatasan waktu pengisian KRS agar mahasiswa hanya bisa mengisi pada periode yang sudah ditentukan."
+
+msgid "Setup Guide:"
+msgstr "Cara Setting:"
+
+msgid "Open <strong>Configuration → Academic Years</strong> menu → Choose active Academic Year → Fill <strong>KRS Start Date</strong> and <strong>KRS End Date</strong> fields."
+msgstr "Buka menu <strong>Configuration → Academic Years</strong> → Pilih Tahun Akademik yang aktif → Isi kolom <strong>KRS Start Date</strong> dan <strong>KRS End Date</strong>."
+
+msgid "Note:"
+msgstr "Catatan:"
+
+msgid "This period restriction <strong>only applies to Students</strong> (Portal users). Academic Admin can create or edit KRS anytime without being bound by the period, assisting students who cannot fill it themselves."
+msgstr "Pembatasan periode ini <strong>hanya berlaku untuk Mahasiswa</strong> (pengguna Portal). Admin Akademik dapat membuat atau mengedit KRS kapan saja tanpa terikat periode, sehingga dapat membantu mahasiswa yang berhalangan mengisi sendiri."
+
+# Report Templates KRS, KHS, Transcript
+msgid "Study Plan (KRS)"
+msgstr "Kartu Rencana Studi (KRS)"
+
+msgid "Student ID (NIM)"
+msgstr "NIM Mahasiswa"
+
+msgid "Faculty"
+msgstr "Fakultas"
+
+msgid "Name"
+msgstr "Nama"
+
+msgid "Study Program"
+msgstr "Program Studi"
+
+msgid "Academic Year"
+msgstr "Tahun Akademik"
+
+msgid "Advisor"
+msgstr "Dosen PA / Wali"
+
+msgid "Status"
+msgstr "Status"
+
+msgid "KRS No."
+msgstr "No. KRS"
+
+msgid "Draft"
+msgstr "Draft"
+
+msgid "Waiting for Approval"
+msgstr "Menunggu Persetujuan"
+
+msgid "Approved"
+msgstr "Disetujui"
+
+msgid "Needs Revision"
+msgstr "Perlu Revisi"
+
+msgid "Rejected"
+msgstr "Ditolak"
+
+msgid "Locked"
+msgstr "Terkunci"
+
+msgid "No"
+msgstr "No"
+
+msgid "Subject Code"
+msgstr "Kode MK"
+
+msgid "Subject Name"
+msgstr "Nama Mata Kuliah"
+
+msgid "Credits"
+msgstr "SKS"
+
+msgid "Class"
+msgstr "Kelas"
+
+msgid "Schedule"
+msgstr "Jadwal"
+
+msgid "Total Credits"
+msgstr "Total SKS"
+
+msgid "Student,"
+msgstr "Mahasiswa,"
+
+msgid "Academic Advisor,"
+msgstr "Dosen Wali / Pembimbing Akademik,"
+
+msgid "Study Result Card (KHS)"
+msgstr "Kartu Hasil Studi (KHS)"
+
+msgid "KHS No."
+msgstr "No. KHS"
+
+msgid "Numeric Grade"
+msgstr "Nilai Angka"
+
+msgid "Letter Grade"
+msgstr "Nilai Huruf"
+
+msgid "Weight"
+msgstr "Bobot"
+
+msgid "Total"
+msgstr "Total"
+
+msgid "Semester GPA"
+msgstr "IP Semester"
+
+msgid "Cumulative GPA (CGPA)"
+msgstr "Indeks Prestasi Kumulatif (IPK)"
+
+msgid "Approved by,"
+msgstr "Mengetahui,"
+
+msgid "Head of Study Program"
+msgstr "Ketua Program Studi"
+
+msgid "Dean of Faculty"
+msgstr "Dekan Fakultas"
+
+msgid "Academic Transcript"
+msgstr "Transkrip Nilai Akademik"
+
+msgid "(Official Academic Record)"
+msgstr "(Transkrip Nilai Resmi)"
+
+msgid "Generation"
+msgstr "Angkatan"
+
+msgid "Active"
+msgstr "Aktif"
+
+msgid "On Leave"
+msgstr "Cuti"
+
+msgid "Graduated"
+msgstr "Lulus"
+
+msgid "Drop Out"
+msgstr "Drop Out"
+
+msgid "Grade Points (Credits×Weight)"
+msgstr "Mutu (SKS×Bobot)"
+
+msgid "Semester Subtotal"
+msgstr "Sub-total Semester"
+
+msgid "CUMULATIVE TOTAL"
+msgstr "TOTAL KUMULATIF"
+
+msgid "Grading Scale:"
+msgstr "Skala Penilaian:"
+
+msgid "Letter"
+msgstr "Huruf"
+
+msgid "Description"
+msgstr "Keterangan"
+
+msgid "Excellent"
+msgstr "Sangat Baik"
+
+msgid "Very Good"
+msgstr "Hampir Sangat Baik"
+
+msgid "Good"
+msgstr "Lebih dari Baik"
+
+msgid "Satisfactory"
+msgstr "Baik"
+
+msgid "Almost Satisfactory"
+msgstr "Hampir Baik"
+
+msgid "Fair"
+msgstr "Lebih dari Cukup"
+
+msgid "Pass"
+msgstr "Cukup"
+
+msgid "Fail"
+msgstr "Kurang"
+
+msgid "Unsatisfactory"
+msgstr "Sangat Kurang"
+
+# Layout Core Footer
+msgid "Integrated Academic Information System built using modern Odoo technology."
+msgstr "Sistem Informasi Akademik Terintegrasi yang dibangun menggunakan teknologi modern Odoo."
+
+msgid "Supports full management of New Student Admissions, Academic Portal, and Employee Management."
+msgstr "Mendukung manajemen penuh dari proses Penerimaan Mahasiswa Baru, Portal Akademik, hingga Manajemen Dosen."
+
+msgid "Developed By"
+msgstr "Dikembangkan Oleh"

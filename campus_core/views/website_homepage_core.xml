@@ -6,10 +6,10 @@
                 <!-- Header -->
                 <section class="bg-white border-bottom pt-5 pb-4 mb-5 shadow-sm">
                     <div class="container text-center">
-                        <h1 class="display-5 fw-bold mb-3 text-primary">Dokumentasi Teknis Sistem Informasi Akademik (SIAKAD)</h1>
+                        <h1 class="display-5 fw-bold mb-3 text-primary">Academic Information System (SIAKAD) Technical Documentation</h1>
                         <p class="lead text-muted mx-auto" style="max-width: 900px;">
-                            Dokumen ini memuat spesifikasi teknis dan Standard Operating Procedure (SOP) dari Enterprise Resource Planning (ERP) Pendidikan. 
-                            Sistem ini dirancang dengan arsitektur modular Odoo, mengimplementasikan automasi Python ORM, validasi bisnis komprehensif, dan sistem keamanan berlapis.
+                            This document contains the technical specifications and Standard Operating Procedure (SOP) of the Educational Enterprise Resource Planning (ERP).
+                            The system is designed with Odoo's modular architecture, implementing Python ORM automation, comprehensive business validation, and layered security systems.
                         </p>
                     </div>
                 </section>
@@ -21,7 +21,7 @@
                             <div class="sticky-top" style="top: 100px;">
                                 <div class="nav flex-column nav-pills shadow-sm border-0 rounded-4 bg-white p-2" id="docs-tab" role="tablist" aria-orientation="vertical">
                                     <button class="nav-link active fw-bold py-3 text-start mb-1" id="tab-core" data-bs-toggle="pill" data-bs-target="#content-core" type="button" role="tab" aria-controls="content-core" aria-selected="true">
-                                        <i class="fa fa-cogs me-2"/> Modul Campus Core
+                                        <i class="fa fa-cogs me-2"/> Campus Core Module
                                     </button>
                                 </div>
                             </div>
@@ -38,10 +38,10 @@
                                             <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
                                                 <i class="fa fa-cogs"/>
                                             </div>
-                                            <h2 class="fw-bold mb-0 text-primary">Modul Campus Core (Manajemen Akademik Inti)</h2>
+                                            <h2 class="fw-bold mb-0 text-primary">Campus Core Module (Core Academic Management)</h2>
                                         </div>
                                         <p class="text-muted lead mb-4">
-                                            Modul ini adalah jantung dari sistem kampus Anda. Fungsinya mengelola seluruh fondasi data akademik, mulai dari manajemen kurikulum, penyusunan jadwal kuliah, pengisian Kartu Rencana Studi (KRS), hingga pencetakan transkrip nilai (KHS). Dirancang agar proses akademik berjalan lancar, otomatis, dan minim kesalahan administrasi.
+                                            This module is the heart of your campus system. It manages all academic foundation data, starting from curriculum management, course scheduling, Study Plan (KRS) entry, to grade transcript (KHS) printing. Designed to keep academic processes running smoothly, automatically, and with minimal administrative errors.
                                         </p>
                                         
                                         <!-- HIGHLIGHT FITUR -->
@@ -49,8 +49,8 @@
                                             <div class="col-md-4">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
-                                                        <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Smart Constraints (Cerdas)</h5>
-                                                        <p class="text-muted small mb-0">Sistem otomatis memblokir mahasiswa yang mengambil SKS melebihi batas IPK-nya, serta mencegah pendaftaran jika kapasitas ruangan kelas sudah penuh. Tidak ada lagi kelonggaran administrasi manual.</p>
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Smart Constraints</h5>
+                                                        <p class="text-muted small mb-0">The system automatically blocks students from taking credits (SKS) exceeding their GPA limit, and prevents registration if the class capacity is full. No more manual administrative leniency.</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -58,159 +58,160 @@
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
                                                         <h5 class="fw-bold text-dark"><i class="fa fa-calendar-check-o text-primary me-2"/>Dynamic Scheduling</h5>
-                                                        <p class="text-muted small mb-0">Sistem mendeteksi bentrok jadwal kuliah (Time Overlap) secara *real-time* saat mahasiswa menyusun KRS, memastikan mahasiswa tidak memilih dua kelas di waktu yang bersamaan.</p>
+                                                        <p class="text-muted small mb-0">The system detects class schedule conflict (Time Overlap) in real-time when students compile their KRS, ensuring students do not choose two classes at the same time.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
-                                                        <h5 class="fw-bold text-dark"><i class="fa fa-calculator text-success me-2"/>Automasi Transkrip KHS</h5>
-                                                        <p class="text-muted small mb-0">Dosen cukup memasukkan nilai akhir angka (misal: 85). Sistem otomatis mengonversi ke huruf (A), mengkalikan poin (4.0) dengan SKS, dan menghitung IPK (Indeks Prestasi) mahasiswa tanpa hitungan manual.</p>
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-calculator text-success me-2"/>KHS Transcript Automation</h5>
+                                                        <p class="text-muted small mb-0">Lecturers only need to enter the final numeric score (e.g. 85). The system automatically converts it to a letter grade (A), multiplies the points (4.0) by credits (SKS), and calculates the student's GPA without manual calculation.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <h4 class="fw-bold border-bottom pb-2 mb-4">Alur Kerja (Workflow) Kegiatan Akademik</h4>
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4">Academic Workflow</h4>
 
                                         <!-- TAHAP 1 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
                                             <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
-                                            <h5 class="fw-bold text-dark pt-1">Persiapan Master Data (Pre-requisite)</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Administrator Akademik (Biro Akademik)</p>
-                                            <p class="mb-2">Sebelum semester dimulai, Admin wajib mempersiapkan fondasi kurikulum:</p>
+                                            <h5 class="fw-bold text-dark pt-1">Master Data Preparation (Prerequisites)</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Academic Administrator (Academic Office)</p>
+                                            <p class="mb-2">Before the semester starts, the Admin must prepare the curriculum foundation:</p>
                                             <ul class="text-muted mb-2">
-                                                <li>Membuat <strong>Tahun Akademik</strong> aktif (Contoh: 2026/2027 Ganjil).</li>
-                                                <li>Memasukkan daftar <strong>Mata Kuliah</strong> dan menetapkan bobot SKS.</li>
-                                                <li>Mendaftarkan <strong>Ruangan Kelas</strong> beserta <em>Kapasitas Maksimal</em> (Max Capacity).</li>
+                                                <li>Create active <strong>Academic Year</strong> (Example: 2026/2027 Odd).</li>
+                                                <li>Enter the list of <strong>Subjects</strong> and assign credits (SKS) weights.</li>
+                                                <li>Register <strong>Classrooms</strong> along with <em>Maximum Capacity</em> (Max Capacity).</li>
                                             </ul>
                                         </div>
 
-                                        <!-- TAHAP 2 (BARU) -->
+                                        <!-- TAHAP 2 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
                                             <span class="badge bg-info position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
-                                            <h5 class="fw-bold text-dark pt-1">Penjadwalan &amp; Pembukaan Kelas</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Administrator Akademik (Biro Akademik)</p>
-                                            <p class="mb-2">Admin membuat <strong>Kelas (Class)</strong> untuk mata kuliah yang akan diajarkan, kemudian menyusun <strong>Jadwal Kelas (Class Schedule)</strong>.</p>
+                                            <h5 class="fw-bold text-dark pt-1">Scheduling &amp; Opening Classes</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Academic Administrator (Academic Office)</p>
+                                            <p class="mb-2">Admin creates a <strong>Class (Class)</strong> for the subject to be taught, then arranges the <strong>Class Schedule (Class Schedule)</strong>.</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-calendar text-dark me-2"/> <strong>Sistem Jadwal:</strong> Jadwal menentukan Hari, Jam Mulai, Jam Selesai, Ruangan, dan Dosen Pengampu. Anda dapat membuat beberapa jadwal untuk satu kelas (misalnya teori dan lab).
+                                                <i class="fa fa-calendar text-dark me-2"/> <strong>Scheduling System:</strong> Schedule determines Day, Start Time, End Time, Room, and Lecturer. You can create multiple schedules for one class (e.g., theory and lab).
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-users text-info me-2"/> <strong>Kapasitas Otomatis:</strong> Odoo secara otomatis menghitung jumlah kapasitas maksimal kelas berdasarkan daya tampung Ruangan yang dipilih pada jadwal tersebut!
+                                                <i class="fa fa-users text-info me-2"/> <strong>Automatic Capacity:</strong> Odoo automatically calculates the class maximum capacity based on the capacity of the selected Room in the schedule!
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 3 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
                                             <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
-                                            <h5 class="fw-bold text-dark pt-1">Pengisian Kartu Rencana Studi (KRS)</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Mahasiswa / Admin Akademik</p>
-                                            <p class="mb-2">Mahasiswa menyusun rencana studi untuk semester berjalan. Pengisian bisa dilakukan mandiri via Portal atau dibantu Admin.</p>
+                                            <h5 class="fw-bold text-dark pt-1">Study Plan (KRS) Filling</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Student / Academic Admin</p>
+                                            <p class="mb-2">Students compile their study plan for the current semester. It can be filled independently via the Portal or assisted by the Admin.</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Validasi Ketat:</strong> Sistem <strong>menolak</strong> pengajuan KRS jika: (1) SKS melebihi jatah IPK, (2) Jadwal kelas berbenturan, (3) Kuota kelas sudah penuh, atau (4) Mahasiswa belum lulus mata kuliah prasyarat.
+                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> The system <strong>rejects</strong> KRS submissions if: (1) SKS exceeds the GPA limit, (2) Schedule conflicts, (3) Class quota is full, or (4) Student has not passed the prerequisite subjects.
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Mahasiswa menekan tombol <strong>Submit</strong> untuk mengirim KRS ke Dosen Pembimbing (PA).
+                                                <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Student clicks <strong>Submit</strong> to send KRS to the Academic Advisor (PA).
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 4 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
                                             <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
-                                            <h5 class="fw-bold text-dark pt-1">Persetujuan Dosen Wali (Approval KRS)</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Dosen Pembimbing Akademik (PA)</p>
-                                            <p class="mb-2">Dosen PA melakukan peninjauan terhadap mata kuliah yang diajukan oleh mahasiswa bimbingannya.</p>
+                                            <h5 class="fw-bold text-dark pt-1">Academic Advisor Approval (KRS Approval)</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Academic Advisor (PA)</p>
+                                            <p class="mb-2">The Advisor reviews the subjects submitted by their advised students.</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-lock text-dark me-2"/> <strong>Keamanan (Row-Level Security):</strong> Dosen A <strong>tidak akan bisa</strong> menyetujui atau melihat KRS dari mahasiswa bimbingan Dosen B. Hak akses dibatasi secara absolut.
+                                                <i class="fa fa-lock text-dark me-2"/> <strong>Security (Row-Level Security):</strong> Advisor A <strong>cannot</strong> approve or view KRS from Advisor B's students. Access rights are absolutely restricted.
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Dosen menekan <strong>Approve</strong>. KRS terkunci dan mahasiswa resmi terdaftar di kelas.
+                                                <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Advisor clicks <strong>Approve</strong>. KRS is locked and the student is officially registered in the class.
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 5 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
                                             <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
-                                            <h5 class="fw-bold text-dark pt-1">Penerbitan KHS &amp; Penilaian (Akhir Semester)</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Dosen Pengampu / Admin Akademik</p>
-                                            <p class="mb-2">Di akhir masa perkuliahan, nilai harus diterbitkan dalam bentuk Kartu Hasil Studi (KHS).</p>
+                                            <h5 class="fw-bold text-dark pt-1">KHS Issuance &amp; Grading (End of Semester)</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Course Lecturer / Academic Admin</p>
+                                            <p class="mb-2">At the end of the lecture period, grades must be issued in the form of a Study Result Card (KHS).</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-magic text-dark me-2"/> <strong>Automasi Penciptaan:</strong> Admin tidak perlu membuat KHS dari nol. Cukup tekan tombol <strong>Lock &amp; Generate KHS</strong> pada KRS mahasiswa, sistem otomatis membuatkan salinan persis di modul KHS!
+                                                <i class="fa fa-magic text-dark me-2"/> <strong>Automatic Creation:</strong> Admin does not need to create KHS from scratch. Simply click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the system automatically creates an exact copy in the KHS module!
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-calculator text-success me-2"/> <strong>Aksi:</strong> Dosen menginput nilai akhir (misal: 80). Sistem seketika (real-time) mengalkulasi Nilai Mutu dan IPK (Indeks Prestasi Kumulatif) mahasiswa bersangkutan.
+                                                <i class="fa fa-calculator text-success me-2"/> <strong>Action:</strong> Lecturer inputs final grade (e.g. 80). The system instantly calculates the grade points and GPA (Cumulative Grade Point Average) of the student.</p>
                                             </div>
                                         </div>
 
-                                        <!-- TAHAP 6 (BARU) -->
+                                        <!-- TAHAP 6 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
                                             <span class="badge bg-info position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
-                                            <h5 class="fw-bold text-dark pt-1">Mass KRS Generator &amp; Course Packages (Fitur Otomatisasi Lanjut)</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Admin Akademik</p>
-                                            <p class="mb-2">Tidak perlu lagi menyusun KRS satu per satu! Kini Anda bisa menggunakan alat <em>Wizard</em> pintar.</p>
+                                            <h5 class="fw-bold text-dark pt-1">Mass KRS Generator &amp; Course Packages (Advanced Automation)</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Academic Admin</p>
+                                            <p class="mb-2">No need to compile KRS one by one anymore! Now you can use our smart <em>Wizard</em>.</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-cubes text-dark me-2"/> <strong>Course Packages:</strong> Kumpulkan mata kuliah wajib untuk setiap Program Studi ke dalam satu Paket (Package) per Tahun Akademik.
+                                                <i class="fa fa-cubes text-dark me-2"/> <strong>Course Packages:</strong> Collect mandatory subjects for each Study Program into a Package per Academic Year.
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-flash text-info me-2"/> <strong>Aksi (Generate KRS):</strong> Tekan tombol "Generate KRS" pada Paket, lalu sistem akan memfilter mahasiswa prodi tersebut yang belum membuat KRS. Centang puluhan nama mahasiswa, dan <em>Draft KRS</em> massal (berikut baris-baris mata kuliahnya) akan terbit dalam sekejap mata!
+                                                <i class="fa fa-flash text-info me-2"/> <strong>Action (Generate KRS):</strong> Click "Generate KRS" on the Package, and the system will filter students of that program who have not created KRS. Check dozens of student names, and mass <em>Draft KRS</em> (with their subject lines) will be issued in the blink of an eye!
                                             </div>
                                         </div>
 
-                                        <!-- TAHAP 7 (BARU) -->
+                                        <!-- TAHAP 7 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
                                             <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">7</span>
-                                            <h5 class="fw-bold text-dark pt-1">Mass Schedule Assignment (Penjadwalan Massal)</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Admin Akademik</p>
-                                            <p class="mb-2">Setelah KRS di-generate, Admin tidak perlu lagi mengatur jadwal mahasiswa satu per satu secara manual!</p>
+                                            <h5 class="fw-bold text-dark pt-1">Mass Schedule Assignment</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Academic Admin</p>
+                                            <p class="mb-2">After KRS is generated, the Admin no need to set student schedules one by one manually!</p>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-magic text-primary me-2"/> <strong>Aksi (Assign Schedule):</strong> Buka form Kelas, klik tab <strong>Students</strong>, lalu tekan tombol <strong>Assign Schedule (Massive)</strong>. Sistem akan mencari semua mahasiswa yang mengambil kelas ini tetapi belum memiliki jadwal, dan Anda bisa memasukkan mereka ke dalam sebuah jadwal sekaligus dalam satu tarikan napas!
+                                                <i class="fa fa-magic text-primary me-2"/> <strong>Action (Assign Schedule):</strong> Open Class form, click <strong>Students</strong> tab, then click <strong>Assign Schedule (Massive)</strong>. The system will search for all students taking this class but have no schedule, and you can assign them to a schedule at once!
                                             </div>
                                         </div>
-                                        <!-- TAHAP 8 (BARU) -->
+                                        
+                                        <!-- TAHAP 8 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
                                             <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">8</span>
-                                            <h5 class="fw-bold text-dark pt-1">Perpindahan Status Massal via Menu Actions</h5>
-                                            <p class="mb-2"><strong>Aktor:</strong> Admin Akademik / Dosen PA</p>
-                                            <p class="mb-2">Tidak perlu membuka satu per satu dokumen KRS untuk mengubah statusnya! Cukup gunakan fitur <em>Actions</em> di tampilan daftar.</p>
+                                            <h5 class="fw-bold text-dark pt-1">Mass Status Transitions via Actions Menu</h5>
+                                            <p class="mb-2"><strong>Actor:</strong> Academic Admin / Academic Advisor</p>
+                                            <p class="mb-2">No need to open KRS documents one by one to change status! Simply use the <em>Actions</em> feature in list view.</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-list-ul text-dark me-2"/> <strong>Cara Penggunaan:</strong> Buka menu <strong>Study Plan (KRS)</strong> → Centang satu atau beberapa baris KRS yang ingin diproses → Klik tombol <strong>"⚙️ Actions"</strong> di bagian atas tabel.
+                                                <i class="fa fa-list-ul text-dark me-2"/> <strong>How to Use:</strong> Open <strong>Study Plan (KRS)</strong> menu → Check one or more KRS lines to process → Click <strong>"⚙️ Actions"</strong> button at the top of the table.
                                             </div>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-bolt text-danger me-2"/> <strong>Opsi yang tersedia di menu Actions:</strong>
+                                                <i class="fa fa-bolt text-danger me-2"/> <strong>Available Options in Actions Menu:</strong>
                                                 <ul class="mt-2 mb-0 text-muted">
-                                                    <li><strong>Mass Submit</strong> — Kirim semua KRS berstatus <em>Draft</em> yang dicentang sekaligus ke Dosen PA.</li>
-                                                    <li><strong>Mass Approve</strong> — Setujui semua KRS berstatus <em>Submitted</em> yang dicentang sekaligus (khusus Dosen PA / Admin).</li>
-                                                    <li><strong>Mass Lock</strong> — Kunci semua KRS berstatus <em>Approved</em> dan otomatis buatkan KHS-nya (khusus Admin).</li>
-                                                    <li><strong>Mass Reject</strong> — Tolak semua KRS berstatus <em>Submitted</em> yang dicentang sekaligus.</li>
-                                                    <li><strong>Mass Unlock</strong> — Buka kembali KRS yang sudah terkunci ke status <em>Approved</em> jika diperlukan koreksi (khusus Admin).</li>
+                                                    <li><strong>Mass Submit</strong> — Send all checked Draft KRS at once to Academic Advisor.</li>
+                                                    <li><strong>Mass Approve</strong> — Approve all checked Submitted KRS at once (Advisor / Admin only).</li>
+                                                    <li><strong>Mass Lock</strong> — Lock all checked Approved KRS and automatically generate KHS (Admin only).</li>
+                                                    <li><strong>Mass Reject</strong> — Reject all checked Submitted KRS at once.</li>
+                                                    <li><strong>Mass Unlock</strong> — Reopen locked KRS back to Approved status if corrections are needed (Admin only).</li>
                                                 </ul>
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-info-circle text-info me-2"/> <strong>Catatan Cerdas:</strong> Sistem akan secara otomatis melewati (skip) baris yang statusnya tidak sesuai. Misalnya, jika Anda mencentang 10 KRS lalu memilih <em>Mass Approve</em>, hanya KRS yang berstatus <em>Submitted</em> yang akan diproses; KRS berstatus Draft tidak akan tersentuh.
+                                                <i class="fa fa-info-circle text-info me-2"/> <strong>Smart Note:</strong> The system automatically skips lines with mismatching status. For example, if you check 10 KRS and select <em>Mass Approve</em>, only KRS in Submitted status will be processed; Draft KRS will remain untouched.
                                             </div>
                                         </div>
 
                                         <!-- SECTION: PERAN & HAK AKSES -->
-                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Peran Pengguna &amp; Hak Akses (Roles &amp; Permissions)</h4>
-                                        <p class="text-muted mb-4">Sistem ini dirancang dengan hierarki keamanan berlapis. Setiap pengguna hanya dapat melihat dan melakukan tindakan yang sesuai dengan perannya.</p>
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">User Roles &amp; Permissions</h4>
+                                        <p class="text-muted mb-4">This system is designed with a layered security hierarchy. Each user can only see and perform actions appropriate to their role.</p>
 
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-hover align-middle">
                                                 <thead class="table-dark">
                                                     <tr>
-                                                        <th>Tindakan</th>
-                                                        <th class="text-center">Mahasiswa (Portal)</th>
-                                                        <th class="text-center">Dosen PA</th>
-                                                        <th class="text-center">Admin Akademik</th>
+                                                        <th>Action</th>
+                                                        <th class="text-center">Student (Portal)</th>
+                                                        <th class="text-center">Academic Advisor</th>
+                                                        <th class="text-center">Academic Admin</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Buat &amp; Edit KRS (saat periode buka)</td>
+                                                        <td>Create &amp; Edit KRS (during open period)</td>
                                                         <td class="text-center text-success fw-bold">✓</td>
                                                         <td class="text-center text-muted">—</td>
-                                                        <td class="text-center text-success fw-bold">✓ (kapan saja)</td>
+                                                        <td class="text-center text-success fw-bold">✓ (anytime)</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Submit KRS</td>
@@ -221,8 +222,8 @@
                                                     <tr>
                                                         <td>Approve / Reject KRS</td>
                                                         <td class="text-center text-danger">✗</td>
-                                                        <td class="text-center text-success fw-bold">✓ (mahasiswa bimbingannya saja)</td>
-                                                        <td class="text-center text-success fw-bold">✓ (semua)</td>
+                                                        <td class="text-center text-success fw-bold">✓ (only their advised students)</td>
+                                                        <td class="text-center text-success fw-bold">✓ (all)</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Lock KRS &amp; Generate KHS</td>
@@ -231,13 +232,13 @@
                                                         <td class="text-center text-success fw-bold">✓</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Input Nilai (KHS)</td>
+                                                        <td>Input Grades (KHS)</td>
                                                         <td class="text-center text-danger">✗</td>
                                                         <td class="text-center text-success fw-bold">✓</td>
                                                         <td class="text-center text-success fw-bold">✓</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Kelola Master Data (Prodi, Ruangan, dll)</td>
+                                                        <td>Manage Master Data (Programs, Rooms, etc)</td>
                                                         <td class="text-center text-danger">✗</td>
                                                         <td class="text-center text-danger">✗</td>
                                                         <td class="text-center text-success fw-bold">✓</td>
@@ -247,13 +248,13 @@
                                         </div>
 
                                         <!-- SECTION: PERIODE KRS -->
-                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Konfigurasi Periode KRS</h4>
-                                        <p class="text-muted mb-3">Sistem mendukung pembatasan waktu pengisian KRS agar mahasiswa hanya bisa mengisi pada periode yang sudah ditentukan.</p>
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">KRS Period Configuration</h4>
+                                        <p class="text-muted mb-3">The system supports limiting KRS entry time so students can only fill during the specified period.</p>
                                         <div class="bg-light p-3 rounded mb-2">
-                                            <i class="fa fa-calendar-check-o text-primary me-2"/> <strong>Cara Setting:</strong> Buka menu <strong>Configuration → Academic Years</strong> → Pilih Tahun Akademik yang aktif → Isi kolom <strong>KRS Start Date</strong> dan <strong>KRS End Date</strong>.
+                                            <i class="fa fa-calendar-check-o text-primary me-2"/> <strong>Setup Guide:</strong> Open <strong>Configuration → Academic Years</strong> menu → Choose active Academic Year → Fill <strong>KRS Start Date</strong> and <strong>KRS End Date</strong> fields.
                                         </div>
                                         <div class="bg-light p-3 rounded">
-                                            <i class="fa fa-info-circle text-info me-2"/> <strong>Catatan:</strong> Pembatasan periode ini <strong>hanya berlaku untuk Mahasiswa</strong> (pengguna Portal). Admin Akademik dapat membuat atau mengedit KRS kapan saja tanpa terikat periode, sehingga dapat membantu mahasiswa yang berhalangan mengisi sendiri.
+                                            <i class="fa fa-info-circle text-info me-2"/> <strong>Note:</strong> This period restriction <strong>only applies to Students</strong> (Portal users). Academic Admin can create or edit KRS anytime without being bound by the period, assisting students who cannot fill it themselves.
                                         </div>
                                     </section>
                                 </div>

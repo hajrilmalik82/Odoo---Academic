@@ -1,0 +1,245 @@
+# Translation of Odoo Server.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-05 22:54+0000\n"
+"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+# Website Homepage Docs PMB
+msgid "PMB Admission Module"
+msgstr "Modul Penerimaan (PMB)"
+
+msgid "PMB Module (New Student Admissions)"
+msgstr "Modul PMB (Penerimaan Mahasiswa Baru)"
+
+msgid "This module is designed to digitize and automate the entire student admissions cycle. From filling out application forms to document verification, payment verification, and automatic portal account creation. This module ensures that no data is missed and minimizes human error."
+msgstr "Modul ini dirancang untuk mendigitalisasi dan mengotomatisasi seluruh siklus pendaftaran mahasiswa baru. Dari pengisian formulir pendaftaran hingga proses verifikasi dokumen, pembayaran, dan penciptaan akun portal secara otomatis. Modul ini memastikan tidak ada data yang terlewat dan meminimalisir kesalahan manusia (*human error*)."
+
+msgid "Data Security (Row-Level Security)"
+msgstr "Keamanan Data (Row-Level Security)"
+
+msgid "The system restricts PMB Committee access rights. Committee members can only view and process candidates who apply to the Faculty or Study Program under their responsibility. Candidate privacy is guaranteed."
+msgstr "Sistem membatasi hak akses Panitia PMB. Panitia hanya dapat melihat dan memproses pendaftar yang melamar ke Fakultas atau Program Studi yang menjadi tanggung jawabnya. Privasi pendaftar terjamin."
+
+msgid "Smart Navigation (Search Panel)"
+msgstr "Navigasi Pintar (Search Panel)"
+
+msgid "Equipped with an interactive *Search Panel* on the left side of the table. The committee can filter thousands of application records with one click by Faculty, Program, or Application Status."
+msgstr "Dilengkapi dengan *Search Panel* interaktif di sisi kiri tabel. HRD atau Panitia dapat memfilter ribuan data pendaftar hanya dengan satu klik berdasarkan Fakultas, Program Studi, atau Status Pendaftaran."
+
+msgid "Document Automation &amp; Validation"
+msgstr "Automasi Dokumen &amp; Validasi"
+
+msgid "The system will block acceptance if the required documents are incomplete or payment proof is unverified. Transitions between states are tightly controlled by backend algorithms."
+msgstr "Sistem akan menolak proses kelulusan jika syarat dokumen belum lengkap atau bukti pembayaran belum divalidasi. Transaksi antar status diatur sangat ketat oleh algoritma Backend."
+
+msgid "Student Admission Workflow"
+msgstr "Alur Kerja (Workflow) Penerimaan Mahasiswa"
+
+msgid "Registration &amp; Initial Draft"
+msgstr "Pendaftaran &amp; Draft Awal"
+
+msgid "Actor: Candidate / Prospective Student"
+msgstr "Aktor: Calon Mahasiswa"
+
+msgid "The process starts when the candidate fills out the form. Each applicant is automatically assigned a unique Registration Number (e.g. PMB/2026/0001)."
+msgstr "Proses dimulai saat kandidat mengisi formulir. Setiap pendaftar akan otomatis diberikan Nomor Registrasi unik (Misal: PMB/2026/0001)."
+
+msgid "Committee clicks <strong>Submit</strong> from the <em>Actions</em> menu (Gear Icon) or form view."
+msgstr "Panitia menekan opsi Submit dari menu Actions (Gear Icon) atau form view."
+
+msgid "Document Review"
+msgstr "Pemeriksaan Berkas (Document Review)"
+
+msgid "Actor: PMB Committee"
+msgstr "Aktor: Panitia PMB"
+
+msgid "When entering this stage, the system intelligently creates a *Checklist* of required documents (Diploma, ID Card, Photo) based on the candidate's admission path."
+msgstr "Saat masuk ke tahap ini, sistem secara cerdas akan membuatkan Checklist dokumen wajib (Ijazah, KTP, Pasfoto) berdasarkan Jalur Pendaftaran kandidat."
+
+msgid "Strict Validation:"
+msgstr "Validasi Ketat:"
+
+msgid "The committee <strong>cannot</strong> proceed to the next stage if there are still mandatory documents that have not been received (Checklist is not 100%)."
+msgstr "Panitia tidak akan bisa melanjutkan ke tahap berikutnya jika masih ada dokumen wajib yang belum diterima (Checklist belum 100%)."
+
+msgid "If all documents are complete, the committee clicks <strong>Verify Documents</strong>."
+msgstr "Jika berkas lengkap, panitia menekan opsi Verify Documents."
+
+msgid "Payment Verification"
+msgstr "Verifikasi Pembayaran (Payment Verification)"
+
+msgid "Actor: Finance Department / Committee"
+msgstr "Aktor: Bagian Keuangan / Panitia"
+
+msgid "Candidates must attach proof or reference numbers of their application fee payment."
+msgstr "Kandidat harus melampirkan bukti atau nomor referensi pembayaran biaya pendaftaran."
+
+msgid "If the "Payment Reference" column is empty, the system blocks candidate acceptance and displays a warning alert."
+msgstr "Jika kolom \"Payment Reference\" masih kosong, sistem akan memblokir kelulusan kandidat dan memunculkan notifikasi peringatan."
+
+msgid "The committee clicks <strong>Verify Payment</strong> to validate the payment."
+msgstr "Panitia menekan opsi Verify Payment untuk mengesahkan pembayaran."
+
+msgid "Graduation &amp; Acceptance"
+msgstr "Kelulusan &amp; Penerimaan (Acceptance)"
+
+msgid "Actor: PMB Committee / Administrator"
+msgstr "Aktor: Panitia PMB / Administrator"
+
+msgid "Candidates who have passed all verifications are now ready to be officially accepted as prospective students."
+msgstr "Kandidat yang telah lolos seluruh verifikasi kini siap diterima secara resmi sebagai calon mahasiswa."
+
+msgid "Committee clicks <strong>Accept</strong>. The status changes to <em>Accepted</em>."
+msgstr "Panitia menekan opsi Accept. Status berubah menjadi Accepted."
+
+msgid "Final Registration (Zero-Touch Provisioning)"
+msgstr "Registrasi Final (Zero-Touch Provisioning)"
+
+msgid "Actor: Automation System (Odoo Backend)"
+msgstr "Aktor: Sistem Automasi (Odoo Backend)"
+
+msgid "The final stage demonstrating the power of Odoo ERP. When the committee clicks <strong>Register Student</strong>, python code executes in the background without human intervention:"
+msgstr "Tahap pamungkas yang mendemonstrasikan keunggulan Odoo ERP. Saat panitia menekan opsi Register Student, sederet kode Python berjalan di latar belakang tanpa campur tangan manusia:"
+
+msgid "Automatic Student ID &amp; Academic Atributes: The system automatically creates the Student Registration Number (NIM) based on Faculty, Study Program, and Year. It also sets the enrollment generation automatically."
+msgstr "Automasi NIM &amp; Atribut Akademik: Sistem cerdas akan langsung menciptakan Nomor Induk Mahasiswa (NIM) berdasar singkatan Fakultas, Program Studi, dan Tahun. Sistem juga akan menge-set tahun angkatan secara otomatis dan presisi."
+
+msgid "Contact Creation (Res.Partner): Candidate data is automatically migrated into a official Campus Contact database with Faculty and Study Program linked."
+msgstr "Penciptaan Master Kontak (Res.Partner): Data pendaftar otomatis dipindahkan menjadi database Kontak Kampus resmi dengan relasi Fakultas dan Program Studi yang langsung terkoneksi."
+
+msgid "Portal Account Creation (Res.Users): Odoo automatically creates login accounts for students with their Email as the username."
+msgstr "Pembuatan Akun Portal (Res.Users): Odoo secara otomatis membuatkan akun login untuk mahasiswa bersangkutan dengan username berupa Email mereka."
+
+msgid "Access Provisioning: Student accounts are instantly linked with Portal access so they can log in to view schedules or fill out KRS."
+msgstr "Pemberian Akses: Akun mahasiswa langsung dihubungkan dengan hak akses Portal sehingga mereka bisa segera login untuk melihat jadwal atau mengisi KRS."
+
+msgid "Application Rejection (Reject)"
+msgstr "Penolakan Pendaftaran (Reject)"
+
+msgid "If the candidate does not meet the requirements at any stage (e.g., fake documents, invalid payment), the process can be terminated."
+msgstr "Jika kandidat tidak memenuhi syarat di tahap manapun (misalnya dokumen palsu, pembayaran tidak valid), proses dapat dihentikan."
+
+msgid "Restrictions: Candidates who are already in <em>Accepted</em> or <em>Registered</em> status <strong>cannot</strong> be rejected anymore to prevent accidental cancellation after account creation."
+msgstr "Batasan: Kandidat yang sudah berstatus Accepted atau Registered tidak dapat lagi ditolak untuk mencegah pembatalan yang disengaja setelah akun dibuat."
+
+msgid "Committee clicks <strong>Reject</strong> from the form or <em>Actions</em> menu. The status changes to <em>Rejected</em> and cannot be processed further."
+msgstr "Panitia menekan opsi Reject dari form atau Actions menu. Status akan berubah menjadi Rejected dan tidak dapat diproses lebih lanjut."
+
+msgid "Self-Registration via Website (Online)"
+msgstr "Pendaftaran Mandiri via Website (Online)"
+
+msgid "The PMB module also provides a public application page that prospective students can access directly from the campus website without needing to log in first."
+msgstr "Modul PMB juga menyediakan halaman pendaftaran publik yang dapat diakses oleh calon mahasiswa langsung dari website kampus tanpa perlu login terlebih dahulu."
+
+msgid "URL Access: Prospective students simply open the page <strong>/admission/apply</strong> on the campus website, fill out the online form, and click <strong>Submit Application</strong>. The system automatically creates a new record in Admissions with <em>Draft</em> status."
+msgstr "URL Akses: Calon mahasiswa cukup membuka halaman /admission/apply pada website kampus, mengisi formulir online, lalu menekan tombol Kirim Pendaftaran. Sistem otomatis membuat record baru di menu Admissions dengan status Draft."
+
+msgid "Next, the committee continues the review process from within the Odoo backend following the workflow stages above."
+msgstr "Selanjutnya, panitia melanjutkan proses review dari dalam sistem Odoo (backend) mengikuti alur tahapan di atas."
+
+msgid "User Roles &amp; Permissions (PMB)"
+msgstr "Peran Pengguna &amp; Hak Akses (PMB)"
+
+msgid "Candidate (Public)"
+msgstr "Calon Mhs (Publik)"
+
+msgid "PMB Committee"
+msgstr "Panitia PMB"
+
+msgid "Administrator"
+msgstr "Administrator"
+
+msgid "Register via website (online)"
+msgstr "Daftar via website (online)"
+
+msgid "Document Review &amp; Payment Verification"
+msgstr "Review Dokumen &amp; Verifikasi Pembayaran"
+
+msgid "only their program jurisdictions"
+msgstr "prodi yurisdiksinya"
+
+msgid "all"
+msgstr "semua"
+
+msgid "Accept / Reject Candidate"
+msgstr "Accept / Tolak Pendaftar"
+
+msgid "Register Student (Create account &amp; Student ID)"
+msgstr "Register Student (buat akun &amp; NIM)"
+
+# Website Online Admission Forms
+msgid "New Student Registration"
+msgstr "Pendaftaran Mahasiswa Baru"
+
+msgid "Please fill out the form below with correct information."
+msgstr "Silakan isi formulir di bawah ini dengan data yang benar."
+
+msgid "Full Name"
+msgstr "Nama Lengkap"
+
+msgid "Example: John Doe"
+msgstr "Contoh: Budi Santoso"
+
+msgid "Email Address"
+msgstr "Alamat Email"
+
+msgid "Example: john@example.com"
+msgstr "Contoh: budi@gmail.com"
+
+msgid "Phone Number/WhatsApp"
+msgstr "Nomor Telepon/WA"
+
+msgid "Example: 08123456789"
+msgstr "Contoh: 08123456789"
+
+msgid "Previous School"
+msgstr "Asal Sekolah"
+
+msgid "Example: High School 1"
+msgstr "Contoh: SMAN 1 Jakarta"
+
+msgid "-- Choose Study Program --"
+msgstr "-- Pilih Program Studi --"
+
+msgid "-- Choose Academic Year --"
+msgstr "-- Pilih Tahun Akademik --"
+
+msgid "Admission Path"
+msgstr "Jalur Pendaftaran"
+
+msgid "Regular"
+msgstr "Reguler"
+
+msgid "Scholarship"
+msgstr "Beasiswa"
+
+msgid "Transfer"
+msgstr "Pindahan / Transfer"
+
+msgid "Submit Application"
+msgstr "Kirim Pendaftaran"
+
+msgid "Application Successful!"
+msgstr "Pendaftaran Berhasil!"
+
+msgid "Thank you, your application has been received."
+msgstr "Terima kasih, pendaftaran Anda telah kami terima."
+
+msgid "Our admissions team will process your data shortly and contact you via Email or Phone for the next steps."
+msgstr "Tim admisi kami akan segera memproses data Anda dan menghubungi Anda melalui Email atau Telepon untuk instruksi selanjutnya."
+
+msgid "Back to Homepage"
+msgstr "Kembali ke Beranda"
+
+msgid "PMB Admission"
+msgstr "Pendaftaran PMB"

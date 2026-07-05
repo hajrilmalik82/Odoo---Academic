@@ -9,7 +9,7 @@
                         <div class="col-md-8">
                             <div class="card shadow-sm border-0">
                                 <div class="card-header bg-primary text-white">
-                                    <h3 class="mb-0">Pendaftaran Mahasiswa Baru</h3>
+                                    <h3 class="mb-0">New Student Registration</h3>
                                 </div>
                                 <div class="card-body p-4">
                                     <t t-if="error">
@@ -17,47 +17,47 @@
                                             <t t-esc="error"/>
                                         </div>
                                     </t>
-                                    <p class="text-muted mb-4">Silakan isi formulir di bawah ini dengan data yang benar.</p>
+                                    <p class="text-muted mb-4">Please fill out the form below with correct information.</p>
                                     
                                     <form action="/admission/submit" method="post" enctype="multipart/form-data">
                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                         
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label class="form-label" for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="name" required="required" placeholder="Contoh: Budi Santoso"/>
+                                                <label class="form-label" for="name">Full Name <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="name" required="required" placeholder="Example: John Doe"/>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="email">Alamat Email <span class="text-danger">*</span></label>
-                                                <input type="email" class="form-control" name="email" required="required" placeholder="Contoh: budi@gmail.com"/>
-                                            </div>
-                                        </div>
-
-                                        <div class="row mb-3">
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="phone">Nomor Telepon/WA <span class="text-danger">*</span></label>
-                                                <input type="text" class="form-control" name="phone" required="required" placeholder="Contoh: 08123456789"/>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <label class="form-label" for="previous_school">Asal Sekolah</label>
-                                                <input type="text" class="form-control" name="previous_school" placeholder="Contoh: SMAN 1 Jakarta"/>
+                                                <label class="form-label" for="email">Email Address <span class="text-danger">*</span></label>
+                                                <input type="email" class="form-control" name="email" required="required" placeholder="Example: john@example.com"/>
                                             </div>
                                         </div>
 
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label class="form-label" for="program_id">Program Studi <span class="text-danger">*</span></label>
+                                                <label class="form-label" for="phone">Phone Number/WhatsApp <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" name="phone" required="required" placeholder="Example: 08123456789"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="previous_school">Previous School</label>
+                                                <input type="text" class="form-control" name="previous_school" placeholder="Example: High School 1"/>
+                                            </div>
+                                        </div>
+
+                                        <div class="row mb-3">
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="program_id">Study Program <span class="text-danger">*</span></label>
                                                 <select class="form-select" name="program_id" required="required">
-                                                    <option value="">-- Pilih Program Studi --</option>
+                                                    <option value="">-- Choose Study Program --</option>
                                                     <t t-foreach="programs" t-as="prog">
                                                         <option t-att-value="prog.id"><t t-esc="prog.name"/></option>
                                                     </t>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="academic_year_id">Tahun Akademik <span class="text-danger">*</span></label>
+                                                <label class="form-label" for="academic_year_id">Academic Year <span class="text-danger">*</span></label>
                                                 <select class="form-select" name="academic_year_id" required="required">
-                                                    <option value="">-- Pilih Tahun Akademik --</option>
+                                                    <option value="">-- Choose Academic Year --</option>
                                                     <t t-foreach="academic_years" t-as="year">
                                                         <option t-att-value="year.id"><t t-esc="year.name"/></option>
                                                     </t>
@@ -66,16 +66,16 @@
                                         </div>
 
                                         <div class="mb-4">
-                                            <label class="form-label" for="admission_path">Jalur Pendaftaran <span class="text-danger">*</span></label>
+                                            <label class="form-label" for="admission_path">Admission Path <span class="text-danger">*</span></label>
                                             <select class="form-select" name="admission_path" required="required">
-                                                <option value="regular">Reguler</option>
-                                                <option value="scholarship">Beasiswa</option>
-                                                <option value="transfer">Pindahan / Transfer</option>
+                                                <option value="regular">Regular</option>
+                                                <option value="scholarship">Scholarship</option>
+                                                <option value="transfer">Transfer</option>
                                             </select>
                                         </div>
 
                                         <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary btn-lg">Kirim Pendaftaran</button>
+                                            <button type="submit" class="btn btn-primary btn-lg">Submit Application</button>
                                         </div>
                                     </form>
                                 </div>
@@ -97,10 +97,10 @@
                             <div class="card shadow-sm border-0 py-5">
                                 <div class="card-body">
                                     <h1 class="text-success mb-4"><i class="fa fa-check-circle fa-2x"></i></h1>
-                                    <h2 class="mb-3">Pendaftaran Berhasil!</h2>
-                                    <p class="text-muted lead">Terima kasih, pendaftaran Anda telah kami terima.</p>
-                                    <p class="text-muted">Tim admisi kami akan segera memproses data Anda dan menghubungi Anda melalui Email atau Telepon untuk instruksi selanjutnya.</p>
-                                    <a href="/" class="btn btn-primary mt-4">Kembali ke Beranda</a>
+                                    <h2 class="mb-3">Application Successful!</h2>
+                                    <p class="text-muted lead">Thank you, your application has been received.</p>
+                                    <p class="text-muted">Our admissions team will process your data shortly and contact you via Email or Phone for the next steps.</p>
+                                    <a href="/" class="btn btn-primary mt-4">Back to Homepage</a>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +112,7 @@
 
     <!-- Website Menu Item -->
     <record id="menu_admission" model="website.menu">
-        <field name="name">Pendaftaran PMB</field>
+        <field name="name">PMB Admission</field>
         <field name="url">/admission</field>
         <field name="parent_id" ref="website.main_menu"/>
         <field name="sequence" type="int">20</field>

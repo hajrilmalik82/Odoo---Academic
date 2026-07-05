@@ -1,0 +1,61 @@
+# Translation of Odoo Server.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-07-05 22:54+0000\n"
+"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: id\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+# Website Homepage Docs Portal
+msgid "Campus Portal Module"
+msgstr "Modul Campus Portal"
+
+msgid "Campus Portal Module (Self-Service Frontend)"
+msgstr "Modul Campus Portal (Self-Service Frontend)"
+
+msgid "An architectural extension that acts as a Frontend bridge between the Core ERP system and the Student as an End-User. Built on Odoo web controllers, this module prioritizes a smooth User Experience (UX) while maintaining real-time data integrity to and from the main database."
+msgstr "Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem Core ERP dengan Mahasiswa sebagai End-User. Dibangun di atas web controller Odoo, modul ini mengutamakan User Experience (UX) yang mulus sekaligus menjaga integritas data secara real-time dari dan menuju database utama."
+
+msgid "Self-Service Operational Steps"
+msgstr "Langkah Operasional Self-Service"
+
+msgid "Step 1: Accessing the Student Dashboard"
+msgstr "Langkah 1: Mengakses Dasbor Eksekutif Mahasiswa"
+
+msgid "Students log in and are redirected to the <code>/my/home</code> route (Portal My Account) by default. This interface is ergonomically designed to display main metric aggregations, such as current running KRS and grade transcripts."
+msgstr "Mahasiswa melakukan login dan secara default akan diarahkan ke rute /my/home (Portal My Account). Antarmuka ini dirancang secara ergonomis untuk menampilkan agregasi metrik utama, seperti total KRS yang sedang berjalan dan transkrip nilai."
+
+msgid "Step 2: Automated KRS Compilation (One-Click Enrollment)"
+msgstr "Langkah 2: Automasi Penyusunan KRS (One-Click Enrollment)"
+
+msgid "When a student opens a Draft KRS document, the bottom table dynamically renders all currently offered class schedules (*Available Schedules*). The student interacts via *Point-and-Click* (clicking the <strong>"Take"</strong> button) on the desired class. The HTTP request is sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind the data immediately without manual typing. If SKS limits are exceeded, the portal UI blocks it immediately with a *Flash Message*."
+msgstr "Saat mahasiswa membuka dokumen KRS berstatus Draft, tabel di bagian bawah secara dinamis me-render seluruh Jadwal Kelas yang sedang ditawarkan (Available Schedules). Mahasiswa melakukan interaksi Point-and-Click (menekan tombol \"Ambil\") pada kelas yang diinginkan. Permintaan HTTP dikirimkan melalui Web Controller ke Odoo Backend untuk langsung mengikat data tanpa perlu entri pengetikan manual. Jika melebihi kuota SKS, UI portal akan langsung memblokir dengan Flash Message."
+
+msgid "Step 3: Real-Time KHS Transcript Monitoring"
+msgstr "Langkah 3: Pemantauan Transkrip KHS Real-Time"
+
+msgid "Through the KHS menu, students monitor grade movements in real-time. The <em>Single Source of Truth</em> principle ensures that the second a Lecturer publishes grades in the backend, the grades propagate and display on the student portal screen, minimizing information latency."
+msgstr "Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. Prinsip Single Source of Truth memastikan bahwa detik ketika Dosen mempublikasikan nilai di backend, detik itu pula nilai tersebut ter-propagate dan terenkripsi ke layar portal mahasiswa, meminimalisir keterlambatan arus informasi."
+
+msgid "Cyber Security &amp; Data Isolation"
+msgstr "Enkapsulasi Keamanan Cyber &amp; Isolasi Data"
+
+msgid "Encrypted Sessions &amp; Authorization Middleware:"
+msgstr "Sesi Terenkripsi &amp; Middleware Otorisasi:"
+
+msgid "Every URL route (Controller) in this module is fortified by the <code>@http.route(auth='user')</code> decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF) threats."
+msgstr "Setiap rute URL (Controller) pada modul ini dibentengi oleh dekorator @http.route(auth='user'). Lapisan Middleware Odoo akan menendang (redirect) setiap lalu-lintas anonim yang mencoba melakukan bypass, serta menetralkan ancaman peretasan Cross-Site Request Forgery (CSRF)."
+
+msgid "Horizontal Data Isolation (Data Leakage Prevention):"
+msgstr "Isolasi Data Horizontal (Data Leakage Prevention):"
+
+msgid "Absolute <em>Domain Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1 to /krs/2) to view Student B's data. Odoo automatically returns an *Error 403 Forbidden* if the document ownership (Partner ID) does not intersect with the current logged-in session."
+msgstr "Implementasi Domain Filtering yang diinjeksikan secara absolut pada tingkat Query ORM. Mahasiswa A tidak dapat melakukan URL Spoofing (misal: mengganti ID pada URL web dari /krs/1 menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo akan mengembalikan Error 403 Forbidden secara otomatis jika hak kepemilikan dokumen (Partner ID) tidak beririsan dengan sesi login saat ini."
