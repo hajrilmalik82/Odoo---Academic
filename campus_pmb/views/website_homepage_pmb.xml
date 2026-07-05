@@ -98,7 +98,7 @@
                     <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
                         <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
                         <h5 class="fw-bold text-dark pt-1">Kelulusan &amp; Penerimaan (Acceptance)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Pimpinan PMB / Sistem Automasi</p>
+                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB / Administrator</p>
                         <p class="mb-2">Kandidat yang telah lolos seluruh verifikasi kini siap diterima secara resmi sebagai calon mahasiswa.</p>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-check-circle text-success me-2"/> <strong>Aksi:</strong> Panitia menekan opsi <strong>Accept</strong>. Status berubah menjadi <em>Accepted</em>.
@@ -123,7 +123,7 @@
                     <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
                         <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
                         <h5 class="fw-bold text-dark pt-1">Penolakan Pendaftaran (Reject)</h5>
-                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB / Pimpinan</p>
+                        <p class="mb-2"><strong>Aktor:</strong> Panitia PMB / Administrator</p>
                         <p class="mb-2">Jika kandidat tidak memenuhi syarat di tahap manapun (misalnya dokumen palsu, pembayaran tidak valid), proses dapat dihentikan.</p>
                         <div class="bg-light p-3 rounded mb-2">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Batasan:</strong> Kandidat yang sudah berstatus <em>Accepted</em> atau <em>Registered</em> <strong>tidak dapat</strong> lagi ditolak untuk mencegah pembatalan yang disengaja setelah akun dibuat.
@@ -151,8 +151,8 @@
                                 <tr>
                                     <th>Tindakan</th>
                                     <th class="text-center">Calon Mhs (Publik)</th>
-                                    <th class="text-center">Staf PMB</th>
-                                    <th class="text-center">Manajer PMB</th>
+                                    <th class="text-center">Panitia PMB</th>
+                                    <th class="text-center">Administrator</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -171,14 +171,14 @@
                                 <tr>
                                     <td>Accept / Tolak Pendaftar</td>
                                     <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-success fw-bold">✓</td>
+                                    <td class="text-center text-success fw-bold">✓ (prodi yurisdiksinya)</td>
+                                    <td class="text-center text-success fw-bold">✓ (semua)</td>
                                 </tr>
                                 <tr>
                                     <td>Register Student (buat akun &amp; NIM)</td>
                                     <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-danger">✗</td>
-                                    <td class="text-center text-success fw-bold">✓</td>
+                                    <td class="text-center text-success fw-bold">✓ (prodi yurisdiksinya)</td>
+                                    <td class="text-center text-success fw-bold">✓ (semua)</td>
                                 </tr>
                             </tbody>
                         </table>

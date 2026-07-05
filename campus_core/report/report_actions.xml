@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Report Action: KRS -->
+    <record id="action_report_krs" model="ir.actions.report">
+        <field name="name">Kartu Rencana Studi (KRS)</field>
+        <field name="model">academic.krs</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">campus_core.report_krs_document</field>
+        <field name="report_file">campus_core.report_krs_document</field>
+        <field name="print_report_name">'KRS - %s' % object.student_id.name</field>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Report Action: KHS -->
+    <record id="action_report_khs" model="ir.actions.report">
+        <field name="name">Kartu Hasil Studi (KHS)</field>
+        <field name="model">academic.khs</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">campus_core.report_khs_document</field>
+        <field name="report_file">campus_core.report_khs_document</field>
+        <field name="print_report_name">'KHS - %s' % object.student_id.name</field>
+        <field name="binding_model_id" ref="model_academic_khs"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Report Action: Transkrip Nilai -->
+    <record id="action_report_transcript" model="ir.actions.report">
+        <field name="name">Transkrip Nilai Akademik</field>
+        <field name="model">academic.khs</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">campus_core.report_transcript_document</field>
+        <field name="report_file">campus_core.report_transcript_document</field>
+        <field name="print_report_name">'Transkrip - %s' % object.student_id.name</field>
+        <field name="binding_model_id" ref="model_academic_khs"/>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>

@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_transcript_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: 'Times New Roman', Times, serif;">
+
+                        <!-- JUDUL DOKUMEN -->
+                        <div class="text-center mb-4">
+                            <h3 style="font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2px;">
+                                Transkrip Nilai Akademik
+                            </h3>
+                            <p style="font-size: 10pt; color: #555; margin-bottom: 0;">(Academic Transcript)</p>
+                            <hr style="border-top: 2px solid #000; margin-top: 10px;"/>
+                        </div>
+
+                        <!-- INFORMASI MAHASISWA -->
+                        <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
+                            <tr>
+                                <td style="width: 15%; padding: 3px 0;">NIM</td>
+                                <td style="width: 2%;">:</td>
+                                <td style="width: 35%;"><strong><t t-esc="o.student_id.nim or '-'"/></strong></td>
+                                <td style="width: 15%; padding: 3px 0;">Fakultas</td>
+                                <td style="width: 2%;">:</td>
+                                <td style="width: 31%;"><t t-esc="o.student_id.faculty_id.name or '-'"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 3px 0;">Nama</td>
+                                <td>:</td>
+                                <td><strong><t t-esc="o.student_id.name"/></strong></td>
+                                <td style="padding: 3px 0;">Program Studi</td>
+                                <td>:</td>
+                                <td><t t-esc="o.student_id.program_id.name or '-'"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 3px 0;">Angkatan</td>
+                                <td>:</td>
+                                <td><t t-esc="o.student_id.batch_year or '-'"/></td>
+                                <td style="padding: 3px 0;">Status</td>
+                                <td>:</td>
+                                <td>
+                                    <t t-if="o.student_id.student_status == 'active'">Aktif</t>
+                                    <t t-if="o.student_id.student_status == 'leave'">Cuti</t>
+                                    <t t-if="o.student_id.student_status == 'graduated'">Lulus</t>
+                                    <t t-if="o.student_id.student_status == 'dropout'">Drop Out</t>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- TABEL NILAI PER SEMESTER -->
+                        <t t-set="all_khs" t-value="o.student_id.khs_ids.sorted(key=lambda k: k.academic_year_id.name)"/>
+                        <t t-set="grand_total_credits" t-value="0"/>
+                        <t t-set="grand_total_grade_points" t-value="0"/>
+                        <t t-set="global_line_no" t-value="0"/>
+
+                        <table class="table table-sm table-bordered" style="font-size: 10pt;">
+                            <thead>
+                                <tr style="background-color: #2c3e50; color: white; text-align: center;">
+                                    <th style="width: 5%; padding: 8px;">No</th>
+                                    <th style="width: 12%; padding: 8px;">Kode MK</th>
+                                    <th style="padding: 8px;">Nama Mata Kuliah</th>
+                                    <th style="width: 8%; padding: 8px;">SKS</th>
+                                    <th style="width: 10%; padding: 8px;">Nilai Huruf</th>
+                                    <th style="width: 10%; padding: 8px;">Bobot</th>
+                                    <th style="width: 10%; padding: 8px;">Mutu (SKS×Bobot)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="all_khs" t-as="khs">
+                                    <!-- Semester Header -->
+                                    <tr style="background-color: #eaf2f8;">
+                                        <td colspan="7" style="padding: 8px; font-weight: bold; font-size: 10pt;">
+                                            <i class="fa fa-calendar-o"/> Semester: <t t-esc="khs.semester or khs.academic_year_id.display_name"/>
+                                        </td>
+                                    </tr>
+                                    <t t-foreach="khs.line_ids" t-as="line">
+                                        <t t-set="global_line_no" t-value="global_line_no + 1"/>
+                                        <tr>
+                                            <td style="text-align: center; padding: 5px;"><t t-esc="global_line_no"/></td>
+                                            <td style="text-align: center; padding: 5px;"><t t-esc="line.subject_id.code or '-'"/></td>
+                                            <td style="padding: 5px;"><t t-esc="line.subject_id.name"/></td>
+                                            <td style="text-align: center; padding: 5px;"><t t-esc="line.credits"/></td>
+                                            <td style="text-align: center; padding: 5px; font-weight: bold;"><t t-esc="line.letter_grade or '-'"/></td>
+                                            <td style="text-align: center; padding: 5px;"><t t-esc="'%.2f' % line.grade_points"/></td>
+                                            <td style="text-align: center; padding: 5px;"><t t-esc="'%.2f' % (line.credits * line.grade_points)"/></td>
+                                        </tr>
+                                    </t>
+                                    <!-- Subtotal per semester -->
+                                    <tr style="background-color: #f8f9fa; font-style: italic;">
+                                        <td colspan="3" style="text-align: right; padding: 5px;">Sub-total Semester</td>
+                                        <td style="text-align: center; padding: 5px;"><t t-esc="khs.total_credits"/></td>
+                                        <td colspan="2" style="text-align: right; padding: 5px;">IP Semester</td>
+                                        <td style="text-align: center; padding: 5px;"><t t-esc="'%.2f' % khs.term_gpa"/></td>
+                                    </tr>
+                                    <t t-set="grand_total_credits" t-value="grand_total_credits + khs.total_credits"/>
+                                    <t t-set="grand_total_grade_points" t-value="grand_total_grade_points + khs.total_grade_points"/>
+                                </t>
+                            </tbody>
+                            <tfoot>
+                                <tr style="background-color: #2c3e50; color: white; font-weight: bold;">
+                                    <td colspan="3" style="text-align: right; padding: 10px;">TOTAL KUMULATIF</td>
+                                    <td style="text-align: center; padding: 10px;"><t t-esc="grand_total_credits"/></td>
+                                    <td colspan="2" style="text-align: right; padding: 10px;">Indeks Prestasi Kumulatif (IPK)</td>
+                                    <td style="text-align: center; padding: 10px; font-size: 12pt;">
+                                        <t t-esc="'%.2f' % o.student_id.cgpa"/>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <!-- SKALA PENILAIAN -->
+                        <div style="margin-top: 15px; font-size: 9pt; page-break-inside: avoid;">
+                            <p style="font-weight: bold; margin-bottom: 5px;">Skala Penilaian:</p>
+                            <table style="width: 60%; border-collapse: collapse;">
+                                <tr style="background-color: #f5f5f5;">
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Nilai Angka</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Huruf</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Bobot</th>
+                                    <th style="border: 1px solid #ccc; padding: 4px; text-align: center;">Keterangan</th>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">80 – 100</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">A</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">4.00</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Sangat Baik</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">75 – 79</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">A-</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">3.75</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Hampir Sangat Baik</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">70 – 74</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">B+</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">3.50</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Lebih dari Baik</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">65 – 69</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">B</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">3.00</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Baik</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">60 – 64</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">B-</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">2.75</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Hampir Baik</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">55 – 59</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">C+</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">2.50</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Lebih dari Cukup</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">50 – 54</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">C</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">2.00</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Cukup</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">40 – 49</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">D</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">1.00</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Kurang</td>
+                                </tr>
+                                <tr>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">0 – 39</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">E</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px; text-align: center;">0.00</td>
+                                    <td style="border: 1px solid #ccc; padding: 4px;">Sangat Kurang</td>
+                                </tr>
+                            </table>
+                        </div>
+
+                        <!-- TANDA TANGAN -->
+                        <div style="margin-top: 30px; font-size: 10pt; page-break-inside: avoid;">
+                            <table style="width: 100%;">
+                                <tr>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="margin-bottom: 0;">Mengetahui,</p>
+                                        <p style="margin-bottom: 0;">Ketua Program Studi</p>
+                                        <br/><br/><br/>
+                                        <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
+                                            <t t-if="o.student_id.program_id.head_id">
+                                                <t t-esc="o.student_id.program_id.head_id.name"/>
+                                            </t>
+                                            <t t-else="">____________________</t>
+                                        </p>
+                                    </td>
+                                    <td style="width: 50%; text-align: center;">
+                                        <p style="margin-bottom: 0;">Mengetahui,</p>
+                                        <p style="margin-bottom: 0;">Dekan Fakultas</p>
+                                        <br/><br/><br/>
+                                        <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
+                                            <t t-if="o.student_id.faculty_id.dean_id">
+                                                <t t-esc="o.student_id.faculty_id.dean_id.name"/>
+                                            </t>
+                                            <t t-else="">____________________</t>
+                                        </p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -7,6 +7,7 @@
     'author': 'Hajril Malik',
     'depends': ['base', 'hr', 'campus_core', 'website'],
     'data': [
+        'security/campus_security.xml',
         'security/ir.model.access.csv',
         'views/hr_employee_views.xml',
         'views/hr_job_views.xml',
