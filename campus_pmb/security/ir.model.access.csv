@@ -1,6 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_campus_admission_admin,campus.admission.admin,model_campus_admission,base.group_system,1,1,1,1
-access_campus_admission_admin,campus.admission.admin,model_campus_admission,base.group_system,1,1,1,1
+access_campus_admission_admin,campus.admission.admin,model_campus_admission,campus_core.group_campus_administrator,1,1,1,1
 access_campus_admission_pmb,campus.admission.pmb,model_campus_admission,group_pmb,1,1,1,1
-access_campus_admission_document_admin,campus.admission.document.admin,model_campus_admission_document,base.group_system,1,1,1,1
+access_campus_admission_document_admin,campus.admission.document.admin,model_campus_admission_document,campus_core.group_campus_administrator,1,1,1,1
 access_campus_admission_document_pmb,campus.admission.document.pmb,model_campus_admission_document,group_pmb,1,1,1,1
