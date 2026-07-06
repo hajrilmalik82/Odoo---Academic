@@ -1,49 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- Replace Default Layout elements (Copyright and Head Scripts) -->
     <template id="campus_website_layout" inherit_id="website.layout" name="Campus Website Layout">
-        <!-- Replace Default Footer with Custom Author Footer -->
-        <xpath expr="//div[@id='footer']" position="replace">
-            <div id="footer" class="oe_structure oe_structure_solo">
-                <footer class="bg-dark text-white pt-5 pb-4 border-top border-4 border-primary">
-                <div class="container text-center text-md-start">
-                    <div class="row text-center text-md-start">
-                        <!-- About -->
-                        <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
-                            <h5 class="text-uppercase mb-4 fw-bold text-white">Campus Academic SIAKAD</h5>
-                            <p class="text-light">
-                                Integrated Academic Information System built using modern Odoo technology.
-                                Supports full management of New Student Admissions, Academic Portal, and Employee Management.
-                            </p>
-                        </div>
-
-                        <!-- Developer Info -->
-                        <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
-                            <h5 class="text-uppercase mb-4 fw-bold text-white">Developed By</h5>
-                            <p>
-                                <i class="fa fa-user me-3 text-primary"></i> <strong>Hajril Malik</strong>
-                            </p>
-                            <p>
-                                <a href="mailto:hajrilmalik82@gmail.com" class="text-light text-decoration-none">
-                                    <i class="fa fa-envelope me-3 text-warning"></i> hajrilmalik82@gmail.com
-                                </a>
-                            </p>
-                            <p>
-                                <a href="https://wa.me/6285287212730" class="text-light text-decoration-none" target="_blank">
-                                    <i class="fa fa-whatsapp me-3 text-success"></i> 085287212730
-                                </a>
-                            </p>
-                            <p>
-                                <a href="https://www.linkedin.com/in/hajrilmalik/" class="text-light text-decoration-none" target="_blank">
-                                    <i class="fa fa-linkedin me-3 text-info"></i> LinkedIn Profile
-                                </a>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-            </div>
-        </xpath>
-
         <!-- Replace Default Copyright Bar -->
         <xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
             <div class="o_footer_copyright o_colored_level o_cc bg-dark text-white border-top border-secondary">
@@ -96,6 +54,50 @@
                     }
                 });
             </script>
+        </xpath>
+    </template>
+
+    <!-- Replace Default Custom Footer -->
+    <template id="campus_website_layout_footer" inherit_id="website.footer_custom" name="Campus Website Layout Footer">
+        <!-- Replace Default Footer with Custom Author Footer -->
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="bg-dark text-white pt-5 pb-4 border-top border-4 border-primary">
+                <div class="container text-center text-md-start">
+                    <div class="row text-center text-md-start">
+                        <!-- About -->
+                        <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
+                            <h5 class="text-uppercase mb-4 fw-bold text-white">Campus Academic SIAKAD</h5>
+                            <p class="text-light">
+                                Integrated Academic Information System built using modern Odoo technology.
+                                Supports full management of New Student Admissions, Academic Portal, and Employee Management.
+                            </p>
+                        </div>
+
+                        <!-- Developer Info -->
+                        <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
+                            <h5 class="text-uppercase mb-4 fw-bold text-white">Developed By</h5>
+                            <p>
+                                <i class="fa fa-user me-3 text-primary"></i> <strong>Hajril Malik</strong>
+                            </p>
+                            <p>
+                                <a href="mailto:hajrilmalik82@gmail.com" class="text-light text-decoration-none">
+                                    <i class="fa fa-envelope me-3 text-warning"></i> hajrilmalik82@gmail.com
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://wa.me/6285287212730" class="text-light text-decoration-none" target="_blank">
+                                    <i class="fa fa-whatsapp me-3 text-success"></i> 085287212730
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://www.linkedin.com/in/hajrilmalik/" class="text-light text-decoration-none" target="_blank">
+                                    <i class="fa fa-linkedin me-3 text-info"></i> LinkedIn Profile
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </xpath>
     </template>
 </odoo>

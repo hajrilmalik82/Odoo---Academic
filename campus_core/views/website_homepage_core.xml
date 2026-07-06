@@ -139,7 +139,7 @@
                                                 <i class="fa fa-magic text-dark me-2"/> <strong>Automatic Creation:</strong> Admin does not need to create KHS from scratch. Simply click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the system automatically creates an exact copy in the KHS module!
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-calculator text-success me-2"/> <strong>Action:</strong> Lecturer inputs final grade (e.g. 80). The system instantly calculates the grade points and GPA (Cumulative Grade Point Average) of the student.</p>
+                                                <i class="fa fa-calculator text-success me-2"/> <strong>Action:</strong> Lecturer inputs final grade (e.g. 80). The system instantly calculates the grade points and GPA (Cumulative Grade Point Average) of the student.
                                             </div>
                                         </div>
 

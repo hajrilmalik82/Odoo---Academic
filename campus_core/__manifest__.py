@@ -11,6 +11,7 @@
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/mail_activity_type_data.xml',
+        'data/website_configurator_bypass.xml',
         'report/report_actions.xml',
         'report/report_krs_template.xml',
         'report/report_khs_template.xml',

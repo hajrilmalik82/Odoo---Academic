@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Automatically set website configurator to done to prevent the setup wizard redirect -->
+        <record id="website.website_configurator_todo" model="ir.actions.todo">
+            <field name="state">done</field>
+        </record>
+
+        <!-- Automatically mark configurator as completed on the website model -->
+        <function model="website" name="write">
+            <value model="website" search="[]"/>
+            <value eval="{'configurator_done': True}"/>
+        </function>
+    </data>
+</odoo>
