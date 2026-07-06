@@ -87,7 +87,7 @@
                         <p class="mb-2"><strong>Actor:</strong> Finance Department / Committee</p>
                         <p class="mb-2">Candidates must attach proof or reference numbers of their application fee payment.</p>
                         <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> If the "Payment Reference" column is empty, the system blocks candidate acceptance and displays a warning alert.</p>
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> If the "Payment Reference" column is empty, the system blocks candidate acceptance and displays a warning alert.
                         </div>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> The committee clicks <strong>Verify Payment</strong> to validate the payment.
