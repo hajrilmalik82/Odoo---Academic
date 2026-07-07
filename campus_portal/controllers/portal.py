@@ -1,7 +1,11 @@
+import logging
+
 from odoo import http, _, fields
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
 from odoo.exceptions import ValidationError, UserError
+
+_logger = logging.getLogger(__name__)
 
 
 class CampusPortal(CustomerPortal):
@@ -81,8 +85,11 @@ class CampusPortal(CustomerPortal):
                 'academic_year_id': active_year.id,
             })
             return request.redirect('/my/krs/%s' % new_krs.id)
-        except Exception as e:
-            return request.redirect('/my/krs?error=%s' % str(e))
+        except (ValidationError, UserError) as e:
+            return request.redirect('/my/krs?error=%s' % e.args[0])
+        except Exception:
+            _logger.exception("KRS register failed for user %s", request.env.user.login)
+            return request.redirect('/my/krs?error=Terjadi kesalahan sistem.')
 
     @http.route(['/my/krs/<int:krs_id>'], type='http', auth="user", website=True)
     def portal_my_krs_detail(self, krs_id, **kw):
@@ -117,11 +124,14 @@ class CampusPortal(CustomerPortal):
                 'krs_id': krs.id,
                 'schedule_id': int(post.get('schedule_id')),
             })
-        except Exception as e:
-            return request.redirect('/my/krs/%s?error=%s' % (krs_id, str(e)))
+        except (ValidationError, UserError) as e:
+            return request.redirect('/my/krs/%s?error=%s' % (krs_id, e.args[0]))
+        except Exception:
+            _logger.exception("KRS add_line failed for user %s", request.env.user.login)
+            return request.redirect('/my/krs/%s?error=Terjadi kesalahan sistem.' % krs_id)
         return request.redirect('/my/krs/%s' % krs_id)
 
-    @http.route(['/my/krs/<int:krs_id>/delete_line/<int:line_id>'], type='http', auth="user", website=True)
+    @http.route(['/my/krs/<int:krs_id>/delete_line/<int:line_id>'], type='http', auth="user", website=True, methods=['POST'])
     def portal_my_krs_delete_line(self, krs_id, line_id, **kw):
         try:
             krs = request.env['academic.krs'].browse(krs_id)
@@ -130,8 +140,11 @@ class CampusPortal(CustomerPortal):
                 line = request.env['academic.krs.line'].browse(line_id)
                 if line.krs_id.id == krs.id:
                     line.unlink()
-        except Exception as e:
-            return request.redirect('/my/krs/%s?error=%s' % (krs_id, str(e)))
+        except (ValidationError, UserError) as e:
+            return request.redirect('/my/krs/%s?error=%s' % (krs_id, e.args[0]))
+        except Exception:
+            _logger.exception("KRS delete_line failed for user %s", request.env.user.login)
+            return request.redirect('/my/krs/%s?error=Terjadi kesalahan sistem.' % krs_id)
         return request.redirect('/my/krs/%s' % krs_id)
 
     @http.route(['/my/krs/<int:krs_id>/submit'], type='http', auth="user", website=True, methods=['POST'])
@@ -141,8 +154,11 @@ class CampusPortal(CustomerPortal):
             krs.check_access_rule('write')
             if krs.state in ('draft', 'revision'):
                 krs.action_submit()
-        except Exception as e:
-            return request.redirect('/my/krs/%s?error=%s' % (krs_id, str(e)))
+        except (ValidationError, UserError) as e:
+            return request.redirect('/my/krs/%s?error=%s' % (krs_id, e.args[0]))
+        except Exception:
+            _logger.exception("KRS submit failed for user %s", request.env.user.login)
+            return request.redirect('/my/krs/%s?error=Terjadi kesalahan sistem.' % krs_id)
         return request.redirect('/my/krs/%s' % krs_id)
 
     @http.route(['/my/khs', '/my/khs/page/<int:page>'], type='http', auth="user", website=True)

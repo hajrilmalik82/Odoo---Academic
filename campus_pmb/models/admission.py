@@ -1,5 +1,9 @@
+import logging
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
 
 
 class CampusAdmission(models.Model):
@@ -170,7 +174,7 @@ class CampusAdmission(models.Model):
                 raise UserError(_("Only payment-verified applications can be accepted."))
             if not (
                 self.env.user.has_group('campus_pmb.group_pmb')
-                or self.env.user.has_group('base.group_system')
+                or self.env.user.has_group('campus_core.group_campus_administrator')
             ):
                 raise UserError(_("Only PMB can accept applications."))
             record.state = 'accepted'
@@ -270,6 +274,7 @@ class CampusAdmission(models.Model):
                 'company_id': self.env.company.id,
             })
             record.user_id = user.id
+            _logger.info("Created Portal User and Partner for student NIM: %s (Email: %s)", nim, record.email)
 
 
 class CampusAdmissionDocument(models.Model):

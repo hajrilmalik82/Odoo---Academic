@@ -1,4 +1,4 @@
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, Command
 from odoo.exceptions import ValidationError
 
 
@@ -32,7 +32,7 @@ class KrsGeneratorWizard(models.TransientModel):
             students_with_krs = existing_krs.mapped('student_id').ids
             valid_students = students.filtered(lambda s: s.id not in students_with_krs)
             
-            res['student_ids'] = [(6, 0, valid_students.ids)]
+            res['student_ids'] = [Command.set(valid_students.ids)]
             
         return res
 

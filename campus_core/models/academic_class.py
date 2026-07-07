@@ -1,7 +1,10 @@
-from odoo import _, api, fields, models
+import logging
+from odoo import _, api, fields, models, Command
 from odoo.exceptions import ValidationError
 from datetime import datetime, time, timedelta
 import pytz
+
+_logger = logging.getLogger(__name__)
 
 
 class AcademicClass(models.Model):
@@ -9,7 +12,6 @@ class AcademicClass(models.Model):
     _description = 'Academic Class'
     _order = 'name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'name'
     _check_company_auto = True
 
     name = fields.Char(string='Class Name', compute='_compute_class_name', store=True, tracking=True)
@@ -88,6 +90,7 @@ class AcademicClass(models.Model):
                 }))
 
         self.write({'session_ids': sessions})
+        _logger.info("Generated %d sessions for class %s", len(sessions), self.name)
 
 
 

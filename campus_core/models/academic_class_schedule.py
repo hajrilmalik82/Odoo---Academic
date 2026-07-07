@@ -45,6 +45,7 @@ class AcademicClassSchedule(models.Model):
             record.enrolled_count = enrolled
             record.capacity_display = f"{record.room_capacity} / {enrolled}"
 
+    @api.depends('class_code', 'day_of_week', 'start_time', 'end_time')
     def _compute_display_name(self):
         for record in self:
             day_dict = dict(self._fields['day_of_week'].selection)

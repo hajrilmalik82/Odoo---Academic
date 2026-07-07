@@ -6,6 +6,7 @@ class CampusBuilding(models.Model):
     _name = 'campus.building'
     _description = 'Campus Building'
     _order = 'name'
+    _check_company_auto = True
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code')

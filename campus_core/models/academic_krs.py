@@ -1,10 +1,15 @@
+import logging
 from odoo import _, api, fields, models, Command
+
+_logger = logging.getLogger(__name__)
+
 from odoo.exceptions import ValidationError
 
 
 class AcademicCoursePackage(models.Model):
     _name = 'academic.course.package'
     _description = 'Academic Course Package'
+    _check_company_auto = True
 
     name = fields.Char(string='Name', required=True)
     program_id = fields.Many2one('academic.program', string='Program', required=True)
@@ -50,7 +55,6 @@ class AcademicKrs(models.Model):
 
     name = fields.Char(string='KRS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
     student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True)
-
 
     @api.onchange('student_id')
     def _onchange_student_id(self):
@@ -111,8 +115,6 @@ class AcademicKrs(models.Model):
         'unique(student_id, academic_year_id)',
         'A student can only have one KRS per academic year.',
     )
-
-
 
     @api.model
     def _expand_states(self, states, domain, order):
@@ -311,7 +313,7 @@ class AcademicKrs(models.Model):
             if not existing_khs:
                 khs_lines = []
                 for krs_line in record.line_ids:
-                    khs_lines.append((0, 0, {
+                    khs_lines.append(Command.create({
                         'subject_id': krs_line.subject_id.id,
                         'credits': krs_line.credits,
                         # grade and grade_points will be set by the lecturer later
@@ -320,9 +322,9 @@ class AcademicKrs(models.Model):
                 self.env['academic.khs'].create({
                     'student_id': record.student_id.id,
                     'academic_year_id': record.academic_year_id.id,
-                    'semester': record.semester,
                     'line_ids': khs_lines,
                 })
+                _logger.info("Successfully generated KHS for student %s, academic year %s", record.student_id.name, record.academic_year_id.name)
 
     def action_unlock(self):
         """Unlock a locked KRS back to Approved state.
@@ -360,9 +362,9 @@ class AcademicKrs(models.Model):
                 self.academic_year_id = self.package_id.academic_year_id
                 
             # Clear existing lines and add new ones from package
-            lines = [(5, 0, 0)]
+            lines = [Command.clear()]
             for pkg_line in self.package_id.line_ids:
-                lines.append((0, 0, {
+                lines.append(Command.create({
                     'subject_id': pkg_line.subject_id.id,
                 }))
             self.line_ids = lines

@@ -1,6 +1,7 @@
 from odoo import models, fields, api, _
 from odoo.exceptions import ValidationError
 
+
 class AssignScheduleWizard(models.TransientModel):
     _name = 'assign.schedule.wizard'
     _description = 'Mass Assign Schedule Wizard'

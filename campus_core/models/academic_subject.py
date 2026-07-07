@@ -6,6 +6,7 @@ class AcademicSubject(models.Model):
     _name = 'academic.subject'
     _description = 'Academic Subject'
     _order = 'code, name'
+    _check_company_auto = True
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', required=True)
@@ -63,6 +64,12 @@ class AcademicYear(models.Model):
     _name = 'academic.year'
     _description = 'Academic Year'
     _order = 'name desc'
+    _check_company_auto = True
+
+    _name_term_company_unique = models.Constraint(
+        'unique(name, term_type, company_id)',
+        'Academic Year with this name and term already exists for this company.',
+    )
 
     name = fields.Char(string='Name', required=True)
     term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True)
