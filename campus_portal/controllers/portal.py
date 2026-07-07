@@ -140,10 +140,8 @@ class CampusPortal(CustomerPortal):
         try:
             krs = request.env['academic.krs'].browse(krs_id)
             krs.check_access_rule('write')
-            if krs.state == 'draft':
-                if not krs.line_ids:
-                    raise UserError(_("You must add at least one subject before submitting."))
-                krs.write({'state': 'submitted'})
+            if krs.state in ('draft', 'revision'):
+                krs.action_submit()
         except Exception as e:
             return request.redirect('/my/krs/%s?error=%s' % (krs_id, str(e)))
         return request.redirect('/my/krs/%s' % krs_id)
