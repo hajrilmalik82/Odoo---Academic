@@ -8,7 +8,6 @@
                 <field name="name"/>
                 <field name="student_id"/>
                 <field name="academic_year_id"/>
-                <field name="semester"/>
                 <field name="total_credits"/>
                 <field name="term_gpa" string="Term GPA"/>
                 <field name="company_id" column_invisible="1"/>
@@ -37,7 +36,7 @@
                             <field name="academic_year_id"/>
                         </group>
                         <group>
-                            <field name="semester" readonly="1" force_save="1"/>
+
                             <field name="company_id" invisible="1"/>
                         </group>
                     </group>

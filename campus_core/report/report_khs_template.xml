@@ -12,7 +12,7 @@
                                 Study Result Card (KHS)
                             </h3>
                             <p style="font-size: 11pt; color: #555; margin-bottom: 0;">
-                                Semester: <strong><t t-esc="o.semester or '-'"/></strong>
+                                Semester: <strong><t t-esc="o.academic_year_id.name or '-'"/></strong>
                             </p>
                             <hr style="border-top: 2px solid #000; margin-top: 10px;"/>
                         </div>

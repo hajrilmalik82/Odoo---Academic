@@ -23,7 +23,6 @@
                 <field name="name"/>
                 <field name="student_id"/>
                 <field name="academic_year_id"/>
-                <field name="semester"/>
                 <field name="state"/>
                 <field name="total_credits"/>
                 <templates>
@@ -56,7 +55,6 @@
                 <field name="student_id"/>
                 <field name="program_id"/>
                 <field name="academic_year_id"/>
-                <field name="semester"/>
                 <field name="advisor_id"/>
                 <field name="total_credits"/>
                 <field name="state" widget="badge" decoration-info="state == 'submitted'" decoration-success="state in ('approved', 'locked')" decoration-warning="state == 'revision'" decoration-danger="state == 'rejected'"/>
@@ -91,13 +89,13 @@
                         <group string="Student Information">
                             <field name="faculty_id" readonly="state not in ('draft', 'revision')" options="{'no_create': True}"/>
                             <field name="program_id" readonly="state not in ('draft', 'revision')" options="{'no_create': True}" domain="[('faculty_id', '=?', faculty_id)]"/>
-                            <field name="nim_id" readonly="state not in ('draft', 'revision')" context="{'display_nim': True}" options="{'no_create': True}" domain="[('is_student', '=', True), ('program_id', '=?', program_id), ('program_id.faculty_id', '=?', faculty_id)]"/>
+
                             <field name="student_id" readonly="state not in ('draft', 'revision')" options="{'no_create': True}" domain="[('is_student', '=', True), ('program_id', '=?', program_id), ('program_id.faculty_id', '=?', faculty_id)]"/>
                             <field name="advisor_id"/>
                         </group>
                         <group string="Academic Period">
                             <field name="academic_year_id" readonly="state not in ('draft', 'revision')"/>
-                            <field name="semester" readonly="1" force_save="1"/>
+
                             <field name="package_id" readonly="state not in ('draft', 'revision')"/>
                             <field name="total_credits"/>
                             <field name="company_id" invisible="1"/>

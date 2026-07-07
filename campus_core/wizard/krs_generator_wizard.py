@@ -1,6 +1,7 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError
 
+
 class KrsGeneratorWizard(models.TransientModel):
     _name = 'krs.generator.wizard'
     _description = 'KRS Generator Wizard'
@@ -62,8 +63,8 @@ class KrsGeneratorWizard(models.TransientModel):
                 'faculty_id': self.package_id.program_id.faculty_id.id,
             })
             
-            # Call onchange to generate the lines based on the package
-            new_krs._onchange_package_id()
+            # Apply lines safely via write()
+            new_krs._apply_package_lines(self.package_id)
             
             created_count += 1
             

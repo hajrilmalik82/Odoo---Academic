@@ -12,15 +12,7 @@ class AcademicKhs(models.Model):
     name = fields.Char(string='KHS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
     student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True)
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
-    semester = fields.Char(string='Semester', compute='_compute_semester', store=True)
 
-    @api.depends('academic_year_id')
-    def _compute_semester(self):
-        for record in self:
-            if record.academic_year_id:
-                record.semester = record.academic_year_id.name
-            else:
-                record.semester = False
     line_ids = fields.One2many('academic.khs.line', 'khs_id', string='Grade Lines')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     # Computed GPA fields

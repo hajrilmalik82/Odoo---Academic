@@ -71,7 +71,7 @@
                                     <!-- Semester Header -->
                                     <tr style="background-color: #eaf2f8;">
                                         <td colspan="7" style="padding: 8px; font-weight: bold; font-size: 10pt;">
-                                            <i class="fa fa-calendar-o"/> Semester: <t t-esc="khs.semester or khs.academic_year_id.display_name"/>
+                                            <i class="fa fa-calendar-o"/> Semester: <t t-esc="khs.academic_year_id.display_name"/>
                                         </td>
                                     </tr>
                                     <t t-foreach="khs.line_ids" t-as="line">
