@@ -1,11 +1,13 @@
 # Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_core
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-05 22:54+0000\n"
-"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"POT-Creation-Date: 2026-07-07 16:34+0000\n"
+"PO-Revision-Date: 2026-07-07 16:34+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: id\n"
@@ -14,530 +16,2784 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-# Models and Fields
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "%s KRS draft(s) successfully generated!"
+msgstr "(Catatan Akademik Resmi)"
+
+#. module: campus_core
+#: model:ir.actions.report,print_report_name:campus_core.action_report_khs
+msgid "'KHS - %s' % object.student_id.name"
+msgstr "(Catatan Akademik Resmi)"
+
+#. module: campus_core
+#: model:ir.actions.report,print_report_name:campus_core.action_report_krs
+msgid "'KRS - %s' % object.student_id.name"
+msgstr "(Catatan Akademik Resmi)"
+
+#. module: campus_core
+#: model:ir.actions.report,print_report_name:campus_core.action_report_transcript
+msgid "'Transkrip - %s' % object.student_id.name"
+msgstr "(Catatan Akademik Resmi)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "(Official Academic Record)"
+msgstr "(Catatan Akademik Resmi)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-bolt text-danger me-2\"/> <strong>Available Options in "
+"Actions Menu:</strong>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calculator text-success me-2\"/> <strong>Action:</strong> "
+"Lecturer inputs final grade (e.g. 80). The system instantly calculates the "
+"grade points and GPA (Cumulative Grade Point Average) of the student."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<i class=\"fa fa-calculator text-success me-2\"/>KHS Transcript Automation"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar text-dark me-2\"/> <strong>Scheduling "
+"System:</strong> Schedule determines Day, Start Time, End Time, Room, and "
+"Lecturer. You can create multiple schedules for one class (e.g., theory and "
+"lab)."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar-check-o text-primary me-2\"/> <strong>Setup "
+"Guide:</strong> Open <strong>Configuration → Academic Years</strong> menu → "
+"Choose active Academic Year → Fill <strong>KRS Start Date</strong> and "
+"<strong>KRS End Date</strong> fields."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<i class=\"fa fa-calendar-check-o text-primary me-2\"/>Dynamic Scheduling"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "<i class=\"fa fa-calendar-o\"/> Semester:"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Advisor clicks <strong>Approve</strong>. KRS is locked and the student is "
+"officially registered in the class."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Student clicks <strong>Submit</strong> to send KRS to the Academic Advisor "
+"(PA)."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<i class=\"fa fa-cogs me-2\"/> Campus Core Module"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-cubes text-dark me-2\"/> <strong>Course Packages:</strong> "
+"Collect mandatory subjects for each Study Program into a Package per "
+"Academic Year."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid "<i class=\"fa fa-envelope me-3 text-warning\"/> hajrilmalik82@gmail.com"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Strict "
+"Validation:</strong> The system <strong>rejects</strong> KRS submissions if:"
+" (1) SKS exceeds the GPA limit, (2) Schedule conflicts, (3) Class quota is "
+"full, or (4) Student has not passed the prerequisite subjects."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-flash text-info me-2\"/> <strong>Action (Generate "
+"KRS):</strong> Click \"Generate KRS\" on the Package, and the system will "
+"filter students of that program who have not created KRS. Check dozens of "
+"student names, and mass <em>Draft KRS</em> (with their subject lines) will "
+"be issued in the blink of an eye!"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Note:</strong> This "
+"period restriction <strong>only applies to Students</strong> (Portal users)."
+" Academic Admin can create or edit KRS anytime without being bound by the "
+"period, assisting students who cannot fill it themselves."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Smart Note:</strong>"
+" The system automatically skips lines with mismatching status. For example, "
+"if you check 10 KRS and select <em>Mass Approve</em>, only KRS in Submitted "
+"status will be processed; Draft KRS will remain untouched."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid "<i class=\"fa fa-linkedin me-3 text-info\"/> LinkedIn Profile"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-list-ul text-dark me-2\"/> <strong>How to Use:</strong> "
+"Open <strong>Study Plan (KRS)</strong> menu → Check one or more KRS lines to"
+" process → Click <strong>\"⚙️ Actions\"</strong> button at the top of the "
+"table."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-lock text-dark me-2\"/> <strong>Security (Row-Level "
+"Security):</strong> Advisor A <strong>cannot</strong> approve or view KRS "
+"from Advisor B's students. Access rights are absolutely restricted."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Automatic "
+"Creation:</strong> Admin does not need to create KHS from scratch. Simply "
+"click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the"
+" system automatically creates an exact copy in the KHS module!"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-primary me-2\"/> <strong>Action (Assign "
+"Schedule):</strong> Open Class form, click <strong>Students</strong> tab, "
+"then click <strong>Assign Schedule (Massive)</strong>. The system will "
+"search for all students taking this class but have no schedule, and you can "
+"assign them to a schedule at once!"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<i class=\"fa fa-shield text-danger me-2\"/>Smart Constraints"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid "<i class=\"fa fa-user me-3 text-primary\"/> <strong>Hajril Malik</strong>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-users text-info me-2\"/> <strong>Automatic "
+"Capacity:</strong> Odoo automatically calculates the class maximum capacity "
+"based on the capacity of the selected Room in the schedule!"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid "<i class=\"fa fa-whatsapp me-3 text-success\"/> 085287212730"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-danger position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">8</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-info position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">2</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-info position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">6</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">3</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">7</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
+"top: 0px; font-size: 1rem;\">1</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-success position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">5</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">4</span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid ""
+"<span class=\"o_form_label o_td_label\" name=\"address_name\">\n"
+"                                        <b>Address</b>\n"
+"                                    </span>"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Admin"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Admin / Academic Advisor"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Administrator (Academic Office)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Advisor (PA)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<strong>Actor:</strong> Course Lecturer / Academic Admin"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "<strong>Actor:</strong> Student / Academic Admin"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<strong>Mass Approve</strong> — Approve all checked Submitted KRS at once "
+"(Advisor / Admin only)."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<strong>Mass Lock</strong> — Lock all checked Approved KRS and automatically"
+" generate KHS (Admin only)."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<strong>Mass Reject</strong> — Reject all checked Submitted KRS at once."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<strong>Mass Submit</strong> — Send all checked Draft KRS at once to "
+"Academic Advisor."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"<strong>Mass Unlock</strong> — Reopen locked KRS back to Approved status if "
+"corrections are needed (Admin only)."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "A"
+msgstr "A"
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_krs_line_unique_class_per_krs
+msgid "A class can only appear once in the same KRS."
+msgstr "Suatu kelas hanya dapat muncul satu kali dalam KRS yang sama."
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_khs_unique_khs
+msgid "A student can only have one KHS per Academic Year!"
+msgstr "Seorang mahasiswa hanya boleh memiliki satu KHS per Tahun Ajaran!"
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_krs_unique_student_academic_year_term
+msgid "A student can only have one KRS per academic year."
+msgstr "Seorang mahasiswa hanya dapat memiliki satu KRS per tahun akademik."
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_course_package_line_unique_subject_per_package
+msgid "A subject can only appear once in a course package."
+msgstr ""
+"Suatu mata pelajaran hanya dapat muncul satu kali dalam satu paket kursus."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "A-"
+msgstr "A-"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Academic Admin"
+msgstr "Admin Akademik"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__advisor_id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__academic_advisor_id
+#: model:ir.model.fields,field_description:campus_core.field_res_users__academic_advisor_id
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Academic Advisor"
+msgstr "Penasihat Akademik"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Academic Advisor Approval (KRS Approval)"
+msgstr "Persetujuan Pembimbing Akademik (KRS Approval)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Academic Advisor,"
+msgstr "Penasihat Akademik,"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_class
+msgid "Academic Class"
+msgstr "Kelas Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_class_schedule
+msgid "Academic Class Schedule"
+msgstr "Jadwal Perkuliahan Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_class_session
+msgid "Academic Class Session"
+msgstr "Sesi Kelas Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_course_package
+msgid "Academic Course Package"
+msgstr "Paket Kursus Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_course_package_line
+msgid "Academic Course Package Line"
+msgstr "Jalur Paket Kursus Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_faculty
+msgid "Academic Faculty"
+msgstr "Fakultas"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_form_inherit_campus
+msgid "Academic Info"
+msgstr "Info Akademik"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Academic Information System (SIAKAD) Technical Documentation"
+msgstr "Dokumentasi Teknis Sistem Informasi Akademik (SIAKAD)."
+
+#. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_krs
 msgid "Academic KRS"
-msgstr "Kartu Rencana Studi (KRS)"
+msgstr "KRS (Kartu Rencana Studi)"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__name
-msgid "KRS Number"
-msgstr "Nomor KRS"
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_krs_line
+msgid "Academic KRS Line"
+msgstr "Jalur KRS Akademik"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__student_id
-msgid "Student"
-msgstr "Mahasiswa"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Academic Period"
+msgstr "Periode Akademik"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__nim_id
-msgid "Student ID (NIM)"
-msgstr "NIM Mahasiswa"
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_program
+msgid "Academic Program"
+msgstr "Program Studi"
 
+#. module: campus_core
+#: model:res.groups,name:campus_core.group_campus_academic_staff
+msgid "Academic Staff (TU)"
+msgstr "Staf Akademik (TU)"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_subject
+msgid "Academic Subject"
+msgstr "Mata Kuliah"
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_root
+msgid "Academic System"
+msgstr "Sistem Akademik"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Academic Transcript"
+msgstr "Transkrip Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_khs
+#: model:ir.ui.menu,name:campus_core.menu_academic_khs_act
+msgid "Academic Transcript (KHS)"
+msgstr "Transkrip Akademik (KHS)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Academic Workflow"
+msgstr "Alur Kerja Akademik"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_year
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__academic_year_id
 #: model:ir.model.fields,field_description:campus_core.field_academic_krs__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__academic_year_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_year_form
 msgid "Academic Year"
 msgstr "Tahun Akademik"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__semester
-msgid "Semester"
-msgstr "Semester"
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_year_name_term_company_unique
+msgid "Academic Year with this name and term already exists for this company."
+msgstr ""
+"Tahun Akademik dengan nama dan istilah ini sudah ada untuk perusahaan ini."
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__advisor_id
-msgid "Academic Advisor"
-msgstr "Dosen Wali / Pembimbing Akademik"
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_year
+#: model:ir.ui.menu,name:campus_core.menu_academic_year
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_year_tree
+msgid "Academic Years"
+msgstr "Tahun Akademik"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__faculty_id
-msgid "Faculty"
-msgstr "Fakultas"
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Academic year KRS period is not configured."
+msgstr "Periode KRS tahun akademik tidak dikonfigurasi."
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__program_id
-msgid "Study Program"
-msgstr "Program Studi"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Action"
+msgstr "Tindakan"
 
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_needaction
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_needaction
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_needaction
+msgid "Action Needed"
+msgstr "Dibutuhkan Tindakan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__active
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__active
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Active"
+msgstr "Aktif"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_ids
+msgid "Activities"
+msgstr "Kegiatan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_exception_decoration
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_exception_decoration
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Dekorasi Pengecualian Aktivitas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_state
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_state
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_state
+msgid "Activity State"
+msgstr "Status Aktivitas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_type_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_type_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_type_icon
+msgid "Activity Type Icon"
+msgstr "Ikon Jenis Aktivitas"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"Admin creates a <strong>Class (Class)</strong> for the subject to be taught,"
+" then arranges the <strong>Class Schedule (Class Schedule)</strong>."
+msgstr ""
+
+#. module: campus_core
+#: model:res.groups,name:campus_core.group_campus_administrator
+msgid "Administrator"
+msgstr "Administrator"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Advisor"
+msgstr "Dosen Pembimbing"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"After KRS is generated, the Admin no need to set student schedules one by "
+"one manually!"
+msgstr ""
+"Setelah KRS dihasilkan, Admin tidak perlu lagi mengatur jadwal siswa satu "
+"per satu secara manual!"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "All subjects must have a selected schedule before submitting."
+msgstr ""
+"Semua mata pelajaran harus memiliki jadwal yang dipilih sebelum diserahkan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Almost Satisfactory"
+msgstr "Hampir Memuaskan"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid ""
+"An approved KRS is required before creating a KHS for this academic period."
+msgstr "Menyetujui/Menolak KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Approve"
+msgstr "Setujui"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Approve / Reject KRS"
+msgstr "Menyetujui/Menolak KRS"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__approved
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Approved"
+msgstr "Disetujui"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid "Approved KRS Not Found"
+msgstr "Disetujui oleh,"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Approved by,"
+msgstr "Disetujui oleh,"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Assign Schedule"
+msgstr "Tetapkan Jadwal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Assign Schedule (Massive)"
+msgstr "Tetapkan Jadwal (Besar)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"At the end of the lecture period, grades must be issued in the form of a "
+"Study Result Card (KHS)."
+msgstr "Jumlah Lampiran"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_attachment_count
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_attachment_count
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_attachment_count
+msgid "Attachment Count"
+msgstr "Jumlah Lampiran"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "B"
+msgstr "B"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "B+"
+msgstr "B+"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "B-"
+msgstr "B-"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__batch_year
+#: model:ir.model.fields,field_description:campus_core.field_res_users__batch_year
+msgid "Batch / Generation"
+msgstr ""
+"Sebelum semester dimulai, Admin harus mempersiapkan landasan kurikulum:"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"Before the semester starts, the Admin must prepare the curriculum "
+"foundation:"
+msgstr ""
+"Sebelum semester dimulai, Admin harus mempersiapkan landasan kurikulum:"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__both
+msgid "Both"
+msgstr "Keduanya"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__building_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_form
+msgid "Building"
+msgstr "Gedung"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_campus_building
+#: model:ir.ui.menu,name:campus_core.menu_campus_building_config
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_tree
+msgid "Buildings"
+msgstr "Bangunan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "C"
+msgstr "C"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "C+"
+msgstr "C+"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__cgpa
+#: model:ir.model.fields,field_description:campus_core.field_res_users__cgpa
+msgid "CGPA"
+msgstr "CGPA"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "CUMULATIVE TOTAL"
+msgstr "TOTAL KUMULATIF"
+
+#. module: campus_core
+#: model:ir.module.category,name:campus_core.module_category_campus
+msgid "Campus Academic"
+msgstr "Akademik Kampus"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid "Campus Academic SIAKAD"
+msgstr "SIAKAD Akademik Kampus"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_campus_building
+msgid "Campus Building"
+msgstr "Gedung Kampus"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Campus Core Module (Core Academic Management)"
+msgstr "Modul Inti Kampus (Inti Manajemen Akademik)"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_campus_room
+msgid "Campus Room"
+msgstr "Ruang Kampus"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid "Cancel"
+msgstr "Batal"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__room_capacity
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__capacity
+msgid "Capacity"
+msgstr "Kapasitas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__capacity_display
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_tree
+msgid "Capacity (Max/Filled)"
+msgstr "Kapasitas (Maks/Terisi)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "City"
+msgstr "Kota"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__class_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__class_id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__class_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+msgid "Class"
+msgstr "Kelas"
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_class
+msgid "Class & Schedule"
+msgstr "Kelas & Jadwal"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Class '%s' has reached its maximum capacity."
+msgstr "Kelas '%s' telah mencapai kapasitas maksimalnya."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Class '%s' must have at least one scheduled room with capacity."
+msgstr ""
+"Kelas ' %s ' harus memiliki setidaknya satu ruangan terjadwal dengan "
+"kapasitas."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_code
+msgid "Class Code (A/B/C)"
+msgstr "Kode Kelas (A/B/C)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Class Information"
+msgstr "Informasi Kelas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__name
+msgid "Class Name"
+msgstr "Nama Kelas"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Class Name (e.g. ALPRO - A)"
+msgstr "Nama Kelas (misalnya ALPRO - A)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Class Schedule"
+msgstr "Jadwal Kelas"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_class_schedule
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_tree
+msgid "Class Schedules"
+msgstr "Jadwal Kelas"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_calendar
+msgid "Class Sessions"
+msgstr "Sesi Kelas"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_class
+#: model:ir.ui.menu,name:campus_core.menu_academic_class_act
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_tree
+msgid "Classes"
+msgstr "Kelas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__code
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__code
+msgid "Code"
+msgstr "Kode"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__company_id
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__company_id
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__company_id
+msgid "Company"
+msgstr "Perusahaan"
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_configuration
+msgid "Configuration"
+msgstr "Konfigurasi"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_res_partner
+msgid "Contact"
+msgstr "Kontak"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Contact Details"
+msgstr "Detail Kontak"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Country"
+msgstr "Negara"
+
+#. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_krs__package_id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__package_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
 msgid "Course Package"
 msgstr "Paket Mata Kuliah"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__state
-msgid "Status"
-msgstr "Status"
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_course_package
+#: model:ir.ui.menu,name:campus_core.menu_academic_course_package
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_tree
+msgid "Course Packages"
+msgstr "Paket Kursus"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__total_credits
-msgid "Total Credits"
-msgstr "Total SKS"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Create &amp; Edit KRS (during open period)"
+msgstr "Buat &amp; Edit KRS (selama periode buka)"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_krs__line_ids
-msgid "KRS Lines"
-msgstr "Baris KRS"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Create active <strong>Academic Year</strong> (Example: 2026/2027 Odd)."
+msgstr ""
 
-#: model:ir.model,name:campus_core.model_academic_khs
-msgid "Academic Transcript (KHS)"
-msgstr "Kartu Hasil Studi (KHS)"
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_krs
+msgid "Create your first Study Plan (KRS)"
+msgstr "Buat Rencana Studi (KRS) pertama Anda"
 
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__create_uid
+msgid "Created by"
+msgstr "Dibuat oleh"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__create_date
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__create_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__create_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__create_date
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__create_date
+msgid "Created on"
+msgstr "Dibuat pada"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__credits
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Credits"
+msgstr "SKS"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__credits
+msgid "Credits (SKS)"
+msgstr "SKS"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_subject.py:0
+msgid "Credits must be greater than zero."
+msgstr "Kredit harus lebih besar dari nol."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
+msgid "Credits:"
+msgstr "Kredit:"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Cumulative GPA (CGPA)"
+msgstr "IPK Kumulatif (CGPA)"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Current date is outside the allowed KRS period."
+msgstr "Tanggal saat ini berada di luar periode KRS yang diperbolehkan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "D"
+msgstr "D"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__day_of_week
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+msgid "Day of Week"
+msgstr "Hari dalam Seminggu"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Dean of Faculty"
+msgstr "Dekan Fakultas"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Description"
+msgstr "Keterangan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid "Developed By"
+msgstr "Dikembangkan Oleh"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__display_name
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__display_name
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__display_name
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__display_name
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__display_name
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__display_name
+msgid "Display Name"
+msgstr "Nama Tampilan"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__draft
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Draft"
+msgstr "Draf"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__dropout
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Drop Out"
+msgstr "Keluar"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "E"
+msgstr "E"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__end_datetime
+msgid "End Datetime"
+msgstr "Tanggal Waktu Berakhir"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__end_time
+msgid "End Time"
+msgstr "Akhir Waktu"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__enrolled_count
+msgid "Enrolled"
+msgstr "Terdaftar"
+
+#. module: campus_core
+#: model:mail.activity.type,summary:campus_core.mail_activity_type_input_grades
+msgid "Enter grades for students in the KHS"
+msgstr "Masukkan nilai siswa di KHS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"Enter the list of <strong>Subjects</strong> and assign credits (SKS) "
+"weights."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__even
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_year__term_type__even
+msgid "Even"
+msgstr "Bahkan"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_campus_building__location
+msgid "Example: Campus A Sudirman"
+msgstr "Contoh: Kampus A Sudirman"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Excellent"
+msgstr "Bagus sekali"
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_facility_config
+msgid "Facilities"
+msgstr "Fasilitas"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_faculty
+#: model:ir.ui.menu,name:campus_core.menu_academic_faculty
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_faculty_tree
+msgid "Faculties"
+msgstr "Fakultas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_res_users__faculty_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_faculty_form
+msgid "Faculty"
+msgstr "Fakultas"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Fail"
+msgstr "Gagal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Fair"
+msgstr "Adil"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_follower_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_follower_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_follower_ids
+msgid "Followers"
+msgstr "Pengikut"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_partner_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_partner_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_partner_ids
+msgid "Followers (Partners)"
+msgstr "Pengikut (Mitra)"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_type_icon
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_type_icon
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr "Ikon font yang mengagumkan, mis. tugas fa"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__4
+msgid "Friday"
+msgstr "Jumat"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "GPA Summary"
+msgstr "Ringkasan IPK"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_krs_generator_wizard
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid "Generate KRS"
+msgstr "Buat KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Generate Sessions"
+msgstr "Hasilkan Sesi"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Generation"
+msgstr "Generasi"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Good"
+msgstr "Bagus"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__line_ids
+msgid "Grade Lines"
+msgstr "Garis Kelas"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__grade_points
+msgid "Grade Points"
+msgstr "Nilai Mutu"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Grade Points (Credits×Weight)"
+msgstr "Poin Nilai (Kredit×Berat)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Grades"
+msgstr "Skala Penilaian:"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Grading Scale:"
+msgstr "Skala Penilaian:"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__graduated
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Graduated"
+msgstr "Lulus"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__has_message
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__has_message
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__has_message
+msgid "Has Message"
+msgstr "Memiliki Pesan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__dean_id
+msgid "Head of Faculty / Dean"
+msgstr "Pimpinan Fakultas/Dekan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__head_id
+msgid "Head of Program"
+msgstr "Ketua Jurusan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Head of Study Program"
+msgstr "Ketua Program Studi"
+
+#. module: campus_core
+#: model:ir.module.category,description:campus_core.module_category_campus
+msgid "Helps you manage your Campus Master Data, Curriculums, and KRS."
+msgstr "Membantu Anda mengelola Data Induk Kampus, Kurikulum, dan KRS Anda."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__id
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__id
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__id
+msgid "ID"
+msgstr "PENGENAL"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_exception_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_exception_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_exception_icon
+msgid "Icon"
+msgstr "Ikon"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_exception_icon
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_exception_icon
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Ikon untuk menunjukkan aktivitas pengecualian."
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_needaction
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_needaction
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr "Jika dicentang, pesan baru memerlukan perhatian Anda."
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_has_error
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_has_sms_error
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_error
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_sms_error
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_error
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr "Jika dicentang, beberapa pesan mengalami kesalahan pengiriman."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Input Grades (KHS)"
+msgstr "Nilai Masukan (KHS)"
+
+#. module: campus_core
+#: model:mail.activity.type,name:campus_core.mail_activity_type_input_grades
+msgid "Input Student Grades"
+msgstr "Masukkan Nilai Siswa"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout_footer
+msgid ""
+"Integrated Academic Information System built using modern Odoo technology.\n"
+"                                Supports full management of New Student Admissions, Academic Portal, and Employee Management."
+msgstr ""
+"Sistem Informasi Akademik Terintegrasi yang dibangun menggunakan teknologi modern Odoo.\n"
+"                                Mendukung pengelolaan penuh Penerimaan Mahasiswa Baru, Portal Akademik, dan Manajemen Pegawai."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Internal Notes"
+msgstr "Catatan Dalaman"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Internal note..."
+msgstr "Catatan dalaman..."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_is_follower
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_is_follower
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_is_follower
+msgid "Is Follower"
+msgstr "Adalah Pengikut"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__is_student
+#: model:ir.model.fields,field_description:campus_core.field_res_users__is_student
+msgid "Is a Student"
+msgstr "Adalah seorang Siswa"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__khs_id
+msgid "KHS"
+msgstr "KHS"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_khs_line
+msgid "KHS Grade Line"
+msgstr "Garis Kelas KHS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "KHS Issuance &amp; Grading (End of Semester)"
+msgstr "Penerbitan &amp; Penilaian (Akhir Semester)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+msgid "KHS No."
+msgstr "Nomor KHS."
+
+#. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs__name
 msgid "KHS Number"
 msgstr "Nomor KHS"
 
-#: model:ir.model.fields,field_description:campus_core.field_academic_khs__term_gpa
-msgid "Term GPA"
-msgstr "IP Semester"
-
-#: model:ir.model.fields,field_description:campus_core.field_res_partner__cgpa
-msgid "CGPA"
-msgstr "IPK Kumulatif"
-
-# Website Homepage Docs Core
-msgid "Academic Information System (SIAKAD) Technical Documentation"
-msgstr "Dokumentasi Teknis Sistem Informasi Akademik (SIAKAD)"
-
-msgid "This document contains the technical specifications and Standard Operating Procedure (SOP) of the Educational Enterprise Resource Planning (ERP)."
-msgstr "Dokumen ini memuat spesifikasi teknis dan Standard Operating Procedure (SOP) dari Enterprise Resource Planning (ERP) Pendidikan."
-
-msgid "The system is designed with Odoo's modular architecture, implementing Python ORM automation, comprehensive business validation, and layered security systems."
-msgstr "Sistem ini dirancang dengan arsitektur modular Odoo, mengimplementasikan automasi Python ORM, validasi bisnis komprehensif, dan sistem keamanan berlapis."
-
-msgid "Campus Core Module"
-msgstr "Modul Campus Core"
-
-msgid "Campus Core Module (Core Academic Management)"
-msgstr "Modul Campus Core (Manajemen Akademik Inti)"
-
-msgid "This module is the heart of your campus system. It manages all academic foundation data, starting from curriculum management, course scheduling, Study Plan (KRS) entry, to grade transcript (KHS) printing. Designed to keep academic processes running smoothly, automatically, and with minimal administrative errors."
-msgstr "Modul ini adalah jantung dari sistem kampus Anda. Fungsinya mengelola seluruh fondasi data akademik, mulai dari manajemen kurikulum, penyusunan jadwal kuliah, pengisian Kartu Rencana Studi (KRS), hingga pencetakan transkrip nilai (KHS). Dirancang agar proses akademik berjalan lancar, otomatis, dan minim kesalahan administrasi."
-
-msgid "Smart Constraints"
-msgstr "Smart Constraints (Cerdas)"
-
-msgid "The system automatically blocks students from taking credits (SKS) exceeding their GPA limit, and prevents registration if the class capacity is full. No more manual administrative leniency."
-msgstr "Sistem otomatis memblokir mahasiswa yang mengambil SKS melebihi batas IPK-nya, serta mencegah pendaftaran jika kapasitas ruangan kelas sudah penuh. Tidak ada lagi kelonggaran administrasi manual."
-
-msgid "Dynamic Scheduling"
-msgstr "Dynamic Scheduling (Penjadwalan Dinamis)"
-
-msgid "The system detects class schedule conflict (Time Overlap) in real-time when students compile their KRS, ensuring students do not choose two classes at the same time."
-msgstr "Sistem mendeteksi bentrok jadwal kuliah (Time Overlap) secara real-time saat mahasiswa menyusun KRS, memastikan mahasiswa tidak memilih dua kelas di waktu yang bersamaan."
-
-msgid "KHS Transcript Automation"
-msgstr "Automasi Transkrip KHS"
-
-msgid "Lecturers only need to enter the final numeric score (e.g. 85). The system automatically converts it to a letter grade (A), multiplies the points (4.0) by credits (SKS), and calculates the student's GPA without manual calculation."
-msgstr "Dosen cukup memasukkan nilai akhir angka (misal: 85). Sistem otomatis mengonversi ke huruf (A), mengkalikan poin (4.0) dengan SKS, dan menghitung IPK (Indeks Prestasi) mahasiswa tanpa hitungan manual."
-
-msgid "Academic Workflow"
-msgstr "Alur Kerja (Workflow) Kegiatan Akademik"
-
-msgid "Master Data Preparation (Prerequisites)"
-msgstr "Persiapan Master Data (Pre-requisite)"
-
-msgid "Actor: Academic Administrator (Academic Office)"
-msgstr "Aktor: Administrator Akademik (Biro Akademik)"
-
-msgid "Before the semester starts, the Admin must prepare the curriculum foundation:"
-msgstr "Sebelum semester dimulai, Admin wajib mempersiapkan fondasi kurikulum:"
-
-msgid "Create active <strong>Academic Year</strong> (Example: 2026/2027 Odd)."
-msgstr "Membuat <strong>Tahun Akademik</strong> aktif (Contoh: 2026/2027 Ganjil)."
-
-msgid "Enter the list of <strong>Subjects</strong> and assign credits (SKS) weights."
-msgstr "Memasukkan daftar <strong>Mata Kuliah</strong> dan menetapkan bobot SKS."
-
-msgid "Register <strong>Classrooms</strong> along with <em>Maximum Capacity</em> (Max Capacity)."
-msgstr "Mendaftarkan <strong>Ruangan Kelas</strong> beserta <em>Kapasitas Maksimal</em> (Max Capacity)."
-
-msgid "Scheduling &amp; Opening Classes"
-msgstr "Penjadwalan &amp; Pembukaan Kelas"
-
-msgid "Admin creates a <strong>Class (Class)</strong> for the subject to be taught, then arranges the <strong>Class Schedule (Class Schedule)</strong>."
-msgstr "Admin membuat <strong>Kelas (Class)</strong> untuk mata kuliah yang akan diajarkan, kemudian menyusun <strong>Jadwal Kelas (Class Schedule)</strong>."
-
-msgid "Scheduling System:"
-msgstr "Sistem Jadwal:"
-
-msgid "Schedule determines Day, Start Time, End Time, Room, and Lecturer. You can create multiple schedules for one class (e.g., theory and lab)."
-msgstr "Jadwal menentukan Hari, Jam Mulai, Jam Selesai, Ruangan, dan Dosen Pengampu. Anda dapat membuat beberapa jadwal untuk satu kelas (misalnya teori dan lab)."
-
-msgid "Automatic Capacity:"
-msgstr "Kapasitas Otomatis:"
-
-msgid "Odoo automatically calculates the class maximum capacity based on the capacity of the selected Room in the schedule!"
-msgstr "Odoo secara otomatis menghitung jumlah kapasitas maksimal kelas berdasarkan daya tampung Ruangan yang dipilih pada jadwal tersebut!"
-
-msgid "Study Plan (KRS) Filling"
-msgstr "Pengisian Kartu Rencana Studi (KRS)"
-
-msgid "Actor: Student / Academic Admin"
-msgstr "Aktor: Mahasiswa / Admin Akademik"
-
-msgid "Students compile their study plan for the current semester. It can be filled independently via the Portal or assisted by the Admin."
-msgstr "Mahasiswa menyusun rencana studi untuk semester berjalan. Pengisian bisa dilakukan mandiri via Portal atau dibantu Admin."
-
-msgid "Strict Validation:"
-msgstr "Validasi Ketat:"
-
-msgid "The system <strong>rejects</strong> KRS submissions if: (1) SKS exceeds the GPA limit, (2) Schedule conflicts, (3) Class quota is full, or (4) Student has not passed the prerequisite subjects."
-msgstr "Sistem <strong>menolak</strong> pengajuan KRS jika: (1) SKS melebihi jatah IPK, (2) Jadwal kelas berbenturan, (3) Kuota kelas sudah penuh, atau (4) Mahasiswa belum lulus mata kuliah prasyarat."
-
-msgid "Action: Student clicks <strong>Submit</strong> to send KRS to the Academic Advisor (PA)."
-msgstr "Aksi: Mahasiswa menekan tombol <strong>Submit</strong> untuk mengirim KRS ke Dosen Pembimbing (PA)."
-
-msgid "Academic Advisor Approval (KRS Approval)"
-msgstr "Persetujuan Dosen Wali (Approval KRS)"
-
-msgid "Actor: Academic Advisor (PA)"
-msgstr "Aktor: Dosen Pembimbing Akademik (PA)"
-
-msgid "The Advisor reviews the subjects submitted by their advised students."
-msgstr "Dosen PA melakukan peninjauan terhadap mata kuliah yang diajukan oleh mahasiswa bimbingannya."
-
-msgid "Security (Row-Level Security):"
-msgstr "Keamanan (Row-Level Security):"
-
-msgid "Advisor A <strong>cannot</strong> approve or view KRS from Advisor B's students. Access rights are absolutely restricted."
-msgstr "Dosen A <strong>tidak akan bisa</strong> menyetujui atau melihat KRS dari mahasiswa bimbingan Dosen B. Hak akses dibatasi secara absolut."
-
-msgid "Action: Advisor clicks <strong>Approve</strong>. KRS is locked and the student is officially registered in the class."
-msgstr "Aksi: Dosen menekan <strong>Approve</strong>. KRS terkunci dan mahasiswa resmi terdaftar di kelas."
-
-msgid "KHS Issuance &amp; Grading (End of Semester)"
-msgstr "Penerbitan KHS &amp; Penilaian (Akhir Semester)"
-
-msgid "Actor: Course Lecturer / Academic Admin"
-msgstr "Aktor: Dosen Pengampu / Admin Akademik"
-
-msgid "At the end of the lecture period, grades must be issued in the form of a Study Result Card (KHS)."
-msgstr "Di akhir masa perkuliahan, nilai harus diterbitkan dalam bentuk Kartu Hasil Studi (KHS)."
-
-msgid "Automatic Creation:"
-msgstr "Automasi Penciptaan:"
-
-msgid "Admin does not need to create KHS from scratch. Simply click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the system automatically creates an exact copy in the KHS module!"
-msgstr "Admin tidak perlu membuat KHS dari nol. Cukup tekan tombol <strong>Lock &amp; Generate KHS</strong> pada KRS mahasiswa, sistem otomatis membuatkan salinan persis di modul KHS!"
-
-msgid "Action: Lecturer inputs final grade (e.g. 80). The system instantly calculates the grade points and GPA (Cumulative Grade Point Average) of the student."
-msgstr "Aksi: Dosen menginput nilai akhir (misal: 80). Sistem seketika (real-time) mengalkulasi Nilai Mutu dan IPK (Indeks Prestasi Kumulatif) mahasiswa bersangkutan."
-
-msgid "Mass KRS Generator &amp; Course Packages (Advanced Automation)"
-msgstr "Mass KRS Generator &amp; Course Packages (Fitur Otomatisasi Lanjut)"
-
-msgid "Actor: Academic Admin"
-msgstr "Aktor: Admin Akademik"
-
-msgid "No need to compile KRS one by one anymore! Now you can use our smart <em>Wizard</em>."
-msgstr "Tidak perlu lagi menyusun KRS satu per satu! Kini Anda bisa menggunakan alat <em>Wizard</em> pintar."
-
-msgid "Course Packages:"
-msgstr "Course Packages (Paket Mata Kuliah):"
-
-msgid "Collect mandatory subjects for each Study Program into a Package per Academic Year."
-msgstr "Kumpulkan mata kuliah wajib untuk setiap Program Studi ke dalam satu Paket (Package) per Tahun Akademik."
-
-msgid "Action (Generate KRS):"
-msgstr "Aksi (Generate KRS):"
-
-msgid "Click \"Generate KRS\" on the Package, and the system will filter students of that program who have not created KRS. Check dozens of student names, and mass <em>Draft KRS</em> (with their subject lines) will be issued in the blink of an eye!"
-msgstr "Tekan tombol \"Generate KRS\" pada Paket, lalu sistem akan memfilter mahasiswa prodi tersebut yang belum membuat KRS. Centang puluhan nama mahasiswa, dan <em>Draft KRS</em> massal (berikut baris-baris mata kuliahnya) akan terbit dalam sekejap mata!"
-
-msgid "Mass Schedule Assignment"
-msgstr "Mass Schedule Assignment (Penjadwalan Massal)"
-
-msgid "After KRS is generated, the Admin no need to set student schedules one by one manually!"
-msgstr "Setelah KRS di-generate, Admin tidak perlu lagi mengatur jadwal mahasiswa satu per satu secara manual!"
-
-msgid "Action (Assign Schedule):"
-msgstr "Aksi (Assign Schedule):"
-
-msgid "Open Class form, click <strong>Students</strong> tab, then click <strong>Assign Schedule (Massive)</strong>. The system will search for all students taking this class but have no schedule, and you can assign them to a schedule at once!"
-msgstr "Buka form Kelas, klik tab <strong>Students</strong>, lalu tekan tombol <strong>Assign Schedule (Massive)</strong>. Sistem akan mencari semua mahasiswa yang mengambil kelas ini tetapi belum memiliki jadwal, dan Anda bisa memasukkan mereka ke dalam sebuah jadwal sekaligus dalam satu tarikan napas!"
-
-msgid "Mass Status Transitions via Actions Menu"
-msgstr "Perpindahan Status Massal via Menu Actions"
-
-msgid "Actor: Academic Admin / Academic Advisor"
-msgstr "Aktor: Admin Akademik / Dosen PA"
-
-msgid "No need to open KRS documents one by one to change status! Simply use the <em>Actions</em> feature in list view."
-msgstr "Tidak perlu membuka satu per satu dokumen KRS untuk mengubah statusnya! Cukup gunakan fitur <em>Actions</em> di tampilan daftar."
-
-msgid "How to Use:"
-msgstr "Cara Penggunaan:"
-
-msgid "Open <strong>Study Plan (KRS)</strong> menu → Check one or more KRS lines to process → Click <strong>\"⚙️ Actions\"</strong> button at the top of the table."
-msgstr "Buka menu <strong>Study Plan (KRS)</strong> → Centang satu atau beberapa baris KRS yang ingin diproses → Klik tombol <strong>\"⚙️ Actions\"</strong> di bagian atas tabel."
-
-msgid "Available Options in Actions Menu:"
-msgstr "Opsi yang tersedia di menu Actions:"
-
-msgid "Mass Submit"
-msgstr "Kirim Massal"
-
-msgid "Send all checked Draft KRS at once to Academic Advisor."
-msgstr "Kirim semua KRS berstatus Draft yang dicentang sekaligus ke Dosen PA."
-
-msgid "Mass Approve"
-msgstr "Setujui Massal"
-
-msgid "Approve all checked Submitted KRS at once (Advisor / Admin only)."
-msgstr "Setujui semua KRS berstatus Submitted yang dicentang sekaligus (khusus Dosen PA / Admin)."
-
-msgid "Mass Lock"
-msgstr "Kunci Massal"
-
-msgid "Lock all checked Approved KRS and automatically generate KHS (Admin only)."
-msgstr "Kunci semua KRS berstatus Approved dan otomatis buatkan KHS-nya (khusus Admin)."
-
-msgid "Mass Reject"
-msgstr "Tolak Massal"
-
-msgid "Reject all checked Submitted KRS at once."
-msgstr "Tolak semua KRS berstatus Submitted yang dicentang sekaligus."
-
-msgid "Mass Unlock"
-msgstr "Buka Kunci Massal"
-
-msgid "Reopen locked KRS back to Approved status if corrections are needed (Admin only)."
-msgstr "Buka kembali KRS yang sudah terkunci ke status Approved jika diperlukan koreksi (khusus Admin)."
-
-msgid "Smart Note:"
-msgstr "Catatan Cerdas:"
-
-msgid "The system automatically skips lines with mismatching status. For example, if you check 10 KRS and select <em>Mass Approve</em>, only KRS in Submitted status will be processed; Draft KRS will remain untouched."
-msgstr "Sistem akan secara otomatis melewati (skip) baris yang statusnya tidak sesuai. Misalnya, jika Anda mencentang 10 KRS lalu memilih <em>Mass Approve</em>, hanya KRS yang berstatus <em>Submitted</em> yang akan diproses; KRS berstatus Draft tidak akan tersentuh."
-
-msgid "User Roles &amp; Permissions"
-msgstr "Peran Pengguna &amp; Hak Akses (Roles &amp; Permissions)"
-
-msgid "This system is designed with a layered security hierarchy. Each user can only see and perform actions appropriate to their role."
-msgstr "Sistem ini dirancang dengan hierarki keamanan berlapis. Setiap pengguna hanya dapat melihat dan melakukan tindakan yang sesuai dengan perannya."
-
-msgid "Action"
-msgstr "Tindakan"
-
-msgid "Student (Portal)"
-msgstr "Mahasiswa (Portal)"
-
-msgid "Academic Advisor"
-msgstr "Dosen PA"
-
-msgid "Academic Admin"
-msgstr "Admin Akademik"
-
-msgid "Create &amp; Edit KRS (during open period)"
-msgstr "Buat &amp; Edit KRS (saat periode buka)"
-
-msgid "Submit KRS"
-msgstr "Submit KRS"
-
-msgid "Approve / Reject KRS"
-msgstr "Approve / Reject KRS"
-
-msgid "only their advised students"
-msgstr "mahasiswa bimbingannya saja"
-
-msgid "all"
-msgstr "semua"
-
-msgid "Lock KRS &amp; Generate KHS"
-msgstr "Lock KRS &amp; Generate KHS"
-
-msgid "Input Grades (KHS)"
-msgstr "Input Nilai (KHS)"
-
-msgid "Manage Master Data (Programs, Rooms, etc)"
-msgstr "Kelola Master Data (Prodi, Ruangan, dll)"
-
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__khs_ids
+#: model:ir.model.fields,field_description:campus_core.field_res_users__khs_ids
+msgid "KHS Records"
+msgstr "Catatan KHS"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__krs_id
+msgid "KRS"
+msgstr "KRS"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__krs_end_date
+msgid "KRS End Date"
+msgstr "Tanggal Berakhirnya KRS"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_krs_generator_wizard
+msgid "KRS Generator Wizard"
+msgstr "Wisaya Pembangkit KRS"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__line_ids
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "KRS Lines"
+msgstr "Jalur KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "KRS No."
+msgstr "Nomor KRS."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__name
+msgid "KRS Number"
+msgstr "Nomor KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
 msgid "KRS Period Configuration"
 msgstr "Konfigurasi Periode KRS"
 
-msgid "The system supports limiting KRS entry time so students can only fill during the specified period."
-msgstr "Sistem mendukung pembatasan waktu pengisian KRS agar mahasiswa hanya bisa mengisi pada periode yang sudah ditentukan."
+#. module: campus_core
+#: model:mail.activity.type,name:campus_core.mail_activity_type_krs_revision
+msgid "KRS Revision Required"
+msgstr "Diperlukan Revisi KRS"
 
-msgid "Setup Guide:"
-msgstr "Cara Setting:"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__krs_start_date
+msgid "KRS Start Date"
+msgstr "Tanggal Mulai KRS"
 
-msgid "Open <strong>Configuration → Academic Years</strong> menu → Choose active Academic Year → Fill <strong>KRS Start Date</strong> and <strong>KRS End Date</strong> fields."
-msgstr "Buka menu <strong>Configuration → Academic Years</strong> → Pilih Tahun Akademik yang aktif → Isi kolom <strong>KRS Start Date</strong> dan <strong>KRS End Date</strong>."
+#. module: campus_core
+#: model:ir.actions.report,name:campus_core.action_report_khs
+msgid "Kartu Hasil Studi (KHS)"
+msgstr "Kartu Hasil Studi (KHS)"
 
-msgid "Note:"
-msgstr "Catatan:"
-
-msgid "This period restriction <strong>only applies to Students</strong> (Portal users). Academic Admin can create or edit KRS anytime without being bound by the period, assisting students who cannot fill it themselves."
-msgstr "Pembatasan periode ini <strong>hanya berlaku untuk Mahasiswa</strong> (pengguna Portal). Admin Akademik dapat membuat atau mengedit KRS kapan saja tanpa terikat periode, sehingga dapat membantu mahasiswa yang berhalangan mengisi sendiri."
-
-# Report Templates KRS, KHS, Transcript
-msgid "Study Plan (KRS)"
+#. module: campus_core
+#: model:ir.actions.report,name:campus_core.action_report_krs
+msgid "Kartu Rencana Studi (KRS)"
 msgstr "Kartu Rencana Studi (KRS)"
 
-msgid "Student ID (NIM)"
-msgstr "NIM Mahasiswa"
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__campus_room__room_type__lab
+msgid "Laboratory"
+msgstr "Laboratorium"
 
-msgid "Faculty"
-msgstr "Fakultas"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__write_uid
+msgid "Last Updated by"
+msgstr "Terakhir Diperbarui oleh"
 
-msgid "Name"
-msgstr "Nama"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__write_date
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__write_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__write_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__write_date
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__write_date
+msgid "Last Updated on"
+msgstr "Terakhir Diperbarui pada"
 
-msgid "Study Program"
-msgstr "Program Studi"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__lecturer_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__lecturer_id
+#: model:res.groups,name:campus_core.group_campus_lecturer
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+msgid "Lecturer"
+msgstr "Dosen"
 
-msgid "Academic Year"
-msgstr "Tahun Akademik"
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Lecturer overlap detected on %s"
+msgstr "Tumpang tindih dosen terdeteksi pada %s"
 
-msgid "Advisor"
-msgstr "Dosen PA / Wali"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"Lecturers only need to enter the final numeric score (e.g. 85). The system "
+"automatically converts it to a letter grade (A), multiplies the points (4.0)"
+" by credits (SKS), and calculates the student's GPA without manual "
+"calculation."
+msgstr ""
+"Dosen hanya perlu memasukkan nilai numerik akhir (misal 85). Sistem secara "
+"otomatis mengubahnya menjadi nilai huruf (A), mengalikan poin (4,0) dengan "
+"SKS (SKS), dan menghitung IPK mahasiswa tanpa perhitungan manual."
 
-msgid "Status"
-msgstr "Status"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Letter"
+msgstr "Surat"
 
-msgid "KRS No."
-msgstr "No. KRS"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__letter_grade
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Letter Grade"
+msgstr "Kelas Surat"
 
-msgid "Draft"
-msgstr "Draft"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__line_ids
+msgid "Lines"
+msgstr "Garis"
 
-msgid "Waiting for Approval"
-msgstr "Menunggu Persetujuan"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__location
+msgid "Location"
+msgstr "Lokasi"
 
-msgid "Approved"
-msgstr "Disetujui"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Lock & Generate KHS"
+msgstr "Kunci & Hasilkan KHS"
 
-msgid "Needs Revision"
-msgstr "Perlu Revisi"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Lock KRS &amp; Generate KHS"
+msgstr "Kunci KRS &amp; Hasilkan KHS"
 
-msgid "Rejected"
-msgstr "Ditolak"
-
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__locked
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
 msgid "Locked"
 msgstr "Terkunci"
 
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS lines cannot be deleted."
+msgstr "Jalur KRS yang terkunci tidak dapat dihapus."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS lines cannot be modified."
+msgstr "Jalur KRS yang terkunci tidak dapat diubah."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS records cannot be deleted."
+msgstr "Catatan KRS yang terkunci tidak dapat dihapus."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS records cannot be modified."
+msgstr "Catatan KRS yang terkunci tidak dapat diubah."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS records cannot be reset to draft."
+msgstr "Catatan KRS yang terkunci tidak dapat diatur ulang menjadi draf."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Manage Master Data (Programs, Rooms, etc)"
+msgstr "Kelola Data Master (Program, Ruangan, dll)"
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_krs
+msgid "Manage student course registrations per academic period."
+msgstr "Persetujuan Massal"
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_approve
+msgid "Mass Approve"
+msgstr "Persetujuan Massal"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_assign_schedule_wizard
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Mass Assign Schedule"
+msgstr "Jadwal Penugasan Massal"
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_assign_schedule_wizard
+msgid "Mass Assign Schedule Wizard"
+msgstr "Wizard Jadwal Penugasan Massal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Mass KRS Generator &amp; Course Packages (Advanced Automation)"
+msgstr "Generator KRS Massal &amp; Paket Kursus (Otomasi Tingkat Lanjut)"
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_lock
+msgid "Mass Lock"
+msgstr "Kunci Massal"
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_reject
+msgid "Mass Reject"
+msgstr "Penolakan Massal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Mass Schedule Assignment"
+msgstr "Penugasan Jadwal Massal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Mass Status Transitions via Actions Menu"
+msgstr "Transisi Status Massal melalui Menu Tindakan"
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_submit
+msgid "Mass Submit"
+msgstr "Pengiriman Massal"
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_unlock
+msgid "Mass Unlock"
+msgstr "Buka Kunci Massal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Master Data Preparation (Prerequisites)"
+msgstr "Persiapan Data Induk (Prasyarat)"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_has_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_has_error
+msgid "Message Delivery error"
+msgstr "Kesalahan Pengiriman Pesan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_ids
+msgid "Messages"
+msgstr "Pesan"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Missing prerequisite(s) for %(subject)s: %(prerequisites)s"
+msgstr "Prasyarat untuk %(subject)s : %(prerequisites)s tidak ada"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__0
+msgid "Monday"
+msgstr "Senin"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__my_activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__my_activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr "Batas Waktu Aktivitas Saya"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "NIDN:"
+msgstr "NIDN:"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "NIM:"
+msgstr "NIM:"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__name
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__name
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__name
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Name"
+msgstr "Nama"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__revision
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Needs Revision"
+msgstr "Perlu Revisi"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "New Class"
+msgstr "Kelas Baru"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr "Batas Waktu Kegiatan Berikutnya"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_summary
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_summary
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_summary
+msgid "Next Activity Summary"
+msgstr "Ringkasan Kegiatan Berikutnya"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_type_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_type_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_type_id
+msgid "Next Activity Type"
+msgstr "Jenis Aktivitas Berikutnya"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "No"
-msgstr "No"
+msgstr "TIDAK"
 
-msgid "Subject Code"
-msgstr "Kode MK"
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid ""
+"No approved KRS found for this student in the selected academic period."
+msgstr ""
+"Tidak ditemukan KRS yang disetujui untuk mahasiswa ini pada periode akademik"
+" yang dipilih."
 
-msgid "Subject Name"
-msgstr "Nama Mata Kuliah"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"No need to compile KRS one by one anymore! Now you can use our smart "
+"<em>Wizard</em>."
+msgstr ""
+"Tidak perlu lagi mengkompilasi KRS satu per satu! Sekarang Anda dapat "
+"menggunakan <em>Wizard</em> cerdas kami."
 
-msgid "Credits"
-msgstr "SKS"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"No need to open KRS documents one by one to change status! Simply use the "
+"<em>Actions</em> feature in list view."
+msgstr ""
+"Tidak perlu membuka dokumen KRS satu per satu untuk mengubah status! Cukup "
+"gunakan fitur <em>Tindakan</em> dalam tampilan daftar."
 
-msgid "Class"
-msgstr "Kelas"
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_class_schedule
+msgid "No schedules found. Schedules are created from within a Class record."
+msgstr ""
+"Tidak ada jadwal yang ditemukan. Jadwal dibuat dari dalam catatan Kelas."
 
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_needaction_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_needaction_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_needaction_counter
+msgid "Number of Actions"
+msgstr "Jumlah Tindakan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_error_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_has_error_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_has_error_counter
+msgid "Number of errors"
+msgstr "Jumlah kesalahan"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_needaction_counter
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_needaction_counter
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr "Jumlah pesan yang memerlukan tindakan"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_has_error_counter
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_error_counter
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr "Jumlah pesan dengan kesalahan pengiriman"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__numeric_grade
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Numeric Grade"
+msgstr "Kelas Numerik"
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_khs_line_numeric_grade_range
+msgid "Numeric grade must be between 0 and 100."
+msgstr "Nilai numerik harus antara 0 dan 100."
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__odd
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_year__term_type__odd
+msgid "Odd"
+msgstr "Aneh"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__leave
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "On Leave"
+msgstr "Sedang cuti"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only Campus Administrators can unlock a KRS record."
+msgstr "Hanya Administrator Kampus yang dapat membuka kunci catatan KRS."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only approved KRS records can be locked."
+msgstr "Hanya catatan KRS yang disetujui yang dapat dikunci."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only campus administrators can reset an approved KRS to draft."
+msgstr ""
+"Hanya pengurus kampus yang dapat mereset KRS yang telah disetujui menjadi "
+"draft."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only draft or revision KRS records can be submitted."
+msgstr "Hanya rekaman KRS draf atau revisi yang dapat diserahkan."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Only locked KRS records can be unlocked. '%(name)s' is currently "
+"'%(state)s'."
+msgstr ""
+"Hanya catatan KRS yang terkunci yang dapat dibuka kuncinya. ' %(name)s ' "
+"saat ini adalah ' %(state)s '."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only submitted KRS records can be approved."
+msgstr "Hanya catatan KRS yang diserahkan yang dapat disetujui."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only submitted KRS records can be rejected."
+msgstr "Hanya rekaman KRS yang diserahkan yang dapat ditolak."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only submitted KRS records can be sent for revision."
+msgstr ""
+"Hanya rekaman KRS yang telah diserahkan yang dapat dikirim untuk direvisi."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Only the assigned Academic Advisor or Academic Admin can approve this KRS."
+msgstr ""
+"Hanya Pembimbing Akademik atau Admin Akademik yang ditugaskan yang dapat "
+"menyetujui KRS ini."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__package_id
+msgid "Package"
+msgstr "Kemasan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Pass"
+msgstr "Lulus"
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_people
+msgid "People"
+msgstr "Rakyat"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Please add at least one class before submitting the KRS."
+msgstr "Harap menambahkan minimal satu kelas sebelum menyerahkan KRS."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "Please define at least one schedule to generate sessions."
+msgstr "Harap tentukan setidaknya satu jadwal untuk menghasilkan sesi."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid "Please select a schedule."
+msgstr "Silakan pilih jadwal."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "Please select at least one student."
+msgstr "Silakan pilih setidaknya satu siswa."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "Please set a Start Date to generate sessions."
+msgstr "Harap tetapkan Tanggal Mulai untuk menghasilkan sesi."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__prerequisite_ids
+msgid "Prerequisites"
+msgstr "Prasyarat"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Print KHS"
+msgstr "Cetak KHS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Print KRS"
+msgstr "Cetak KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Print Transkrip"
+msgstr "Cetak Transkrip"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__program_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__program_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_program_form
+msgid "Program"
+msgstr "Program"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_program
+#: model:ir.ui.menu,name:campus_core.menu_academic_program
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_program_tree
+msgid "Programs"
+msgstr "Program"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Real Sessions"
+msgstr "Sesi Nyata"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"Register <strong>Classrooms</strong> along with <em>Maximum Capacity</em> "
+"(Max Capacity)."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Reject"
+msgstr "Menolak"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__rejected
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Rejected"
+msgstr "Ditolak"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Request Revision"
+msgstr "Minta Revisi"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_user_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_user_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_user_id
+msgid "Responsible User"
+msgstr "Pengguna yang Bertanggung Jawab"
+
+#. module: campus_core
+#: model:mail.activity.type,name:campus_core.mail_activity_type_krs_review
+msgid "Review KRS"
+msgstr "Tinjau KRS"
+
+#. module: campus_core
+#: model:mail.activity.type,summary:campus_core.mail_activity_type_krs_review
+msgid "Review and approve/reject the student's KRS submission"
+msgstr "Meninjau dan menyetujui/menolak pengajuan KRS mahasiswa"
+
+#. module: campus_core
+#: model:res.groups.privilege,name:campus_core.privilege_campus_academic
+msgid "Role"
+msgstr "Peran"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__room_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__room_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_form
+msgid "Room"
+msgstr "Ruangan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Room Information"
+msgstr "Informasi Kamar"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__room_type
+msgid "Room Type"
+msgstr "Tipe Kamar"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_facility.py:0
+msgid "Room capacity must be greater than zero."
+msgstr "Kapasitas ruangan harus lebih besar dari nol."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Room overlap detected on %s"
+msgstr "Ruangan tumpang tindih terdeteksi pada %s"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_campus_room
+#: model:ir.ui.menu,name:campus_core.menu_campus_room_config
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_tree
+msgid "Rooms"
+msgstr "Kamar"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_sms_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_has_sms_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr "Kesalahan Pengiriman SMS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Satisfactory"
+msgstr "Memuaskan"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__5
+msgid "Saturday"
+msgstr "Sabtu"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__schedule_id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__schedule_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
 msgid "Schedule"
 msgstr "Jadwal"
 
-msgid "Total Credits"
-msgstr "Total SKS"
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Schedule end time cannot be later than 24:00."
+msgstr "Waktu berakhir jadwal tidak boleh lebih dari pukul 24:00."
 
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Schedule end time must be after start time."
+msgstr "Waktu berakhir jadwal harus setelah waktu mulai."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Schedule overlap detected between:\n"
+"%s\n"
+"%s"
+msgstr ""
+"Jadwal yang tumpang tindih terdeteksi antara:\n"
+" %s \n"
+" %s"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Schedule times cannot be negative."
+msgstr "Jadwal waktu tidak boleh negatif."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__schedule_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__schedule_ids
+#: model:ir.ui.menu,name:campus_core.menu_academic_class_schedule_act
+msgid "Schedules"
+msgstr "Jadwal"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Scheduling &amp; Opening Classes"
+msgstr "Penjadwalan &amp; Kelas Pembukaan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
+msgid "Search KHS"
+msgstr "Pencarian KHS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Search KRS"
+msgstr "Cari KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+msgid "Search Schedules"
+msgstr "Jadwal Pencarian"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_search
+msgid "Search Subjects"
+msgstr "Cari Subjek"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Select Students..."
+msgstr "Pilih Siswa..."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid ""
+"Select a schedule and the students you wish to assign to it. Only students "
+"who have added this subject to their KRS but haven't selected a schedule yet"
+" are shown."
+msgstr ""
+"Pilih jadwal dan siswa yang ingin Anda tugaskan. Hanya siswa yang telah "
+"menambahkan mata pelajaran ini ke KRS tetapi belum memilih jadwal yang "
+"ditampilkan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid ""
+"Select the students you want to generate KRS for. \n"
+"                            Students who already have a KRS for this academic year will not appear here."
+msgstr ""
+"Pilih siswa yang ingin dibuatkan KRS-nya. \n"
+"                            Mahasiswa yang sudah memiliki KRS pada tahun ajaran ini tidak akan muncul di sini."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__semester
+msgid "Semester"
+msgstr "Semester"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__1
+msgid "Semester 1"
+msgstr "Semester 1"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__2
+msgid "Semester 2"
+msgstr "Semester 2"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__3
+msgid "Semester 3"
+msgstr "Semester 3"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__4
+msgid "Semester 4"
+msgstr "Semester 4"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__5
+msgid "Semester 5"
+msgstr "Semester 5"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__6
+msgid "Semester 6"
+msgstr "Semester 6"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__7
+msgid "Semester 7"
+msgstr "Semester 7"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__8
+msgid "Semester 8"
+msgstr "Semester 8"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Semester GPA"
+msgstr "IPK Semester"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Semester Subtotal"
+msgstr "Subtotal Semester"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Semester:"
+msgstr "Tanggal akhir sesi harus setelah tanggal mulai."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_form
+msgid "Session"
+msgstr "Sidang"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "Session end datetime must be after start datetime."
+msgstr "Tanggal akhir sesi harus setelah tanggal mulai."
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_class_session
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__session_ids
+#: model:ir.ui.menu,name:campus_core.menu_academic_class_session_act
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_tree
+msgid "Sessions"
+msgstr "Sesi"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Set to Draft"
+msgstr "Setel ke Draf"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__start_date
+msgid "Start Date"
+msgstr "Tanggal Mulai"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__start_datetime
+msgid "Start Datetime"
+msgstr "Mulai Tanggal Waktu"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__start_time
+msgid "Start Time"
+msgstr "Waktu Mulai"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "State"
+msgstr "Negara"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__state
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__state
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Status"
+msgstr "Status"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_state
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_state
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+"Status berdasarkan aktivitas\n"
+"Terlambat: Tanggal jatuh tempo sudah lewat\n"
+"Hari ini: Tanggal aktivitas adalah hari ini\n"
+"Direncanakan: Kegiatan di masa depan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Street 2..."
+msgstr "Jalan 2..."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Street..."
+msgstr "Jalan..."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__student_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__student_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__student_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Student"
+msgstr "Mahasiswa"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid "Student %(student)s already has a schedule assigned."
+msgstr "Siswa %(student)s sudah memiliki jadwal yang ditetapkan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Student (Portal)"
+msgstr "Pelajar (Portal)"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__nim
+#: model:ir.model.fields,field_description:campus_core.field_res_users__nim
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Student ID (NIM)"
+msgstr "Kartu Identitas Mahasiswa (NIM)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Student Information"
+msgstr "Informasi Siswa"
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_khs
+msgid "Student KHS"
+msgstr "Mahasiswa KHS"
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_krs_act
+msgid "Student KRS"
+msgstr "KRS Mahasiswa"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__student_status
+#: model:ir.model.fields,field_description:campus_core.field_res_users__student_status
+msgid "Student Status"
+msgstr "Status Pelajar"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Student Transcript (KHS)"
+msgstr "Transkrip Nilai Mahasiswa (KHS)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_tree
+msgid "Student Transcripts (KHS)"
+msgstr "Transkrip Nilai Mahasiswa (KHS)"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Student cannot take the same subject '%s' twice in one KRS."
+msgstr ""
+"Mahasiswa tidak dapat mengambil mata pelajaran yang sama '%s' dua kali dalam"
+" satu KRS."
+
+#. module: campus_core
+#: model:mail.activity.type,summary:campus_core.mail_activity_type_krs_revision
+msgid "Student needs to revise and resubmit their KRS"
+msgstr "Mahasiswa perlu merevisi dan menyerahkan kembali KRS-nya"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Student status must be active to submit a KRS."
+msgstr "Status pelajar harus aktif untuk mengajukan KRS."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 msgid "Student,"
-msgstr "Mahasiswa,"
+msgstr "Murid,"
 
-msgid "Academic Advisor,"
-msgstr "Dosen Wali / Pembimbing Akademik,"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
+msgid "Student:"
+msgstr "Murid:"
 
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_res_partner_student
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__student_line_ids
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__student_ids
+#: model:ir.ui.menu,name:campus_core.menu_academic_student
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_line_tree_standalone
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_tree_student
+msgid "Students"
+msgstr "Mahasiswa"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__krs_line_ids
+msgid "Students (KRS Lines)"
+msgstr "Mahasiswa (KRS Jalur)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"Students compile their study plan for the current semester. It can be filled"
+" independently via the Portal or assisted by the Admin."
+msgstr ""
+"Mahasiswa menyusun rencana studinya untuk semester berjalan. Dapat diisi "
+"secara mandiri melalui Portal atau dibantu oleh Admin."
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_krs
+#: model:ir.ui.menu,name:campus_core.menu_academic_krs
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_tree
+msgid "Study Plan (KRS)"
+msgstr "Rencana Studi (KRS)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Study Plan (KRS) Filling"
+msgstr "Pengisian Rencana Studi (KRS)."
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__program_id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__program_id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__program_id
+#: model:ir.model.fields,field_description:campus_core.field_res_users__program_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Study Program"
+msgstr "Program Studi"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 msgid "Study Result Card (KHS)"
-msgstr "Kartu Hasil Studi (KHS)"
+msgstr "Kartu Hasil Belajar (KHS)"
 
-msgid "KHS No."
-msgstr "No. KHS"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__subject_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_form
+msgid "Subject"
+msgstr "Subjek"
 
-msgid "Numeric Grade"
-msgstr "Nilai Angka"
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Subject '%s' does not belong to the student's program."
+msgstr "Mata pelajaran '%s' bukan milik program siswa."
 
-msgid "Letter Grade"
-msgstr "Nilai Huruf"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Subject Code"
+msgstr "Kode Subjek"
 
-msgid "Weight"
-msgstr "Bobot"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Subject Name"
+msgstr "Nama Subjek"
 
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_subject_code_program_unique
+msgid "Subject code must be unique within a program."
+msgstr "Kode subjek harus unik dalam suatu program."
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_subject
+#: model:ir.ui.menu,name:campus_core.menu_academic_subject
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_tree
+msgid "Subjects"
+msgstr "Subyek"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Submit"
+msgstr "Kirimkan KRS"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "Submit KRS"
+msgstr "Kirimkan KRS"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "Success"
+msgstr "Kesuksesan"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__6
+msgid "Sunday"
+msgstr "Minggu"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid "Target Students"
+msgstr "Sasaran Siswa"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__term_gpa
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_tree
+msgid "Term GPA"
+msgstr "Jangka waktu IPK"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__term_type
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__term_type
+msgid "Term Type"
+msgstr "Jenis Istilah"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
+msgid "Term:"
+msgstr "Ketentuan:"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "The Advisor reviews the subjects submitted by their advised students."
+msgstr ""
+"Penasihat meninjau mata pelajaran yang diserahkan oleh siswa yang "
+"disarankannya."
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_khs_line_unique_khs_subject
+msgid "The same subject cannot appear more than once in a KHS."
+msgstr ""
+"Subyek yang sama tidak boleh muncul lebih dari satu kali dalam satu KHS."
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "The student must have an assigned Academic Advisor."
+msgstr "Siswa harus memiliki Penasihat Akademik yang ditugaskan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"The system automatically blocks students from taking credits (SKS) exceeding"
+" their GPA limit, and prevents registration if the class capacity is full. "
+"No more manual administrative leniency."
+msgstr ""
+"Sistem secara otomatis memblokir mahasiswa untuk mengambil SKS (SKS) yang "
+"melebihi batas IPK, dan mencegah pendaftaran jika kapasitas kelas sudah "
+"penuh. Tidak ada lagi keringanan administratif manual."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"The system detects class schedule conflict (Time Overlap) in real-time when "
+"students compile their KRS, ensuring students do not choose two classes at "
+"the same time."
+msgstr ""
+"Sistem mendeteksi konflik jadwal kelas (Time Overlap) secara real-time pada "
+"saat siswa menyusun KRS, sehingga siswa tidak memilih dua kelas dalam waktu "
+"yang bersamaan."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"The system supports limiting KRS entry time so students can only fill during"
+" the specified period."
+msgstr ""
+"Sistem mendukung pembatasan waktu masuk KRS sehingga mahasiswa hanya dapat "
+"mengisi pada jangka waktu yang ditentukan."
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__campus_room__room_type__theory
+msgid "Theory"
+msgstr "Teori"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"This document contains the technical specifications and Standard Operating Procedure (SOP) of the Educational Enterprise Resource Planning (ERP).\n"
+"                            The system is designed with Odoo's modular architecture, implementing Python ORM automation, comprehensive business validation, and layered security systems."
+msgstr ""
+"Dokumen ini memuat spesifikasi teknis dan Standard Operating Procedure (SOP) Educational Enterprise Resource Planning (ERP).\n"
+"                            Sistem ini dirancang dengan arsitektur modular Odoo, menerapkan otomatisasi Python ORM, validasi bisnis komprehensif, dan sistem keamanan berlapis."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"This module is the heart of your campus system. It manages all academic "
+"foundation data, starting from curriculum management, course scheduling, "
+"Study Plan (KRS) entry, to grade transcript (KHS) printing. Designed to keep"
+" academic processes running smoothly, automatically, and with minimal "
+"administrative errors."
+msgstr ""
+"Modul ini adalah jantung dari sistem kampus Anda. Ia mengelola seluruh data "
+"landasan akademik, mulai dari pengelolaan kurikulum, penjadwalan mata "
+"kuliah, pencatatan Rencana Studi (KRS), hingga pencetakan transkrip nilai "
+"(KHS). Dirancang untuk menjaga proses akademik berjalan lancar, otomatis, "
+"dan dengan kesalahan administratif minimal."
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid ""
+"This system is designed with a layered security hierarchy. Each user can "
+"only see and perform actions appropriate to their role."
+msgstr ""
+"Sistem ini dirancang dengan hierarki keamanan berlapis. Setiap pengguna "
+"hanya dapat melihat dan melakukan tindakan yang sesuai dengan perannya."
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__3
+msgid "Thursday"
+msgstr "Kamis"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 msgid "Total"
 msgstr "Total"
 
-msgid "Semester GPA"
-msgstr "IP Semester"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__class_capacity_display
+msgid "Total Class Capacity"
+msgstr "Total Kapasitas Kelas"
 
-msgid "Cumulative GPA (CGPA)"
-msgstr "Indeks Prestasi Kumulatif (IPK)"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__total_credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__total_credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__total_credits
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Total Credits"
+msgstr "Jumlah Kredit"
 
-msgid "Approved by,"
-msgstr "Mengetahui,"
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__total_grade_points
+msgid "Total Grade Points"
+msgstr "Total Poin Nilai"
 
-msgid "Head of Study Program"
-msgstr "Ketua Program Studi"
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Total credits cannot exceed %(max_credits)s SKS for this student."
+msgstr ""
+"Total SKS tidak boleh melebihi %(max_credits)s SKS untuk mahasiswa ini."
 
-msgid "Dean of Faculty"
-msgstr "Dekan Fakultas"
-
-msgid "Academic Transcript"
+#. module: campus_core
+#: model:ir.actions.report,name:campus_core.action_report_transcript
+msgid "Transkrip Nilai Akademik"
 msgstr "Transkrip Nilai Akademik"
 
-msgid "(Official Academic Record)"
-msgstr "(Transkrip Nilai Resmi)"
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__1
+msgid "Tuesday"
+msgstr "Selasa"
 
-msgid "Generation"
-msgstr "Angkatan"
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_exception_decoration
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_exception_decoration
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Jenis aktivitas pengecualian yang tercatat."
 
-msgid "Active"
-msgstr "Aktif"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Unassigned Students"
+msgstr "Siswa yang Belum Ditugaskan"
 
-msgid "On Leave"
-msgstr "Cuti"
-
-msgid "Graduated"
-msgstr "Lulus"
-
-msgid "Drop Out"
-msgstr "Drop Out"
-
-msgid "Grade Points (Credits×Weight)"
-msgstr "Mutu (SKS×Bobot)"
-
-msgid "Semester Subtotal"
-msgstr "Sub-total Semester"
-
-msgid "CUMULATIVE TOTAL"
-msgstr "TOTAL KUMULATIF"
-
-msgid "Grading Scale:"
-msgstr "Skala Penilaian:"
-
-msgid "Letter"
-msgstr "Huruf"
-
-msgid "Description"
-msgstr "Keterangan"
-
-msgid "Excellent"
-msgstr "Sangat Baik"
-
-msgid "Very Good"
-msgstr "Hampir Sangat Baik"
-
-msgid "Good"
-msgstr "Lebih dari Baik"
-
-msgid "Satisfactory"
-msgstr "Baik"
-
-msgid "Almost Satisfactory"
-msgstr "Hampir Baik"
-
-msgid "Fair"
-msgstr "Lebih dari Cukup"
-
-msgid "Pass"
-msgstr "Cukup"
-
-msgid "Fail"
-msgstr "Kurang"
-
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Unsatisfactory"
-msgstr "Sangat Kurang"
+msgstr "Tidak memuaskan"
 
-# Layout Core Footer
-msgid "Integrated Academic Information System built using modern Odoo technology."
-msgstr "Sistem Informasi Akademik Terintegrasi yang dibangun menggunakan teknologi modern Odoo."
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__start_date
+msgid "Used as the starting point to generate 14 sessions."
+msgstr "Digunakan sebagai titik awal untuk menghasilkan 14 sesi."
 
-msgid "Supports full management of New Student Admissions, Academic Portal, and Employee Management."
-msgstr "Mendukung manajemen penuh dari proses Penerimaan Mahasiswa Baru, Portal Akademik, hingga Manajemen Dosen."
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "User Roles &amp; Permissions"
+msgstr "Peran Pengguna &amp; Izin"
 
-msgid "Developed By"
-msgstr "Dikembangkan Oleh"
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Very Good"
+msgstr "Sangat bagus"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__submitted
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Waiting for Approval"
+msgstr "Menunggu Persetujuan"
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__website_message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__website_message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__website_message_ids
+msgid "Website Messages"
+msgstr "Pesan Situs Web"
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__website_message_ids
+#: model:ir.model.fields,help:campus_core.field_academic_khs__website_message_ids
+#: model:ir.model.fields,help:campus_core.field_academic_krs__website_message_ids
+msgid "Website communication history"
+msgstr "Riwayat komunikasi situs web"
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__2
+msgid "Wednesday"
+msgstr "Rabu"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Weekly Schedule"
+msgstr "Jadwal Mingguan"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Weight"
+msgstr "Berat"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "ZIP"
+msgstr "RITSLETING"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "name"
+msgstr "nama"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.campus_website_layout
+msgid ""
+"© 2026 Copyright: <strong>Campus Academic by Hajril Malik</strong>. All "
+"Rights Reserved."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "✓ (all)"
+msgstr "✓ (semua)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "✓ (anytime)"
+msgstr "✓ (kapan saja)"
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.core_homepage_docs
+msgid "✓ (only their advised students)"
+msgstr "✓ (hanya siswa yang dinasehati)"

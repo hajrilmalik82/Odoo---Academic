@@ -1,61 +1,354 @@
 # Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_portal
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-05 22:54+0000\n"
-"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"POT-Creation-Date: 2026-07-07 16:46+0000\n"
+"PO-Revision-Date: 2026-07-07 16:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-# Website Homepage Docs Portal
-msgid "Campus Portal Module"
-msgstr "Modul Campus Portal"
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-check\"/> Diambil"
+msgstr ""
 
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "<i class=\"fa fa-edit\"/> Daftar KRS Sekarang"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Horizontal Data "
+"Isolation (Data Leakage Prevention):</strong> Absolute <em>Domain "
+"Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot"
+" perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1"
+" to /krs/2) to view Student B's data. Odoo automatically returns an *Error "
+"403 Forbidden* if the document ownership (Partner ID) does not intersect "
+"with the current logged-in session."
+msgstr ""
+"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Isolasi Data Horizontal "
+"(Data Leakage Prevention):</strong> <em>Domain Filtering</em> absolut "
+"diinjeksikan pada level <em>ORM Query</em>. Mahasiswa A tidak dapat melakukan"
+" <em>URL Spoofing</em> (misal: mengubah ID pada URL dari /krs/1"
+" menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo secara otomatis mengembalikan *Error "
+"403 Forbidden* jika kepemilikan dokumen (Partner ID) tidak beririsan "
+"dengan sesi login saat ini."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<i class=\"fa fa-laptop me-2\"/> Campus Portal Module"
+msgstr "<i class=\"fa fa-laptop me-2\"/> Modul Portal Kampus"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-lock text-dark me-2\"/> Cyber Security &amp; Data Isolation"
+msgstr "<i class=\"fa fa-lock text-dark me-2\"/> Keamanan Cyber &amp; Isolasi Data"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-plus\"/> Ambil"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Encrypted Sessions "
+"&amp; Authorization Middleware:</strong> Every URL route (Controller) in "
+"this module is fortified by the <code>@http.route(auth='user')</code> "
+"decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic "
+"trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF)"
+" threats."
+msgstr ""
+"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Sesi Terenkripsi "
+"&amp; Middleware Otorisasi:</strong> Setiap rute URL (Controller) pada "
+"modul ini dibentengi oleh dekorator <code>@http.route(auth='user')</code>. "
+"Lapisan <em>Middleware</em> Odoo mengalihkan lalu lintas anonim yang "
+"mencoba memotong layar dan menetralkan ancaman *Cross-Site Request Forgery* (CSRF)."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<i class=\"fa fa-star text-warning me-2\"/> Self-Service Operational Steps"
+msgstr "<i class=\"fa fa-star text-warning me-2\"/> Langkah Operasional Self-Service"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-trash\"/> Hapus"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<strong>Tahun Akademik:</strong>"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<strong>Total SKS:</strong>"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Academic Transcripts (KHS)"
+msgstr "Transkrip Akademik (KHS)"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Academic Year"
+msgstr "Tahun Akademik"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Aksi"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"An architectural extension that acts as a Frontend bridge between the Core "
+"ERP system and the Student as an End-User. Built on Odoo web controllers, "
+"this module prioritizes a smooth User Experience (UX) while maintaining "
+"real-time data integrity to and from the main database."
+msgstr ""
+"Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem ERP "
+"Core dan Mahasiswa sebagai End-User. Dibangun di atas web controller Odoo, "
+"modul ini mengutamakan User Experience (UX) yang mulus sekaligus menjaga "
+"integritas data real-time dari dan ke database utama."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Approved"
+msgstr "Disetujui"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Belum ada jadwal yang dibuka untuk semester ini."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Belum ada mata kuliah yang ditambahkan."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid "Campus Portal Module (Self-Service Frontend)"
-msgstr "Modul Campus Portal (Self-Service Frontend)"
+msgstr "Modul Portal Kampus (Self-Service Frontend)"
 
-msgid "An architectural extension that acts as a Frontend bridge between the Core ERP system and the Student as an End-User. Built on Odoo web controllers, this module prioritizes a smooth User Experience (UX) while maintaining real-time data integrity to and from the main database."
-msgstr "Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem Core ERP dengan Mahasiswa sebagai End-User. Dibangun di atas web controller Odoo, modul ini mengutamakan User Experience (UX) yang mulus sekaligus menjaga integritas data secara real-time dari dan menuju database utama."
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Close"
+msgstr "Tutup"
 
-msgid "Self-Service Operational Steps"
-msgstr "Langkah Operasional Self-Service"
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Course Packages (KRS)"
+msgstr "Paket Mata Kuliah (KRS)"
 
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Daftar Jadwal yang Tersedia"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Daftar Mata Kuliah"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Detail KRS:"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Dosen Pengajar"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Draft"
+msgstr "Draf"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "GPA"
+msgstr "IPK"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Jadwal &amp; Ruangan"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "KHS Number"
+msgstr "Nomor KHS"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
+msgid "KHS Saya"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "KRS Number"
+msgstr "Nomor KRS"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
+msgid "KRS Saya"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Kelas"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Kode"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Locked"
+msgstr "Terkunci"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Mata Kuliah"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Needs Revision"
+msgstr "Perlu Revisi"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Rejected"
+msgstr "Ditolak"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "SKS"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Status"
+msgstr "Status"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid "Step 1: Accessing the Student Dashboard"
-msgstr "Langkah 1: Mengakses Dasbor Eksekutif Mahasiswa"
+msgstr "Langkah 1: Mengakses Dashboard Mahasiswa"
 
-msgid "Students log in and are redirected to the <code>/my/home</code> route (Portal My Account) by default. This interface is ergonomically designed to display main metric aggregations, such as current running KRS and grade transcripts."
-msgstr "Mahasiswa melakukan login dan secara default akan diarahkan ke rute /my/home (Portal My Account). Antarmuka ini dirancang secara ergonomis untuk menampilkan agregasi metrik utama, seperti total KRS yang sedang berjalan dan transkrip nilai."
-
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid "Step 2: Automated KRS Compilation (One-Click Enrollment)"
-msgstr "Langkah 2: Automasi Penyusunan KRS (One-Click Enrollment)"
+msgstr "Langkah 2: Automasi Penyusunan KRS (Pendaftaran Satu Klik)"
 
-msgid "When a student opens a Draft KRS document, the bottom table dynamically renders all currently offered class schedules (*Available Schedules*). The student interacts via *Point-and-Click* (clicking the <strong>"Take"</strong> button) on the desired class. The HTTP request is sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind the data immediately without manual typing. If SKS limits are exceeded, the portal UI blocks it immediately with a *Flash Message*."
-msgstr "Saat mahasiswa membuka dokumen KRS berstatus Draft, tabel di bagian bawah secara dinamis me-render seluruh Jadwal Kelas yang sedang ditawarkan (Available Schedules). Mahasiswa melakukan interaksi Point-and-Click (menekan tombol \"Ambil\") pada kelas yang diinginkan. Permintaan HTTP dikirimkan melalui Web Controller ke Odoo Backend untuk langsung mengikat data tanpa perlu entri pengetikan manual. Jika melebihi kuota SKS, UI portal akan langsung memblokir dengan Flash Message."
-
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid "Step 3: Real-Time KHS Transcript Monitoring"
 msgstr "Langkah 3: Pemantauan Transkrip KHS Real-Time"
 
-msgid "Through the KHS menu, students monitor grade movements in real-time. The <em>Single Source of Truth</em> principle ensures that the second a Lecturer publishes grades in the backend, the grades propagate and display on the student portal screen, minimizing information latency."
-msgstr "Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. Prinsip Single Source of Truth memastikan bahwa detik ketika Dosen mempublikasikan nilai di backend, detik itu pula nilai tersebut ter-propagate dan terenkripsi ke layar portal mahasiswa, meminimalisir keterlambatan arus informasi."
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Students log in and are redirected to the <code>/my/home</code> route "
+"(Portal My Account) by default. This interface is ergonomically designed to "
+"display main metric aggregations, such as current running KRS and grade "
+"transcripts."
+msgstr ""
+"Mahasiswa login dan diarahkan ke rute <code>/my/home</code> "
+"(Portal My Account) secara default. Antarmuka ini dirancang secara ergonomis untuk "
+"menampilkan agregasi metrik utama, seperti KRS yang sedang berjalan dan "
+"transkrip nilai."
 
-msgid "Cyber Security &amp; Data Isolation"
-msgstr "Enkapsulasi Keamanan Cyber &amp; Isolasi Data"
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Submit ke Dosen PA"
+msgstr ""
 
-msgid "Encrypted Sessions &amp; Authorization Middleware:"
-msgstr "Sesi Terenkripsi &amp; Middleware Otorisasi:"
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Submitted"
+msgstr "Diajukan"
 
-msgid "Every URL route (Controller) in this module is fortified by the <code>@http.route(auth='user')</code> decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF) threats."
-msgstr "Setiap rute URL (Controller) pada modul ini dibentengi oleh dekorator @http.route(auth='user'). Lapisan Middleware Odoo akan menendang (redirect) setiap lalu-lintas anonim yang mencoba melakukan bypass, serta menetralkan ancaman peretasan Cross-Site Request Forgery (CSRF)."
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "There are currently no KHS records for your account."
+msgstr "Saat ini tidak ada catatan KHS untuk akun Anda."
 
-msgid "Horizontal Data Isolation (Data Leakage Prevention):"
-msgstr "Isolasi Data Horizontal (Data Leakage Prevention):"
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "There are currently no KRS records for your account."
+msgstr "Saat ini tidak ada catatan KRS untuk akun Anda."
 
-msgid "Absolute <em>Domain Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1 to /krs/2) to view Student B's data. Odoo automatically returns an *Error 403 Forbidden* if the document ownership (Partner ID) does not intersect with the current logged-in session."
-msgstr "Implementasi Domain Filtering yang diinjeksikan secara absolut pada tingkat Query ORM. Mahasiswa A tidak dapat melakukan URL Spoofing (misal: mengganti ID pada URL web dari /krs/1 menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo akan mengembalikan Error 403 Forbidden secara otomatis jika hak kepemilikan dokumen (Partner ID) tidak beririsan dengan sesi login saat ini."
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Through the KHS menu, students monitor grade movements in real-time. The "
+"<em>Single Source of Truth</em> principle ensures that the second a Lecturer"
+" publishes grades in the backend, the grades propagate and display on the "
+"student portal screen, minimizing information latency."
+msgstr ""
+"Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. Prinsip "
+"<em>Single Source of Truth</em> memastikan bahwa saat Dosen"
+" mempublikasikan nilai di backend, nilai tersebut merambat dan tampil di "
+"layar portal mahasiswa, meminimalkan latensi informasi."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Total Credits"
+msgstr "Total SKS"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Waiting for Approval"
+msgstr "Menunggu Persetujuan"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"When a student opens a Draft KRS document, the bottom table dynamically "
+"renders all currently offered class schedules (*Available Schedules*). The "
+"student interacts via *Point-and-Click* (clicking the "
+"<strong>\"Take\"</strong> button) on the desired class. The HTTP request is "
+"sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind "
+"the data immediately without manual typing. If SKS limits are exceeded, the "
+"portal UI blocks it immediately with a *Flash Message*."
+msgstr ""
+"Saat mahasiswa membuka dokumen Draft KRS, tabel bawah secara dinamis "
+"merender semua jadwal kelas yang ditawarkan saat ini (*Jadwal Tersedia*). "
+"Mahasiswa berinteraksi melalui *Point-and-Click* (mengklik tombol "
+"<strong>\"Ambil\"</strong>) pada kelas yang diinginkan. Request HTTP "
+"dikirim melalui <em>Web Controller</em> ke <em>Odoo Backend</em> untuk mengikat "
+"data secara langsung tanpa pengetikan manual. Jika batas SKS terlampaui, "
+"UI portal akan langsung memblokirnya dengan *Flash Message*."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "You can only add subjects to a draft KRS."
+msgstr "Anda hanya dapat menambahkan mata kuliah ke KRS yang berstatus draf."
