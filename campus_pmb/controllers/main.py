@@ -1,5 +1,9 @@
+import logging
+
 from odoo import http, _
 from odoo.http import request
+
+_logger = logging.getLogger(__name__)
 
 
 class CampusPMBWebsite(http.Controller):
@@ -32,8 +36,9 @@ class CampusPMBWebsite(http.Controller):
             })
             return request.redirect('/admission/thanks')
         except Exception as e:
-            # In case of constraint errors (e.g., unique email)
-            return request.redirect('/admission?error=' + str(e))
+            _logger.exception("Admission submit failed for email: %s", post.get('email'))
+            user_msg = _("Submission failed. An application with this email may already exist, or data is invalid.")
+            return request.redirect('/admission?error=' + str(user_msg))
 
     @http.route('/admission/thanks', type='http', auth="public", website=True)
     def admission_thanks(self, **kw):

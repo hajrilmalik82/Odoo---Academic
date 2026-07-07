@@ -1,4 +1,4 @@
-from odoo import http, _
+from odoo import http, _, fields
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
 from odoo.exceptions import ValidationError, UserError
@@ -56,7 +56,6 @@ class CampusPortal(CustomerPortal):
         partner = request.env.user.partner_id
         
         # 1. Find Active Academic Year based on KRS Period
-        from odoo import fields
         today = fields.Date.context_today(request.env.user)
         active_year = request.env['academic.year'].search([
             ('krs_start_date', '<=', today),
