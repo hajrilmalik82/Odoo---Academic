@@ -1,116 +1,352 @@
 # Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_employees
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-07-05 22:54+0000\n"
-"PO-Revision-Date: 2026-07-05 22:54+0000\n"
+"POT-Creation-Date: 2026-07-07 17:11+0000\n"
+"PO-Revision-Date: 2026-07-07 17:11+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
-"Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-# Models and Fields
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Admin selects the role from the <code>Academic Role</code> dropdown "
+"(Lecturer / PMB Staff / Academic Staff) on the Job form. The system will use"
+" this parameter as a logic indicator in the next steps."
+msgstr "<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Aksi:</strong> Admin memilih peran dari dropdown <code>Academic Role</code> (Lecturer / PMB Staff / Academic Staff) pada form Jabatan. Sistem akan menggunakan parameter ini sebagai indikator logika pada langkah berikutnya."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Open the *tab* <strong>PMB/Academic Jurisdiction</strong> on the employee "
+"profile, then select the Faculty or Study Program that is within their work "
+"scope. Odoo will lock data access according to those territory limits."
+msgstr "<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Aksi:</strong> Buka *tab* <strong>PMB/Academic Jurisdiction</strong> pada profil pegawai, lalu pilih Fakultas atau Program Studi yang berada dalam ruang lingkup kerjanya. Odoo akan mengunci akses data sesuai batas wilayah tersebut."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Staff fills in the biodata, uploads photos, and determines the "
+"department/faculty the employee belongs to."
+msgstr "<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Aksi:</strong> Staf mengisi biodata, mengunggah foto, dan menentukan departemen/fakultas asal pegawai tersebut."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-lock text-success me-2\"/>Security Jurisdictions"
+msgstr "<i class=\"fa fa-lock text-success me-2\"/>Yurisdiksi Keamanan"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-dark me-2\"/> <strong>UI Automation:</strong> "
+"When staff selects a job position that has the \"Lecturer\" role, the "
+"academic profile *Tab* will appear. If the job role is \"PMB Staff\" or "
+"\"Academic Staff\", the relevant jurisdiction *Tab* will appear. This form "
+"is highly dynamic!"
+msgstr "<i class=\"fa fa-magic text-dark me-2\"/> <strong>Otomatisasi UI:</strong> Saat staf memilih posisi pekerjaan yang memiliki peran \"Lecturer\", *Tab* profil akademik akan muncul. Jika peran jabatannya adalah \"PMB Staff\" atau \"Academic Staff\", *Tab* yurisdiksi yang relevan akan muncul. Formulir ini sangat dinamis!"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Strict "
+"Security:</strong> Without a clear jurisdiction, faculty-level staff risk "
+"viewing/modifying confidential data of other faculties."
+msgstr "<i class=\"fa fa-shield text-danger me-2\"/> <strong>Keamanan Ketat:</strong> Tanpa yurisdiksi yang jelas, staf tingkat fakultas berisiko melihat/mengubah data rahasia fakultas lain."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-sitemap text-primary me-2\"/>Advisory Hierarchy"
+msgstr "<i class=\"fa fa-sitemap text-primary me-2\"/>Hierarki Penasihat Akademik"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-users me-2\"/> HR &amp; Staff Module"
+msgstr "<i class=\"fa fa-users me-2\"/> Modul SDM &amp; Staf"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-vcard-o text-info me-2\"/>Dynamic Employee Profile UI"
+msgstr "<i class=\"fa fa-vcard-o text-info me-2\"/>UI Profil Pegawai Dinamis"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<span class=\"badge bg-info text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">2</span>"
+msgstr "<span class=\"badge bg-info text-dark position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">2</span>"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
+"top: 0px; font-size: 1rem;\">1</span>"
+msgstr "<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">1</span>"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">3</span>"
+msgstr "<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">3</span>"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Actor:</strong> Campus Operations Manager / HR"
+msgstr "<strong>Aktor:</strong> Manajer Operasional Kampus / HR"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Actor:</strong> HR Manager"
+msgstr "<strong>Aktor:</strong> Manajer HR"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Actor:</strong> HR Staff"
+msgstr "<strong>Aktor:</strong> Staf HR"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_faculty_ids
+msgid "Academic Assigned Faculties"
+msgstr "Fakultas Penugasan Akademik"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_program_ids
+msgid "Academic Assigned Programs"
+msgstr "Program Penugasan Akademik"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Academic Jurisdiction"
+msgstr "Yurisdiksi Akademik"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_hr_job_form_inherit_academic
+msgid "Academic Profile"
+msgstr "Profil Akademik"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_rank
+msgid "Academic Rank"
+msgstr "Jabatan Fungsional"
+
+#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_role
 #: model:ir.model.fields,field_description:campus_employees.field_hr_job__academic_role
 msgid "Academic Role"
 msgstr "Peran Akademis"
 
-#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__nidn
-msgid "NIDN (Nomor Induk Dosen Nasional)"
-msgstr "NIDN"
+#. module: campus_employees
+#: model:ir.actions.act_window,name:campus_employees.action_hr_employee_academic_staff
+msgid "Academic Staff"
+msgstr "Staf Akademik"
 
-#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_rank
-msgid "Academic Rank"
-msgstr "Jabatan Fungsional"
+#. module: campus_employees
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_job__academic_role__academic
+msgid "Academic Staff (TU)"
+msgstr "Staf Akademik (TU)"
 
+#. module: campus_employees
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_employee__academic_rank__asisten_ahli
+msgid "Asisten Ahli"
+msgstr "Asisten Ahli"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Assigning Security Jurisdictions"
+msgstr "Menetapkan Yurisdiksi Keamanan"
+
+#. module: campus_employees
+#: model_terms:ir.actions.act_window,help:campus_employees.action_hr_employee_academic_staff
+msgid "Create a new Academic Staff (Staf TU)"
+msgstr "Buat Staf Akademik (Staf TU) baru"
+
+#. module: campus_employees
+#: model_terms:ir.actions.act_window,help:campus_employees.action_hr_employee_pmb_staff
+msgid "Create a new PMB Staff"
+msgstr "Buat Staf PMB baru"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Defines the working territory limits of Registration Staff (PMB) or Academic"
+" Staff (TU)."
+msgstr "Menentukan batas wilayah kerja Staf Pendaftaran (PMB) atau Staf Akademik (TU)."
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:campus_employees.field_hr_job__display_name
+msgid "Display Name"
+msgstr "Nama Tampilan"
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_hr_employee
+msgid "Employee"
+msgstr "Karyawan"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Employee Profile Creation"
+msgstr "Pembuatan Profil Pegawai"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Employees with Lecturer status can be linked directly with students as "
+"Academic Advisors (PA). This relation triggers their authority to approve "
+"KRS."
+msgstr "Pegawai berstatus Dosen dapat ditautkan langsung dengan mahasiswa sebagai Pembimbing Akademik (PA). Relasi ini memicu otoritas mereka untuk menyetujui KRS."
+
+#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__faculty_id
 msgid "Faculty"
 msgstr "Fakultas"
 
+#. module: campus_employees
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_employee__academic_rank__guru_besar
+msgid "Guru Besar"
+msgstr "Guru Besar"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "HR &amp; Staff Module (HR)"
+msgstr "Modul SDM &amp; Staf (HR)"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "HR Admin creates the campus organizational structure."
+msgstr "Admin SDM membuat struktur organisasi kampus."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "HR Management Workflow"
+msgstr "Alur Kerja Manajemen SDM"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__id
+#: model:ir.model.fields,field_description:campus_employees.field_hr_job__id
+msgid "ID"
+msgstr "ID"
+
+#. module: campus_employees
+#: model:ir.model.fields,help:campus_employees.field_hr_employee__academic_faculty_ids
+#: model:ir.model.fields,help:campus_employees.field_hr_employee__pmb_faculty_ids
+msgid ""
+"If empty, it means no restriction by faculty (can access all, or restricted "
+"by program)."
+msgstr "Jika kosong, berarti tidak ada pembatasan fakultas (dapat mengakses semua, atau dibatasi oleh program studi)."
+
+#. module: campus_employees
+#: model:ir.model.fields,help:campus_employees.field_hr_employee__academic_program_ids
+#: model:ir.model.fields,help:campus_employees.field_hr_employee__pmb_program_ids
+msgid "If empty, it means no restriction by program."
+msgstr "Jika kosong, berarti tidak ada pembatasan program studi."
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_hr_job
+msgid "Job Position"
+msgstr "Jabatan Kerja"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Job Positions Setup"
+msgstr "Pengaturan Posisi Pekerjaan"
+
+#. module: campus_employees
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_job__academic_role__lecturer
+msgid "Lecturer"
+msgstr "Dosen"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Lecturer Profile"
+msgstr "Profil Dosen"
+
+#. module: campus_employees
+#: model:ir.actions.act_window,name:campus_employees.action_hr_employee_lecturer
+#: model:ir.ui.menu,name:campus_employees.menu_academic_lecturer
+msgid "Lecturers"
+msgstr "Dosen"
+
+#. module: campus_employees
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_employee__academic_rank__lektor
+msgid "Lektor"
+msgstr "Lektor"
+
+#. module: campus_employees
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_employee__academic_rank__lektor_kepala
+msgid "Lektor Kepala"
+msgstr "Lektor Kepala"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__nidn
+msgid "NIDN (Nomor Induk Dosen Nasional)"
+msgstr "NIDN"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Operational access rights (PMB, KRS, KHS) are restricted only to specific "
+"Faculty or Study Program levels directly from the employee profile "
+"(Jurisdiction)."
+msgstr "Hak akses operasional (PMB, KRS, KHS) dibatasi hanya pada tingkat Fakultas atau Program Studi tertentu langsung dari profil pegawai (Yurisdiksi)."
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__pmb_faculty_ids
+msgid "PMB Assigned Faculties"
+msgstr "Fakultas Penugasan PMB"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__pmb_program_ids
+msgid "PMB Assigned Programs"
+msgstr "Program Penugasan PMB"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "PMB Jurisdiction"
+msgstr "Yurisdiksi PMB"
+
+#. module: campus_employees
+#: model:ir.actions.act_window,name:campus_employees.action_hr_employee_pmb_staff
+#: model:ir.model.fields.selection,name:campus_employees.selection__hr_job__academic_role__pmb
+#: model:ir.ui.menu,name:campus_employees.menu_academic_pmb_staff
+msgid "PMB Staff"
+msgstr "Staf PMB"
+
+#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__program_id
 msgid "Program"
 msgstr "Program Studi"
 
-# Website Homepage Docs Employees
-msgid "HR &amp; Staff Module"
-msgstr "Modul Manajemen SDM"
-
-msgid "HR &amp; Staff Module (HR)"
-msgstr "Modul SDM &amp; Tenaga Kependidikan (HR)"
-
-msgid "This module modifies the standard Odoo HR framework (<code>hr.employee</code>), injecting academic-specific capabilities into employee profiles. The system allows you to manage Lecturers, PMB Staff, and Academic Staff (TU) with a data hierarchy fully integrated into other academic modules."
-msgstr "Modul ini memodifikasi kerangka kerja SDM standar Odoo (<code>hr.employee</code>), menyuntikkan kapabilitas spesifik akademis ke dalam profil pegawai. Sistem ini memungkinkan Anda untuk mengelola Dosen, Staf PMB, dan Staf Akademik (TU) dengan hierarki data yang terintegrasi penuh ke modul akademik lainnya."
-
-msgid "Dynamic Employee Profile UI"
-msgstr "Dynamic UI Profil Pegawai"
-
-msgid "The employee profile form interface changes automatically based on their job role. Lecturers get the NIDN field, while PMB Staff and Academic Staff get different jurisdiction fields."
-msgstr "Antarmuka (Form) profil pegawai akan berubah secara otomatis tergantung pada peran jabatannya. Dosen akan mendapatkan kolom NIDN, sedangkan Staf PMB dan Staf Akademik mendapat kolom yurisdiksi yang berbeda."
-
-msgid "Advisory Hierarchy"
-msgstr "Hierarki Pembimbingan"
-
-msgid "Employees with Lecturer status can be linked directly with students as Academic Advisors (PA). This relation triggers their authority to approve KRS."
-msgstr "Pegawai berstatus Dosen dapat ditautkan langsung dengan Mahasiswa sebagai Dosen Pembimbing Akademik (PA). Relasi ini men-trigger kewenangan mereka untuk menyetujui KRS."
-
-msgid "Security Jurisdictions"
-msgstr "Yurisdiksi Keamanan PMB"
-
-msgid "Operational access rights (PMB, KRS, KHS) are restricted only to specific Faculty or Study Program levels directly from the employee profile (Jurisdiction)."
-msgstr "Hak akses operasional (PMB, KRS, KHS) disempitkan hanya pada tingkat Fakultas atau Program Studi tertentu langsung dari profil pegawainya (Yurisdiksi)."
-
-msgid "HR Management Workflow"
-msgstr "Alur Kerja (Workflow) Manajemen SDM Kampus"
-
-msgid "Job Positions Setup"
-msgstr "Pengaturan Master Jabatan (Job Positions)"
-
-msgid "Actor: HR Manager"
-msgstr "Aktor: Manajer HR"
-
-msgid "HR Admin creates the campus organizational structure."
-msgstr "Admin HR membuat arsitektur struktur organisasi kampus."
-
-msgid "Admin selects the role from the <code>Academic Role</code> dropdown (Lecturer / PMB Staff / Academic Staff) on the Job form. The system will use this parameter as a logic indicator in the next steps."
-msgstr "Admin memilih peran dari dropdown <code>Academic Role</code> (Lecturer / PMB Staff / Academic Staff) pada form Jabatan. Sistem akan menggunakan parameter ini sebagai penanda logika di tahap selanjutnya."
-
-msgid "Employee Profile Creation"
-msgstr "Pembuatan Profil Tenaga Kependidikan"
-
-msgid "Actor: HR Staff"
-msgstr "Aktor: Staf HR"
-
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid "Staff enters new employee data into the system."
 msgstr "Staf memasukkan data pegawai baru ke dalam sistem."
 
-msgid "UI Automation:"
-msgstr "Automasi UI:"
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"The employee profile form interface changes automatically based on their job"
+" role. Lecturers get the NIDN field, while PMB Staff and Academic Staff get "
+"different jurisdiction fields."
+msgstr "Antarmuka formulir profil pegawai berubah secara otomatis berdasarkan peran jabatannya. Dosen mendapatkan kolom NIDN, sementara Staf PMB dan Staf Akademik mendapatkan kolom yurisdiksi yang berbeda."
 
-msgid "When staff selects a job position that has the \"Lecturer\" role, the academic profile *Tab* will appear. If the job role is \"PMB Staff\" or \"Academic Staff\", the relevant jurisdiction *Tab* will appear. This form is highly dynamic!"
-msgstr "Ketika staf memilih jabatan yang memiliki peran \"Lecturer\", maka *Tab* profil akademis akan muncul. Jika peran jabatannya adalah \"PMB Staff\" atau \"Academic Staff\", maka *Tab* yurisdiksi yang relevan akan muncul. Formulir ini sangat dinamis!"
-
-msgid "Staff fills in the biodata, uploads photos, and determines the department/faculty the employee belongs to."
-msgstr "Staf mengisi kelengkapan biodata, mengunggah foto, dan menentukan departemen/fakultas pegawai tersebut bernaung."
-
-msgid "Assigning Security Jurisdictions"
-msgstr "Pemberian Yurisdiksi Hak Akses (Khusus PMB)"
-
-msgid "Actor: Campus Operations Manager / HR"
-msgstr "Aktor: Manajer Operasional Kampus / HR"
-
-msgid "Defines the working territory limits of Registration Staff (PMB) or Academic Staff (TU)."
-msgstr "Menentukan batas teritori kerja Staf Pendaftaran (PMB) atau Staf Akademik (TU)."
-
-msgid "Strict Security:"
-msgstr "Keamanan Ketat:"
-
-msgid "Without a clear jurisdiction, faculty-level staff risk viewing/modifying confidential data of other faculties."
-msgstr "Tanpa yurisdiksi yang jelas, staf tingkat fakultas berisiko melihat/mengubah data rahasia mahasiswa fakultas lain."
-
-msgid "Open the *tab* <strong>PMB/Academic Jurisdiction</strong> on the employee profile, then select the Faculty or Study Program that is within their work scope. Odoo will lock data access according to those territory limits."
-msgstr "Buka *tab* <strong>PMB/Academic Jurisdiction</strong> pada profil pegawai, lalu pilih Fakultas atau Program Studi mana yang menjadi ruang lingkup kerjanya. Odoo akan mengunci akses data sesuai batas teritori tersebut."
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"This module modifies the standard Odoo HR framework "
+"(<code>hr.employee</code>), injecting academic-specific capabilities into "
+"employee profiles. The system allows you to manage Lecturers, PMB Staff, and"
+" Academic Staff (TU) with a data hierarchy fully integrated into other "
+"academic modules."
+msgstr "Modul ini memodifikasi kerangka kerja SDM standar Odoo (<code>hr.employee</code>), menyuntikkan kapabilitas khusus akademik ke dalam profil pegawai. Sistem ini memungkinkan Anda mengelola Dosen, Staf PMB, dan Staf Akademik (TU) dengan hierarki data yang terintegrasi penuh ke modul akademik lainnya."
