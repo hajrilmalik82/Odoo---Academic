@@ -316,6 +316,7 @@ class AcademicKrs(models.Model):
                     khs_lines.append(Command.create({
                         'subject_id': krs_line.subject_id.id,
                         'credits': krs_line.credits,
+                        'schedule_ids': [Command.set([krs_line.schedule_id.id])] if krs_line.schedule_id else False,
                         # grade and grade_points will be set by the lecturer later
                     }))
                     

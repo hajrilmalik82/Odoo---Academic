@@ -63,12 +63,7 @@
         <record id="rule_lecturer_khs_line_write" model="ir.rule">
             <field name="name">Lecturer: Only Write KHS for Subjects They Teach</field>
             <field name="model_id" ref="model_academic_khs_line"/>
-            <field name="domain_force">
-                [('subject_id.id', 'in', [
-                    s.subject_id.id
-                    for s in user.employee_id.mapped('schedule_ids')
-                ])]
-            </field>
+            <field name="domain_force">[('schedule_ids.lecturer_id.user_id', '=', user.id)]</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="True"/>
