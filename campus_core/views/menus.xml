@@ -27,9 +27,9 @@
     </record>
 
     <!-- ============================================================ -->
-    <!-- STUDY PLAN (KRS) — dedicated menu -->
+    <!-- STUDIES (KRS & KHS) -->
     <!-- ============================================================ -->
-    <menuitem id="menu_academic_krs" name="Study Plan (KRS)" parent="menu_academic_root" sequence="30"/>
+    <menuitem id="menu_academic_krs" name="Studies" parent="menu_academic_root" sequence="30"/>
 
     <record id="action_academic_course_package" model="ir.actions.act_window">
         <field name="name">Course Packages</field>
@@ -39,11 +39,7 @@
 
     <menuitem id="menu_academic_krs_act" name="Student KRS" parent="menu_academic_krs" action="action_academic_krs" sequence="10"/>
     <menuitem id="menu_academic_course_package" name="Course Packages" parent="menu_academic_krs" action="action_academic_course_package" sequence="20"/>
-
-    <!-- ============================================================ -->
-    <!-- ACADEMIC TRANSCRIPT (KHS) — standalone, no submenu -->
-    <!-- ============================================================ -->
-    <menuitem id="menu_academic_khs_act" name="Academic Transcript (KHS)" parent="menu_academic_root" action="action_academic_khs" sequence="35"/>
+    <menuitem id="menu_academic_khs_act" name="Academic Transcript (KHS)" parent="menu_academic_krs" action="action_academic_khs" sequence="30"/>
 
     <!-- ============================================================ -->
     <!-- CLASS &amp; SCHEDULE -->
