@@ -19,4 +19,10 @@
               parent="campus_core.menu_academic_people" 
               action="action_hr_employee_pmb_staff" 
               sequence="30"/>
+
+    <menuitem id="menu_academic_staff" 
+              name="Academic Staff" 
+              parent="campus_core.menu_academic_people" 
+              action="action_hr_employee_academic_staff" 
+              sequence="40"/>
 </odoo>

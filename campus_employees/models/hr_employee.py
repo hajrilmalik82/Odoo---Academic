@@ -1,10 +1,19 @@
-from odoo import fields, models
+from odoo import api, fields, models
 
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
-    academic_role = fields.Selection(string="Academic Role", related="job_id.academic_role", store=True, readonly=True)
+    academic_role = fields.Selection([
+        ('lecturer', 'Lecturer'),
+        ('pmb', 'PMB Staff'),
+        ('academic', 'Academic Staff (TU)')
+    ], string="Academic Role", store=True, tracking=True)
+
+    @api.onchange('job_id')
+    def _onchange_job_id_academic(self):
+        if self.job_id and self.job_id.academic_role:
+            self.academic_role = self.job_id.academic_role
     nidn = fields.Char(string="NIDN (Nomor Induk Dosen Nasional)")
     academic_rank = fields.Selection([
         ('asisten_ahli', 'Asisten Ahli'),

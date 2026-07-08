@@ -5,8 +5,8 @@
         <field name="model">hr.job</field>
         <field name="inherit_id" ref="hr.view_hr_job_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//group" position="after">
-                <group string="Academic Profile">
+            <xpath expr="//div[hasclass('oe_title')]" position="after">
+                <group>
                     <field name="academic_role"/>
                 </group>
             </xpath>
