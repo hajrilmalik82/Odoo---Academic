@@ -100,4 +100,21 @@
             </div>
         </xpath>
     </template>
+
+    <!-- Demo Login for Portfolio -->
+    <template id="campus_demo_login" inherit_id="web.login" name="Campus Demo Login">
+        <xpath expr="//form" position="after">
+            <div class="mt-4 pt-3 border-top text-center">
+                <h6 class="text-muted mb-2"><i class="fa fa-info-circle me-1"></i> Portfolio Reviewer?</h6>
+                <p class="small text-muted mb-3">Use these demo credentials to explore the system</p>
+                <div class="bg-light p-2 rounded mb-3 text-start small border">
+                    <div><strong>Email:</strong> admincampus@gmail.com</div>
+                    <div><strong>Password:</strong> 123</div>
+                </div>
+                <button type="button" class="btn btn-primary w-100 fw-bold" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                    <i class="fa fa-rocket me-2"></i> Auto-Login as Admin
+                </button>
+            </div>
+        </xpath>
+    </template>
 </odoo>
