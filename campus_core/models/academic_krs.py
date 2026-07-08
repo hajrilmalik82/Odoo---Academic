@@ -37,7 +37,13 @@ class AcademicCoursePackageLine(models.Model):
     _description = 'Academic Course Package Line'
 
     package_id = fields.Many2one('academic.course.package', string='Package', ondelete='cascade')
-    subject_id = fields.Many2one('academic.subject', string='Subject', required=True)
+    program_id = fields.Many2one(related='package_id.program_id', string='Program')
+    subject_id = fields.Many2one(
+        'academic.subject', 
+        string='Subject', 
+        required=True,
+        domain="[('program_id', '=', program_id)]"
+    )
     credits = fields.Integer(related='subject_id.credits', string='Credits')
 
     _unique_subject_per_package = models.Constraint(

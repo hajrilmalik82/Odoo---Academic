@@ -40,7 +40,8 @@
                         <page string="Subjects">
                             <field name="line_ids">
                                 <list editable="bottom">
-                                    <field name="subject_id" domain="[('program_id', '=', parent.program_id)]"/>
+                                    <field name="program_id" column_invisible="1"/>
+                                    <field name="subject_id" domain="[('program_id', '=', program_id)]"/>
                                     <field name="credits"/>
                                 </list>
                             </field>

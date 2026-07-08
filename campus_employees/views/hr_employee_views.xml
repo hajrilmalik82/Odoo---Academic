@@ -17,8 +17,10 @@
                 </page>
                 <page string="PMB Jurisdiction" invisible="academic_role != 'pmb'">
                     <group>
-                        <field name="pmb_faculty_ids" widget="many2many_tags"/>
-                        <field name="pmb_program_ids" widget="many2many_tags"/>
+                        <field name="pmb_all_faculties"/>
+                        <field name="pmb_faculty_ids" widget="many2many_tags" invisible="pmb_all_faculties == True"/>
+                        <field name="pmb_all_programs"/>
+                        <field name="pmb_program_ids" widget="many2many_tags" invisible="pmb_all_programs == True"/>
                     </group>
                 </page>
                 <page string="Academic Jurisdiction" invisible="academic_role != 'academic'">

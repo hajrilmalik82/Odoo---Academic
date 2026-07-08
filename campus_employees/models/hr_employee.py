@@ -29,12 +29,14 @@ class HrEmployee(models.Model):
     )
 
     # PMB Row-Level Security Wewenang (Jurisdiction)
+    pmb_all_faculties = fields.Boolean("All Faculties")
     pmb_faculty_ids = fields.Many2many(
         'academic.faculty', 
         'hr_employee_pmb_faculty_rel', 
         string="PMB Assigned Faculties",
         help="If empty, it means no restriction by faculty (can access all, or restricted by program)."
     )
+    pmb_all_programs = fields.Boolean("All Programs")
     pmb_program_ids = fields.Many2many(
         'academic.program', 
         'hr_employee_pmb_program_rel', 
@@ -42,6 +44,11 @@ class HrEmployee(models.Model):
         domain="[('faculty_id', 'in', pmb_faculty_ids)]",
         help="If empty, it means no restriction by program."
     )
+
+    @api.onchange('pmb_all_faculties')
+    def _onchange_pmb_all_faculties(self):
+        if self.pmb_all_faculties:
+            self.pmb_all_programs = True
 
     # Academic Staff Row-Level Security Wewenang (Jurisdiction)
     academic_faculty_ids = fields.Many2many(

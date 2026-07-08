@@ -10,12 +10,12 @@ class CampusPMBWebsite(http.Controller):
 
     @http.route('/admission', type='http', auth="public", website=True)
     def admission_form(self, **kw):
+        faculties = request.env['academic.faculty'].sudo().search([])
         programs = request.env['academic.program'].sudo().search([])
-        academic_years = request.env['academic.year'].sudo().search([])
         
         values = {
+            'faculties': faculties,
             'programs': programs,
-            'academic_years': academic_years,
             'page_name': 'admission_form',
             'error': kw.get('error'),
         }
@@ -27,10 +27,16 @@ class CampusPMBWebsite(http.Controller):
             faculty_id = int(post.get('faculty_id')) if post.get('faculty_id') else False
             program_id = int(post.get('program_id')) if post.get('program_id') else False
             
-            if program_id and faculty_id:
+            if program_id:
                 program = request.env['academic.program'].sudo().browse(program_id)
-                if program.faculty_id.id != faculty_id:
+                if faculty_id and program.faculty_id.id != faculty_id:
                     raise Exception("Program does not belong to the selected faculty.")
+                if not faculty_id:
+                    faculty_id = program.faculty_id.id
+
+            active_year = request.env['academic.year'].sudo().search([('active', '=', True)], order='id desc', limit=1)
+            if not active_year:
+                raise Exception("No active academic year found for admission.")
 
             # Sudo is required because public users don't have write access to campus.admission
             request.env['campus.admission'].sudo().create({
@@ -40,7 +46,7 @@ class CampusPMBWebsite(http.Controller):
                 'previous_school': post.get('previous_school'),
                 'faculty_id': faculty_id,
                 'program_id': program_id,
-                'academic_year_id': int(post.get('academic_year_id')) if post.get('academic_year_id') else False,
+                'academic_year_id': active_year.id,
                 'admission_path': post.get('admission_path', 'regular'),
             })
             return request.redirect('/admission/thanks')

@@ -46,20 +46,20 @@
 
                                         <div class="row mb-3">
                                             <div class="col-md-6">
-                                                <label class="form-label" for="program_id">Study Program <span class="text-danger">*</span></label>
-                                                <select class="form-select" name="program_id" required="required">
-                                                    <option value="">-- Choose Study Program --</option>
-                                                    <t t-foreach="programs" t-as="prog">
-                                                        <option t-att-value="prog.id"><t t-esc="prog.name"/></option>
+                                                <label class="form-label" for="faculty_id">Faculty <span class="text-danger">*</span></label>
+                                                <select class="form-select" name="faculty_id" id="faculty_id" required="required">
+                                                    <option value="">-- Choose Faculty --</option>
+                                                    <t t-foreach="faculties" t-as="fac">
+                                                        <option t-att-value="fac.id"><t t-esc="fac.name"/></option>
                                                     </t>
                                                 </select>
                                             </div>
                                             <div class="col-md-6">
-                                                <label class="form-label" for="academic_year_id">Academic Year <span class="text-danger">*</span></label>
-                                                <select class="form-select" name="academic_year_id" required="required">
-                                                    <option value="">-- Choose Academic Year --</option>
-                                                    <t t-foreach="academic_years" t-as="year">
-                                                        <option t-att-value="year.id"><t t-esc="year.name"/></option>
+                                                <label class="form-label" for="program_id">Study Program <span class="text-danger">*</span></label>
+                                                <select class="form-select" name="program_id" id="program_id" required="required" disabled="disabled">
+                                                    <option value="">-- Choose Study Program --</option>
+                                                    <t t-foreach="programs" t-as="prog">
+                                                        <option t-att-value="prog.id" t-att-data-faculty="prog.faculty_id.id"><t t-esc="prog.name"/></option>
                                                     </t>
                                                 </select>
                                             </div>
@@ -84,6 +84,33 @@
                     </div>
                 </div>
             </div>
+            
+            <script type="text/javascript">
+                document.addEventListener('DOMContentLoaded', function() {
+                    var facultySelect = document.getElementById('faculty_id');
+                    var programSelect = document.getElementById('program_id');
+                    if(facultySelect &amp;&amp; programSelect) {
+                        var allPrograms = Array.from(programSelect.options).slice(1);
+                        
+                        facultySelect.addEventListener('change', function() {
+                            var selectedFaculty = this.value;
+                            
+                            programSelect.innerHTML = '&lt;option value=""&gt;-- Choose Study Program --&lt;/option&gt;';
+                            
+                            if (selectedFaculty) {
+                                programSelect.removeAttribute('disabled');
+                                allPrograms.forEach(function(opt) {
+                                    if (opt.getAttribute('data-faculty') === selectedFaculty) {
+                                        programSelect.appendChild(opt.cloneNode(true));
+                                    }
+                                });
+                            } else {
+                                programSelect.setAttribute('disabled', 'disabled');
+                            }
+                        });
+                    }
+                });
+            </script>
         </t>
     </template>
 

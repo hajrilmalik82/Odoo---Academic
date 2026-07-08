@@ -33,10 +33,10 @@
                 document.addEventListener("DOMContentLoaded", function() {
                     const phoneLinks = document.querySelectorAll('header a[href^="tel:"]');
                     phoneLinks.forEach(link => {
-                        link.href = "https://wa.me/6285287212730";
+                        link.href = "https://wa.me/6281178783903";
                         link.target = "_blank";
                         link.classList.add("text-success", "fw-bold");
-                        link.innerHTML = '<i class="fa fa-whatsapp text-success me-1"></i><span>085287212730</span>';
+                        link.innerHTML = '<i class="fa fa-whatsapp text-success me-1"></i><span>081178783903</span>';
                     });
 
                     // Hide PMB Admission menu if user is logged in
@@ -85,8 +85,8 @@
                                 </a>
                             </p>
                             <p>
-                                <a href="https://wa.me/6285287212730" class="text-light text-decoration-none" target="_blank">
-                                    <i class="fa fa-whatsapp me-3 text-success"></i> 085287212730
+                                <a href="https://wa.me/6281178783903" class="text-light text-decoration-none" target="_blank">
+                                    <i class="fa fa-whatsapp me-3 text-success"></i> 081178783903
                                 </a>
                             </p>
                             <p>

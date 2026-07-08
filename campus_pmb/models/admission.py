@@ -201,7 +201,7 @@ class CampusAdmission(models.Model):
         program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2] or "PR"
 
         prefix = f"{faculty_str}-{program_str}-{year_short}-"
-        last_student = self.env['res.partner'].search(
+        last_student = self.env['res.partner'].sudo().search(
             [('nim', '=like', f'{prefix}%')], order='nim desc', limit=1
         )
         try:
@@ -223,7 +223,7 @@ class CampusAdmission(models.Model):
                 raise UserError(_("A portal account has already been created."))
                 
             # Check if user with this email already exists in the system
-            existing_user = self.env['res.users'].search([('login', '=', record.email)], limit=1)
+            existing_user = self.env['res.users'].sudo().search([('login', '=', record.email)], limit=1)
             if existing_user:
                 # If exists, just link it to avoid duplicate constraint error
                 record.user_id = existing_user.id
@@ -239,14 +239,14 @@ class CampusAdmission(models.Model):
                         'program_id': record.program_id.id,
                     })
 
-                existing_user.partner_id.write(update_vals)
+                existing_user.partner_id.sudo().write(update_vals)
                 continue
             
             # Generate NIM using centralized method
             nim, batch_year = record._generate_nim(record.faculty_id, record.program_id)
 
             # Create Partner
-            partner = self.env['res.partner'].create({
+            partner = self.env['res.partner'].sudo().create({
                 'name': record.name,
                 'email': record.email,
                 'phone': record.phone,
@@ -265,7 +265,7 @@ class CampusAdmission(models.Model):
             # In production, remove this and use Odoo's built-in 'Reset Password' email flow instead.
             user_password = record.email.split('@')[0]
 
-            user = self.env['res.users'].create({
+            user = self.env['res.users'].sudo().create({
                 'name': record.name,
                 'login': record.email,
                 'password': user_password,
