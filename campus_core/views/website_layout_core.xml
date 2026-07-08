@@ -103,16 +103,64 @@
 
     <!-- Demo Login for Portfolio -->
     <template id="campus_demo_login" inherit_id="web.login" name="Campus Demo Login">
-        <xpath expr="//form" position="after">
-            <div class="mt-4 pt-3 border-top text-center">
-                <h6 class="text-muted mb-2"><i class="fa fa-info-circle me-1"></i> Portfolio Reviewer?</h6>
-                <p class="small text-muted mb-3">Use these demo credentials to explore the system</p>
-                <div class="bg-light p-2 rounded mb-3 text-start small border">
-                    <div><strong>Email:</strong> admincampus@gmail.com</div>
-                    <div><strong>Password:</strong> 123</div>
+        <xpath expr="//form" position="before">
+            <style>
+                .portfolio-demo-box {
+                    display: none;
+                }
+                @media (min-width: 992px) {
+                    .portfolio-demo-box {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        height: 100vh;
+                        width: 350px;
+                        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                        color: white;
+                        z-index: 1000;
+                        padding: 30px;
+                        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+                    }
+                    /* Ensure the main container shifts so it is not hidden */
+                    body {
+                        padding-left: 350px;
+                    }
+                }
+            </style>
+            
+            <!-- Desktop side panel -->
+            <div class="portfolio-demo-box">
+                <div class="text-center mb-4">
+                    <i class="fa fa-university fa-4x text-light mb-3"></i>
+                    <h4 class="fw-bold text-white mb-0">Campus Academic</h4>
+                    <p class="text-light opacity-75">SIAKAD Portfolio</p>
                 </div>
-                <button type="button" class="btn btn-primary w-100 fw-bold" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                
+                <h6 class="text-warning mb-3 fw-bold border-bottom border-warning pb-2">
+                    <i class="fa fa-info-circle me-2"></i> Portfolio Reviewer?
+                </h6>
+                <p class="small text-light mb-4">
+                    Use these demo credentials to explore all administrator features in the system.
+                </p>
+                
+                <div class="bg-white bg-opacity-10 p-3 rounded mb-4 border border-light border-opacity-25 shadow-sm">
+                    <div class="mb-2"><strong class="text-warning">Email:</strong><br/>admincampus@gmail.com</div>
+                    <div><strong class="text-warning">Password:</strong><br/>123</div>
+                </div>
+                
+                <button type="button" class="btn btn-warning w-100 fw-bold shadow-lg text-dark" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
                     <i class="fa fa-rocket me-2"></i> Auto-Login as Admin
+                </button>
+            </div>
+            
+            <!-- Mobile minimal version -->
+            <div class="d-block d-lg-none mt-3 mb-4 text-center border p-3 rounded bg-light">
+                <h6 class="text-muted fw-bold"><i class="fa fa-info-circle me-1"></i> Demo Login</h6>
+                <button type="button" class="btn btn-primary w-100 fw-bold mt-2" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                    <i class="fa fa-rocket me-2"></i> Auto-Login
                 </button>
             </div>
         </xpath>

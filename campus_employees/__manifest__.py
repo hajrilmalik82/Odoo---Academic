@@ -9,6 +9,7 @@
     'data': [
         'security/campus_security.xml',
         'security/ir.model.access.csv',
+        'views/res_partner_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_job_views.xml',
         'views/website_homepage_employees.xml',
