@@ -56,3 +56,6 @@ access_academic_khs_staff,academic.khs staff,model_academic_khs,group_campus_aca
 access_academic_khs_line_staff,academic.khs.line staff,model_academic_khs_line,group_campus_academic_staff,1,1,1,1
 access_krs_generator_wizard_staff,krs.generator.wizard staff,model_krs_generator_wizard,group_campus_academic_staff,1,1,1,1
 access_assign_schedule_wizard_staff,assign.schedule.wizard staff,model_assign_schedule_wizard,group_campus_academic_staff,1,1,1,1
+access_res_partner_admin,res.partner admin,base.model_res_partner,group_campus_administrator,1,1,1,1
+access_res_partner_staff,res.partner staff,base.model_res_partner,group_campus_academic_staff,1,1,1,1
+access_res_partner_lecturer,res.partner lecturer,base.model_res_partner,group_campus_lecturer,1,1,0,0
