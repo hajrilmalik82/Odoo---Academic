@@ -46,7 +46,7 @@
                                         
                                         <!-- HIGHLIGHT FITUR -->
                                         <div class="row mb-5">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
                                                         <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Smart Constraints</h5>
@@ -54,7 +54,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
                                                         <h5 class="fw-bold text-dark"><i class="fa fa-calendar-check-o text-primary me-2"/>Dynamic Scheduling</h5>
@@ -62,11 +62,19 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
                                                         <h5 class="fw-bold text-dark"><i class="fa fa-calculator text-success me-2"/>KHS Transcript Automation</h5>
                                                         <p class="text-muted small mb-0">Lecturers only need to enter the final numeric score (e.g. 85). The system automatically converts it to a letter grade (A), multiplies the points (4.0) by credits (SKS), and calculates the student's GPA without manual calculation.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="card border-0 shadow-sm h-100 rounded-4">
+                                                    <div class="card-body">
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-user-md text-info me-2"/>Smart Advisor Assignment</h5>
+                                                        <p class="text-muted small mb-0">When assigning an Academic Advisor, the system automatically filters the list to only show active Lecturers within the same Study Program as the student. No more misassigned roles.</p>
                                                     </div>
                                                 </div>
                                             </div>
