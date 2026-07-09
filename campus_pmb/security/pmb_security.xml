@@ -12,16 +12,7 @@
         </record>
 
     </data>
-
-    <data noupdate="0">
-        <!-- Force noupdate=False for the rule so it can be updated on existing databases -->
-        <function name="write" model="ir.model.data">
-            <function name="search" model="ir.model.data">
-                <value eval="[('module', '=', 'campus_pmb'), ('name', '=', 'rule_pmb_admission_access')]"/>
-            </function>
-            <value eval="{'noupdate': False}"/>
-        </function>
-
+    <data noupdate="1">
         <!-- Record Rule for PMB Officers (Filtered Access) -->
         <record id="rule_pmb_admission_access" model="ir.rule">
             <field name="name">PMB: Faculty and Program Access</field>
