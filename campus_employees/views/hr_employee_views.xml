@@ -25,8 +25,10 @@
                 </page>
                 <page string="Academic Jurisdiction" invisible="academic_role != 'academic'">
                     <group>
-                        <field name="academic_faculty_ids" widget="many2many_tags"/>
-                        <field name="academic_program_ids" widget="many2many_tags"/>
+                        <field name="academic_all_faculties"/>
+                        <field name="academic_faculty_ids" widget="many2many_tags" invisible="academic_all_faculties == True"/>
+                        <field name="academic_all_programs"/>
+                        <field name="academic_program_ids" widget="many2many_tags" invisible="academic_all_programs == True"/>
                     </group>
                 </page>
             </xpath>
