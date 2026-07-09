@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data noupdate="0">
+        <!-- Force noupdate=False for the rules so they can be updated on existing databases -->
+        <function name="write" model="ir.model.data">
+            <function name="search" model="ir.model.data">
+                <value eval="[('module', '=', 'campus_employees'), ('name', 'in', ['rule_academic_staff_krs_access', 'rule_academic_staff_khs_access'])]"/>
+            </function>
+            <value eval="{'noupdate': False}"/>
+        </function>
+
         <record id="rule_academic_staff_krs_access" model="ir.rule">
             <field name="name">Academic Staff: Faculty and Program Access for KRS</field>
             <field name="model_id" ref="campus_core.model_academic_krs"/>
