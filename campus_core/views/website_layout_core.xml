@@ -143,24 +143,64 @@
                     <i class="fa fa-info-circle me-2"></i> Portfolio Reviewer?
                 </h6>
                 <p class="small text-light mb-4">
-                    Use these demo credentials to explore all administrator features in the system.
+                    Use these demo credentials to explore all features in the system based on roles.
                 </p>
                 
-                <div class="bg-white bg-opacity-10 p-3 rounded mb-4 border border-light border-opacity-25 shadow-sm">
-                    <div class="mb-2"><strong class="text-warning">Email:</strong><br/>admincampus@gmail.com</div>
-                    <div><strong class="text-warning">Password:</strong><br/>123</div>
+                <!-- Campus Admin -->
+                <div class="bg-white bg-opacity-10 p-2 rounded mb-2 border border-light border-opacity-25 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-warning fw-bold d-block">Campus Admin</small>
+                            <small class="d-block text-light">admincampus@gmail.com</small>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-warning fw-bold text-dark" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                            <i class="fa fa-sign-in"></i> Login
+                        </button>
+                    </div>
+                </div>
+
+                <!-- PMB Admin -->
+                <div class="bg-white bg-opacity-10 p-2 rounded mb-2 border border-light border-opacity-25 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-info fw-bold d-block">PMB Admin</small>
+                            <small class="d-block text-light">pmbadmin@gmail.com</small>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-info fw-bold text-white" onclick="document.getElementById('login').value='pmbadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                            <i class="fa fa-sign-in"></i> Login
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TU Admin -->
+                <div class="bg-white bg-opacity-10 p-2 rounded mb-2 border border-light border-opacity-25 shadow-sm">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <small class="text-success fw-bold d-block">TU Admin</small>
+                            <small class="d-block text-light">tuadmin@gmail.com</small>
+                        </div>
+                        <button type="button" class="btn btn-sm btn-success fw-bold text-white" onclick="document.getElementById('login').value='tuadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                            <i class="fa fa-sign-in"></i> Login
+                        </button>
+                    </div>
                 </div>
                 
-                <button type="button" class="btn btn-warning w-100 fw-bold shadow-lg text-dark" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                    <i class="fa fa-rocket me-2"></i> Auto-Login as Admin
-                </button>
+                <div class="text-center mt-3">
+                    <small class="text-light opacity-75">Password for all: <strong>123</strong></small>
+                </div>
             </div>
             
             <!-- Mobile minimal version -->
             <div class="d-block d-lg-none mt-3 mb-4 text-center border p-3 rounded bg-light">
-                <h6 class="text-muted fw-bold"><i class="fa fa-info-circle me-1"></i> Demo Login</h6>
-                <button type="button" class="btn btn-primary w-100 fw-bold mt-2" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                    <i class="fa fa-rocket me-2"></i> Auto-Login
+                <h6 class="text-muted fw-bold"><i class="fa fa-info-circle me-1"></i> Demo Login (Pass: 123)</h6>
+                <button type="button" class="btn btn-warning w-100 fw-bold mt-2" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                    Campus Admin
+                </button>
+                <button type="button" class="btn btn-info w-100 fw-bold mt-2 text-white" onclick="document.getElementById('login').value='pmbadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                    PMB Admin
+                </button>
+                <button type="button" class="btn btn-success w-100 fw-bold mt-2 text-white" onclick="document.getElementById('login').value='tuadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                    TU Admin
                 </button>
             </div>
         </xpath>
