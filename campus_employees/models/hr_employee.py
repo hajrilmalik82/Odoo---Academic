@@ -14,6 +14,18 @@ class HrEmployee(models.Model):
     def _onchange_job_id_academic(self):
         if self.job_id and self.job_id.academic_role:
             self.academic_role = self.job_id.academic_role
+
+    @api.onchange('department_id')
+    def _onchange_department_id_sync_manager(self):
+        if self.department_id:
+            dept_manager = self.department_id.manager_id
+            # If there's a manager and it's NOT the current employee
+            if dept_manager and dept_manager._origin.id != self._origin.id:
+                self.parent_id = dept_manager
+            # If this employee IS the manager, their boss is the parent department's manager (e.g. Dean)
+            elif dept_manager and dept_manager._origin.id == self._origin.id:
+                if self.department_id.parent_id and self.department_id.parent_id.manager_id:
+                    self.parent_id = self.department_id.parent_id.manager_id
     nidn = fields.Char(string="NIDN (Nomor Induk Dosen Nasional)")
     academic_rank = fields.Selection([
         ('asisten_ahli', 'Asisten Ahli'),

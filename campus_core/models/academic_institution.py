@@ -34,6 +34,11 @@ class AcademicFaculty(models.Model):
                     faculty.department_id.name = faculty.name
                 if 'dean_id' in vals:
                     faculty.department_id.manager_id = faculty.dean_id.id
+                    if faculty.dean_id:
+                        programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
+                        for prog in programs:
+                            if prog.head_id:
+                                prog.head_id.parent_id = faculty.dean_id.id
         return res
 
 
@@ -68,7 +73,11 @@ class AcademicProgram(models.Model):
                     'manager_id': vals.get('head_id', False)
                 })
                 vals['department_id'] = dept.id
-        return super().create(vals_list)
+        programs = super().create(vals_list)
+        for prog in programs:
+            if prog.head_id and prog.faculty_id and prog.faculty_id.dean_id:
+                prog.head_id.parent_id = prog.faculty_id.dean_id.id
+        return programs
 
     def write(self, vals):
         res = super().write(vals)
@@ -78,6 +87,8 @@ class AcademicProgram(models.Model):
                     prog.department_id.name = prog.name
                 if 'head_id' in vals:
                     prog.department_id.manager_id = prog.head_id.id
+                    if prog.head_id and prog.faculty_id and prog.faculty_id.dean_id:
+                        prog.head_id.parent_id = prog.faculty_id.dean_id.id
                 if 'faculty_id' in vals:
                     prog.department_id.parent_id = prog.faculty_id.department_id.id if prog.faculty_id.department_id else False
         return res
