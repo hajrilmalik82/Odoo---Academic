@@ -19,16 +19,21 @@ class AcademicFaculty(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if 'name' in vals and not vals.get('department_id'):
-                dept = self.env['hr.department'].create({'name': vals['name']})
+                dept = self.env['hr.department'].create({
+                    'name': vals['name'],
+                    'manager_id': vals.get('dean_id', False)
+                })
                 vals['department_id'] = dept.id
         return super().create(vals_list)
 
     def write(self, vals):
         res = super().write(vals)
-        if 'name' in vals:
-            for faculty in self:
-                if faculty.department_id:
+        for faculty in self:
+            if faculty.department_id:
+                if 'name' in vals:
                     faculty.department_id.name = faculty.name
+                if 'dean_id' in vals:
+                    faculty.department_id.manager_id = faculty.dean_id.id
         return res
 
 
@@ -59,7 +64,8 @@ class AcademicProgram(models.Model):
                     parent_dept_id = faculty.department_id.id if faculty.department_id else False
                 dept = self.env['hr.department'].create({
                     'name': vals['name'],
-                    'parent_id': parent_dept_id
+                    'parent_id': parent_dept_id,
+                    'manager_id': vals.get('head_id', False)
                 })
                 vals['department_id'] = dept.id
         return super().create(vals_list)
@@ -70,6 +76,8 @@ class AcademicProgram(models.Model):
             if prog.department_id:
                 if 'name' in vals:
                     prog.department_id.name = prog.name
+                if 'head_id' in vals:
+                    prog.department_id.manager_id = prog.head_id.id
                 if 'faculty_id' in vals:
                     prog.department_id.parent_id = prog.faculty_id.department_id.id if prog.faculty_id.department_id else False
         return res
