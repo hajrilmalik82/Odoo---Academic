@@ -154,43 +154,46 @@
                     Use these demo credentials to explore all features in the system based on roles.
                 </p>
                 
-                <!-- Campus Admin -->
-                <div class="bg-white bg-opacity-10 p-2 rounded mb-2 border border-light border-opacity-25 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-warning fw-bold d-block">Campus Admin</small>
-                            <small class="d-block text-light">admincampus@gmail.com</small>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-warning fw-bold text-dark" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                            <i class="fa fa-sign-in"></i> Login
-                        </button>
-                    </div>
+                <!-- Dropdown Dosen -->
+                <div class="mb-3">
+                    <small class="text-warning fw-bold d-block mb-1">Login Dosen</small>
+                    <select class="form-select form-select-sm" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                        <option value="" style="color: black;">-- Pilih Dosen --</option>
+                        <t t-set="dosen_emps" t-value="request.env['hr.employee'].sudo().search([('academic_role', '=', 'lecturer'), ('user_id', '!=', False)], order='name asc')"/>
+                        <t t-foreach="dosen_emps" t-as="emp">
+                            <option t-att-value="emp.user_id.login" style="color: black;">
+                                <t t-esc="emp.name"/>
+                            </option>
+                        </t>
+                    </select>
                 </div>
 
-                <!-- PMB Admin -->
-                <div class="bg-white bg-opacity-10 p-2 rounded mb-2 border border-light border-opacity-25 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-info fw-bold d-block">PMB Admin</small>
-                            <small class="d-block text-light">pmbadmin@gmail.com</small>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-info fw-bold text-white" onclick="document.getElementById('login').value='pmbadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                            <i class="fa fa-sign-in"></i> Login
-                        </button>
-                    </div>
+                <!-- Dropdown TU -->
+                <div class="mb-3">
+                    <small class="text-success fw-bold d-block mb-1">Login Tata Usaha</small>
+                    <select class="form-select form-select-sm" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                        <option value="" style="color: black;">-- Pilih TU --</option>
+                        <t t-set="tu_emps" t-value="request.env['hr.employee'].sudo().search([('academic_role', '=', 'academic'), ('user_id', '!=', False)], order='name asc')"/>
+                        <t t-foreach="tu_emps" t-as="emp">
+                            <option t-att-value="emp.user_id.login" style="color: black;">
+                                <t t-esc="emp.name"/>
+                            </option>
+                        </t>
+                    </select>
                 </div>
 
-                <!-- TU Admin -->
-                <div class="bg-white bg-opacity-10 p-2 rounded mb-2 border border-light border-opacity-25 shadow-sm">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div>
-                            <small class="text-success fw-bold d-block">TU Admin</small>
-                            <small class="d-block text-light">tuadmin@gmail.com</small>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-success fw-bold text-white" onclick="document.getElementById('login').value='tuadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                            <i class="fa fa-sign-in"></i> Login
-                        </button>
-                    </div>
+                <!-- Dropdown PMB -->
+                <div class="mb-3">
+                    <small class="text-info fw-bold d-block mb-1">Login PMB</small>
+                    <select class="form-select form-select-sm" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                        <option value="" style="color: black;">-- Pilih PMB --</option>
+                        <t t-set="pmb_emps" t-value="request.env['hr.employee'].sudo().search([('academic_role', '=', 'pmb'), ('user_id', '!=', False)], order='name asc')"/>
+                        <t t-foreach="pmb_emps" t-as="emp">
+                            <option t-att-value="emp.user_id.login" style="color: black;">
+                                <t t-esc="emp.name"/>
+                            </option>
+                        </t>
+                    </select>
                 </div>
                 
                 <div class="text-center mt-3">
@@ -201,15 +204,18 @@
             <!-- Mobile minimal version -->
             <div class="d-block d-lg-none mt-3 mb-4 text-center border p-3 rounded bg-light">
                 <h6 class="text-muted fw-bold"><i class="fa fa-info-circle me-1"></i> Demo Login (Pass: 123)</h6>
-                <button type="button" class="btn btn-warning w-100 fw-bold mt-2" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                    Campus Admin
-                </button>
-                <button type="button" class="btn btn-info w-100 fw-bold mt-2 text-white" onclick="document.getElementById('login').value='pmbadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                    PMB Admin
-                </button>
-                <button type="button" class="btn btn-success w-100 fw-bold mt-2 text-white" onclick="document.getElementById('login').value='tuadmin@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
-                    TU Admin
-                </button>
+                <select class="form-select mb-2" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                    <option value="">-- Login Dosen --</option>
+                    <t t-foreach="dosen_emps" t-as="emp"><option t-att-value="emp.user_id.login"><t t-esc="emp.name"/></option></t>
+                </select>
+                <select class="form-select mb-2" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                    <option value="">-- Login TU --</option>
+                    <t t-foreach="tu_emps" t-as="emp"><option t-att-value="emp.user_id.login"><t t-esc="emp.name"/></option></t>
+                </select>
+                <select class="form-select mb-2" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                    <option value="">-- Login PMB --</option>
+                    <t t-foreach="pmb_emps" t-as="emp"><option t-att-value="emp.user_id.login"><t t-esc="emp.name"/></option></t>
+                </select>
             </div>
         </xpath>
     </template>
