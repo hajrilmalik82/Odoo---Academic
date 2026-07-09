@@ -45,12 +45,21 @@
                                      document.querySelector('header .o_user_menu') || 
                                      document.querySelector('header a[href="/my/home"]');
                     if (isLoggedIn) {
+                        const pmbMenu = document.querySelector('header a[href*="/admission"]');
                         if (pmbMenu) {
                             if (pmbMenu.parentElement) {
                                 pmbMenu.parentElement.style.display = 'none';
                             }
                         }
                     }
+
+                    // Forcefully rename "Home" menu to "Panduan"
+                    const menus = document.querySelectorAll('header a.nav-link');
+                    menus.forEach(menu => {
+                        if (menu.innerText.trim().toLowerCase() === 'home') {
+                            menu.innerHTML = menu.innerHTML.replace('Home', 'Panduan');
+                        }
+                    });
                 });
             </script>
         </xpath>
