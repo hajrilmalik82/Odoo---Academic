@@ -113,3 +113,12 @@ class HrEmployee(models.Model):
                 emp.user_id.sudo().write({
                     'group_ids': [(3, g.id) for g in academic_groups]
                 })
+
+class HrEmployeePublic(models.Model):
+    _inherit = 'hr.employee.public'
+
+    academic_role = fields.Selection(related='employee_id.academic_role', readonly=True)
+    nidn = fields.Char(related='employee_id.nidn', readonly=True)
+    academic_rank = fields.Selection(related='employee_id.academic_rank', readonly=True)
+    faculty_id = fields.Many2one(related='employee_id.faculty_id', readonly=True)
+    program_id = fields.Many2one(related='employee_id.program_id', readonly=True)
