@@ -45,7 +45,6 @@
                                      document.querySelector('header .o_user_menu') || 
                                      document.querySelector('header a[href="/my/home"]');
                     if (isLoggedIn) {
-                        const pmbMenu = document.querySelector('header a[href*="/admission"]');
                         if (pmbMenu) {
                             if (pmbMenu.parentElement) {
                                 pmbMenu.parentElement.style.display = 'none';
