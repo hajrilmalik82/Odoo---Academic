@@ -39,6 +39,24 @@
         </field>
     </record>
 
+    <record id="view_partner_search_student" model="ir.ui.view">
+        <field name="name">res.partner.search.student</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <search string="Search Students">
+                <field name="name" string="Name/NIM" filter_domain="['|', ('name', 'ilike', self), ('nim', 'ilike', self)]"/>
+                <field name="program_id"/>
+                <field name="academic_advisor_id"/>
+                <filter string="Active Students" name="active_student" domain="[('student_status', '=', 'active')]"/>
+                <searchpanel>
+                    <field name="faculty_id" icon="fa-building" enable_counters="1"/>
+                    <field name="program_id" icon="fa-graduation-cap" enable_counters="1"/>
+                    <field name="student_status" icon="fa-info-circle" enable_counters="1"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
     <!-- Standalone Student Form View -->
     <record id="view_campus_student_form_standalone" model="ir.ui.view">
         <field name="name">res.partner.form.student.standalone</field>
@@ -106,6 +124,7 @@
         <field name="view_mode">list,form</field>
         <field name="domain">[('is_student', '=', True)]</field>
         <field name="context">{'default_is_student': True, 'default_company_type': 'person'}</field>
+        <field name="search_view_id" ref="view_partner_search_student"/>
     </record>
 
     <record id="action_res_partner_student_view_list" model="ir.actions.act_window.view">

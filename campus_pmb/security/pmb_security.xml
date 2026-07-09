@@ -13,17 +13,17 @@
 
     </data>
 
-    <data noupdate="1">
+    <data noupdate="0">
         <!-- Record Rule for PMB Officers (Filtered Access) -->
         <record id="rule_pmb_admission_access" model="ir.rule">
             <field name="name">PMB: Faculty and Program Access</field>
             <field name="model_id" ref="model_campus_admission"/>
             <field name="domain_force">
-                ['|', '|', '|',
-                 (1, '=', 1 if user.employee_id.pmb_all_programs or user.employee_id.pmb_all_faculties else 0),
-                 ('program_id', 'in', user.employee_id.pmb_program_ids.ids), 
-                 ('program_id.faculty_id', 'in', user.employee_id.pmb_faculty_ids.ids), 
-                 (1, '=', 1 if not user.employee_id.pmb_program_ids and not user.employee_id.pmb_faculty_ids and not user.employee_id.pmb_all_faculties and not user.employee_id.pmb_all_programs else 0)]
+                [
+                    '&amp;',
+                    (1, '=', 1) if user.employee_id.pmb_all_programs else ('program_id', 'in', user.employee_id.pmb_program_ids.ids),
+                    (1, '=', 1) if user.employee_id.pmb_all_faculties else ('program_id.faculty_id', 'in', user.employee_id.pmb_faculty_ids.ids)
+                ]
             </field>
             <field name="groups" eval="[(4, ref('campus_pmb.group_pmb'))]"/>
             <field name="perm_read" eval="True"/>
