@@ -4,6 +4,10 @@ from odoo import _, api, fields, models
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
+    _sql_constraints = [
+        ('nim_unique', 'unique(nim, company_id)', 'Student ID (NIM) must be unique!')
+    ]
+
     is_student = fields.Boolean(string="Is a Student", default=False, index=True)
     nim = fields.Char(string="Student ID (NIM)")
     
