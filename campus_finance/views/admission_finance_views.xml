@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_admission_form_inherit_finance" model="ir.ui.view">
+        <field name="name">campus.admission.form.inherit.finance</field>
+        <field name="model">campus.admission</field>
+        <field name="inherit_id" ref="campus_pmb.view_campus_admission_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="invoice_id" context="{'form_view_ref': 'account.view_move_form'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

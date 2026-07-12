@@ -1,0 +1,17 @@
+from odoo import models, api
+
+class AccountMove(models.Model):
+    _inherit = 'account.move'
+        
+    def write(self, vals):
+        res = super().write(vals)
+        if 'payment_state' in vals and vals['payment_state'] in ('paid', 'in_payment'):
+            for move in self:
+                # Find if this invoice is linked to an admission
+                admission = self.env['campus.admission'].sudo().search([('invoice_id', '=', move.id)], limit=1)
+                if admission and admission.state == 'draft':
+                    # PMB Admin will review documents after payment is verified.
+                    # We move state to 'submitted'
+                    admission.write({'state': 'submitted'})
+                    admission.message_post(body="Registration Fee Paid. Status updated to Submitted.")
+        return res
