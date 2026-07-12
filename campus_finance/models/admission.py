@@ -1,5 +1,4 @@
-from odoo import models, fields, api, _
-from odoo.exceptions import UserError
+from odoo import models, fields
 
 class CampusAdmission(models.Model):
     _inherit = 'campus.admission'
@@ -25,8 +24,8 @@ class CampusAdmission(models.Model):
         if idr and not idr.active:
             idr.active = True
         
-        # Registration fee (Standardized to Rp 250,000 for this simulation)
-        fee_amount = 250000.0
+        # Registration fee (Configurable from Invoicing > Settings)
+        fee_amount = self.env.company.pmb_registration_fee or 250000.0
         
         # We need an income account or a product. For simplicity, just use a line item.
         invoice_vals = {

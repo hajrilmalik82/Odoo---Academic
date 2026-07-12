@@ -10,6 +10,8 @@
     'depends': ['campus_pmb', 'account', 'payment', 'website_payment'],
     'data': [
         'views/admission_finance_views.xml',
+        'views/res_config_settings_views.xml',
+        'views/website_homepage_finance.xml',
     ],
     'installable': True,
     'application': False,

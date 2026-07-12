@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_campus_finance" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.campus.finance</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='invoicing_settings']" position="inside">
+                <setting id="campus_pmb_fee_setting" string="PMB Registration Fee" help="Set the default fee for prospective students.">
+                    <field name="pmb_registration_fee" widget="monetary"/>
+                </setting>
+            </xpath>
+        </field>
+    </record>
+</odoo>

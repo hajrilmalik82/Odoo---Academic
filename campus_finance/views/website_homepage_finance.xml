@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="finance_homepage_docs" inherit_id="campus_core.core_homepage_docs" name="Finance ERP Documentation">
+        
+        <!-- Inject into Sidebar Navigation -->
+        <xpath expr="//div[@id='docs-tab']" position="inside">
+            <button class="nav-link fw-bold py-3 text-start mb-1 text-success" id="tab-finance" data-bs-toggle="pill" data-bs-target="#content-finance" type="button" role="tab" aria-controls="content-finance" aria-selected="false">
+                <i class="fa fa-money me-2"/> Campus Finance Module
+            </button>
+        </xpath>
+
+        <!-- Inject into Content Area -->
+        <xpath expr="//div[@id='docs-tabContent']" position="inside">
+            
+            <!-- MODUL FINANCE PANE -->
+            <div class="tab-pane fade" id="content-finance" role="tabpanel" aria-labelledby="tab-finance">
+                <section class="mb-5">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
+                            <i class="fa fa-money"/>
+                        </div>
+                        <h2 class="fw-bold mb-0 text-success">Campus Finance (Xendit Integration)</h2>
+                    </div>
+                    <p class="text-muted lead mb-4">
+                        This module acts as a <strong>Bridge Module</strong> between student admission operations (campus_pmb) and the accounting and payment gateway systems. This architectural philosophy ensures the PMB module can operate independently without forcing the university to use the accounting module (preventing tight coupling).
+                    </p>
+
+                    <!-- HIGHLIGHT FITUR -->
+                    <div class="row mb-5">
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-file-text-o text-success me-2"/>Invoice Automation</h5>
+                                    <p class="text-muted small mb-0">Whenever a prospective student submits the admission form, this module automatically intercepts the standard process, creates a Customer record, and issues a Customer Invoice in IDR, bypassing manual steps.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-cog text-primary me-2"/>Dynamic Fee Configuration</h5>
+                                    <p class="text-muted small mb-0">The registration fee is not hardcoded. Administrators can easily configure the fee from the Invoicing Settings menu, ensuring flexibility for future pricing adjustments.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="card border-0 shadow-sm h-100 rounded-4">
+                                <div class="card-body">
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-bolt text-danger me-2"/>Webhook Auto-Approval</h5>
+                                    <p class="text-muted small mb-0">The system aggressively listens for payment state changes. When the Xendit Webhook confirms a payment, the module instantly updates the candidate's admission status to Submitted without human intervention.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>
