@@ -53,12 +53,6 @@ class AcademicSubject(models.Model):
             if record.credits <= 0:
                 raise ValidationError(_("Credits must be greater than zero."))
 
-    @api.model
-    def search_panel_select_multi_range(self, field_name, **kwargs):
-        if kwargs.get('group_domain') is None:
-            kwargs['group_domain'] = []
-        return super().search_panel_select_multi_range(field_name, **kwargs)
-
 
 class AcademicYear(models.Model):
     _name = 'academic.year'

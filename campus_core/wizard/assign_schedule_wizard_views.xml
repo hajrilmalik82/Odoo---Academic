@@ -11,6 +11,8 @@
                     </div>
                     <group>
                         <field name="class_id" options="{'no_open': True}"/>
+                        <field name="subject_id" invisible="1"/>
+                        <field name="academic_year_id" invisible="1"/>
                         <field name="schedule_id" options="{'no_create': True, 'no_open': True}"/>
                     </group>
                     <notebook>

@@ -7,35 +7,26 @@ class AssignScheduleWizard(models.TransientModel):
     _description = 'Mass Assign Schedule Wizard'
 
     class_id = fields.Many2one('academic.class', string='Class', required=True, readonly=True)
-    schedule_id = fields.Many2one('academic.class.schedule', string='Schedule', required=True)
-    
-    # We will compute the domain so only students who haven't selected a schedule yet appear.
+    subject_id = fields.Many2one(related='class_id.subject_id')
+    academic_year_id = fields.Many2one(related='class_id.academic_year_id')
+    schedule_id = fields.Many2one(
+        'academic.class.schedule',
+        string='Schedule',
+        required=True,
+        domain="[('class_id', '=', class_id)]",
+    )
     krs_line_ids = fields.Many2many(
         'academic.krs.line',
-        string='Students (KRS Lines)'
+        string='Students (KRS Lines)',
+        domain="[('subject_id', '=', subject_id), ('krs_id.academic_year_id', '=', academic_year_id), ('schedule_id', '=', False)]",
     )
 
     @api.model
     def default_get(self, fields_list):
         res = super().default_get(fields_list)
-        active_id = self.env.context.get('active_id')
-        if active_id and self.env.context.get('active_model') == 'academic.class':
-            class_record = self.env['academic.class'].browse(active_id)
-            res['class_id'] = active_id
+        if self.env.context.get('active_model') == 'academic.class' and self.env.context.get('active_id'):
+            res['class_id'] = self.env.context['active_id']
         return res
-        
-    @api.onchange('class_id')
-    def _onchange_class_id(self):
-        if self.class_id:
-            # Filter krs_line_ids to only those missing a schedule for this subject and academic year
-            domain = [
-                ('subject_id', '=', self.class_id.subject_id.id),
-                ('krs_id.academic_year_id', '=', self.class_id.academic_year_id.id),
-                ('schedule_id', '=', False),
-                # Optional: Only include submitted/approved/locked students? Or even draft?
-                # The user said "yang krs atau subject itu belum memiliki schedule". Let's allow all states.
-            ]
-            return {'domain': {'krs_line_ids': domain, 'schedule_id': [('class_id', '=', self.class_id.id)]}}
 
     def action_assign_schedule(self):
         self.ensure_one()
@@ -43,10 +34,19 @@ class AssignScheduleWizard(models.TransientModel):
             raise ValidationError(_("Please select a schedule."))
         if not self.krs_line_ids:
             raise ValidationError(_("Please select at least one student."))
-            
+        if self.schedule_id.class_id != self.class_id:
+            raise ValidationError(_("Schedule '%(schedule)s' does not belong to class '%(class_name)s'.") % {
+                'schedule': self.schedule_id.display_name,
+                'class_name': self.class_id.name,
+            })
+
         for line in self.krs_line_ids:
             if line.schedule_id:
                 raise ValidationError(_("Student %(student)s already has a schedule assigned.") % {'student': line.student_id.name})
+            if line.subject_id != self.class_id.subject_id:
+                raise ValidationError(_("Student %(student)s's KRS line is for a different subject than this class.") % {'student': line.student_id.name})
+            if line.krs_id.academic_year_id != self.class_id.academic_year_id:
+                raise ValidationError(_("Student %(student)s's KRS belongs to a different academic year than this class.") % {'student': line.student_id.name})
             line.schedule_id = self.schedule_id.id
-            
+
         return {'type': 'ir.actions.act_window_close'}

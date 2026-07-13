@@ -1,9 +1,9 @@
 import logging
+
 from odoo import _, api, fields, models, Command
+from odoo.exceptions import ValidationError
 
 _logger = logging.getLogger(__name__)
-
-from odoo.exceptions import ValidationError
 
 
 class AcademicCoursePackage(models.Model):
@@ -76,32 +76,17 @@ class AcademicKrs(models.Model):
     
     @api.onchange('faculty_id')
     def _onchange_faculty_id(self):
-        domain = {}
-        if self.faculty_id:
-            domain['program_id'] = [('faculty_id', '=', self.faculty_id.id)]
-            if self.program_id.faculty_id != self.faculty_id:
-                self.program_id = False
-                self.student_id = False
-        else:
-            domain['program_id'] = []
-            
-        return {'domain': domain}
+        if self.faculty_id and self.program_id.faculty_id != self.faculty_id:
+            self.program_id = False
+            self.student_id = False
 
     @api.onchange('program_id')
     def _onchange_program_id(self):
-        domain = {}
-        student_domain = [('is_student', '=', True)]
-        
         if self.program_id:
-            student_domain.append(('program_id', '=', self.program_id.id))
             if not self.faculty_id or self.faculty_id != self.program_id.faculty_id:
                 self.faculty_id = self.program_id.faculty_id
             if self.student_id.program_id != self.program_id:
                 self.student_id = False
-                
-        domain['student_id'] = student_domain
-        
-        return {'domain': domain}
 
     package_id = fields.Many2one('academic.course.package', string='Course Package')
     state = fields.Selection([
@@ -123,14 +108,17 @@ class AcademicKrs(models.Model):
     )
 
     @api.model
-    def _expand_states(self, states, domain, order):
-        return [key for key, val in type(self).state.selection]
+    def _expand_states(self, states, domain):
+        return [key for key, _val in type(self).state.selection]
 
     @api.model_create_multi
     def create(self, vals_list):
+        is_privileged = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
         for vals in vals_list:
             if vals.get('name', 'New') == 'New':
                 vals['name'] = self.env['ir.sequence'].sudo().next_by_code('academic.krs') or 'New'
+            if vals.get('state') and vals['state'] != 'draft' and not is_privileged:
+                raise ValidationError(_("New KRS records must start in draft status."))
         return super().create(vals_list)
 
     @api.depends('line_ids.credits')
@@ -159,7 +147,6 @@ class AcademicKrs(models.Model):
         protected_fields = {
             'student_id',
             'academic_year_id',
-            'term_type',
             'package_id',
             'line_ids',
         }
@@ -168,8 +155,43 @@ class AcademicKrs(models.Model):
             if locked_records:
                 raise ValidationError(_("Locked KRS records cannot be modified."))
 
+    _STATE_TRANSITIONS = {
+        'draft': {'submitted'},
+        'submitted': {'approved', 'revision', 'rejected'},
+        'approved': {'locked', 'draft'},
+        'revision': {'submitted', 'draft'},
+        'rejected': {'draft'},
+        'locked': {'approved'},
+    }
+    _PORTAL_STATE_TRANSITIONS = {('draft', 'submitted'), ('revision', 'submitted')}
+    _ADMIN_STATE_TRANSITIONS = {('approved', 'locked'), ('locked', 'approved'), ('approved', 'draft')}
+
+    def _check_state_transition_allowed(self, new_state):
+        if self.env.su:
+            return
+        user = self.env.user
+        if user.has_group('campus_core.group_campus_administrator'):
+            return
+        is_internal = user.has_group('base.group_user')
+        for record in self:
+            if record.state == new_state:
+                continue
+            transition = (record.state, new_state)
+            if new_state not in self._STATE_TRANSITIONS.get(record.state, set()):
+                raise ValidationError(_(
+                    "Invalid KRS status change from '%(old_state)s' to '%(new_state)s'."
+                ) % {'old_state': record.state, 'new_state': new_state})
+            if not is_internal and transition not in self._PORTAL_STATE_TRANSITIONS:
+                raise ValidationError(_("Students can only submit their KRS for approval."))
+            if transition in self._ADMIN_STATE_TRANSITIONS:
+                raise ValidationError(_("Only Campus Administrators can perform this KRS status change."))
+            if transition == ('submitted', 'approved') and record.advisor_id not in user.employee_ids:
+                raise ValidationError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
+
     def write(self, vals):
         self._check_locked_write_allowed(vals)
+        if 'state' in vals:
+            self._check_state_transition_allowed(vals['state'])
         return super().write(vals)
 
     def unlink(self):

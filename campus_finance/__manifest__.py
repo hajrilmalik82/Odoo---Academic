@@ -1,12 +1,12 @@
 {
     'name': 'Campus Finance',
-    'version': '1.0',
+    'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Finance Integration for Campus Management',
     'description': """
         Handles billing, invoicing, and payment integration for PMB and Students.
     """,
-    'author': 'Campus',
+    'author': 'Hajril Malik',
     'depends': ['campus_pmb', 'account', 'payment', 'website_payment'],
     'data': [
         'security/finance_security.xml',

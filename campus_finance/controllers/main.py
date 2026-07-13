@@ -1,5 +1,8 @@
 import logging
+from urllib.parse import urlencode
+
 from odoo import http, _
+from odoo.exceptions import ValidationError
 from odoo.http import request
 from odoo.addons.campus_pmb.controllers.main import CampusPMBWebsite
 
@@ -16,13 +19,13 @@ class CampusFinanceWebsite(CampusPMBWebsite):
             if program_id:
                 program = request.env['academic.program'].sudo().browse(program_id)
                 if faculty_id and program.faculty_id.id != faculty_id:
-                    raise Exception("Program does not belong to the selected faculty.")
+                    raise ValidationError(_("Program does not belong to the selected faculty."))
                 if not faculty_id:
                     faculty_id = program.faculty_id.id
 
             active_year = request.env['academic.year'].sudo().search([('active', '=', True)], order='id desc', limit=1)
             if not active_year:
-                raise Exception("No active academic year found for admission.")
+                raise ValidationError(_("No active academic year found for admission."))
 
             # Create the admission record in Draft state
             admission = request.env['campus.admission'].sudo().create({
@@ -44,7 +47,7 @@ class CampusFinanceWebsite(CampusPMBWebsite):
             access_url = invoice.get_portal_url()
             return request.redirect(access_url)
 
-        except Exception as e:
+        except Exception:
             _logger.exception("Admission submit failed for email: %s", post.get('email'))
             user_msg = _("Submission failed. An application with this email may already exist, or data is invalid.")
-            return request.redirect('/admission?error=' + str(user_msg))
+            return request.redirect('/admission?' + urlencode({'error': user_msg}))

@@ -5,7 +5,7 @@
     'description': 'Master Facilities, Institutions, KRS Management, and Smart Scheduling.',
     'category': 'Education',
     'author': 'Hajril Malik',
-    'depends': ['base', 'hr', 'mail', 'website'],
+    'depends': ['base', 'hr', 'mail', 'website', 'web_responsive'],
     'data': [
         'security/campus_security.xml',
         'security/ir.model.access.csv',

@@ -14,7 +14,7 @@
         'views/website_homepage_portal.xml',
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'auto_install': False,
     'license': 'LGPL-3',
 }

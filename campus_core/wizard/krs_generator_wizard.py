@@ -73,7 +73,7 @@ class KrsGeneratorWizard(models.TransientModel):
             'tag': 'display_notification',
             'params': {
                 'title': _('Success'),
-                'message': _('%s KRS draft(s) successfully generated!' % created_count),
+                'message': _('%s KRS draft(s) successfully generated!') % created_count,
                 'type': 'success',
                 'sticky': False,
                 'next': {'type': 'ir.actions.act_window_close'},

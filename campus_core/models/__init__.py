@@ -1,3 +1,4 @@
+from . import base
 from . import academic_institution
 from . import academic_facility
 from . import academic_subject

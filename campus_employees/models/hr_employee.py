@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import api, fields, models, Command
 
 
 class HrEmployee(models.Model):
@@ -119,11 +119,11 @@ class HrEmployee(models.Model):
             if new_group:
                 groups_to_remove = academic_groups - new_group
                 emp.user_id.sudo().write({
-                    'group_ids': [(3, g.id) for g in groups_to_remove] + [(4, new_group.id)]
+                    'group_ids': [Command.unlink(g.id) for g in groups_to_remove] + [Command.link(new_group.id)]
                 })
             else:
                 emp.user_id.sudo().write({
-                    'group_ids': [(3, g.id) for g in academic_groups]
+                    'group_ids': [Command.unlink(g.id) for g in academic_groups]
                 })
 
 class HrEmployeePublic(models.Model):

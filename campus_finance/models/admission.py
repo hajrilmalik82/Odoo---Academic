@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import Command, fields, models
 
 class CampusAdmission(models.Model):
     _inherit = 'campus.admission'
@@ -19,21 +19,17 @@ class CampusAdmission(models.Model):
                 'email': self.email,
             })
             
-        # Find IDR currency to ensure Xendit works (include inactive)
-        idr = self.env['res.currency'].sudo().with_context(active_test=False).search([('name', '=', 'IDR')], limit=1)
-        if idr and not idr.active:
-            idr.active = True
-        
+        idr = self.env['res.currency'].search([('name', '=', 'IDR')], limit=1)
+
         # Registration fee (Configurable from Invoicing > Settings)
         fee_amount = self.env.company.pmb_registration_fee or 250000.0
-        
-        # We need an income account or a product. For simplicity, just use a line item.
+
         invoice_vals = {
             'move_type': 'out_invoice',
             'partner_id': partner.id,
             'currency_id': idr.id if idr else self.env.company.currency_id.id,
             'ref': f"PMB Registration - {self.name}",
-            'invoice_line_ids': [(0, 0, {
+            'invoice_line_ids': [Command.create({
                 'name': 'PMB Registration Fee',
                 'quantity': 1,
                 'price_unit': fee_amount,
