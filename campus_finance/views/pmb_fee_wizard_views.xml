@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_pmb_fee_wizard_form" model="ir.ui.view">
+        <field name="name">pmb.fee.wizard.form</field>
+        <field name="model">pmb.fee.wizard</field>
+        <field name="arch" type="xml">
+            <form string="PMB Registration Fee">
+                <group>
+                    <field name="company_id" groups="base.group_multi_company"/>
+                    <field name="currency_id" invisible="1"/>
+                    <field name="pmb_registration_fee" widget="monetary"/>
+                </group>
+                <footer>
+                    <button string="Save" name="action_save" type="object" class="btn-primary" data-hotkey="q"/>
+                    <button string="Discard" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_pmb_fee_wizard" model="ir.actions.act_window">
+        <field name="name">Registration Fee</field>
+        <field name="res_model">pmb.fee.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_campus_pmb_config"
+              name="Configuration"
+              parent="campus_pmb.menu_campus_pmb_root"
+              sequence="100"
+              groups="campus_pmb.group_pmb,campus_core.group_campus_administrator"/>
+
+    <menuitem id="menu_pmb_fee_config"
+              name="Registration Fee"
+              parent="menu_campus_pmb_config"
+              action="action_pmb_fee_wizard"
+              sequence="10"/>
+</odoo>
