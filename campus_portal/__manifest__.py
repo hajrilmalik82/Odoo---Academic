@@ -8,8 +8,9 @@
     """,
     'category': 'Education',
     'author': 'Hajril Malik',
-    'depends': ['base', 'portal', 'campus_core', 'website'],
+    'depends': ['base', 'portal', 'campus_core', 'website', 'website_livechat'],
     'data': [
+        'data/livechat_data.xml',
         'views/portal_templates.xml',
         'views/website_homepage_portal.xml',
     ],

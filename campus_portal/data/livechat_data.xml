@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="campus_livechat_channel" model="im_livechat.channel">
+            <field name="name">Campus Support</field>
+            <field name="header_background_color">#875A7B</field>
+            <field name="title_color">#FFFFFF</field>
+            <field name="button_text">Chat with us!</field>
+            <field name="button_background_color">#875A7B</field>
+            <field name="button_text_color">#FFFFFF</field>
+            <!-- Users will need to add themselves to the channel in the backend -->
+        </record>
+    </data>
+</odoo>
