@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Login for Portfolio -->
+    <template id="campus_demo_login" inherit_id="web.login" name="Campus Demo Login">
+        <xpath expr="//form" position="before">
+            <style>
+                .portfolio-demo-box {
+                    display: none;
+                }
+                @media (min-width: 992px) {
+                    .portfolio-demo-box {
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        position: fixed;
+                        top: 0;
+                        left: 0;
+                        height: 100vh;
+                        width: 350px;
+                        background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+                        color: white;
+                        z-index: 1000;
+                        padding: 30px;
+                        box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+                    }
+                    /* Ensure the main container shifts so it is not hidden */
+                    body {
+                        padding-left: 350px;
+                    }
+                }
+            </style>
+            
+            <!-- Desktop side panel -->
+            <div class="portfolio-demo-box">
+                <div class="text-center mb-4">
+                    <i class="fa fa-university fa-4x text-light mb-3"></i>
+                    <h4 class="fw-bold text-white mb-0">Campus Academic</h4>
+                    <p class="text-light opacity-75">SIAKAD Portfolio</p>
+                </div>
+                
+                <h6 class="text-warning mb-3 fw-bold border-bottom border-warning pb-2">
+                    <i class="fa fa-info-circle me-2"></i> Portfolio Reviewer?
+                </h6>
+                <p class="small text-light mb-4">
+                    Use these demo credentials to explore all features in the system based on roles.
+                </p>
+                
+                <!-- Dropdown Dosen -->
+                <div class="mb-3">
+                    <small class="text-warning fw-bold d-block mb-1">Login Dosen</small>
+                    <select class="form-select form-select-sm" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                        <option value="" style="color: black;">-- Pilih Dosen --</option>
+                        <t t-set="dosen_emps" t-value="request.env['hr.employee'].sudo().search([('academic_role', '=', 'lecturer'), ('user_id', '!=', False)], order='name asc')"/>
+                        <t t-foreach="dosen_emps" t-as="emp">
+                            <option t-att-value="emp.user_id.login" style="color: black;">
+                                <t t-esc="emp.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <!-- Dropdown TU -->
+                <div class="mb-3">
+                    <small class="text-success fw-bold d-block mb-1">Login Tata Usaha</small>
+                    <select class="form-select form-select-sm" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                        <option value="" style="color: black;">-- Pilih TU --</option>
+                        <t t-set="tu_emps" t-value="request.env['hr.employee'].sudo().search([('academic_role', '=', 'academic'), ('user_id', '!=', False)], order='name asc')"/>
+                        <t t-foreach="tu_emps" t-as="emp">
+                            <option t-att-value="emp.user_id.login" style="color: black;">
+                                <t t-esc="emp.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <!-- Dropdown PMB -->
+                <div class="mb-3">
+                    <small class="text-info fw-bold d-block mb-1">Login PMB</small>
+                    <select class="form-select form-select-sm" style="background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                        <option value="" style="color: black;">-- Pilih PMB --</option>
+                        <t t-set="pmb_emps" t-value="request.env['hr.employee'].sudo().search([('academic_role', '=', 'pmb'), ('user_id', '!=', False)], order='name asc')"/>
+                        <t t-foreach="pmb_emps" t-as="emp">
+                            <option t-att-value="emp.user_id.login" style="color: black;">
+                                <t t-esc="emp.name"/>
+                            </option>
+                        </t>
+                    </select>
+                </div>
+
+                <!-- Login Admin Kampus -->
+                <div class="mb-3">
+                    <small class="text-danger fw-bold d-block mb-1">Login Admin Kampus</small>
+                    <button type="button" class="btn btn-sm btn-outline-light w-100 text-start" style="background-color: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.2);" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                        <i class="fa fa-user-secret me-2"></i> admincampus@gmail.com
+                    </button>
+                </div>
+                
+                <div class="text-center mt-3">
+                    <small class="text-light opacity-75">Password for all: <strong>123</strong></small>
+                </div>
+            </div>
+            
+            <!-- Mobile minimal version -->
+            <div class="d-block d-lg-none mt-3 mb-4 text-center border p-3 rounded bg-light">
+                <h6 class="text-muted fw-bold"><i class="fa fa-info-circle me-1"></i> Demo Login (Pass: 123)</h6>
+                <select class="form-select mb-2" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                    <option value="">-- Login Dosen --</option>
+                    <t t-foreach="dosen_emps" t-as="emp"><option t-att-value="emp.user_id.login"><t t-esc="emp.name"/></option></t>
+                </select>
+                <select class="form-select mb-2" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                    <option value="">-- Login TU --</option>
+                    <t t-foreach="tu_emps" t-as="emp"><option t-att-value="emp.user_id.login"><t t-esc="emp.name"/></option></t>
+                </select>
+                <select class="form-select mb-2" onchange="if(this.value){ document.getElementById('login').value=this.value; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit(); }">
+                    <option value="">-- Login PMB --</option>
+                    <t t-foreach="pmb_emps" t-as="emp"><option t-att-value="emp.user_id.login"><t t-esc="emp.name"/></option></t>
+                </select>
+                <button type="button" class="btn btn-sm btn-outline-dark w-100 mb-2" onclick="document.getElementById('login').value='admincampus@gmail.com'; document.getElementById('password').value='123'; document.querySelector('form.oe_login_form').submit();">
+                    <i class="fa fa-user-secret me-1"></i> Login Admin Kampus
+                </button>
+            </div>
+        </xpath>
+    </template>
+</odoo>

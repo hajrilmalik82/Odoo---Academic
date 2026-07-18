@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_krs_document_nidn" inherit_id="campus_core.report_krs_document" name="KRS Report - Advisor NIDN">
+        <xpath expr="//td[hasclass('krs_advisor_signature')]" position="inside">
+            <p t-if="o.advisor_id" style="margin-bottom: 0;">
+                NIDN: <t t-esc="o.advisor_id.nidn or '-'"/>
+            </p>
+        </xpath>
+    </template>
+</odoo>

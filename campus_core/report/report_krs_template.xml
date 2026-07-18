@@ -115,14 +115,12 @@
                                         </p>
                                         <p style="margin-bottom: 0;">NIM: <t t-esc="o.student_id.nim or '-'"/></p>
                                     </td>
-                                    <td style="width: 50%; text-align: center;">
+                                    <td class="krs_advisor_signature" style="width: 50%; text-align: center;">
                                         <p style="margin-bottom: 0;">Academic Advisor,</p>
                                         <br/><br/><br/>
                                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
                                             <t t-esc="o.advisor_id.name or '____________________'"/>
                                         </p>
-                                        <p t-if="o.advisor_id" style="margin-bottom: 0;">
-                                            NIDN: <t t-esc="o.advisor_id.nidn or '-'"/></p>
                                     </td>
                                 </tr>
                             </table>

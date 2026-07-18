@@ -9,10 +9,12 @@
     'data': [
         'security/campus_security.xml',
         'security/ir.model.access.csv',
+        'report/report_krs_templates.xml',
         'views/res_partner_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_job_views.xml',
         'views/website_homepage_employees.xml',
+        'views/website_login_templates.xml',
         'views/menus.xml',
     ],
     'installable': True,
