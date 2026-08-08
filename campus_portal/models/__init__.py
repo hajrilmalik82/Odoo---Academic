@@ -1,1 +1,1 @@
-# No models in this module currently
+from . import discuss_channel
