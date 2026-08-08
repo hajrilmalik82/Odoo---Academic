@@ -42,31 +42,38 @@ class KrsGeneratorWizard(models.TransientModel):
             raise ValidationError(_("Please select at least one student."))
             
         krs_obj = self.env['academic.krs']
-        created_count = 0
         
-        for student in self.student_ids:
-            # Check again to avoid concurrent duplicates
-            existing = krs_obj.search([
-                ('academic_year_id', '=', self.package_id.academic_year_id.id),
-                ('student_id', '=', student.id)
-            ], limit=1)
+        # Batch check to avoid duplicates (eliminates N+1 search queries)
+        existing_krs = krs_obj.search([
+            ('academic_year_id', '=', self.package_id.academic_year_id.id),
+            ('student_id', 'in', self.student_ids.ids)
+        ])
+        existing_student_ids = existing_krs.mapped('student_id').ids
+        
+        students_to_process = self.student_ids.filtered(lambda s: s.id not in existing_student_ids)
+        if not students_to_process:
+            raise ValidationError(_("All selected students already have a KRS for this academic year."))
             
-            if existing:
-                continue
-                
-            # Prepare new KRS
-            new_krs = krs_obj.create({
+        # Prepare package lines once
+        package_line_commands = [
+            Command.create({'subject_id': line.subject_id.id})
+            for line in self.package_id.line_ids
+        ]
+        
+        # Batch create (eliminates N+1 create queries)
+        krs_vals_list = []
+        for student in students_to_process:
+            krs_vals_list.append({
                 'student_id': student.id,
                 'package_id': self.package_id.id,
                 'academic_year_id': self.package_id.academic_year_id.id,
                 'program_id': self.package_id.program_id.id,
                 'faculty_id': self.package_id.program_id.faculty_id.id,
+                'line_ids': package_line_commands,
             })
             
-            # Apply lines safely via write()
-            new_krs._apply_package_lines(self.package_id)
-            
-            created_count += 1
+        new_krs_records = krs_obj.create(krs_vals_list)
+        created_count = len(new_krs_records)
             
         return {
             'type': 'ir.actions.client',

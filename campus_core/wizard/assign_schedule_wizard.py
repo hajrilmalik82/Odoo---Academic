@@ -40,6 +40,7 @@ class AssignScheduleWizard(models.TransientModel):
                 'class_name': self.class_id.name,
             })
 
+        # Validation pass
         for line in self.krs_line_ids:
             if line.schedule_id:
                 raise ValidationError(_("Student %(student)s already has a schedule assigned.") % {'student': line.student_id.name})
@@ -47,6 +48,8 @@ class AssignScheduleWizard(models.TransientModel):
                 raise ValidationError(_("Student %(student)s's KRS line is for a different subject than this class.") % {'student': line.student_id.name})
             if line.krs_id.academic_year_id != self.class_id.academic_year_id:
                 raise ValidationError(_("Student %(student)s's KRS belongs to a different academic year than this class.") % {'student': line.student_id.name})
-            line.schedule_id = self.schedule_id.id
+                
+        # Batch write pass (eliminates loop write)
+        self.krs_line_ids.write({'schedule_id': self.schedule_id.id})
 
         return {'type': 'ir.actions.act_window_close'}
