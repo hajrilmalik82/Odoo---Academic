@@ -8,9 +8,9 @@ class CampusBuilding(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('code_unique', 'unique(code, company_id)', 'Building code must be unique per company!')
-    ]
+    _check_code_unique = models.Constraint(
+        'UNIQUE(code, company_id)', 'Building code must be unique per company!'
+    )
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code')
@@ -24,9 +24,9 @@ class CampusRoom(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('name_building_unique', 'unique(name, building_id)', 'Room name must be unique within the same building!')
-    ]
+    _check_name_building_unique = models.Constraint(
+        'UNIQUE(name, building_id)', 'Room name must be unique within the same building!'
+    )
 
     name = fields.Char(string='Name', required=True)
     building_id = fields.Many2one('campus.building', string='Building', required=True, check_company=True)

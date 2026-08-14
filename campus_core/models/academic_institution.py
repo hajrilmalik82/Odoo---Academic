@@ -7,9 +7,9 @@ class AcademicFaculty(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('name_unique', 'unique(name)', 'Faculty name must be unique!')
-    ]
+    _check_name_unique = models.Constraint(
+        'UNIQUE(name)', 'Faculty name must be unique!'
+    )
 
     name = fields.Char(string='Name', required=True)
     dean_id = fields.Many2one('hr.employee', string="Head of Faculty / Dean", check_company=True)
@@ -52,9 +52,9 @@ class AcademicProgram(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('name_faculty_unique', 'unique(name, faculty_id)', 'Program name must be unique within the same Faculty!')
-    ]
+    _check_name_faculty_unique = models.Constraint(
+        'UNIQUE(name, faculty_id)', 'Program name must be unique within the same Faculty!'
+    )
 
     name = fields.Char(string='Name', required=True)
     faculty_id = fields.Many2one(
