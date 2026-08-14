@@ -1,6 +1,6 @@
 {
     'name': 'Campus Finance',
-    'version': '19.0.1.0.0',
+    'version': '19.5.1.0.0',
     'category': 'Education',
     'summary': 'Finance Integration for Campus Management',
     'description': """

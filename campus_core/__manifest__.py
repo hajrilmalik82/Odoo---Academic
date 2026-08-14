@@ -1,6 +1,6 @@
 {
     'name': 'Campus academic',
-    'version': '19.0.1.0.0',
+    'version': '19.5.1.0.0',
     'summary': 'Core Module for University ERP (SIAKAD)',
     'description': 'Master Facilities, Institutions, KRS Management, and Smart Scheduling.',
     'category': 'Education',
