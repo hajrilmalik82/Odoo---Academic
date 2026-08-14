@@ -8,7 +8,7 @@
     'depends': ['base', 'hr', 'campus_core', 'website'],
     'data': [
         'security/campus_security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'report/report_krs_templates.xml',
         'views/res_partner_views.xml',
         'views/hr_employee_views.xml',

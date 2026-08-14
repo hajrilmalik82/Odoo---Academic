@@ -10,7 +10,7 @@
     'depends': ['campus_pmb', 'account', 'payment', 'website_payment'],
     'data': [
         'security/finance_security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/admission_finance_views.xml',
         'views/res_config_settings_views.xml',
         'views/pmb_fee_wizard_views.xml',

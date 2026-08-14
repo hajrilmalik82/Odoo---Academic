@@ -7,7 +7,7 @@
         <field name="model">academic.krs</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">campus_core.report_krs_document</field>
-        <field name="report_file">campus_core.report_krs_document</field>
+
         <field name="print_report_name">'KRS - %s' % object.student_id.name</field>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_type">report</field>
@@ -19,7 +19,7 @@
         <field name="model">academic.khs</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">campus_core.report_khs_document</field>
-        <field name="report_file">campus_core.report_khs_document</field>
+
         <field name="print_report_name">'KHS - %s' % object.student_id.name</field>
         <field name="binding_model_id" ref="model_academic_khs"/>
         <field name="binding_type">report</field>
@@ -31,7 +31,7 @@
         <field name="model">academic.khs</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">campus_core.report_transcript_document</field>
-        <field name="report_file">campus_core.report_transcript_document</field>
+
         <field name="print_report_name">'Transkrip - %s' % object.student_id.name</field>
         <field name="binding_model_id" ref="model_academic_khs"/>
         <field name="binding_type">report</field>

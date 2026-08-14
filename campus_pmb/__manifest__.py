@@ -12,7 +12,7 @@
     'depends': ['base', 'mail', 'campus_core', 'portal', 'website', 'campus_employees'],
     'data': [
         'security/pmb_security.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/ir_sequence_data.xml',
         'data/mail_activity_type_data.xml',
         'views/website_admission_templates.xml',
