@@ -266,6 +266,38 @@ class CampusAdmission(models.Model):
             record.user_id = user.id
             _logger.info("Created Portal User and Partner for student NIM: %s (Email: %s)", nim, record.email)
 
+    @api.model
+    def create_admission_from_portal(self, post_data):
+        try:
+            faculty_id = int(post_data.get('faculty_id')) if post_data.get('faculty_id') else False
+            program_id = int(post_data.get('program_id')) if post_data.get('program_id') else False
+        except (ValueError, TypeError):
+            raise ValidationError(_("Invalid faculty or program selection."))
+        
+        if program_id:
+            program = self.env['academic.program'].sudo().browse(program_id)
+            if faculty_id and program.faculty_id.id != faculty_id:
+                raise ValidationError(_("Program does not belong to the selected faculty."))
+            if not faculty_id:
+                faculty_id = program.faculty_id.id
+
+        active_year = self.env['academic.year'].sudo().search([('active', '=', True)], order='id desc', limit=1)
+        if not active_year:
+            raise ValidationError(_("No active academic year found for admission."))
+
+        admission = self.sudo().create({
+            'name': post_data.get('name'),
+            'email': post_data.get('email'),
+            'phone': post_data.get('phone'),
+            'previous_school': post_data.get('previous_school'),
+            'faculty_id': faculty_id,
+            'program_id': program_id,
+            'academic_year_id': active_year.id,
+            'admission_path': post_data.get('admission_path', 'regular'),
+            'state': post_data.get('state', 'draft'),
+        })
+        return admission
+
 
 class CampusAdmissionDocument(models.Model):
     _name = 'campus.admission.document'

@@ -68,7 +68,7 @@ class AcademicKrs(models.Model):
     faculty_id = fields.Many2one('academic.faculty', string='Faculty', compute='_compute_student_info', store=True, readonly=False)
     program_id = fields.Many2one('academic.program', string='Program', compute='_compute_student_info', store=True, readonly=False)
 
-    @api.depends('student_id')
+    @api.depends('student_id.program_id', 'student_id.faculty_id')
     def _compute_student_info(self):
         for record in self:
             if record.student_id:
