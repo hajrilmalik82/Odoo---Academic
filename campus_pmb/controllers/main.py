@@ -26,7 +26,7 @@ class CampusPMBWebsite(http.Controller):
     @http.route('/admission/submit', type='http', auth="public", methods=['POST'], website=True, csrf=True)
     def admission_submit(self, **post):
         try:
-            request.env['campus.admission'].create_admission_from_portal(post)
+            request.env['campus.admission'].sudo().create_admission_from_portal(post)
             return request.redirect('/admission/thanks')
         except Exception:
             _logger.exception("Admission submit failed for email: %s", post.get('email'))

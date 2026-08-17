@@ -13,7 +13,7 @@ class CampusFinanceWebsite(CampusPMBWebsite):
     @http.route('/admission/submit', type='http', auth="public", methods=['POST'], website=True, csrf=True)
     def admission_submit(self, **post):
         try:
-            admission = request.env['campus.admission'].create_admission_from_portal(post)
+            admission = request.env['campus.admission'].sudo().create_admission_from_portal(post)
             
             # Create the Registration Invoice
             invoice = admission._create_registration_invoice()

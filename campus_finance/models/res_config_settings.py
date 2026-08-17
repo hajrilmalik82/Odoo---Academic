@@ -3,7 +3,7 @@ from odoo import models, fields
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    pmb_registration_fee = fields.Float(
+    pmb_registration_fee = fields.Monetary(
         related='company_id.pmb_registration_fee', 
         readonly=False,
         string='PMB Registration Fee',
