@@ -40,16 +40,17 @@ class ResPartner(models.Model):
             total_grade_points = sum(khs.total_grade_points for khs in record.khs_ids)
             record.cgpa = total_grade_points / total_credits if total_credits > 0 else 0.0
 
-    @api.depends('name', 'nim')
+    @api.depends('name')
     def _compute_display_name(self):
         super()._compute_display_name()
-        for partner in self:
-            if self.env.context.get('display_nim') and partner.nim:
-                partner.display_name = partner.nim
+        if self.env.context.get('display_nim'):
+            for partner in self:
+                if partner.nim:
+                    partner.display_name = partner.nim
 
     @api.model
     def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
         domain = domain or []
         if name:
-            domain = ['|', ('name', operator, name), ('nim', operator, name)] + domain
-        return self._search(domain, limit=limit, order=order)
+            domain = ['|', ('nim', operator, name)] + domain
+        return super()._name_search(name, domain=domain, operator=operator, limit=limit, order=order)

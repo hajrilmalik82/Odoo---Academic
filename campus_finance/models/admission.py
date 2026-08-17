@@ -12,7 +12,7 @@ class CampusAdmission(models.Model):
             return self.invoice_id
             
         # Find or create a partner for the applicant to link the invoice
-        partner = self.env['res.partner'].sudo().search([('email', '=', self.email)], limit=1)
+        partner = self.env['res.partner'].sudo().search([('email', '=', self.email), ('is_student', '=', True)], limit=1)
         if not partner:
             partner = self.env['res.partner'].sudo().create({
                 'name': self.name,

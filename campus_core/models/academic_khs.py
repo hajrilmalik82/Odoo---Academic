@@ -10,8 +10,8 @@ class AcademicKhs(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string='KHS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True)
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
+    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict')
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
 
     line_ids = fields.One2many('academic.khs.line', 'khs_id', string='Grade Lines')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)

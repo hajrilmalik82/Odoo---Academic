@@ -2,6 +2,7 @@ id,name,model_id/id,group_id/id,operation,domain
 access_campus_building_admin,campus.building admin,model_campus_building,group_campus_administrator,crud,
 access_campus_room_admin,campus.room admin,model_campus_room,group_campus_administrator,crud,
 access_campus_room_portal,campus.room portal,model_campus_room,base.group_portal,r,
+access_campus_building_portal,campus.building portal,model_campus_building,base.group_portal,r,
 access_academic_faculty_admin,academic.faculty admin,model_academic_faculty,group_campus_administrator,crud,
 access_academic_faculty_lecturer,academic.faculty lecturer,model_academic_faculty,group_campus_lecturer,r,
 access_academic_faculty_portal,academic.faculty portal,model_academic_faculty,base.group_portal,r,

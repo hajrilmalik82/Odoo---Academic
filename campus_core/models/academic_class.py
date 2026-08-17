@@ -15,7 +15,7 @@ class AcademicClass(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string='Class Name', compute='_compute_class_name', store=True, tracking=True)
-    subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, check_company=True)
+    subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, check_company=True, ondelete='restrict')
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, tracking=True, check_company=True)
     start_date = fields.Date(string='Start Date', required=True, tracking=True, help="Used as the starting point to generate 14 sessions.")
     class_capacity_display = fields.Char(string='Total Class Capacity', compute='_compute_class_capacity_display')

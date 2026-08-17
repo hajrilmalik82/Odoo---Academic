@@ -46,10 +46,10 @@ class CampusAdmission(models.Model):
     )
 
     partner_id = fields.Many2one(
-        'res.partner', string='Student Profile', readonly=True, tracking=True
+        'res.partner', string='Student Profile', readonly=True, tracking=True, copy=False
     )
     user_id = fields.Many2one(
-        'res.users', string='Portal User', readonly=True, tracking=True
+        'res.users', string='Portal User', readonly=True, tracking=True, copy=False
     )
     document_line_ids = fields.One2many(
         'campus.admission.document', 'admission_id', string='Document Checklist'
@@ -61,7 +61,7 @@ class CampusAdmission(models.Model):
         string='Received Documents', compute='_compute_document_progress'
     )
     documents_complete = fields.Boolean(
-        string='Documents Complete', compute='_compute_document_progress'
+        string='Documents Complete', compute='_compute_document_progress', tracking=True
     )
     payment_reference = fields.Char(string='Payment Reference', tracking=True)
     payment_date = fields.Date(string='Payment Date', tracking=True)
@@ -75,12 +75,12 @@ class CampusAdmission(models.Model):
         ('accepted', 'Accepted'),
         ('registered', 'Registered'),
         ('rejected', 'Rejected'),
-    ], string='Status', default='draft', tracking=True, index=True)
+    ], string='Status', default='draft', tracking=True, index=True, copy=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
-    _email_unique = models.Constraint(
-        'unique(email)',
-        'An admission record already exists for this email address.',
+    _email_year_unique = models.Constraint(
+        'unique(email, academic_year_id)',
+        'An admission record already exists for this email in this academic year.',
     )
 
     @api.model_create_multi

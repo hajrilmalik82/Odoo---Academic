@@ -13,8 +13,11 @@ class CampusFinanceWebsite(CampusPMBWebsite):
     @http.route('/admission/submit', type='http', auth="public", methods=['POST'], website=True, csrf=True)
     def admission_submit(self, **post):
         try:
-            faculty_id = int(post.get('faculty_id')) if post.get('faculty_id') else False
-            program_id = int(post.get('program_id')) if post.get('program_id') else False
+            try:
+                faculty_id = int(post.get('faculty_id')) if post.get('faculty_id') else False
+                program_id = int(post.get('program_id')) if post.get('program_id') else False
+            except (ValueError, TypeError):
+                raise ValidationError(_("Invalid faculty or program selection."))
             
             if program_id:
                 program = request.env['academic.program'].sudo().browse(program_id)

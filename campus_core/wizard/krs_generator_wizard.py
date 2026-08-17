@@ -54,11 +54,6 @@ class KrsGeneratorWizard(models.TransientModel):
         if not students_to_process:
             raise ValidationError(_("All selected students already have a KRS for this academic year."))
             
-        # Prepare package lines once
-        package_line_commands = [
-            Command.create({'subject_id': line.subject_id.id})
-            for line in self.package_id.line_ids
-        ]
         
         # Batch create (eliminates N+1 create queries)
         krs_vals_list = []
@@ -69,7 +64,11 @@ class KrsGeneratorWizard(models.TransientModel):
                 'academic_year_id': self.package_id.academic_year_id.id,
                 'program_id': self.package_id.program_id.id,
                 'faculty_id': self.package_id.program_id.faculty_id.id,
-                'line_ids': package_line_commands,
+                # Fresh list per student to avoid shared-mutable issues in batch create
+                'line_ids': [
+                    Command.create({'subject_id': line.subject_id.id})
+                    for line in self.package_id.line_ids
+                ],
             })
             
         new_krs_records = krs_obj.create(krs_vals_list)

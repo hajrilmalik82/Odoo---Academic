@@ -60,33 +60,25 @@ class AcademicKrs(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string='KRS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True)
-
-    @api.onchange('student_id')
-    def _onchange_student_id(self):
-        if self.student_id:
-            self.program_id = self.student_id.program_id
-            self.faculty_id = self.student_id.faculty_id
-            
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
+    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict')
+    
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
 
     advisor_id = fields.Many2one('hr.employee', related='student_id.academic_advisor_id', string='Academic Advisor', readonly=True)
-    faculty_id = fields.Many2one('academic.faculty', string='Faculty')
-    program_id = fields.Many2one('academic.program', string='Study Program')
-    
-    @api.onchange('faculty_id')
-    def _onchange_faculty_id(self):
-        if self.faculty_id and self.program_id.faculty_id != self.faculty_id:
-            self.program_id = False
-            self.student_id = False
+    faculty_id = fields.Many2one('academic.faculty', string='Faculty', compute='_compute_student_info', store=True, readonly=False)
+    program_id = fields.Many2one('academic.program', string='Program', compute='_compute_student_info', store=True, readonly=False)
 
-    @api.onchange('program_id')
-    def _onchange_program_id(self):
-        if self.program_id:
-            if not self.faculty_id or self.faculty_id != self.program_id.faculty_id:
-                self.faculty_id = self.program_id.faculty_id
-            if self.student_id.program_id != self.program_id:
-                self.student_id = False
+    @api.depends('student_id')
+    def _compute_student_info(self):
+        for record in self:
+            if record.student_id:
+                record.program_id = record.student_id.program_id
+                record.faculty_id = record.student_id.faculty_id
+            else:
+                record.program_id = False
+                record.faculty_id = False
+
+
 
     package_id = fields.Many2one('academic.course.package', string='Course Package')
     state = fields.Selection([
@@ -96,7 +88,7 @@ class AcademicKrs(models.Model):
         ('revision', 'Needs Revision'),
         ('rejected', 'Rejected'),
         ('locked', 'Locked')
-    ], string='Status', default='draft', group_expand='_expand_states', tracking=True, index=True)
+    ], string='Status', default='draft', group_expand='_expand_states', tracking=True, index=True, copy=False)
     
     total_credits = fields.Integer(string='Total Credits', compute='_compute_total_credits', store=True)
     line_ids = fields.One2many('academic.krs.line', 'krs_id', string='KRS Lines')
@@ -200,9 +192,24 @@ class AcademicKrs(models.Model):
         return super().unlink()
 
     def action_submit(self):
+        if any(record.state not in ('draft', 'revision') for record in self):
+            raise ValidationError(_("Only draft or revision KRS records can be submitted."))
+            
+        # Pre-fetch ALL passed subjects for ALL students in one query to avoid N+1 queries
+        student_ids = self.mapped('student_id.id')
+        khs_lines = self.env['academic.khs.line'].search([
+            ('khs_id.student_id', 'in', student_ids),
+            ('grade_points', '>=', 2.0),
+        ])
+        passed_subjects_by_student = {}
+        for line in khs_lines:
+            passed_subjects_by_student.setdefault(line.khs_id.student_id.id, set()).add(line.subject_id.id)
+            
+        is_portal = not self.env.user.has_group('base.group_user')
+        is_admin = self.env.user.has_group('campus_core.group_campus_administrator')
+        today = fields.Date.context_today(self)
+
         for record in self:
-            if record.state not in ('draft', 'revision'):
-                raise ValidationError(_("Only draft or revision KRS records can be submitted."))
             if not record.line_ids:
                 raise ValidationError(_("Please add at least one class before submitting the KRS."))
                 
@@ -214,15 +221,14 @@ class AcademicKrs(models.Model):
                 raise ValidationError(_("Student status must be active to submit a KRS."))
                 
             # 2. Period Open (Only enforced for students / portal users)
-            if not self.env.user.has_group('base.group_user'):
-                today = fields.Date.context_today(self)
+            if is_portal:
                 if not record.academic_year_id.krs_start_date or not record.academic_year_id.krs_end_date:
                     raise ValidationError(_("Academic year KRS period is not configured."))
                 if not (record.academic_year_id.krs_start_date <= today <= record.academic_year_id.krs_end_date):
                     raise ValidationError(_("Current date is outside the allowed KRS period."))
                 
             # 3. Has Advisor (Admin can bypass)
-            if not record.advisor_id and not self.env.user.has_group('campus_core.group_campus_administrator'):
+            if not record.advisor_id and not is_admin:
                 raise ValidationError(_("The student must have an assigned Academic Advisor."))
                 
             # 4. Max SKS Limit based on current CGPA.
@@ -234,14 +240,7 @@ class AcademicKrs(models.Model):
                     }
                 )
                 
-            # Pre-fetch all subjects this student has passed (grade_points >= 2.0)
-            # to avoid N+1 queries when checking prerequisites
-            passed_subject_ids = set(
-                self.env['academic.khs.line'].search([
-                    ('khs_id.student_id', '=', record.student_id.id),
-                    ('grade_points', '>=', 2.0),
-                ]).mapped('subject_id.id')
-            )
+            passed_subject_ids = passed_subjects_by_student.get(record.student_id.id, set())
 
             # Validate Line constraints
             taken_subjects = []
