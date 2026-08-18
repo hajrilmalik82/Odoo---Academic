@@ -42,10 +42,9 @@ class AcademicSubject(models.Model):
         default=lambda self: self.env.company
     )
 
-    _code_program_unique = models.Constraint(
-        'unique(code, program_id)',
-        'Subject code must be unique within a program.',
-    )
+    _sql_constraints = [
+        ('_code_program_unique', 'unique(code, program_id)', 'Subject code must be unique within a program.')
+    ]
 
     @api.constrains('credits')
     def _check_credits(self):
@@ -60,10 +59,9 @@ class AcademicYear(models.Model):
     _order = 'name desc'
     _check_company_auto = True
 
-    _name_term_company_unique = models.Constraint(
-        'unique(name, term_type, company_id)',
-        'Academic Year with this name and term already exists for this company.',
-    )
+    _sql_constraints = [
+        ('_name_term_company_unique', 'unique(name, term_type, company_id)', 'Academic Year with this name and term already exists for this company.')
+    ]
 
     name = fields.Char(string='Name', required=True)
     term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True)

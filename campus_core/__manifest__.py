@@ -1,6 +1,6 @@
 {
     'name': 'Campus academic',
-    'version': '19.5.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Core Module for University ERP (SIAKAD)',
     'description': 'Master Facilities, Institutions, KRS Management, and Smart Scheduling.',
     'category': 'Education',
@@ -8,7 +8,7 @@
     'depends': ['base', 'hr', 'mail', 'website'],
     'data': [
         'security/campus_security.xml',
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/mail_activity_type_data.xml',
         'data/website_configurator_bypass.xml',

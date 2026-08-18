@@ -1,6 +1,6 @@
 {
     'name': 'Campus Portal',
-    'version': '19.5.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Student Portal for KRS and KHS',
     'description': """
         This module provides a frontend portal for students to view their 

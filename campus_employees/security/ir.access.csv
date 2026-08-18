@@ -1,3 +1,0 @@
-id,name,model_id/id,group_id/id,operation,domain
-access_hr_employee_campus_admin,hr.employee campus admin,hr.model_hr_employee,campus_core.group_campus_administrator,crud,
-access_hr_employee_campus_lecturer,hr.employee campus lecturer,hr.model_hr_employee,campus_core.group_campus_lecturer,r,

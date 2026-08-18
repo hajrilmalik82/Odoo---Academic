@@ -1,8 +1,0 @@
-id,name,model_id/id,group_id/id,operation,domain
-access_campus_admission_admin,campus.admission.admin,model_campus_admission,campus_core.group_campus_administrator,crud,
-access_campus_admission_pmb,campus.admission.pmb,model_campus_admission,group_pmb,crud,
-access_campus_admission_document_admin,campus.admission.document.admin,model_campus_admission_document,campus_core.group_campus_administrator,crud,
-access_campus_admission_document_pmb,campus.admission.document.pmb,model_campus_admission_document,group_pmb,crud,
-access_academic_faculty_pmb,academic.faculty.pmb,campus_core.model_academic_faculty,group_pmb,r,
-access_academic_program_pmb,academic.program.pmb,campus_core.model_academic_program,group_pmb,r,
-access_academic_year_pmb,academic.year.pmb,campus_core.model_academic_year,group_pmb,r,

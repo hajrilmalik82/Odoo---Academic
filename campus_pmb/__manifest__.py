@@ -1,6 +1,6 @@
 {
     'name': 'Campus PMB (Student Admission)',
-    'version': '19.5.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Penerimaan Mahasiswa Baru (PMB)',
     'description': """
         This module manages new student admissions.
@@ -12,7 +12,7 @@
     'depends': ['base', 'mail', 'campus_core', 'portal', 'website', 'campus_employees'],
     'data': [
         'security/pmb_security.xml',
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/mail_activity_type_data.xml',
         'views/website_admission_templates.xml',

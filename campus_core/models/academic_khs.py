@@ -20,10 +20,9 @@ class AcademicKhs(models.Model):
     total_grade_points = fields.Float(string='Total Grade Points', compute='_compute_term_gpa', store=True, digits=(16, 2))
     term_gpa = fields.Float(string='Term GPA', compute='_compute_term_gpa', store=True, digits=(5, 2))
 
-    _unique_khs = models.Constraint(
-        'unique(student_id, academic_year_id)',
-        'A student can only have one KHS per Academic Year!',
-    )
+    _sql_constraints = [
+        ('_unique_khs', 'unique(student_id, academic_year_id)', 'A student can only have one KHS per Academic Year!')
+    ]
 
     @api.depends('line_ids.grade_points', 'line_ids.credits')
     def _compute_term_gpa(self):
@@ -110,14 +109,10 @@ class AcademicKhsLine(models.Model):
     letter_grade = fields.Char(string='Letter Grade', compute='_compute_grade_conversion', store=True)
     grade_points = fields.Float(string='Grade Points', compute='_compute_grade_conversion', store=True, digits=(5, 2))
 
-    _unique_khs_subject = models.Constraint(
-        'unique(khs_id, subject_id)',
-        'The same subject cannot appear more than once in a KHS.',
-    )
-    _numeric_grade_range = models.Constraint(
-        'CHECK(numeric_grade >= 0 AND numeric_grade <= 100)',
-        'Numeric grade must be between 0 and 100.'
-    )
+    _sql_constraints = [
+        ('_unique_khs_subject', 'unique(khs_id, subject_id)', 'The same subject cannot appear more than once in a KHS.'),
+        ('_numeric_grade_range', 'CHECK(numeric_grade >= 0 AND numeric_grade <= 100)', 'Numeric grade must be between 0 and 100.')
+    ]
 
     @api.model
     def _get_grade_from_score(self, score):

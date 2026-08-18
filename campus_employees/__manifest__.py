@@ -1,6 +1,6 @@
 {
     'name': 'Campus Employees',
-    'version': '19.5.1.0.0',
+    'version': '19.0.1.0.0',
     'summary': 'Academic Profile for Employees (Lecturers)',
     'description': 'Extends HR Employee to include academic profiles and integrates with Campus Core.',
     'category': 'Human Resources',
@@ -8,7 +8,7 @@
     'depends': ['base', 'hr', 'campus_core', 'website'],
     'data': [
         'security/campus_security.xml',
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'report/report_krs_templates.xml',
         'views/res_partner_views.xml',
         'views/hr_employee_views.xml',

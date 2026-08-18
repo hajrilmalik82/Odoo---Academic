@@ -1,6 +1,6 @@
 {
     'name': 'Campus Finance',
-    'version': '19.5.1.0.0',
+    'version': '19.0.1.0.0',
     'category': 'Education',
     'summary': 'Finance Integration for Campus Management',
     'description': """
@@ -10,7 +10,7 @@
     'depends': ['campus_pmb', 'account', 'payment', 'website_payment'],
     'data': [
         'security/finance_security.xml',
-        'security/ir.access.csv',
+        'security/ir.model.access.csv',
         'views/admission_finance_views.xml',
         'views/res_config_settings_views.xml',
         'views/pmb_fee_wizard_views.xml',

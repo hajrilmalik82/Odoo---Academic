@@ -38,60 +38,81 @@
     <data noupdate="1">
 
 
-        <record id="rule_admin_krs_access" model="ir.access">
+        <record id="rule_admin_krs_access" model="ir.rule">
             <field name="name">Campus Admin: All KRS Access</field>
             <field name="model_id" ref="model_academic_krs"/>
-            <field name="domain">[(1, '=', 1)]</field>
-            <field name="group_id" ref="campus_core.group_campus_administrator"/>
-            <field name="operation">crud</field>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
         </record>
 
-        <record id="rule_admin_khs_access" model="ir.access">
+        <record id="rule_admin_khs_access" model="ir.rule">
             <field name="name">Campus Admin: All KHS Access</field>
             <field name="model_id" ref="model_academic_khs"/>
-            <field name="domain">[(1, '=', 1)]</field>
-            <field name="group_id" ref="campus_core.group_campus_administrator"/>
-            <field name="operation">crud</field>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
         </record>
 
-        <record id="rule_lecturer_khs_line_write" model="ir.access">
+        <record id="rule_lecturer_khs_line_write" model="ir.rule">
             <field name="name">Lecturer: Only Write KHS for Subjects They Teach</field>
             <field name="model_id" ref="model_academic_khs_line"/>
-            <field name="domain">[('schedule_ids.lecturer_id.user_id', '=', user.id)]</field>
-            <field name="group_id" ref="campus_core.group_campus_lecturer"/>
-            <field name="operation">ru</field>
+            <field name="domain_force">[('schedule_ids.lecturer_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_student_own_krs" model="ir.access">
+        <record id="rule_student_own_krs" model="ir.rule">
             <field name="name">Student can only see own KRS</field>
             <field name="model_id" ref="model_academic_krs"/>
-            <field name="domain">[('student_id', '=', user.partner_id.id)]</field>
-            <field name="group_id" ref="base.group_portal"/>
-            <field name="operation">cru</field>
+            <field name="domain_force">[('student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_student_own_krs_line" model="ir.access">
+        <record id="rule_student_own_krs_line" model="ir.rule">
             <field name="name">Student can only see own KRS Lines</field>
             <field name="model_id" ref="model_academic_krs_line"/>
-            <field name="domain">[('krs_id.student_id', '=', user.partner_id.id)]</field>
-            <field name="group_id" ref="base.group_portal"/>
-            <field name="operation">crud</field>
+            <field name="domain_force">[('krs_id.student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
         </record>
 
-        <record id="rule_student_own_khs" model="ir.access">
+        <record id="rule_student_own_khs" model="ir.rule">
             <field name="name">Student can only see own KHS</field>
             <field name="model_id" ref="model_academic_khs"/>
-            <field name="domain">[('student_id', '=', user.partner_id.id)]</field>
-            <field name="group_id" ref="base.group_portal"/>
-            <field name="operation">r</field>
+            <field name="domain_force">[('student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
 
-        <record id="rule_student_own_khs_line" model="ir.access">
+        <record id="rule_student_own_khs_line" model="ir.rule">
             <field name="name">Student can only see own KHS Lines</field>
             <field name="model_id" ref="model_academic_khs_line"/>
-            <field name="domain">[('khs_id.student_id', '=', user.partner_id.id)]</field>
-            <field name="group_id" ref="base.group_portal"/>
-            <field name="operation">r</field>
+            <field name="domain_force">[('khs_id.student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
     </data>
 </odoo>
