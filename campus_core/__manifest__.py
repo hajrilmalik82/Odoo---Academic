@@ -28,6 +28,7 @@
         'views/academic_class_schedule_views.xml',
         'views/website_homepage_core.xml',
         'views/website_layout_core.xml',
+        'views/website_login_templates.xml',
         'views/menus.xml',
     ],
     'installable': True,
