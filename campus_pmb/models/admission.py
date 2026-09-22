@@ -234,17 +234,30 @@ class CampusAdmission(models.Model):
             # Generate NIM using centralized method
             nim, batch_year = record._generate_nim(record.faculty_id, record.program_id)
 
-            # Create Partner
-            partner = self.env['res.partner'].sudo().create({
-                'name': record.name,
-                'email': record.email,
-                'phone': record.phone,
-                'is_student': True,
-                'nim': nim,
-                'batch_year': batch_year,
-                'program_id': record.program_id.id,
-                'company_id': self.env.company.id,
-            })
+            # Check if partner exists (e.g. created by finance module via invoice)
+            partner = self.env['res.partner'].sudo().search([('email', '=', record.email)], limit=1)
+            
+            if partner:
+                partner.sudo().write({
+                    'name': record.name,
+                    'phone': record.phone,
+                    'is_student': True,
+                    'nim': nim,
+                    'batch_year': batch_year,
+                    'program_id': record.program_id.id,
+                })
+            else:
+                # Create Partner
+                partner = self.env['res.partner'].sudo().create({
+                    'name': record.name,
+                    'email': record.email,
+                    'phone': record.phone,
+                    'is_student': True,
+                    'nim': nim,
+                    'batch_year': batch_year,
+                    'program_id': record.program_id.id,
+                    'company_id': self.env.company.id,
+                })
             record.partner_id = partner.id
 
             # Create User

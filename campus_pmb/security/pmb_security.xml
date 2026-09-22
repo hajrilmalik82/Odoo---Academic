@@ -20,8 +20,8 @@
             <field name="domain_force">
                 [
                     '&amp;',
-                    (1, '=', 1) if user.employee_id.pmb_all_programs else ('program_id', 'in', user.employee_id.pmb_program_ids.ids),
-                    (1, '=', 1) if user.employee_id.pmb_all_faculties else ('program_id.faculty_id', 'in', user.employee_id.pmb_faculty_ids.ids)
+                    (1, '=', 1) if user.employee_id and user.employee_id.pmb_all_programs else ('program_id', 'in', user.employee_id.pmb_program_ids.ids),
+                    (1, '=', 1) if user.employee_id and user.employee_id.pmb_all_faculties else ('program_id.faculty_id', 'in', user.employee_id.pmb_faculty_ids.ids)
                 ]
             </field>
             <field name="groups" eval="[(4, ref('campus_pmb.group_pmb'))]"/>
