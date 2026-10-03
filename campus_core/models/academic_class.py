@@ -40,7 +40,7 @@ class AcademicClass(models.Model):
             # Only count students who have submitted, approved, or locked their KRS
             valid_students = record.student_line_ids.filtered(lambda l: l.state in ['submitted', 'approved', 'locked'])
             total_students = len(valid_students)
-            record.class_capacity_display = f"{total_capacity} / {total_students}"
+            record.class_capacity_display = f"{total_students} / {total_capacity}"
 
     def action_generate_sessions(self):
         self.ensure_one()

@@ -5,7 +5,7 @@
     'description': 'Extends HR Employee to include academic profiles and integrates with Campus Core.',
     'category': 'Human Resources',
     'author': 'Hajril Malik',
-    'depends': ['base', 'hr', 'campus_core', 'website'],
+    'depends': ['base', 'hr', 'campus_core', 'campus_pmb', 'website'],
     'data': [
         'security/campus_security.xml',
         'security/ir.model.access.csv',

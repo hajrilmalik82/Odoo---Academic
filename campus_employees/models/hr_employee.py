@@ -97,24 +97,26 @@ class HrEmployee(models.Model):
         return res
 
     def _sync_academic_user_role(self):
+        # Fetch groups safely outside the loop
+        lecturer_group = self.env.ref('campus_core.group_campus_lecturer')
+        academic_staff_group = self.env.ref('campus_core.group_campus_academic_staff')
+        pmb_group = self.env.ref('campus_pmb.group_pmb', raise_if_not_found=False)
+
+        academic_groups = lecturer_group | academic_staff_group
+        if pmb_group:
+            academic_groups |= pmb_group
+
         for emp in self:
             if not emp.user_id:
                 continue
-            
-            # Fetch groups safely
-            academic_groups = self.env.ref('campus_core.group_campus_lecturer') | \
-                              self.env.ref('campus_core.group_campus_academic_staff')
-            pmb_group = self.env.ref('campus_pmb.group_pmb', raise_if_not_found=False)
-            if pmb_group:
-                academic_groups |= pmb_group
                 
             new_group = None
             if emp.academic_role == 'lecturer':
-                new_group = self.env.ref('campus_core.group_campus_lecturer')
+                new_group = lecturer_group
             elif emp.academic_role == 'pmb' and pmb_group:
                 new_group = pmb_group
             elif emp.academic_role == 'academic':
-                new_group = self.env.ref('campus_core.group_campus_academic_staff')
+                new_group = academic_staff_group
                 
             if new_group:
                 groups_to_remove = academic_groups - new_group

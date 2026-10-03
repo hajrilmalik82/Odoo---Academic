@@ -49,7 +49,7 @@ class AcademicClassSchedule(models.Model):
             valid_lines = record.class_id.student_line_ids.filtered(lambda s: s.state in ['submitted', 'approved', 'locked'])
             enrolled = len(valid_lines.filtered(lambda s: s.schedule_id.id == record.id))
             record.enrolled_count = enrolled
-            record.capacity_display = f"{record.room_capacity} / {enrolled}"
+            record.capacity_display = f"{enrolled} / {record.room_capacity}"
 
     @api.depends('class_code', 'day_of_week', 'start_time', 'end_time')
     def _compute_display_name(self):
