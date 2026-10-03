@@ -11,11 +11,10 @@
                     <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_start_document_review" string="Start Document Review" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
                     <button name="action_verify_documents" string="Verify Documents" type="object" class="oe_highlight" invisible="state != 'document_review'"/>
-                    <button name="action_verify_payment" string="Verify Payment" type="object" class="oe_highlight" invisible="state != 'payment_pending'"/>
-                    <button name="action_accept" string="Accept" type="object" class="btn-success" invisible="state != 'payment_verified'"/>
+                    <button name="action_accept" string="Accept" type="object" class="btn-success" invisible="state != 'document_review'"/>
                     <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state in ('accepted', 'registered', 'rejected')"/>
                     <button name="action_register" type="object" string="Register Student" class="oe_highlight" invisible="state != 'accepted'"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,document_review,payment_pending,payment_verified,accepted,registered" options="{'clickable': True}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,document_review,accepted,registered" options="{'clickable': True}"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
@@ -49,10 +48,6 @@
                             <field name="required_document_count" readonly="1"/>
                             <field name="received_document_count" readonly="1"/>
                             <field name="documents_complete" readonly="1"/>
-                        </group>
-                        <group>
-                            <field name="payment_reference"/>
-                            <field name="payment_date"/>
                         </group>
                     </group>
                     <notebook>
@@ -120,7 +115,7 @@
                 <field name="registration_date"/>
                 <field name="company_id" column_invisible="1"/>
                 <field name="state" widget="badge" 
-                       decoration-info="state in ('submitted', 'document_review', 'payment_pending', 'payment_verified')"
+                       decoration-info="state in ('submitted', 'document_review')"
                        decoration-success="state in ('accepted', 'registered')"
                        decoration-danger="state == 'rejected'"/>
             </list>
@@ -164,17 +159,6 @@ if records:
         </field>
     </record>
 
-    <record id="action_server_admission_verify_payment" model="ir.actions.server">
-        <field name="name">Verify Payment</field>
-        <field name="model_id" ref="model_campus_admission"/>
-        <field name="binding_model_id" ref="model_campus_admission"/>
-        <field name="binding_view_types">list</field>
-        <field name="state">code</field>
-        <field name="code">
-if records:
-    records.action_verify_payment()
-        </field>
-    </record>
 
     <record id="action_server_admission_accept" model="ir.actions.server">
         <field name="name">Accept</field>

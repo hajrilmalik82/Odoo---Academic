@@ -63,15 +63,11 @@ class CampusAdmission(models.Model):
     documents_complete = fields.Boolean(
         string='Documents Complete', compute='_compute_document_progress', tracking=True
     )
-    payment_reference = fields.Char(string='Payment Reference', tracking=True)
-    payment_date = fields.Date(string='Payment Date', tracking=True)
 
     state = fields.Selection([
         ('draft', 'Draft'),
         ('submitted', 'Submitted'),
         ('document_review', 'Document Review'),
-        ('payment_pending', 'Payment Pending'),
-        ('payment_verified', 'Payment Verified'),
         ('accepted', 'Accepted'),
         ('registered', 'Registered'),
         ('rejected', 'Rejected'),
@@ -141,15 +137,7 @@ class CampusAdmission(models.Model):
         for record in self:
             if not record.documents_complete:
                 raise UserError(_("All required documents must be received first."))
-            record.state = 'payment_pending'
-
-    def action_verify_payment(self):
-        self._require_state({'payment_pending'})
-        for record in self:
-            if not record.payment_reference:
-                raise UserError(_("Payment reference is required before payment verification."))
-            record.payment_date = record.payment_date or fields.Date.context_today(record)
-            record.state = 'payment_verified'
+            record.state = 'accepted'
 
     def action_reject(self):
         for record in self:
@@ -159,8 +147,8 @@ class CampusAdmission(models.Model):
 
     def action_accept(self):
         for record in self:
-            if record.state != 'payment_verified':
-                raise UserError(_("Only payment-verified applications can be accepted."))
+            if record.state != 'document_review':
+                raise UserError(_("Only document-reviewed applications can be accepted."))
             if not (
                 self.env.user.has_group('campus_pmb.group_pmb')
                 or self.env.user.has_group('campus_core.group_campus_administrator')
