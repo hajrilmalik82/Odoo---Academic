@@ -98,11 +98,14 @@ class CampusPortal(CustomerPortal):
     def portal_my_krs_detail(self, krs_id, **kw):
         try:
             krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access('read')
+            krs.check_access_rights('read')
+            krs.check_access_rule('read')
         except Exception:
             return request.redirect('/my/krs')
 
-        available_schedules = request.env['academic.class.schedule'].search([
+        # Gunakan sudo() agar template bisa membaca data Dosen (hr.employee.public) tanpa error 403
+        krs = krs.sudo()
+        available_schedules = request.env['academic.class.schedule'].sudo().search([
             ('class_id.academic_year_id', '=', krs.academic_year_id.id)
         ])
         values = self._prepare_portal_layout_values()
@@ -118,7 +121,8 @@ class CampusPortal(CustomerPortal):
     def portal_my_krs_add_line(self, krs_id, **post):
         try:
             krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access('write')
+            krs.check_access_rights('write')
+            krs.check_access_rule('write')
             if krs.state != 'draft':
                 raise UserError(_("You can only add subjects to a draft KRS."))
             
@@ -137,7 +141,8 @@ class CampusPortal(CustomerPortal):
     def portal_my_krs_delete_line(self, krs_id, line_id, **kw):
         try:
             krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access('write')
+            krs.check_access_rights('write')
+            krs.check_access_rule('write')
             if krs.state == 'draft':
                 line = request.env['academic.krs.line'].browse(line_id)
                 if line.krs_id.id == krs.id:
@@ -153,7 +158,8 @@ class CampusPortal(CustomerPortal):
     def portal_my_krs_submit(self, krs_id, **post):
         try:
             krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access('write')
+            krs.check_access_rights('write')
+            krs.check_access_rule('write')
             if krs.state in ('draft', 'revision'):
                 krs.action_submit()
         except (ValidationError, UserError) as e:

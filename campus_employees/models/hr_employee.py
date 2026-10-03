@@ -134,3 +134,13 @@ class HrEmployeePublic(models.Model):
     academic_rank = fields.Selection(related='employee_id.academic_rank', readonly=True)
     faculty_id = fields.Many2one(related='employee_id.faculty_id', readonly=True)
     program_id = fields.Many2one(related='employee_id.program_id', readonly=True)
+
+    pmb_all_faculties = fields.Boolean(related='employee_id.pmb_all_faculties', readonly=True)
+    pmb_faculty_ids = fields.Many2many(related='employee_id.pmb_faculty_ids', readonly=True)
+    pmb_all_programs = fields.Boolean(related='employee_id.pmb_all_programs', readonly=True)
+    pmb_program_ids = fields.Many2many(related='employee_id.pmb_program_ids', readonly=True)
+
+    academic_all_faculties = fields.Boolean(related='employee_id.academic_all_faculties', readonly=True)
+    academic_faculty_ids = fields.Many2many(related='employee_id.academic_faculty_ids', readonly=True)
+    academic_all_programs = fields.Boolean(related='employee_id.academic_all_programs', readonly=True)
+    academic_program_ids = fields.Many2many(related='employee_id.academic_program_ids', readonly=True)

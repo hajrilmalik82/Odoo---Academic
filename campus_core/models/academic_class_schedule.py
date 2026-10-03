@@ -8,6 +8,8 @@ class AcademicClassSchedule(models.Model):
     _check_company_auto = True
 
     class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade')
+    class_program_id = fields.Many2one('academic.program', related='class_id.subject_id.program_id')
+    class_faculty_id = fields.Many2one('academic.faculty', related='class_id.subject_id.faculty_id')
     class_code = fields.Char(string='Class Code (A/B/C)', required=True, default="A")
     day_of_week = fields.Selection([
         ('0', 'Monday'),
@@ -22,7 +24,11 @@ class AcademicClassSchedule(models.Model):
     end_time = fields.Float(string='End Time', required=True)
     room_id = fields.Many2one('campus.room', string='Room', required=True)
     room_capacity = fields.Integer(related='room_id.capacity', string='Capacity', readonly=True)
-    lecturer_id = fields.Many2one('hr.employee', string='Lecturer')
+    lecturer_id = fields.Many2one(
+        'hr.employee', 
+        string='Lecturer',
+        domain="[('academic_role', '=', 'lecturer'), '|', ('program_id', '=', class_program_id), ('faculty_id', '=', class_faculty_id)]"
+    )
     company_id = fields.Many2one(related='class_id.company_id', store=True)
     enrolled_count = fields.Integer(string='Enrolled', compute='_compute_capacity_display')
     capacity_display = fields.Char(string='Capacity (Max/Filled)', compute='_compute_capacity_display')

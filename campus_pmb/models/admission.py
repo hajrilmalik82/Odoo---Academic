@@ -179,7 +179,7 @@ class CampusAdmission(models.Model):
         Format: {FACULTY_ABBR}-{PROG_ABBR}-{YY}-{SEQUENCE:04d}
         e.g., TI-IF-26-0001
         """
-        current_date = fields.Date.today()
+        current_date = fields.Date.context_today(self)
         year_short = current_date.strftime('%y')
         batch_year = current_date.strftime('%Y')
 
@@ -190,15 +190,24 @@ class CampusAdmission(models.Model):
         program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2] or "PR"
 
         prefix = f"{faculty_str}-{program_str}-{year_short}-"
-        last_student = self.env['res.partner'].sudo().search(
-            [('nim', '=like', f'{prefix}%')], order='nim desc', limit=1
-        )
-        try:
-            new_seq = int(last_student.nim.split('-')[-1]) + 1 if last_student and last_student.nim else 1
-        except ValueError:
-            new_seq = 1
+        seq_code = f"student.nim.{prefix}"
 
-        return f"{prefix}{new_seq:04d}", batch_year
+        # Get or create sequence for this specific prefix dynamically
+        seq = self.env['ir.sequence'].sudo().search([('code', '=', seq_code)], limit=1)
+        if not seq:
+            seq = self.env['ir.sequence'].sudo().create({
+                'name': f'NIM Sequence {prefix}',
+                'code': seq_code,
+                'implementation': 'standard', # Standard is faster and less locking than no_gap
+                'prefix': prefix,
+                'padding': 4,
+                'company_id': False, # Global sequence
+            })
+        
+        # next_by_id() is thread-safe and atomic at the database level
+        nim_str = seq.next_by_id()
+
+        return nim_str, batch_year
 
     def _create_account(self):
         for record in self:

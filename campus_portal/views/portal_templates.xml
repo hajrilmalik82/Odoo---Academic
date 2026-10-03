@@ -175,7 +175,10 @@
                                     <td><t t-esc="line.subject_id.name"/></td>
                                     <td><t t-esc="line.credits"/></td>
                                     <td t-if="krs.state == 'draft'">
-                                        <a t-attf-href="/my/krs/#{krs.id}/delete_line/#{line.id}" class="btn btn-sm btn-danger"><i class="fa fa-trash"/> Hapus</a>
+                                        <form t-attf-action="/my/krs/#{krs.id}/delete_line/#{line.id}" method="post" class="d-inline">
+                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"/> Hapus</button>
+                                        </form>
                                     </td>
                                 </tr>
                             </t>
