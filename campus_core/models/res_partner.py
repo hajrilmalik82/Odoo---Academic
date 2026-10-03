@@ -1,6 +1,8 @@
 from odoo import _, api, fields, models
 
 
+from odoo.osv import expression
+
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
@@ -41,6 +43,7 @@ class ResPartner(models.Model):
             record.cgpa = total_grade_points / total_credits if total_credits > 0 else 0.0
 
     @api.depends('name')
+    @api.depends_context('display_nim')
     def _compute_display_name(self):
         super()._compute_display_name()
         if self.env.context.get('display_nim'):
@@ -49,8 +52,10 @@ class ResPartner(models.Model):
                     partner.display_name = partner.nim
 
     @api.model
-    def _name_search(self, name, domain=None, operator='ilike', limit=None, order=None):
-        domain = domain or []
-        if name:
-            domain = ['|', ('nim', operator, name)] + domain
-        return super()._name_search(name, domain=domain, operator=operator, limit=limit, order=order)
+    def _search_display_name(self, operator, value):
+        # Odoo 17+ menggunakan _search_display_name alih-alih _name_search
+        domain = super()._search_display_name(operator, value)
+        # Gabungkan pencarian default (nama, email, ref) dengan pencarian NIM
+        if value:
+            return expression.OR([domain, [('nim', operator, value)]])
+        return domain
