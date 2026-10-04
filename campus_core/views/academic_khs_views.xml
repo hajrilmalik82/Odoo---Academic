@@ -43,6 +43,8 @@
                     <group string="GPA Summary">
                         <group>
                             <field name="total_credits" readonly="1"/>
+                            <field name="graded_credits" readonly="1"
+                                   help="Credits already marked by a lecturer. This is the denominator of the Term GPA; unmarked subjects are not averaged in."/>
                             <field name="total_grade_points" readonly="1"/>
                         </group>
                         <group>
@@ -56,6 +58,7 @@
                                     <field name="subject_id" readonly="1" force_save="1"/>
                                     <field name="credits" readonly="1"/>
                                     <field name="numeric_grade"/>
+                                    <field name="is_graded" widget="boolean_toggle"/>
                                     <field name="letter_grade" readonly="1"/>
                                     <field name="grade_points" readonly="1"/>
                                     <field name="schedule_ids" widget="many2many_tags" optional="hide"/>

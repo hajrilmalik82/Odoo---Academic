@@ -15,8 +15,13 @@ class AcademicKhs(models.Model):
 
     line_ids = fields.One2many('academic.khs.line', 'khs_id', string='Grade Lines')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
-    # Computed GPA fields
+    # Computed GPA fields.
+    # total_credits is everything the student is taking this term and is what the
+    # transcript and the portal show. graded_credits is the GPA denominator: only
+    # the subjects a lecturer has actually marked. The two differ while a term is
+    # still being graded, and that difference is the whole point.
     total_credits = fields.Integer(string='Total Credits', compute='_compute_term_gpa', store=True)
+    graded_credits = fields.Integer(string='Graded Credits', compute='_compute_term_gpa', store=True)
     total_grade_points = fields.Float(string='Total Grade Points', compute='_compute_term_gpa', store=True, digits=(16, 2))
     term_gpa = fields.Float(string='Term GPA', compute='_compute_term_gpa', store=True, digits=(5, 2))
 
@@ -25,14 +30,23 @@ class AcademicKhs(models.Model):
         "A student can only have one KHS per Academic Year!",
     )
 
-    @api.depends('line_ids.grade_points', 'line_ids.credits')
+    @api.depends('line_ids.grade_points', 'line_ids.credits', 'line_ids.is_graded')
     def _compute_term_gpa(self):
+        """Average only the subjects that have actually been graded.
+
+        Previously every line counted. Since numeric_grade is a Float it
+        defaults to 0.0, which converts to an E worth 0 points, so the empty KHS
+        that action_lock() generates dragged the student's GPA to zero the
+        moment their KRS was locked, and the next semester's SKS limit with it.
+        """
         for record in self:
-            total_credits = sum(line.credits for line in record.line_ids)
-            total_grade_points = sum(line.credits * line.grade_points for line in record.line_ids)
-            record.total_credits = total_credits
+            graded = record.line_ids.filtered('is_graded')
+            graded_credits = sum(graded.mapped('credits'))
+            total_grade_points = sum(line.credits * line.grade_points for line in graded)
+            record.total_credits = sum(record.line_ids.mapped('credits'))
+            record.graded_credits = graded_credits
             record.total_grade_points = total_grade_points
-            record.term_gpa = total_grade_points / total_credits if total_credits > 0 else 0.0
+            record.term_gpa = total_grade_points / graded_credits if graded_credits > 0 else 0.0
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -106,6 +120,11 @@ class AcademicKhsLine(models.Model):
     schedule_ids = fields.Many2many('academic.class.schedule', string='Schedules')
     # Input field
     numeric_grade = fields.Float(string='Numeric Grade', digits=(5, 2))
+    # A Float is never empty: it defaults to 0.0, and 0 is a legitimate exam
+    # score. So "has this been graded?" cannot be derived from numeric_grade and
+    # needs its own flag. It is set automatically when a grade is written, and
+    # stays editable so a lecturer can record a genuine zero or undo a mistake.
+    is_graded = fields.Boolean(string='Graded', default=False, copy=False)
     # Computed grade conversion fields
     letter_grade = fields.Char(string='Letter Grade', compute='_compute_grade_conversion', store=True)
     grade_points = fields.Float(string='Grade Points', compute='_compute_grade_conversion', store=True, digits=(5, 2))
@@ -126,10 +145,32 @@ class AcademicKhsLine(models.Model):
                 return letter, points
         return 'E', 0.0
 
-    @api.depends('numeric_grade')
+    @api.depends('numeric_grade', 'is_graded')
     def _compute_grade_conversion(self):
         for record in self:
-            score = record.numeric_grade or 0.0
-            letter, points = self._get_grade_from_score(score)
+            if not record.is_graded:
+                # Show nothing rather than a fabricated E for a subject nobody
+                # has marked yet.
+                record.letter_grade = ''
+                record.grade_points = 0.0
+                continue
+            letter, points = self._get_grade_from_score(record.numeric_grade or 0.0)
             record.letter_grade = letter
             record.grade_points = points
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            # A line created carrying a real grade is already graded. A line
+            # created empty is not: action_lock() generates a whole semester of
+            # them, and leaving is_graded False is what stops those blanks from
+            # being averaged in as zeros.
+            if vals.get('numeric_grade'):
+                vals.setdefault('is_graded', True)
+        return super().create(vals_list)
+
+    def write(self, vals):
+        # Writing a grade marks the line graded, a deliberate 0 included.
+        if 'numeric_grade' in vals:
+            vals.setdefault('is_graded', True)
+        return super().write(vals)

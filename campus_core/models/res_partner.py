@@ -41,12 +41,18 @@ class ResPartner(models.Model):
         digits=(5, 2), readonly=True
     )
 
-    @api.depends('khs_ids.total_grade_points', 'khs_ids.total_credits')
+    @api.depends('khs_ids.total_grade_points', 'khs_ids.graded_credits')
     def _compute_cgpa(self):
+        """Average over graded subjects only.
+
+        The denominator is graded_credits, not total_credits: subjects a
+        lecturer has not marked yet must not count as zeros, or a student's
+        CGPA collapses the moment a new semester's KHS is generated.
+        """
         for record in self:
-            total_credits = sum(khs.total_credits for khs in record.khs_ids)
+            graded_credits = sum(khs.graded_credits for khs in record.khs_ids)
             total_grade_points = sum(khs.total_grade_points for khs in record.khs_ids)
-            record.cgpa = total_grade_points / total_credits if total_credits > 0 else 0.0
+            record.cgpa = total_grade_points / graded_credits if graded_credits > 0 else 0.0
 
     @api.depends('name')
     @api.depends_context('display_nim')
