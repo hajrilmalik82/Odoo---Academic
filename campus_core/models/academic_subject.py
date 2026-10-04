@@ -42,9 +42,10 @@ class AcademicSubject(models.Model):
         default=lambda self: self.env.company
     )
 
-    _sql_constraints = [
-        ('_code_program_unique', 'unique(code, program_id)', 'Subject code must be unique within a program.')
-    ]
+    _code_program_unique = models.Constraint(
+        'UNIQUE (code, program_id)',
+        "Subject code must be unique within a program.",
+    )
 
     @api.constrains('credits')
     def _check_credits(self):
@@ -59,9 +60,12 @@ class AcademicYear(models.Model):
     _order = 'name desc'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('_name_term_company_unique', 'unique(name, term_type, company_id)', 'Academic Year with this name and term already exists for this company.')
-    ]
+    # COALESCE so that two company-less academic years cannot collide
+    # (PostgreSQL treats NULL company_id values as distinct).
+    _name_term_company_unique = models.UniqueIndex(
+        "(name, term_type, COALESCE(company_id, 0))",
+        "Academic Year with this name and term already exists for this company.",
+    )
 
     name = fields.Char(string='Name', required=True)
     term_type = fields.Selection([('odd', 'Odd'), ('even', 'Even')], string='Term Type', required=True)

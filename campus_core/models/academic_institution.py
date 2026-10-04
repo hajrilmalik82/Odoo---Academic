@@ -7,9 +7,12 @@ class AcademicFaculty(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('_check_name_unique', 'UNIQUE(name)', 'Faculty name must be unique!')
-    ]
+    # Kept global (not scoped by company_id) to preserve the previous semantics.
+    # See audit item S-07 before making this per-company.
+    _check_name_unique = models.Constraint(
+        'UNIQUE (name)',
+        "Faculty name must be unique!",
+    )
 
     name = fields.Char(string='Name', required=True)
     dean_id = fields.Many2one('hr.employee', string="Head of Faculty / Dean", check_company=True)
@@ -52,9 +55,10 @@ class AcademicProgram(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('_check_name_faculty_unique', 'UNIQUE(name, faculty_id)', 'Program name must be unique within the same Faculty!')
-    ]
+    _check_name_faculty_unique = models.Constraint(
+        'UNIQUE (name, faculty_id)',
+        "Program name must be unique within the same Faculty!",
+    )
 
     name = fields.Char(string='Name', required=True)
     faculty_id = fields.Many2one(

@@ -8,9 +8,13 @@ class CampusBuilding(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('_check_code_unique', 'UNIQUE(code, company_id)', 'Building code must be unique per company!')
-    ]
+    # `code` is optional, so buildings without a code must stay unconstrained;
+    # COALESCE keeps company-less buildings in a single bucket (NULLs are
+    # otherwise distinct in PostgreSQL and would defeat the constraint).
+    _check_code_unique = models.UniqueIndex(
+        "(code, COALESCE(company_id, 0)) WHERE code IS NOT NULL",
+        "Building code must be unique per company!",
+    )
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code')
@@ -24,9 +28,10 @@ class CampusRoom(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _sql_constraints = [
-        ('_check_name_building_unique', 'UNIQUE(name, building_id)', 'Room name must be unique within the same building!')
-    ]
+    _check_name_building_unique = models.Constraint(
+        'UNIQUE (name, building_id)',
+        "Room name must be unique within the same building!",
+    )
 
     name = fields.Char(string='Name', required=True)
     building_id = fields.Many2one('campus.building', string='Building', required=True, check_company=True)

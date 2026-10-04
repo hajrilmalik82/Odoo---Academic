@@ -46,9 +46,10 @@ class AcademicCoursePackageLine(models.Model):
     )
     credits = fields.Integer(related='subject_id.credits', string='Credits')
 
-    _sql_constraints = [
-        ('_unique_subject_per_package', 'unique(package_id, subject_id)', 'A subject can only appear once in a course package.')
-    ]
+    _unique_subject_per_package = models.Constraint(
+        'UNIQUE (package_id, subject_id)',
+        "A subject can only appear once in a course package.",
+    )
 
 
 class AcademicKrs(models.Model):
@@ -93,9 +94,10 @@ class AcademicKrs(models.Model):
     line_ids = fields.One2many('academic.krs.line', 'krs_id', string='KRS Lines')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
-    _sql_constraints = [
-        ('_unique_student_academic_year_term', 'unique(student_id, academic_year_id)', 'A student can only have one KRS per academic year.')
-    ]
+    _unique_student_academic_year_term = models.Constraint(
+        'UNIQUE (student_id, academic_year_id)',
+        "A student can only have one KRS per academic year.",
+    )
 
     @api.model
     def _expand_states(self, states, domain):
@@ -432,9 +434,15 @@ class AcademicKrsLine(models.Model):
         if self.subject_id and self.schedule_id and self.schedule_id.class_id.subject_id != self.subject_id:
             self.schedule_id = False
 
-    _sql_constraints = [
-        ('_unique_class_per_krs', 'unique(krs_id, class_id)', 'A class can only appear once in the same KRS.')
-    ]
+    # class_id is a stored related on schedule_id.class_id and is NULL for every
+    # line created without a schedule (the package onchange and the KRS
+    # generator wizard both do this). A plain UNIQUE would let those NULL rows
+    # duplicate freely, so the index is restricted to rows that actually have a
+    # class.
+    _unique_class_per_krs = models.UniqueIndex(
+        "(krs_id, class_id) WHERE class_id IS NOT NULL",
+        "A class can only appear once in the same KRS.",
+    )
 
     def write(self, vals):
         if self.filtered(lambda line: line.krs_id.state == 'locked'):

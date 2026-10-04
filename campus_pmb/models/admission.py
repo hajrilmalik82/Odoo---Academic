@@ -74,9 +74,13 @@ class CampusAdmission(models.Model):
     ], string='Status', default='draft', tracking=True, index=True, copy=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
-    _sql_constraints = [
-        ('_email_year_unique', 'unique(email, academic_year_id)', 'An admission record already exists for this email in this academic year.')
-    ]
+    # NOTE: this is case-sensitive, so Budi@x.com and budi@x.com are still two
+    # distinct applications. Normalising the email on write is tracked
+    # separately; see the audit checklist.
+    _email_year_unique = models.Constraint(
+        'UNIQUE (email, academic_year_id)',
+        "An admission record already exists for this email in this academic year.",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -332,6 +336,7 @@ class CampusAdmissionDocument(models.Model):
     received = fields.Boolean(string='Received')
     note = fields.Char(string='Note')
 
-    _sql_constraints = [
-        ('_unique_document_type_per_admission', 'unique(admission_id, document_type)', 'Each document type can only appear once per admission.')
-    ]
+    _unique_document_type_per_admission = models.Constraint(
+        'UNIQUE (admission_id, document_type)',
+        "Each document type can only appear once per admission.",
+    )

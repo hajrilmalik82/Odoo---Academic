@@ -6,9 +6,15 @@ from odoo.osv import expression
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    _sql_constraints = [
-        ('_check_nim_unique', 'UNIQUE(nim, company_id)', 'Student ID (NIM) must be unique!')
-    ]
+    # A plain UNIQUE(nim, company_id) would be ineffective: PostgreSQL treats
+    # NULLs as distinct, and res.partner.company_id is NULL for most partners,
+    # so duplicate NIMs would still slip through. COALESCE puts every
+    # company-less partner in one bucket, and the WHERE clause keeps the many
+    # non-student partners (nim IS NULL) out of the index entirely.
+    _check_nim_unique = models.UniqueIndex(
+        "(nim, COALESCE(company_id, 0)) WHERE nim IS NOT NULL",
+        "Student ID (NIM) must be unique!",
+    )
 
     is_student = fields.Boolean(string="Is a Student", default=False, index=True)
     nim = fields.Char(string="Student ID (NIM)")
