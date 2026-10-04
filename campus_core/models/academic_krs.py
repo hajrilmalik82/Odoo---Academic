@@ -135,7 +135,16 @@ class AcademicKrs(models.Model):
         ]
         return min(capacities) if capacities else 0
 
-    def _check_locked_write_allowed(self, vals):
+    # A KRS is only editable while the student is still filling it in.
+    _EDITABLE_STATES = ('draft', 'revision')
+
+    def _check_content_write_allowed(self, vals):
+        """Block content changes once the KRS has left the student's hands.
+
+        This used to block the 'locked' state only, which let a student wait for
+        approval on 18 SKS and then add three more subjects: nothing revalidates
+        a KRS that is already submitted or approved.
+        """
         protected_fields = {
             'student_id',
             'academic_year_id',
@@ -143,9 +152,11 @@ class AcademicKrs(models.Model):
             'line_ids',
         }
         if protected_fields.intersection(vals):
-            locked_records = self.filtered(lambda record: record.state == 'locked')
-            if locked_records:
-                raise ValidationError(_("Locked KRS records cannot be modified."))
+            frozen = self.filtered(lambda record: record.state not in self._EDITABLE_STATES)
+            if frozen:
+                raise ValidationError(_(
+                    "A KRS can only be edited while it is in Draft or Needs Revision."
+                ))
 
     _STATE_TRANSITIONS = {
         'draft': {'submitted'},
@@ -181,7 +192,7 @@ class AcademicKrs(models.Model):
                 raise ValidationError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
 
     def write(self, vals):
-        self._check_locked_write_allowed(vals)
+        self._check_content_write_allowed(vals)
         if 'state' in vals:
             self._check_state_transition_allowed(vals['state'])
         return super().write(vals)
@@ -191,10 +202,22 @@ class AcademicKrs(models.Model):
             raise ValidationError(_("Locked KRS records cannot be deleted."))
         return super().unlink()
 
-    def action_submit(self):
-        if any(record.state not in ('draft', 'revision') for record in self):
-            raise ValidationError(_("Only draft or revision KRS records can be submitted."))
-            
+    @api.constrains('state')
+    def _check_submission_requirements(self):
+        """Enforce the submission rules on every path into 'submitted'.
+
+        These checks used to live inside action_submit() only, so a student
+        could skip all of them by writing the field directly over RPC
+        (/web/dataset/call_kw is auth="user", and portal users are users).
+        As a constraint they run on any write, import or server action, and
+        crucially they still run under sudo(), unlike access rules.
+        """
+        submitted = self.filtered(lambda record: record.state == 'submitted')
+        if submitted:
+            submitted._validate_for_submission()
+
+    def _validate_for_submission(self):
+        """Every rule a KRS must satisfy to be submitted for approval."""
         # Pre-fetch ALL passed subjects for ALL students in one query to avoid N+1 queries
         student_ids = self.mapped('student_id.id')
         khs_lines = self.env['academic.khs.line'].search([
@@ -299,7 +322,13 @@ class AcademicKrs(models.Model):
                         if s1['start'] < s2['end'] and s1['end'] > s2['start']:
                             raise ValidationError(_("Schedule overlap detected between:\n%s\n%s") % (s1['name'], s2['name']))
 
-            record.state = 'submitted'
+    def action_submit(self):
+        if any(record.state not in ('draft', 'revision') for record in self):
+            raise ValidationError(_("Only draft or revision KRS records can be submitted."))
+        # The nine checks run from _check_submission_requirements, triggered by
+        # this write. Keeping them in the constraint means the button and a raw
+        # write() are validated identically.
+        self.write({'state': 'submitted'})
 
     def action_approve(self):
         for record in self:
@@ -444,12 +473,17 @@ class AcademicKrsLine(models.Model):
         "A class can only appear once in the same KRS.",
     )
 
+    def _check_krs_editable(self):
+        """Lines follow their KRS: once it is submitted, the content is frozen."""
+        if self.filtered(lambda line: line.krs_id.state not in AcademicKrs._EDITABLE_STATES):
+            raise ValidationError(_(
+                "KRS subjects can only be changed while the KRS is in Draft or Needs Revision."
+            ))
+
     def write(self, vals):
-        if self.filtered(lambda line: line.krs_id.state == 'locked'):
-            raise ValidationError(_("Locked KRS lines cannot be modified."))
+        self._check_krs_editable()
         return super().write(vals)
 
     def unlink(self):
-        if self.filtered(lambda line: line.krs_id.state == 'locked'):
-            raise ValidationError(_("Locked KRS lines cannot be deleted."))
+        self._check_krs_editable()
         return super().unlink()

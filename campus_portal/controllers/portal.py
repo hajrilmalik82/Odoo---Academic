@@ -12,6 +12,22 @@ _logger = logging.getLogger(__name__)
 class CampusPortal(CustomerPortal):
     _items_per_page = 20
 
+    def _get_own_krs(self, krs_id):
+        """Return the KRS if it belongs to the logged-in student, else empty.
+
+        Portal users hold read-only ACL on academic.krs and academic.krs.line,
+        so every change below runs with sudo(). That makes this ownership check
+        the only thing standing between a student and someone else's KRS. It
+        must stay in front of every mutation, and it must compare partners, not
+        trust the id in the URL.
+        """
+        Krs = request.env['academic.krs']
+        partner = request.env.user.partner_id
+        krs = Krs.sudo().browse(krs_id).exists()
+        if not krs or krs.student_id != partner:
+            return Krs.sudo().browse()
+        return krs
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         partner = request.env.user.partner_id
@@ -81,9 +97,12 @@ class CampusPortal(CustomerPortal):
         if existing_krs:
             return request.redirect('/my/krs/%s' % existing_krs.id)
             
-        # 3. Create a new KRS automatically
+        # 3. Create a new KRS automatically.
+        # sudo() because portal users are read-only on academic.krs; student_id
+        # is pinned to the logged-in partner so a visitor cannot create a KRS
+        # for someone else, and state is left to its 'draft' default.
         try:
-            new_krs = request.env['academic.krs'].create({
+            new_krs = request.env['academic.krs'].sudo().create({
                 'student_id': partner.id,
                 'academic_year_id': active_year.id,
             })
@@ -96,15 +115,11 @@ class CampusPortal(CustomerPortal):
 
     @http.route(['/my/krs/<int:krs_id>'], type='http', auth="user", website=True)
     def portal_my_krs_detail(self, krs_id, **kw):
-        try:
-            krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access_rights('read')
-            krs.check_access_rule('read')
-        except Exception:
+        krs = self._get_own_krs(krs_id)
+        if not krs:
             return request.redirect('/my/krs')
 
-        # Gunakan sudo() agar template bisa membaca data Dosen (hr.employee.public) tanpa error 403
-        krs = krs.sudo()
+        # sudo() so the template can read the advisor from hr.employee without a 403
         available_schedules = request.env['academic.class.schedule'].sudo().search([
             ('class_id.academic_year_id', '=', krs.academic_year_id.id)
         ])
@@ -119,16 +134,26 @@ class CampusPortal(CustomerPortal):
 
     @http.route(['/my/krs/<int:krs_id>/add_line'], type='http', auth="user", website=True, methods=['POST'])
     def portal_my_krs_add_line(self, krs_id, **post):
+        krs = self._get_own_krs(krs_id)
+        if not krs:
+            return request.redirect('/my/krs')
         try:
-            krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access_rights('write')
-            krs.check_access_rule('write')
-            if krs.state != 'draft':
-                raise UserError(_("You can only add subjects to a draft KRS."))
-            
-            request.env['academic.krs.line'].create({
+            if krs.state not in ('draft', 'revision'):
+                raise UserError(_("You can only add subjects while the KRS is in Draft or Needs Revision."))
+
+            try:
+                schedule_id = int(post.get('schedule_id') or 0)
+            except (TypeError, ValueError):
+                schedule_id = 0
+            schedule = request.env['academic.class.schedule'].sudo().browse(schedule_id).exists()
+            if not schedule:
+                raise UserError(_("Please choose a valid schedule."))
+            if schedule.class_id.academic_year_id != krs.academic_year_id:
+                raise UserError(_("That schedule belongs to a different academic year."))
+
+            request.env['academic.krs.line'].sudo().create({
                 'krs_id': krs.id,
-                'schedule_id': int(post.get('schedule_id')),
+                'schedule_id': schedule.id,
             })
         except (ValidationError, UserError) as e:
             return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': e.args[0]})))
@@ -139,14 +164,16 @@ class CampusPortal(CustomerPortal):
 
     @http.route(['/my/krs/<int:krs_id>/delete_line/<int:line_id>'], type='http', auth="user", website=True, methods=['POST'])
     def portal_my_krs_delete_line(self, krs_id, line_id, **kw):
+        krs = self._get_own_krs(krs_id)
+        if not krs:
+            return request.redirect('/my/krs')
         try:
-            krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access_rights('write')
-            krs.check_access_rule('write')
-            if krs.state == 'draft':
-                line = request.env['academic.krs.line'].browse(line_id)
-                if line.krs_id.id == krs.id:
-                    line.unlink()
+            if krs.state not in ('draft', 'revision'):
+                raise UserError(_("You can only remove subjects while the KRS is in Draft or Needs Revision."))
+            line = request.env['academic.krs.line'].sudo().browse(line_id).exists()
+            if not line or line.krs_id != krs:
+                raise UserError(_("That subject is not part of this KRS."))
+            line.unlink()
         except (ValidationError, UserError) as e:
             return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': e.args[0]})))
         except Exception:
@@ -156,12 +183,15 @@ class CampusPortal(CustomerPortal):
 
     @http.route(['/my/krs/<int:krs_id>/submit'], type='http', auth="user", website=True, methods=['POST'])
     def portal_my_krs_submit(self, krs_id, **post):
+        krs = self._get_own_krs(krs_id)
+        if not krs:
+            return request.redirect('/my/krs')
         try:
-            krs = request.env['academic.krs'].browse(krs_id)
-            krs.check_access_rights('write')
-            krs.check_access_rule('write')
-            if krs.state in ('draft', 'revision'):
-                krs.action_submit()
+            if krs.state not in ('draft', 'revision'):
+                raise UserError(_("This KRS has already been submitted."))
+            # sudo() only bypasses access rights. The nine submission rules are
+            # an @api.constrains on academic.krs, so they still run here.
+            krs.action_submit()
         except (ValidationError, UserError) as e:
             return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': e.args[0]})))
         except Exception:

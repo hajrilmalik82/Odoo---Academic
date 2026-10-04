@@ -20,10 +20,10 @@ access_academic_course_package_line_admin,package.line admin,model_academic_cour
 access_academic_course_package_line_portal,package.line portal,model_academic_course_package_line,base.group_portal,1,0,0,0
 access_academic_krs_admin,academic.krs admin,model_academic_krs,group_campus_administrator,1,1,1,1
 access_academic_krs_lecturer,academic.krs lecturer,model_academic_krs,group_campus_lecturer,1,1,0,0
-access_academic_krs_portal,academic.krs portal,model_academic_krs,base.group_portal,1,1,1,0
+access_academic_krs_portal,academic.krs portal,model_academic_krs,base.group_portal,1,0,0,0
 access_academic_krs_line_admin,academic.krs.line admin,model_academic_krs_line,group_campus_administrator,1,1,1,1
 access_academic_krs_line_lecturer,academic.krs.line lecturer,model_academic_krs_line,group_campus_lecturer,1,1,0,0
-access_academic_krs_line_portal,academic.krs.line portal,model_academic_krs_line,base.group_portal,1,1,1,1
+access_academic_krs_line_portal,academic.krs.line portal,model_academic_krs_line,base.group_portal,1,0,0,0
 access_academic_class_admin,academic.class admin,model_academic_class,group_campus_administrator,1,1,1,1
 access_academic_class_lecturer,academic.class lecturer,model_academic_class,group_campus_lecturer,1,0,0,0
 access_academic_class_portal,academic.class portal,model_academic_class,base.group_portal,1,0,0,0
