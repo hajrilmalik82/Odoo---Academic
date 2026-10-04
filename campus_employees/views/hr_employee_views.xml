@@ -15,14 +15,8 @@
                         <field name="program_id"/>
                     </group>
                 </page>
-                <page string="PMB Jurisdiction" invisible="academic_role != 'pmb'">
-                    <group>
-                        <field name="pmb_all_faculties"/>
-                        <field name="pmb_faculty_ids" widget="many2many_tags" invisible="pmb_all_faculties == True"/>
-                        <field name="pmb_all_programs"/>
-                        <field name="pmb_program_ids" widget="many2many_tags" invisible="pmb_all_programs == True"/>
-                    </group>
-                </page>
+                <!-- The PMB Jurisdiction page moved to
+                     campus_pmb/views/hr_employee_views.xml, beside its fields. -->
                 <page string="Academic Jurisdiction" invisible="academic_role != 'academic'">
                     <group>
                         <field name="academic_all_faculties"/>

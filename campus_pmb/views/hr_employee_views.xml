@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The PMB Jurisdiction page lives here, beside the fields it edits.
+         It used to sit in campus_employees, which forced that module to depend
+         on campus_pmb and created a dependency cycle. -->
+    <record id="view_employee_form_inherit_pmb" model="ir.ui.view">
+        <field name="name">hr.employee.form.inherit.pmb</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="PMB Jurisdiction" invisible="academic_role != 'pmb'">
+                    <group>
+                        <field name="pmb_all_faculties"/>
+                        <field name="pmb_faculty_ids" widget="many2many_tags" invisible="pmb_all_faculties == True"/>
+                        <field name="pmb_all_programs"/>
+                        <field name="pmb_program_ids" widget="many2many_tags" invisible="pmb_all_programs == True"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

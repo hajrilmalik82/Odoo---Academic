@@ -40,27 +40,10 @@ class HrEmployee(models.Model):
         domain="[('faculty_id', '=', faculty_id)]"
     )
 
-    # PMB Row-Level Security Wewenang (Jurisdiction)
-    pmb_all_faculties = fields.Boolean("All Faculties")
-    pmb_faculty_ids = fields.Many2many(
-        'academic.faculty', 
-        'hr_employee_pmb_faculty_rel', 
-        string="PMB Assigned Faculties",
-        help="If empty, it means no restriction by faculty (can access all, or restricted by program)."
-    )
-    pmb_all_programs = fields.Boolean("All Programs")
-    pmb_program_ids = fields.Many2many(
-        'academic.program', 
-        'hr_employee_pmb_program_rel', 
-        string="PMB Assigned Programs",
-        domain="[('faculty_id', 'in', pmb_faculty_ids)]",
-        help="If empty, it means no restriction by program."
-    )
-
-    @api.onchange('pmb_all_faculties')
-    def _onchange_pmb_all_faculties(self):
-        if self.pmb_all_faculties:
-            self.pmb_all_programs = True
+    # NOTE: the PMB jurisdiction fields (pmb_all_faculties, pmb_faculty_ids,
+    # pmb_all_programs, pmb_program_ids) now live in campus_pmb, beside the
+    # record rule that reads them. Declaring them here forced this module to
+    # depend on campus_pmb while campus_pmb already depended on it.
 
     # Academic Staff Row-Level Security Wewenang (Jurisdiction)
     academic_all_faculties = fields.Boolean("All Faculties")
@@ -137,10 +120,7 @@ class HrEmployeePublic(models.Model):
     faculty_id = fields.Many2one(related='employee_id.faculty_id', readonly=True)
     program_id = fields.Many2one(related='employee_id.program_id', readonly=True)
 
-    pmb_all_faculties = fields.Boolean(related='employee_id.pmb_all_faculties', readonly=True)
-    pmb_faculty_ids = fields.Many2many(related='employee_id.pmb_faculty_ids', readonly=True)
-    pmb_all_programs = fields.Boolean(related='employee_id.pmb_all_programs', readonly=True)
-    pmb_program_ids = fields.Many2many(related='employee_id.pmb_program_ids', readonly=True)
+    # The pmb_* mirrors moved to campus_pmb alongside their source fields.
 
     academic_all_faculties = fields.Boolean(related='employee_id.academic_all_faculties', readonly=True)
     academic_faculty_ids = fields.Many2many(related='employee_id.academic_faculty_ids', readonly=True)

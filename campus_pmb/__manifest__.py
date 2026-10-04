@@ -9,12 +9,15 @@
     """,
     'category': 'Education',
     'author': 'Hajril Malik',
-    'depends': ['base', 'mail', 'campus_core', 'portal', 'website', 'campus_employees'],
+    # 'hr' is direct now: this module extends hr.employee with the PMB
+    # jurisdiction fields. 'campus_employees' supplies academic_role.
+    'depends': ['base', 'mail', 'hr', 'campus_core', 'portal', 'website', 'campus_employees'],
     'data': [
         'security/pmb_security.xml',
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/mail_activity_type_data.xml',
+        'views/hr_employee_views.xml',
         'views/website_admission_templates.xml',
         'views/website_homepage_pmb.xml',
         'views/admission_views.xml',
