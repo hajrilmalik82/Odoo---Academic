@@ -287,7 +287,17 @@ class CampusAdmission(models.Model):
     _PORTAL_WRITABLE_FIELDS = ('name', 'email', 'phone', 'previous_school', 'admission_path')
 
     @api.model
-    def create_admission_from_portal(self, post_data):
+    def _create_admission_from_portal(self, post_data):
+        """Create an admission from the public website form.
+
+        The leading underscore is load-bearing. In Odoo 19 any model method
+        without one, and without @api.private, can be invoked straight over
+        /web/dataset/call_kw by any logged-in user (see
+        odoo/service/model.py:get_public_method). Because this method sudo()s,
+        a public name let a portal student create admission records despite
+        having no ACL on campus.admission at all. Only the controller may call
+        this, and only for an anonymous visitor filling in the form.
+        """
         try:
             faculty_id = int(post_data.get('faculty_id')) if post_data.get('faculty_id') else False
             program_id = int(post_data.get('program_id')) if post_data.get('program_id') else False
