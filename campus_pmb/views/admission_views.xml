@@ -14,7 +14,13 @@
                     <button name="action_accept" string="Accept" type="object" class="btn-success" invisible="state != 'document_review'"/>
                     <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state in ('accepted', 'registered', 'rejected')"/>
                     <button name="action_register" type="object" string="Register Student" class="oe_highlight" invisible="state != 'accepted'"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,document_review,accepted,registered" options="{'clickable': True}"/>
+                    <!-- Not clickable on purpose: clicking the statusbar writes `state`
+                         directly and bypasses every action_* method. Jumping to
+                         'registered' this way would never run _create_account(), leaving
+                         the applicant with no partner, no NIM and no portal user, and
+                         the record permanently stuck because action_register() then
+                         rejects the state. All transitions must go through the buttons. -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,document_review,accepted,registered"/>
                 </header>
                 <sheet>
                     <div class="oe_title">

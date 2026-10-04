@@ -62,9 +62,14 @@
                     <button name="action_request_revision" string="Request Revision" type="object" invisible="state != 'submitted'" groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'" groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_lock" string="Lock &amp; Generate KHS" type="object" class="oe_highlight" invisible="state != 'approved'" groups="campus_core.group_campus_administrator"/>
+                    <button name="action_unlock" string="Unlock" type="object" invisible="state != 'locked'" groups="campus_core.group_campus_administrator"/>
                     <button name="action_set_draft" string="Set to Draft" type="object" invisible="state not in ('approved', 'rejected', 'revision')" groups="campus_core.group_campus_administrator"/>
                     <button name="%(campus_core.action_report_krs)d" string="Print KRS" type="action" icon="fa-print" class="btn-secondary"/>
-                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,locked" options="{'clickable': True}"/>
+                    <!-- Not clickable on purpose: clicking the statusbar writes `state`
+                         directly and bypasses every action_* method, so locking a KRS
+                         this way would never run action_lock() and the KHS would never
+                         be generated. All transitions must go through the buttons. -->
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,locked"/>
                 </header>
                 <sheet>
                     <div class="oe_title">
