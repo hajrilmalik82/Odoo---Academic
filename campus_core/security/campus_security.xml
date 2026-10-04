@@ -60,6 +60,23 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
+        <!-- Without this rule administrators see almost no grade lines at all.
+             group_campus_administrator implies group_campus_lecturer, so the
+             lecturer rule below was the only one matching their groups, and it
+             narrows the model to the classes that person teaches. Rules of
+             different groups are OR'ed, so this one restores full visibility to
+             administrators while leaving the lecturer rule binding on lecturers. -->
+        <record id="rule_admin_khs_line_access" model="ir.rule">
+            <field name="name">Campus Admin: All KHS Lines</field>
+            <field name="model_id" ref="model_academic_khs_line"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
         <record id="rule_lecturer_khs_line_write" model="ir.rule">
             <field name="name">Lecturer: Only Write KHS for Subjects They Teach</field>
             <field name="model_id" ref="model_academic_khs_line"/>
