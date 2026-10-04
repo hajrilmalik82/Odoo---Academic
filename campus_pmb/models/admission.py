@@ -279,6 +279,13 @@ class CampusAdmission(models.Model):
             record.user_id = user.id
             _logger.info("Created Portal User and Partner for student NIM: %s (Email: %s)", nim, record.email)
 
+    # The only fields an anonymous website visitor may supply. Everything else on
+    # campus.admission is decided by the server. This list is the security
+    # boundary for the public /admission/submit route: the request dict must
+    # never be passed to create() wholesale, or a visitor could set `state`,
+    # `registration_number`, `partner_id` or `user_id` themselves.
+    _PORTAL_WRITABLE_FIELDS = ('name', 'email', 'phone', 'previous_school', 'admission_path')
+
     @api.model
     def create_admission_from_portal(self, post_data):
         try:
@@ -286,7 +293,7 @@ class CampusAdmission(models.Model):
             program_id = int(post_data.get('program_id')) if post_data.get('program_id') else False
         except (ValueError, TypeError):
             raise ValidationError(_("Invalid faculty or program selection."))
-        
+
         if program_id:
             program = self.env['academic.program'].sudo().browse(program_id)
             if faculty_id and program.faculty_id.id != faculty_id:
@@ -298,18 +305,28 @@ class CampusAdmission(models.Model):
         if not active_year:
             raise ValidationError(_("No active academic year found for admission."))
 
-        admission = self.sudo().create({
-            'name': post_data.get('name'),
-            'email': post_data.get('email'),
-            'phone': post_data.get('phone'),
-            'previous_school': post_data.get('previous_school'),
+        vals = {
+            field: post_data.get(field)
+            for field in self._PORTAL_WRITABLE_FIELDS
+            if post_data.get(field)
+        }
+
+        # A selection value straight off the wire is still untrusted input.
+        admission_path = vals.get('admission_path') or 'regular'
+        if admission_path not in dict(self._fields['admission_path'].selection):
+            raise ValidationError(_("Invalid admission path selection."))
+        vals['admission_path'] = admission_path
+
+        vals.update({
             'faculty_id': faculty_id,
             'program_id': program_id,
             'academic_year_id': active_year.id,
-            'admission_path': post_data.get('admission_path', 'regular'),
-            'state': post_data.get('state', 'draft'),
+            # Server-controlled, never taken from the request. A visitor must not
+            # be able to skip submission and document review by posting
+            # state=accepted and landing straight in the PMB officer's queue.
+            'state': 'draft',
         })
-        return admission
+        return self.sudo().create(vals)
 
 
 class CampusAdmissionDocument(models.Model):
