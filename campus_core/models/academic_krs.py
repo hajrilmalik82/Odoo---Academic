@@ -129,12 +129,6 @@ class AcademicKrs(models.Model):
             return 18
         return 15
 
-    def _get_class_capacity(self, class_record):
-        capacities = [
-            capacity for capacity in class_record.schedule_ids.mapped('room_capacity') if capacity
-        ]
-        return min(capacities) if capacities else 0
-
     # A KRS is only editable while the student is still filling it in.
     _EDITABLE_STATES = ('draft', 'revision')
 
@@ -218,6 +212,10 @@ class AcademicKrs(models.Model):
 
     def _validate_for_submission(self):
         """Every rule a KRS must satisfy to be submitted for approval."""
+        # Claim the seat locks before counting anything, so two students
+        # submitting into the same section cannot both read the last seat as free.
+        self.mapped('line_ids.schedule_id')._lock_for_enrolment()
+
         # Pre-fetch ALL passed subjects for ALL students in one query to avoid N+1 queries
         student_ids = self.mapped('student_id.id')
         khs_lines = self.env['academic.khs.line'].search([
@@ -293,17 +291,25 @@ class AcademicKrs(models.Model):
                         }
                     )
                 
-                # 8. Class Quota
-                class_record = line.class_id
-                total_capacity = record._get_class_capacity(class_record)
-                if total_capacity <= 0:
+                # 8. Section quota, measured on the schedule the student picked.
+                # Capacity belongs to the section's room, not to the class as a
+                # whole, and this KRS is excluded so the student is not counted
+                # against their own seat.
+                schedule = line.schedule_id
+                capacity = schedule.room_capacity
+                if capacity <= 0:
                     raise ValidationError(
-                        _("Class '%s' must have at least one scheduled room with capacity.") %
-                        class_record.name
+                        _("Schedule '%s' has no room capacity set.") % schedule.display_name
                     )
-                enrolled_students = len(class_record.student_line_ids)
-                if enrolled_students >= total_capacity:
-                    raise ValidationError(_("Class '%s' has reached its maximum capacity.") % class_record.name)
+                taken = schedule._enrolled_count(exclude_krs=record)
+                if taken >= capacity:
+                    raise ValidationError(
+                        _("Class '%(name)s' is full (%(taken)s / %(capacity)s seats taken).") % {
+                            'name': schedule.display_name,
+                            'taken': taken,
+                            'capacity': capacity,
+                        }
+                    )
                     
                 # Collect the specific schedule selected
                 if line.schedule_id:
@@ -479,6 +485,29 @@ class AcademicKrsLine(models.Model):
             raise ValidationError(_(
                 "KRS subjects can only be changed while the KRS is in Draft or Needs Revision."
             ))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        """Guard the third mutation path.
+
+        write() and unlink() were already covered, but creation was not, so a
+        subject could still be appended to a KRS that is submitted, approved or
+        locked. That is the route by which an approved 18 SKS plan could quietly
+        grow past the limit after the advisor had signed off on it.
+
+        Checked before the insert rather than after, so the caller gets the real
+        reason instead of a constraint violation.
+        """
+        krs_ids = {vals['krs_id'] for vals in vals_list if vals.get('krs_id')}
+        if krs_ids:
+            frozen = self.env['academic.krs'].browse(list(krs_ids)).filtered(
+                lambda krs: krs.state not in AcademicKrs._EDITABLE_STATES
+            )
+            if frozen:
+                raise ValidationError(_(
+                    "KRS subjects can only be added while the KRS is in Draft or Needs Revision."
+                ))
+        return super().create(vals_list)
 
     def write(self, vals):
         self._check_krs_editable()

@@ -34,12 +34,17 @@ class AcademicClass(models.Model):
 
     @api.depends('schedule_ids.room_capacity', 'student_line_ids', 'student_line_ids.state')
     def _compute_class_capacity_display(self):
+        """Seats across every section of this class.
+
+        Capacity is a property of each section's room, so the class total is the
+        sum of its sections. It used to be min(), which reported the whole class
+        as limited by its smallest room while counting students from all of them.
+        """
         for record in self:
-            capacities = [capacity for capacity in record.schedule_ids.mapped('room_capacity') if capacity]
-            total_capacity = min(capacities) if capacities else 0
-            # Only count students who have submitted, approved, or locked their KRS
-            valid_students = record.student_line_ids.filtered(lambda l: l.state in ['submitted', 'approved', 'locked'])
-            total_students = len(valid_students)
+            total_capacity = sum(record.schedule_ids.mapped('room_capacity'))
+            total_students = sum(
+                schedule._enrolled_count() for schedule in record.schedule_ids
+            )
             record.class_capacity_display = f"{total_students} / {total_capacity}"
 
     def action_generate_sessions(self):

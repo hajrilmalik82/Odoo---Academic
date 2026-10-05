@@ -43,11 +43,54 @@ class AcademicClassSchedule(models.Model):
             if record.end_time > 24:
                 raise ValidationError(_("Schedule end time cannot be later than 24:00."))
 
+    # A seat is only taken once the student's KRS has left their own hands.
+    # Draft and rejected plans must not hold places for everyone else.
+    _ENROLLED_KRS_STATES = ('submitted', 'approved', 'locked')
+
+    def _enrolled_count(self, exclude_krs=None):
+        """Students actually holding a seat in this section.
+
+        This is the single definition of "enrolled". It used to be spelled out
+        three separate ways, so the figure the validator blocked on and the
+        figure shown on screen disagreed.
+
+        sudo() because a seat count is a capacity figure, not confidential: a
+        student has to see a truthful 35 / 40 even though record rules stop them
+        reading anyone else's KRS lines.
+        """
+        self.ensure_one()
+        domain = [
+            ('schedule_id', '=', self.id),
+            ('krs_id.state', 'in', self._ENROLLED_KRS_STATES),
+        ]
+        if exclude_krs:
+            domain.append(('krs_id', 'not in', exclude_krs.ids))
+        return self.env['academic.krs.line'].sudo().search_count(domain)
+
+    def _lock_for_enrolment(self):
+        """Serialize concurrent enrolment into the same sections.
+
+        Counting free seats and then taking one is a check-then-act, so during
+        the KRS rush thirty students read the same free seat and all pass.
+
+        A plain SELECT ... FOR UPDATE does not fix it here: Odoo runs on
+        REPEATABLE READ (odoo/sql_db.py), so a transaction that waits on the
+        lock still counts against its own older snapshot and sees the seat free.
+        Touching the row instead makes the second writer fail with a
+        serialization error, which Odoo retries on a fresh snapshot
+        (odoo/service/model.py, up to 5 attempts).
+        """
+        if not self:
+            return
+        self.env.cr.execute(
+            "UPDATE academic_class_schedule SET write_date = write_date WHERE id IN %s",
+            (tuple(self.ids),),
+        )
+
     @api.depends('room_capacity', 'class_id.student_line_ids.schedule_id', 'class_id.student_line_ids.state')
     def _compute_capacity_display(self):
         for record in self:
-            valid_lines = record.class_id.student_line_ids.filtered(lambda s: s.state in ['submitted', 'approved', 'locked'])
-            enrolled = len(valid_lines.filtered(lambda s: s.schedule_id.id == record.id))
+            enrolled = record._enrolled_count()
             record.enrolled_count = enrolled
             record.capacity_display = f"{enrolled} / {record.room_capacity}"
 
