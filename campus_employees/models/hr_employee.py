@@ -52,8 +52,13 @@ class HrEmployee(models.Model):
 
     @api.onchange('job_id')
     def _onchange_job_id_academic(self):
-        if self.job_id and self.job_id.academic_role:
-            self.academic_role = self.job_id.academic_role
+        # Assigned unconditionally: the job position decides the campus role.
+        # Setting it only when the new position carried one left the previous
+        # value behind, so moving an employee from a lecturer position to an
+        # ordinary one kept academic_role at 'lecturer'. The Lecturer Profile
+        # page stayed on a non-academic employee, and saving would have granted
+        # them the lecturer group.
+        self.academic_role = self.job_id.academic_role or False
 
     @api.onchange('department_id')
     def _onchange_department_id_sync_manager(self):
