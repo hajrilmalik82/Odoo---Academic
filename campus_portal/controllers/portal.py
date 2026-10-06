@@ -1,7 +1,7 @@
 import logging
 from urllib.parse import urlencode
 
-from odoo import http, _, fields
+from odoo import http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
 from odoo.exceptions import ValidationError, UserError
