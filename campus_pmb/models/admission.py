@@ -1,6 +1,6 @@
 import logging
 from odoo import _, api, fields, models, Command
-from odoo.exceptions import UserError, ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -141,12 +141,32 @@ class CampusAdmission(models.Model):
         self._require_state({'submitted'})
         self.write({'state': 'document_review'})
 
-    def action_verify_documents(self):
+    def _check_may_accept(self):
+        """Accepting an applicant is a PMB decision, not an ordinary edit."""
+        if self.env.su:
+            return
+        user = self.env.user
+        if user.has_group('campus_pmb.group_pmb') or user.has_group('campus_core.group_campus_administrator'):
+            return
+        raise AccessError(_("Only PMB staff can accept an application."))
+
+    def _do_accept(self):
+        """The single path into the 'accepted' state.
+
+        There used to be two: action_accept checked the group, and
+        action_verify_documents did the same transition without checking, which
+        made the check in action_accept dead code. Any internal user with write
+        access could accept an applicant through the other button.
+        """
         self._require_state({'document_review'})
+        self._check_may_accept()
         for record in self:
             if not record.documents_complete:
                 raise UserError(_("All required documents must be received first."))
-            record.state = 'accepted'
+        self.write({'state': 'accepted'})
+
+    def action_verify_documents(self):
+        self._do_accept()
 
     def action_reject(self):
         for record in self:
@@ -155,15 +175,7 @@ class CampusAdmission(models.Model):
             record.state = 'rejected'
 
     def action_accept(self):
-        for record in self:
-            if record.state != 'document_review':
-                raise UserError(_("Only document-reviewed applications can be accepted."))
-            if not (
-                self.env.user.has_group('campus_pmb.group_pmb')
-                or self.env.user.has_group('campus_core.group_campus_administrator')
-            ):
-                raise UserError(_("Only PMB can accept applications."))
-            record.state = 'accepted'
+        self._do_accept()
 
     def action_register(self):
         self._require_state({'accepted'})
