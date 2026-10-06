@@ -87,6 +87,12 @@ class AcademicKhs(models.Model):
                 for line in krs.line_ids:
                     lines.append(Command.create({
                         'subject_id': line.subject_id.id,
+                        # Carry the schedule across, as action_lock does. The
+                        # lecturer record rule on academic.khs.line filters on
+                        # schedule_ids.lecturer_id.user_id, so a line created
+                        # without one is invisible to every lecturer and can
+                        # never be graded.
+                        'schedule_ids': [Command.set(line.schedule_id.ids)],
                     }))
                 self.line_ids = lines
             else:
@@ -116,7 +122,11 @@ class AcademicKhsLine(models.Model):
 
     khs_id = fields.Many2one('academic.khs', string='KHS', ondelete='cascade')
     subject_id = fields.Many2one('academic.subject', string='Subject', required=True)
-    credits = fields.Integer(string='Credits', related='subject_id.credits', store=True)
+    # Snapshot, not a live related: a transcript must keep the SKS the subject
+    # carried when it was taken. As a related, editing a subject's credits
+    # rewrote every historical KHS and silently changed past GPAs and the
+    # printed transcript.
+    credits = fields.Integer(string='Credits', compute='_compute_credits', store=True, readonly=False)
     schedule_ids = fields.Many2many('academic.class.schedule', string='Schedules')
     # Input field
     numeric_grade = fields.Float(string='Numeric Grade', digits=(5, 2))
@@ -137,6 +147,12 @@ class AcademicKhsLine(models.Model):
         'CHECK (numeric_grade >= 0 AND numeric_grade <= 100)',
         "Numeric grade must be between 0 and 100.",
     )
+
+    @api.depends('subject_id')
+    def _compute_credits(self):
+        for record in self:
+            if record.subject_id:
+                record.credits = record.subject_id.credits
 
     @api.model
     def _get_grade_from_score(self, score):

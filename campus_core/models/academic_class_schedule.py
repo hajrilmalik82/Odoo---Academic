@@ -6,6 +6,11 @@ class AcademicClassSchedule(models.Model):
     _name = 'academic.class.schedule'
     _description = 'Academic Class Schedule'
     _check_company_auto = True
+    # The model has no `name` column, so _rec_name's default left name_search
+    # with nothing to match on and every schedule dropdown returned the whole
+    # table whatever was typed. display_name is computed below.
+    _rec_name = 'display_name'
+    _rec_names_search = ['class_code', 'class_id.name', 'room_id.name']
 
     class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade')
     class_program_id = fields.Many2one('academic.program', related='class_id.subject_id.program_id')

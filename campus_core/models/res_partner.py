@@ -23,7 +23,10 @@ class ResPartner(models.Model):
         'hr.employee', 
         string="Academic Advisor"
     )
-    program_id = fields.Many2one('academic.program', string="Study Program")
+    # restrict, not the default set-null: deleting a programme used to blank the
+    # Study Program and Faculty of every student enrolled in it, without warning.
+    # A programme that is no longer offered should be archived, not deleted.
+    program_id = fields.Many2one('academic.program', string="Study Program", ondelete='restrict')
     faculty_id = fields.Many2one('academic.faculty', related='program_id.faculty_id', string="Faculty", store=True)
     student_status = fields.Selection([
         ('active', 'Active'),
@@ -103,7 +106,14 @@ class ResPartner(models.Model):
     def _search_display_name(self, operator, value):
         # Odoo 17+ menggunakan _search_display_name alih-alih _name_search
         domain = super()._search_display_name(operator, value)
-        # Gabungkan pencarian default (nama, email, ref) dengan pencarian NIM
-        if value:
-            return expression.OR([domain, [('nim', operator, value)]])
-        return domain
+        if not value:
+            return domain
+        nim_domain = [('nim', operator, value)]
+        if operator in expression.NEGATIVE_TERM_OPERATORS:
+            # "does not contain" has to exclude NIM matches as well, so the two
+            # conditions combine with AND. OR'ing a negative operator asked for
+            # "name doesn't match OR nim doesn't match", which nearly every
+            # partner satisfies, so the search returned the whole table.
+            return expression.AND([domain, nim_domain])
+        # Positive search: match on the usual fields or on the student number.
+        return expression.OR([domain, nim_domain])

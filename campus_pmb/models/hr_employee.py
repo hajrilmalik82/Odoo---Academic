@@ -37,15 +37,19 @@ class HrEmployee(models.Model):
         if self.pmb_all_faculties:
             self.pmb_all_programs = True
 
-    def _pmb_admission_domain(self):
+    def _pmb_admission_domain(self, program_path='program_id'):
         """Domain for a PMB officer, called from ir.rule.domain_force.
 
         Reuses the shared builder in campus_employees so PMB and Academic Staff
         read their assignments the same way.
+
+        :param program_path: path to academic.program on the target model,
+            'program_id' on campus.admission, 'admission_id.program_id' on its
+            document checklist.
         """
         employee = self[:1]
         return employee._build_jurisdiction_domain(
-            'program_id',
+            program_path,
             employee.pmb_all_faculties, employee.pmb_faculty_ids,
             employee.pmb_all_programs, employee.pmb_program_ids,
         )

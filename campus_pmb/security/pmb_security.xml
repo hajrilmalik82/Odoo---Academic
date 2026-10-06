@@ -29,6 +29,34 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
+        <!-- The jurisdiction has to reach the document checklist too. It was
+             enforced on campus.admission but not here, and no other rule matched
+             this group, so an officer scoped to one faculty could read and edit
+             the documents of applicants to every other faculty. -->
+        <record id="rule_pmb_admission_document_access" model="ir.rule">
+            <field name="name">PMB: Documents Follow Admission Jurisdiction</field>
+            <field name="model_id" ref="model_campus_admission_document"/>
+            <field name="domain_force">user.employee_id._pmb_admission_domain('admission_id.program_id')</field>
+            <field name="groups" eval="[(4, ref('campus_pmb.group_pmb'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <!-- group_campus_administrator implies group_pmb, so the rule above would
+             otherwise narrow administrators to one officer's jurisdiction. -->
+        <record id="rule_admin_admission_document_access" model="ir.rule">
+            <field name="name">Campus Admin: All Admission Documents</field>
+            <field name="model_id" ref="model_campus_admission_document"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
         <!-- Record Rule for Administrators (All Access) -->
         <record id="rule_admin_admission_access" model="ir.rule">
             <field name="name">Campus Admin: All Admissions Access</field>

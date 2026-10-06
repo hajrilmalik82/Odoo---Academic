@@ -423,6 +423,24 @@ class AcademicKrs(models.Model):
                 raise ValidationError(_("Locked KRS records cannot be reset to draft."))
             if record.state == 'approved' and not self.env.user.has_group('campus_core.group_campus_administrator'):
                 raise ValidationError(_("Only campus administrators can reset an approved KRS to draft."))
+            # A KHS outlives its KRS on purpose: action_unlock keeps it so entered
+            # grades are not lost. But a KHS whose KRS has gone back to draft is an
+            # orphan that still feeds the student's CGPA and still shows on the
+            # transcript, with nothing left to justify it. Make the administrator
+            # deal with it first rather than leaving it behind silently.
+            orphan_khs = self.env['academic.khs'].sudo().search_count([
+                ('student_id', '=', record.student_id.id),
+                ('academic_year_id', '=', record.academic_year_id.id),
+            ])
+            if orphan_khs:
+                raise ValidationError(_(
+                    "A KHS already exists for %(student)s in %(year)s. Delete it before "
+                    "returning this KRS to draft, otherwise its grades would keep "
+                    "counting towards the CGPA with no study plan behind them."
+                ) % {
+                    'student': record.student_id.display_name,
+                    'year': record.academic_year_id.display_name,
+                })
             record.state = 'draft'
 
     @api.onchange('package_id')
@@ -466,13 +484,38 @@ class AcademicKrsLine(models.Model):
     schedule_id = fields.Many2one('academic.class.schedule', string='Schedule')
     class_id = fields.Many2one(related='schedule_id.class_id', store=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', compute='_compute_subject_id', store=True, readonly=False)
-    credits = fields.Integer(related='subject_id.credits', string='Credits', store=True)
+    # Snapshot, not a live related. Depending on subject_id alone means the SKS
+    # is copied when the subject is chosen and never again, so editing a
+    # subject's credits later cannot rewrite study plans that were already
+    # approved or locked. Explicit values in create() win over the compute, so
+    # the KRS generator wizard still controls what it writes.
+    credits = fields.Integer(string='Credits', compute='_compute_credits', store=True, readonly=False)
 
     @api.depends('schedule_id')
     def _compute_subject_id(self):
         for record in self:
-            if record.schedule_id:
-                record.subject_id = record.schedule_id.class_id.subject_id
+            # Assigned unconditionally so clearing the schedule also clears the
+            # subject it implied, instead of leaving a stale one behind.
+            record.subject_id = record.schedule_id.class_id.subject_id
+
+    @api.depends('subject_id')
+    def _compute_credits(self):
+        for record in self:
+            if record.subject_id:
+                record.credits = record.subject_id.credits
+
+    @api.constrains('schedule_id', 'krs_id')
+    def _check_schedule_academic_year(self):
+        """A study plan may only hold classes offered in its own academic year."""
+        for record in self:
+            schedule = record.schedule_id
+            if not schedule or not record.krs_id:
+                continue
+            if schedule.class_id.academic_year_id != record.krs_id.academic_year_id:
+                raise ValidationError(_(
+                    "Schedule '%(schedule)s' belongs to a different academic year "
+                    "than this KRS."
+                ) % {'schedule': schedule.display_name})
 
     @api.onchange('subject_id')
     def _onchange_subject_id(self):

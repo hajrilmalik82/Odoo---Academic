@@ -76,13 +76,11 @@ class CampusPortal(CustomerPortal):
     def portal_my_krs_register(self, **kw):
         partner = request.env.user.partner_id
         
-        # 1. Find Active Academic Year based on KRS Period
-        today = fields.Date.context_today(request.env.user)
-        active_year = request.env['academic.year'].search([
-            ('krs_start_date', '<=', today),
-            ('krs_end_date', '>=', today)
-        ], limit=1)
-        
+        # 1. The academic year currently open for registration. Shared definition
+        # with campus_pmb, and it also honours `active`, which this inline search
+        # did not: an archived year whose dates still covered today was accepted.
+        active_year = request.env['academic.year'].sudo()._get_krs_period_open()
+
         if not active_year:
             return request.redirect('/my/krs?' + urlencode({
                 'error': _("Masa pengisian KRS sedang ditutup atau Tahun Akademik belum diatur."),

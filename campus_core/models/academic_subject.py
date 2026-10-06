@@ -53,6 +53,21 @@ class AcademicSubject(models.Model):
             if record.credits <= 0:
                 raise ValidationError(_("Credits must be greater than zero."))
 
+    @api.constrains('prerequisite_ids')
+    def _check_prerequisite_cycle(self):
+        """A subject must not require itself, directly or through a chain.
+
+        prerequisite_ids is a self-referential many2many with no guard, so a
+        subject could be made its own prerequisite. KRS submission then rejects
+        it forever: the prerequisite can never be passed, because passing it
+        requires passing it.
+        """
+        if self._has_cycle('prerequisite_ids'):
+            raise ValidationError(_(
+                "A subject cannot be its own prerequisite, directly or through a chain "
+                "of prerequisites."
+            ))
+
 
 class AcademicYear(models.Model):
     _name = 'academic.year'
@@ -76,6 +91,46 @@ class AcademicYear(models.Model):
         'res.company', string='Company',
         default=lambda self: self.env.company
     )
+
+    @api.constrains('krs_start_date', 'krs_end_date')
+    def _check_krs_period(self):
+        for record in self:
+            start, end = record.krs_start_date, record.krs_end_date
+            if start and end and start > end:
+                raise ValidationError(_(
+                    "The KRS period cannot end before it starts."
+                ))
+
+    @api.model
+    def _get_krs_period_open(self):
+        """The academic year whose KRS registration window covers today.
+
+        Empty when registration is closed, which is a meaningful answer: the
+        portal shows "registration is closed" rather than guessing a year.
+        """
+        today = fields.Date.context_today(self)
+        return self.search([
+            ('active', '=', True),
+            ('krs_start_date', '<=', today),
+            ('krs_end_date', '>=', today),
+        ], order='krs_start_date desc, id desc', limit=1)
+
+    @api.model
+    def _get_current(self):
+        """The academic year the system should treat as current.
+
+        One definition, because there were two: campus_pmb took the highest id
+        among active years while campus_portal took the one whose KRS period
+        covered today, so the two modules could disagree about which year a
+        student was being put into.
+
+        Preference goes to the year currently open for registration. Outside any
+        registration window it falls back to the most recent active year, so
+        admissions still land somewhere sensible between terms.
+        """
+        return self._get_krs_period_open() or self.search(
+            [('active', '=', True)], order='id desc', limit=1,
+        )
 
     @api.depends('name', 'term_type')
     def _compute_display_name(self):

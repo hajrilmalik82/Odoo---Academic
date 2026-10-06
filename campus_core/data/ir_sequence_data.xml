@@ -7,6 +7,10 @@
             <field name="code">academic.krs</field>
             <field name="prefix">KRS/%(year)s/</field>
             <field name="padding">4</field>
+            <!-- Global: without this the sequence binds to the company that
+                 happened to install the module, and next_by_code returns nothing
+                 in any other company, leaving every record named "New". -->
+            <field name="company_id" eval="False"/>
         </record>
 
         <!-- Sequence for Academic KHS -->
@@ -15,6 +19,10 @@
             <field name="code">academic.khs</field>
             <field name="prefix">KHS/%(year)s/</field>
             <field name="padding">4</field>
+            <!-- Global: without this the sequence binds to the company that
+                 happened to install the module, and next_by_code returns nothing
+                 in any other company, leaving every record named "New". -->
+            <field name="company_id" eval="False"/>
         </record>
     </data>
 </odoo>

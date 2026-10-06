@@ -1,4 +1,5 @@
 import logging
+import re
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, UserError, ValidationError
 
@@ -183,14 +184,25 @@ class CampusAdmission(models.Model):
             record._create_account()
             record.state = 'registered'
 
-    def _generate_nim(self, faculty_id, program_id):
+    def _intake_year(self, academic_year):
+        """Four-digit intake year taken from an academic year named like '2025/2026'."""
+        match = re.search(r'\d{4}', (academic_year.name or '') if academic_year else '')
+        if match:
+            return match.group(0)
+        return fields.Date.context_today(self).strftime('%Y')
+
+    def _generate_nim(self, faculty_id, program_id, academic_year=None):
         """Generate a unique NIM (Student ID Number) based on faculty, program, and year.
         Format: {FACULTY_ABBR}-{PROG_ABBR}-{YY}-{SEQUENCE:04d}
         e.g., TI-IF-26-0001
+
+        The intake year comes from the admission's academic year, not from
+        today's date. Registering a 2026 intake in December 2025 used to stamp
+        the student with a 2025 NIM and batch year, which then disagreed with
+        every other record of that cohort.
         """
-        current_date = fields.Date.context_today(self)
-        year_short = current_date.strftime('%y')
-        batch_year = current_date.strftime('%Y')
+        batch_year = self._intake_year(academic_year)
+        year_short = batch_year[-2:]
 
         fac_name = faculty_id.name or 'FA'
         prog_name = program_id.name or 'PR'
@@ -239,7 +251,7 @@ class CampusAdmission(models.Model):
                 # Update existing partner if they don't have student info yet
                 update_vals = {'is_student': True}
                 if not existing_user.partner_id.nim:
-                    nim, batch_year = record._generate_nim(record.faculty_id, record.program_id)
+                    nim, batch_year = record._generate_nim(record.faculty_id, record.program_id, record.academic_year_id)
                     update_vals.update({
                         'nim': nim,
                         'batch_year': batch_year,
@@ -250,7 +262,7 @@ class CampusAdmission(models.Model):
                 continue
             
             # Generate NIM using centralized method
-            nim, batch_year = record._generate_nim(record.faculty_id, record.program_id)
+            nim, batch_year = record._generate_nim(record.faculty_id, record.program_id, record.academic_year_id)
 
             # Check if partner exists (e.g. created by finance module via invoice)
             partner = self.env['res.partner'].sudo().search([('email', '=', record.email)], limit=1)
@@ -328,7 +340,10 @@ class CampusAdmission(models.Model):
             if not faculty_id:
                 faculty_id = program.faculty_id.id
 
-        active_year = self.env['academic.year'].sudo().search([('active', '=', True)], order='id desc', limit=1)
+        # Shared definition, so PMB and the student portal agree on which year
+        # is current. This used to be "the highest id among active years", which
+        # was arbitrary and could differ from what the portal considered current.
+        active_year = self.env['academic.year'].sudo()._get_current()
         if not active_year:
             raise ValidationError(_("No active academic year found for admission."))
 

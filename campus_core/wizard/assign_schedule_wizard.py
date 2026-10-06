@@ -48,7 +48,34 @@ class AssignScheduleWizard(models.TransientModel):
                 raise ValidationError(_("Student %(student)s's KRS line is for a different subject than this class.") % {'student': line.student_id.name})
             if line.krs_id.academic_year_id != self.class_id.academic_year_id:
                 raise ValidationError(_("Student %(student)s's KRS belongs to a different academic year than this class.") % {'student': line.student_id.name})
-                
+            if line.krs_id.state not in ('draft', 'revision'):
+                raise ValidationError(
+                    _("Student %(student)s's KRS is already %(state)s and can no longer be changed.") % {
+                        'student': line.student_id.name,
+                        'state': line.krs_id.state,
+                    }
+                )
+
+        # Seat check. This wizard wrote straight through without one, so an
+        # administrator could drop two hundred students into a forty-seat room
+        # while the KRS form was carefully refusing the forty-first.
+        capacity = self.schedule_id.room_capacity
+        if capacity <= 0:
+            raise ValidationError(
+                _("Schedule '%s' has no room capacity set.") % self.schedule_id.display_name
+            )
+        self.schedule_id._lock_for_enrolment()
+        taken = self.schedule_id._enrolled_count()
+        if taken + len(self.krs_line_ids) > capacity:
+            raise ValidationError(
+                _("Not enough seats: %(capacity)s in the room, %(taken)s already taken, "
+                  "%(adding)s being assigned.") % {
+                    'capacity': capacity,
+                    'taken': taken,
+                    'adding': len(self.krs_line_ids),
+                }
+            )
+
         # Batch write pass (eliminates loop write)
         self.krs_line_ids.write({'schedule_id': self.schedule_id.id})
 

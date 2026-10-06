@@ -54,10 +54,25 @@ class AcademicClass(models.Model):
         if not self.schedule_ids:
             raise ValidationError(_("Please define at least one schedule to generate sessions."))
 
+        # Sessions that have already started are history: attendance, notes and
+        # room changes may hang off them. Regenerating used to delete every
+        # session without warning, so re-running this after the term began threw
+        # that away silently.
+        started = self.session_ids.filtered(
+            lambda session: session.start_datetime and session.start_datetime <= fields.Datetime.now()
+        )
+        if started:
+            raise ValidationError(_(
+                "%(count)s session(s) of this class have already started. Delete them "
+                "manually first if you really mean to rebuild the schedule."
+            ) % {'count': len(started)})
         self.session_ids.unlink()
 
-        # Get user's timezone; fall back to UTC if not set
-        user_tz = pytz.timezone(self.env.user.tz or 'UTC')
+        # The campus timezone, not the timezone of whoever happens to click the
+        # button. Taking it from env.user.tz meant two administrators in
+        # different timezones produced different UTC times for the same class.
+        tz_name = self.company_id.resource_calendar_id.tz or self.env.user.tz or 'UTC'
+        user_tz = pytz.timezone(tz_name)
 
         sessions = []
         for schedule in self.schedule_ids:
