@@ -60,6 +60,39 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
+        <!-- Academic staff maintain student master data, so they keep write on
+             res.partner, but only on students. Without this they could edit any
+             contact in the database, vendors and customers included.
+
+             Deliberately scoped to write: perm_read stays 0 so reading contacts
+             is untouched, and perm_create stays 0 so the rest of Odoo keeps
+             working. A read restriction on res.partner would break name display,
+             mail and reports across the whole system. -->
+        <record id="rule_academic_staff_partner_write" model="ir.rule">
+            <field name="name">Academic Staff: Only Edit Student Contacts</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[('is_student', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- group_campus_administrator implies group_campus_academic_staff, so
+             the rule above would otherwise limit administrators to students too.
+             Group rules are OR'ed, so this restores their full write access. -->
+        <record id="rule_admin_partner_write" model="ir.rule">
+            <field name="name">Campus Admin: Edit Any Contact</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
         <!-- Without this rule administrators see almost no grade lines at all.
              group_campus_administrator implies group_campus_lecturer, so the
              lecturer rule below was the only one matching their groups, and it
