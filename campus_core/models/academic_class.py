@@ -73,15 +73,16 @@ class AcademicClass(models.Model):
             for i in range(14):
                 session_date = first_session_date + timedelta(weeks=i)
 
-                # Extract hours and minutes from Float fields
-                start_hour = int(schedule.start_time)
-                start_minute = int(round((schedule.start_time - start_hour) * 60))
-                end_hour = int(schedule.end_time)
-                end_minute = int(round((schedule.end_time - end_hour) * 60))
-
-                # Combine date + time as naive local datetime, then convert to UTC
-                local_start_dt = datetime.combine(session_date, time(start_hour, start_minute))
-                local_end_dt = datetime.combine(session_date, time(end_hour, end_minute))
+                # Add minutes to midnight instead of building time(hour, minute).
+                # A Float hour cannot be fed to time() safely: 24.0 is out of
+                # range, and so is anything whose fraction rounds up to 60
+                # minutes, such as 23.999 or 8.999. Both used to crash session
+                # generation even though _check_time_range accepted them.
+                # timedelta also gives the right answer for a class ending at
+                # 24:00, which lands on midnight of the following day.
+                day_start = datetime.combine(session_date, time())
+                local_start_dt = day_start + timedelta(minutes=round(schedule.start_time * 60))
+                local_end_dt = day_start + timedelta(minutes=round(schedule.end_time * 60))
 
                 utc_start_dt = user_tz.localize(local_start_dt).astimezone(pytz.utc).replace(tzinfo=None)
                 utc_end_dt = user_tz.localize(local_end_dt).astimezone(pytz.utc).replace(tzinfo=None)

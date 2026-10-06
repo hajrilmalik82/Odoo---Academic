@@ -24,10 +24,14 @@ class AcademicClassSchedule(models.Model):
     end_time = fields.Float(string='End Time', required=True)
     room_id = fields.Many2one('campus.room', string='Room', required=True)
     room_capacity = fields.Integer(related='room_id.capacity', string='Capacity', readonly=True)
+    # No domain here on purpose. Filtering this to academic lecturers needs
+    # academic_role, program_id and faculty_id on hr.employee, and those belong
+    # to campus_employees. campus_employees depends on campus_core, so campus_core
+    # cannot depend back on it; referencing those fields here made campus_core
+    # impossible to install on its own. campus_employees re-applies the domain.
     lecturer_id = fields.Many2one(
-        'hr.employee', 
+        'hr.employee',
         string='Lecturer',
-        domain="[('academic_role', '=', 'lecturer'), '|', ('program_id', '=', class_program_id), ('faculty_id', '=', class_faculty_id)]"
     )
     company_id = fields.Many2one(related='class_id.company_id', store=True)
     enrolled_count = fields.Integer(string='Enrolled', compute='_compute_capacity_display')
@@ -94,17 +98,24 @@ class AcademicClassSchedule(models.Model):
             record.enrolled_count = enrolled
             record.capacity_display = f"{enrolled} / {record.room_capacity}"
 
+    @staticmethod
+    def _format_float_time(value):
+        """Render a Float hour as HH:MM.
+
+        Carries the minutes properly, so a value such as 23.999 reads 24:00
+        rather than the 23:60 the previous formatting produced, and midnight
+        reads 00:00 rather than disappearing on a falsy check.
+        """
+        minutes = round((value or 0.0) * 60)
+        return '{:02d}:{:02d}'.format(minutes // 60, minutes % 60)
+
     @api.depends('class_code', 'day_of_week', 'start_time', 'end_time')
     def _compute_display_name(self):
+        day_dict = dict(self._fields['day_of_week'].selection)
         for record in self:
-            day_dict = dict(self._fields['day_of_week'].selection)
             day_name = day_dict.get(record.day_of_week, '')
-            start = '{0:02d}:{1:02d}'.format(
-                int(record.start_time), int(round((record.start_time % 1) * 60))
-            ) if record.start_time else ''
-            end = '{0:02d}:{1:02d}'.format(
-                int(record.end_time), int(round((record.end_time % 1) * 60))
-            ) if record.end_time else ''
+            start = self._format_float_time(record.start_time)
+            end = self._format_float_time(record.end_time)
             record.display_name = f"Kelas {record.class_code} - {day_name} ({start} - {end})"
 
     @api.constrains('day_of_week', 'start_time', 'end_time', 'room_id', 'lecturer_id', 'class_id')

@@ -46,6 +46,12 @@
                         <group name="class_info" string="Class Information">
                             <field name="class_id"/>
                             <field name="class_code"/>
+                            <!-- Carried for the client-side domain on lecturer_id,
+                                 which campus_employees applies. A dynamic domain is
+                                 evaluated against the form, so the fields it reads
+                                 have to be present even when not shown. -->
+                            <field name="class_program_id" invisible="1"/>
+                            <field name="class_faculty_id" invisible="1"/>
                             <field name="lecturer_id"/>
                         </group>
                         <group string="Schedule">
