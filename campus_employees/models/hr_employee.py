@@ -1,4 +1,5 @@
-from odoo import api, fields, models, Command
+from odoo import _, api, fields, models, Command
+from odoo.exceptions import AccessError
 
 
 class HrEmployee(models.Model):
@@ -70,7 +71,11 @@ class HrEmployee(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         employees = super().create(vals_list)
-        employees._sync_academic_user_role()
+        # Only employees that actually carry a role need syncing. A new employee
+        # without one has no campus groups to grant or strip, and running the
+        # sync anyway would make ordinary HR hiring hit the administrator check
+        # whenever the linked user happened to hold a leftover campus group.
+        employees.filtered('academic_role')._sync_academic_user_role()
         return employees
 
     def write(self, vals):
@@ -78,6 +83,24 @@ class HrEmployee(models.Model):
         if 'academic_role' in vals or 'user_id' in vals:
             self._sync_academic_user_role()
         return res
+
+    def _check_may_grant_academic_groups(self):
+        """Campus group membership stays an administrator's decision.
+
+        _sync_academic_user_role grants those groups through sudo(), and that
+        sudo is precisely what normally stops a non-administrator touching
+        group_ids. Odoo gives hr.group_hr_user full write on hr.employee, so
+        without this check an HR officer could set academic_role on their own
+        employee record and hand themselves group_campus_academic_staff, which
+        carries full CRUD on every academic model and on res.partner, delete
+        included.
+        """
+        if self.env.su or self.env.user.has_group('campus_core.group_campus_administrator'):
+            return
+        raise AccessError(_(
+            "Only a Campus Administrator can change an employee's Academic Role, "
+            "because it grants campus access groups."
+        ))
 
     def _sync_academic_user_role(self):
         # Fetch groups safely outside the loop
@@ -89,27 +112,36 @@ class HrEmployee(models.Model):
         if pmb_group:
             academic_groups |= pmb_group
 
+        role_groups = {
+            'lecturer': lecturer_group,
+            'academic': academic_staff_group,
+        }
+        if pmb_group:
+            role_groups['pmb'] = pmb_group
+
+        empty = self.env['res.groups']
         for emp in self:
             if not emp.user_id:
                 continue
-                
-            new_group = None
-            if emp.academic_role == 'lecturer':
-                new_group = lecturer_group
-            elif emp.academic_role == 'pmb' and pmb_group:
-                new_group = pmb_group
-            elif emp.academic_role == 'academic':
-                new_group = academic_staff_group
-                
-            if new_group:
-                groups_to_remove = academic_groups - new_group
-                emp.user_id.sudo().write({
-                    'group_ids': [Command.unlink(g.id) for g in groups_to_remove] + [Command.link(new_group.id)]
-                })
-            else:
-                emp.user_id.sudo().write({
-                    'group_ids': [Command.unlink(g.id) for g in academic_groups]
-                })
+
+            keep = role_groups.get(emp.academic_role) or empty
+            # Read under sudo: this is a comparison, and an ordinary user is not
+            # entitled to read another user's group membership.
+            current = emp.user_id.sudo().group_ids
+            to_add = keep - current
+            to_remove = (academic_groups - keep) & current
+
+            # Nothing to change: stay silent. create() runs this for every new
+            # employee, so raising unconditionally would stop HR officers
+            # creating ordinary staff at all.
+            if not to_add and not to_remove:
+                continue
+
+            self._check_may_grant_academic_groups()
+            emp.user_id.sudo().write({
+                'group_ids': [Command.unlink(group.id) for group in to_remove]
+                             + [Command.link(group.id) for group in to_add],
+            })
 
 class HrEmployeePublic(models.Model):
     _inherit = 'hr.employee.public'
