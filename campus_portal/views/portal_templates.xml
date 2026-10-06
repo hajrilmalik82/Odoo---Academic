@@ -129,6 +129,13 @@
     <template id="portal_krs_detail" name="Detail KRS">
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <!-- One definition of "the student may still edit this".
+                 It used to be spelled out per block, and the outer wrapper below
+                 said 'draft' only, so a KRS returned for revision rendered with
+                 no controls at all: the student could neither fix it nor send it
+                 back, even though the controller and the state machine both
+                 accept 'revision'. -->
+            <t t-set="is_editable" t-value="krs.state in ['draft', 'revision']"/>
             <div class="bg-white p-4 rounded shadow-sm mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
                     <h3>Detail KRS: <t t-esc="krs.name"/></h3>
@@ -165,7 +172,7 @@
                                 <th>Kode</th>
                                 <th>Mata Kuliah</th>
                                 <th>SKS</th>
-                                <th t-if="krs.state == 'draft'">Aksi</th>
+                                <th t-if="is_editable">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -174,7 +181,7 @@
                                     <td><t t-esc="line.subject_id.code"/></td>
                                     <td><t t-esc="line.subject_id.name"/></td>
                                     <td><t t-esc="line.credits"/></td>
-                                    <td t-if="krs.state == 'draft'">
+                                    <td t-if="is_editable">
                                         <form t-attf-action="/my/krs/#{krs.id}/delete_line/#{line.id}" method="post" class="d-inline">
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                             <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"/> Hapus</button>
@@ -191,9 +198,8 @@
                     </table>
                 </div>
 
-                <t t-if="krs.state == 'draft'">
+                <t t-if="is_editable">
                     <div class="card bg-light border-0 mb-4">
-                        <t t-if="krs.state in ['draft', 'revision']">
                         <h5 class="mt-5 mb-3">Daftar Jadwal yang Tersedia</h5>
                         <div class="table-responsive bg-white rounded shadow-sm">
                             <table class="table table-hover align-middle mb-0">
@@ -248,7 +254,6 @@
                                 </tbody>
                             </table>
                         </div>
-                        </t>
                     </div>
 
                     <div class="text-end">

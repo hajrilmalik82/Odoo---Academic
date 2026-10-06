@@ -41,18 +41,54 @@ class ResPartner(models.Model):
         digits=(5, 2), readonly=True
     )
 
-    @api.depends('khs_ids.total_grade_points', 'khs_ids.graded_credits')
-    def _compute_cgpa(self):
-        """Average over graded subjects only.
+    graded_credits = fields.Integer(
+        string='Total Graded Credits', compute='_compute_cgpa', store=True,
+        help="Credits counted towards the CGPA: one attempt per subject, the best one.",
+    )
 
-        The denominator is graded_credits, not total_credits: subjects a
-        lecturer has not marked yet must not count as zeros, or a student's
-        CGPA collapses the moment a new semester's KHS is generated.
+    def _recognised_khs_lines(self):
+        """The attempt that counts for each subject: one per subject, the best.
+
+        A SIAKAD transcript recognises a subject once. When a subject is
+        repeated, the recognised grade replaces the earlier attempt instead of
+        sitting beside it, so the earlier one is neither averaged in nor has its
+        credits counted again. The full attempt history stays visible on the
+        per-semester KHS, which is where it belongs.
+
+        Returned in transcript order: by academic year, then subject code. This
+        is the single selection behind both the CGPA and the printed transcript,
+        so the two cannot drift apart.
+
+        Ungraded lines are skipped. A Float grade defaults to 0.0, which converts
+        to an E, so counting them would collapse a student's CGPA the moment a
+        new semester's KHS is generated.
         """
+        self.ensure_one()
+        best_per_subject = {}
+        for khs in self.khs_ids:
+            for line in khs.line_ids:
+                if not line.is_graded or not line.subject_id:
+                    continue
+                kept = best_per_subject.get(line.subject_id.id)
+                if kept is None or line.grade_points > kept.grade_points:
+                    best_per_subject[line.subject_id.id] = line
+        return sorted(
+            best_per_subject.values(),
+            key=lambda line: (
+                line.khs_id.academic_year_id.name or '',
+                line.subject_id.code or '',
+            ),
+        )
+
+    @api.depends('khs_ids.line_ids.grade_points', 'khs_ids.line_ids.credits',
+                 'khs_ids.line_ids.is_graded', 'khs_ids.line_ids.subject_id')
+    def _compute_cgpa(self):
         for record in self:
-            graded_credits = sum(khs.graded_credits for khs in record.khs_ids)
-            total_grade_points = sum(khs.total_grade_points for khs in record.khs_ids)
-            record.cgpa = total_grade_points / graded_credits if graded_credits > 0 else 0.0
+            counted = record._recognised_khs_lines()
+            credits = sum(line.credits for line in counted)
+            points = sum(line.credits * line.grade_points for line in counted)
+            record.graded_credits = credits
+            record.cgpa = points / credits if credits else 0.0
 
     @api.depends('name')
     @api.depends_context('display_nim')
