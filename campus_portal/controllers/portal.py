@@ -132,6 +132,27 @@ class CampusPortal(CustomerPortal):
         })
         return request.render("campus_portal.portal_krs_detail", values)
 
+    @http.route(['/my/krs/<int:krs_id>/report'], type='http', auth="user", website=True)
+    def portal_my_krs_report(self, krs_id, report_type='pdf', download=False, **kw):
+        """Let a student print their own KRS.
+
+        Rendering goes through CustomerPortal._show_report, which renders with
+        ir.actions.report.sudo(). That is what makes it work at all: the KRS
+        template prints the academic advisor's name from hr.employee, and portal
+        users have no access to that model, nor to hr.employee.public, which Odoo
+        grants to base.group_user only. Ownership is established before this by
+        _get_own_krs, so sudo here widens nothing the student could not see.
+        """
+        krs = self._get_own_krs(krs_id)
+        if not krs:
+            return request.redirect('/my/krs')
+        return self._show_report(
+            model=krs,
+            report_type=report_type,
+            report_ref='campus_core.action_report_krs',
+            download=download,
+        )
+
     @http.route(['/my/krs/<int:krs_id>/add_line'], type='http', auth="user", website=True, methods=['POST'])
     def portal_my_krs_add_line(self, krs_id, **post):
         krs = self._get_own_krs(krs_id)

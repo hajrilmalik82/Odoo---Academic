@@ -99,6 +99,16 @@ class AcademicKrs(models.Model):
         "A student can only have one KRS per academic year.",
     )
 
+    def _get_report_base_filename(self):
+        """Filename for a KRS downloaded from the portal.
+
+        Not a base-model method: portal's _show_report calls it when building the
+        Content-Disposition header, and every model printed that way defines its
+        own. Without it a student downloading their KRS would hit an AttributeError.
+        """
+        self.ensure_one()
+        return 'KRS - %s' % (self.student_id.name or self.name)
+
     @api.model
     def _expand_states(self, states, domain):
         return [key for key, _val in type(self).state.selection]

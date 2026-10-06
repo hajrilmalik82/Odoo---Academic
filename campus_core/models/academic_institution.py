@@ -36,16 +36,20 @@ class AcademicFaculty(models.Model):
     def write(self, vals):
         res = super().write(vals)
         for faculty in self:
-            if faculty.department_id:
-                if 'name' in vals:
-                    faculty.department_id.name = faculty.name
-                if 'dean_id' in vals:
-                    faculty.department_id.manager_id = faculty.dean_id.id
-                    if faculty.dean_id:
-                        programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
-                        for prog in programs:
-                            if prog.head_id:
-                                prog.head_id.parent_id = faculty.dean_id.id
+            if not faculty.department_id:
+                continue
+            if 'name' in vals:
+                faculty.department_id.name = faculty.name
+            # Only ever push a real dean onto the department. hr.department.write()
+            # reacts to manager_id by rewriting parent_id on every employee of the
+            # department (_update_employee_manager in addons/hr), so writing False
+            # here stripped the manager from everyone in the faculty merely because
+            # the Dean field had been cleared.
+            if 'dean_id' in vals and faculty.dean_id:
+                faculty.department_id.manager_id = faculty.dean_id.id
+                programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
+                for program in programs:
+                    program._set_head_reports_to(faculty.dean_id)
         return res
 
 
@@ -86,21 +90,34 @@ class AcademicProgram(models.Model):
                 })
                 vals['department_id'] = dept.id
         programs = super().create(vals_list)
-        for prog in programs:
-            if prog.head_id and prog.faculty_id and prog.faculty_id.dean_id:
-                prog.head_id.parent_id = prog.faculty_id.dean_id.id
+        for program in programs:
+            program._set_head_reports_to(program.faculty_id.dean_id)
         return programs
+
+    def _set_head_reports_to(self, dean):
+        """Point the programme head at the dean, unless they are the same person.
+
+        hr.employee.parent_id carries no recursion guard in Odoo, so making
+        someone their own manager goes through silently and leaves a self-loop in
+        the org chart. That happens whenever a dean also heads one of their own
+        faculty's programmes, which is ordinary at a small campus.
+        """
+        self.ensure_one()
+        if self.head_id and dean and self.head_id != dean:
+            self.head_id.parent_id = dean.id
 
     def write(self, vals):
         res = super().write(vals)
-        for prog in self:
-            if prog.department_id:
-                if 'name' in vals:
-                    prog.department_id.name = prog.name
-                if 'head_id' in vals:
-                    prog.department_id.manager_id = prog.head_id.id
-                    if prog.head_id and prog.faculty_id and prog.faculty_id.dean_id:
-                        prog.head_id.parent_id = prog.faculty_id.dean_id.id
-                if 'faculty_id' in vals:
-                    prog.department_id.parent_id = prog.faculty_id.department_id.id if prog.faculty_id.department_id else False
+        for program in self:
+            if not program.department_id:
+                continue
+            if 'name' in vals:
+                program.department_id.name = program.name
+            # Same reason as on the faculty: writing a blank manager_id would make
+            # hr.department strip parent_id from every employee of this programme.
+            if 'head_id' in vals and program.head_id:
+                program.department_id.manager_id = program.head_id.id
+                program._set_head_reports_to(program.faculty_id.dean_id)
+            if 'faculty_id' in vals:
+                program.department_id.parent_id = program.faculty_id.department_id.id if program.faculty_id.department_id else False
         return res
