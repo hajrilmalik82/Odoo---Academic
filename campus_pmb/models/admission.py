@@ -18,7 +18,12 @@ class CampusAdmission(models.Model):
         required=True,
         copy=False,
         readonly=True,
-        default=lambda self: _('New'),
+        # Must NOT be translated. create() below compares this against the
+        # literal 'New' to decide whether to draw a sequence number. With _()
+        # an Indonesian session produced "Baru" (campus_pmb/i18n/id.po), the
+        # comparison failed, the sequence was never called, and every
+        # application was saved with the registration number "Baru".
+        default=lambda self: 'New',
         tracking=True,
     )
     name = fields.Char(string='Applicant Name', required=True, tracking=True)
