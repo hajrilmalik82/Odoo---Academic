@@ -17,13 +17,11 @@
         <record id="rule_pmb_admission_access" model="ir.rule">
             <field name="name">PMB: Faculty and Program Access</field>
             <field name="model_id" ref="model_campus_admission"/>
-            <field name="domain_force">
-                [
-                    '&amp;',
-                    (1, '=', 1) if user.employee_id and user.employee_id.pmb_all_programs else ('program_id', 'in', user.employee_id.pmb_program_ids.ids),
-                    (1, '=', 1) if user.employee_id and user.employee_id.pmb_all_faculties else ('program_id.faculty_id', 'in', user.employee_id.pmb_faculty_ids.ids)
-                ]
-            </field>
+            <!-- Built in Python so the rule stays readable and testable. The
+                 inline version AND'ed both dimensions as `in []` whenever an
+                 assignment list was left empty, so an officer given a whole
+                 faculty but no specific programme saw zero admissions. -->
+            <field name="domain_force">user.employee_id._pmb_admission_domain()</field>
             <field name="groups" eval="[(4, ref('campus_pmb.group_pmb'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>

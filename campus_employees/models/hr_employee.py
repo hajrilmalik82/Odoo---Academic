@@ -84,6 +84,49 @@ class HrEmployee(models.Model):
             self._sync_academic_user_role()
         return res
 
+    def _build_jurisdiction_domain(self, program_path, all_faculties, faculty_ids,
+                                   all_programs, program_ids):
+        """Turn a faculty/programme assignment into a record-rule domain.
+
+        Shared by the academic-staff rules here and the PMB rule in campus_pmb,
+        so the two cannot drift apart.
+
+        An empty assignment list means "no restriction on that dimension", which
+        is what the field help has always promised. Spelled out inline in
+        domain_force, the two dimensions were AND'ed as `in []` whenever a list
+        was left empty, so an officer given a whole faculty but no specific
+        programme matched nothing at all: the exact opposite of the intent.
+
+        Fails closed on purpose: an employee with nothing assigned, or a user
+        with no employee record, is granted nothing rather than everything.
+
+        :param program_path: path from the target model to academic.program,
+            e.g. 'program_id' on academic.krs, 'student_id.program_id' on
+            academic.khs.
+        """
+        if not self:
+            return [(0, '=', 1)]
+        if not (all_faculties or all_programs or faculty_ids or program_ids):
+            return [(0, '=', 1)]
+
+        domain = []
+        if not all_faculties and faculty_ids:
+            domain.append(('%s.faculty_id' % program_path, 'in', faculty_ids.ids))
+        if not all_programs and program_ids:
+            domain.append((program_path, 'in', program_ids.ids))
+        # A bare list of leaves is AND'ed by Odoo. Empty means both dimensions
+        # are unrestricted, which is "everything".
+        return domain or [(1, '=', 1)]
+
+    def _academic_jurisdiction_domain(self, program_path='program_id'):
+        """Domain for an Academic Staff member, called from ir.rule.domain_force."""
+        employee = self[:1]
+        return employee._build_jurisdiction_domain(
+            program_path,
+            employee.academic_all_faculties, employee.academic_faculty_ids,
+            employee.academic_all_programs, employee.academic_program_ids,
+        )
+
     def _check_may_grant_academic_groups(self):
         """Campus group membership stays an administrator's decision.
 
