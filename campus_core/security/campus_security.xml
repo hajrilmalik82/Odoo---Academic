@@ -110,6 +110,24 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
+        <!-- Scope lecturers to the students they advise. The ACL grants them
+             read and write on academic.krs, and until now no rule matched their
+             group at all, so every lecturer could read and change the study plan
+             of every student in the university. A lecturer's business with a KRS
+             is approving, rejecting or returning their own advisee's.
+             Administrators are unaffected: they match rule_admin_krs_access,
+             and group rules are OR'ed. -->
+        <record id="rule_lecturer_krs_access" model="ir.rule">
+            <field name="name">Lecturer: Only KRS of Their Own Advisees</field>
+            <field name="model_id" ref="model_academic_krs"/>
+            <field name="domain_force">[('student_id.academic_advisor_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
         <record id="rule_lecturer_khs_line_write" model="ir.rule">
             <field name="name">Lecturer: Only Write KHS for Subjects They Teach</field>
             <field name="model_id" ref="model_academic_khs_line"/>

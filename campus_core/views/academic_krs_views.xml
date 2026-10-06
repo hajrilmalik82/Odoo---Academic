@@ -157,6 +157,10 @@
         <field name="model_id" ref="model_academic_krs"/>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_view_types">list</field>
+        <!-- Mass actions mirror the groups on the matching form buttons. Without
+             group_ids they appear for anyone who can open the list, which let a
+             lecturer act on every KRS the list showed them. -->
+        <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_academic_staff'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
             for rec in records:
@@ -171,6 +175,7 @@
         <field name="model_id" ref="model_academic_krs"/>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_lecturer'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
             for rec in records:
@@ -185,6 +190,7 @@
         <field name="model_id" ref="model_academic_krs"/>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
             for rec in records:
@@ -199,6 +205,7 @@
         <field name="model_id" ref="model_academic_krs"/>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_lecturer'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
             for rec in records:
@@ -213,6 +220,7 @@
         <field name="model_id" ref="model_academic_krs"/>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
             for rec in records:
