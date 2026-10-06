@@ -22,7 +22,7 @@
                         <h2 class="fw-bold mb-0 text-danger">PMB Module (New Student Admissions)</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        This module is designed to digitize and automate the entire student admissions cycle. From filling out application forms to document verification, payment verification, and automatic portal account creation. This module ensures that no data is missed and minimizes human error.
+                        This module is designed to digitize and automate the entire student admissions cycle. From filling out application forms to document verification and automatic portal account creation. This module ensures that no data is missed and minimizes human error.
                     </p>
 
                     <!-- HIGHLIGHT FITUR -->
@@ -47,7 +47,7 @@
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
                                     <h5 class="fw-bold text-dark"><i class="fa fa-cogs text-success me-2"/>Document Automation &amp; Validation</h5>
-                                    <p class="text-muted small mb-0">The system will block acceptance if the required documents are incomplete or payment proof is unverified. Transitions between states are tightly controlled by backend algorithms.</p>
+                                    <p class="text-muted small mb-0">The system blocks acceptance while any required document is still outstanding. Transitions between states are tightly controlled by backend algorithms.</p>
                                 </div>
                             </div>
                         </div>
@@ -81,22 +81,8 @@
                     </div>
 
                     <!-- TAHAP 3 -->
-                    <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
-                        <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
-                        <h5 class="fw-bold text-dark pt-1">Payment Verification</h5>
-                        <p class="mb-2"><strong>Actor:</strong> Finance Department / Committee</p>
-                        <p class="mb-2">Candidates must attach proof or reference numbers of their application fee payment.</p>
-                        <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> If the "Payment Reference" column is empty, the system blocks candidate acceptance and displays a warning alert.
-                        </div>
-                        <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> The committee clicks <strong>Verify Payment</strong> to validate the payment.
-                        </div>
-                    </div>
-
-                    <!-- TAHAP 4 -->
                     <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
-                        <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
+                        <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
                         <h5 class="fw-bold text-dark pt-1">Graduation &amp; Acceptance</h5>
                         <p class="mb-2"><strong>Actor:</strong> PMB Committee / Administrator</p>
                         <p class="mb-2">Candidates who have passed all verifications are now ready to be officially accepted as prospective students.</p>
@@ -105,9 +91,9 @@
                         </div>
                     </div>
 
-                    <!-- TAHAP 5 -->
+                    <!-- TAHAP 4 -->
                     <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
-                        <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
+                        <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
                         <h5 class="fw-bold text-dark pt-1">Final Registration (Zero-Touch Provisioning)</h5>
                         <p class="mb-2"><strong>Actor:</strong> Automation System (Odoo Backend)</p>
                         <p class="mb-2">The final stage demonstrating the power of Odoo ERP. When the committee clicks <strong>Register Student</strong>, python code executes in the background without human intervention:</p>
@@ -119,12 +105,12 @@
                         </ul>
                     </div>
 
-                    <!-- TAHAP 6 -->
+                    <!-- TAHAP 5 -->
                     <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
-                        <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
+                        <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
                         <h5 class="fw-bold text-dark pt-1">Application Rejection (Reject)</h5>
                         <p class="mb-2"><strong>Actor:</strong> PMB Committee / Administrator</p>
-                        <p class="mb-2">If the candidate does not meet the requirements at any stage (e.g., fake documents, invalid payment), the process can be terminated.</p>
+                        <p class="mb-2">If the candidate does not meet the requirements at any stage, for example documents that cannot be verified, the process can be terminated.</p>
                         <div class="bg-light p-3 rounded mb-2">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Restrictions:</strong> Candidates who are already in <em>Accepted</em> or <em>Registered</em> status <strong>cannot</strong> be rejected anymore to prevent accidental cancellation after account creation.
                         </div>
@@ -169,7 +155,7 @@
                                     <td class="text-center text-success fw-bold">✓</td>
                                 </tr>
                                 <tr>
-                                    <td>Document Review &amp; Payment Verification</td>
+                                    <td>Document Review</td>
                                     <td class="text-center text-danger">✗</td>
                                     <td class="text-center text-success fw-bold">✓ (only their program jurisdictions)</td>
                                     <td class="text-center text-success fw-bold">✓ (all)</td>

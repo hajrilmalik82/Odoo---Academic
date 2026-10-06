@@ -45,7 +45,7 @@
 
             <t t-if="error">
                 <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
-                    <i class="fa fa-warning me-2"/> <t t-esc="error"/>
+                    <i class="fa fa-warning me-2"/> <t t-out="error"/>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </t>
@@ -138,7 +138,7 @@
             <t t-set="is_editable" t-value="krs.state in ['draft', 'revision']"/>
             <div class="bg-white p-4 rounded shadow-sm mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3>Detail KRS: <t t-esc="krs.name"/></h3>
+                    <h3>Detail KRS: <t t-out="krs.name"/></h3>
                     <div>
                         <a t-attf-href="/my/krs/#{krs.id}/report?download=1"
                            class="btn btn-sm btn-outline-secondary me-2" title="Unduh KRS dalam format PDF">
@@ -155,16 +155,16 @@
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <p><strong>Tahun Akademik:</strong> <t t-esc="krs.academic_year_id.name"/></p>
+                        <p><strong>Tahun Akademik:</strong> <t t-out="krs.academic_year_id.name"/></p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Total SKS:</strong> <t t-esc="krs.total_credits"/></p>
+                        <p><strong>Total SKS:</strong> <t t-out="krs.total_credits"/></p>
                     </div>
                 </div>
 
                 <t t-if="error">
                     <div class="alert alert-danger" role="alert">
-                        <i class="fa fa-warning me-2"/> <t t-esc="error"/>
+                        <i class="fa fa-warning me-2"/> <t t-out="error"/>
                     </div>
                 </t>
 
@@ -182,9 +182,9 @@
                         <tbody>
                             <t t-foreach="krs.line_ids" t-as="line">
                                 <tr>
-                                    <td><t t-esc="line.subject_id.code"/></td>
-                                    <td><t t-esc="line.subject_id.name"/></td>
-                                    <td><t t-esc="line.credits"/></td>
+                                    <td><t t-out="line.subject_id.code"/></td>
+                                    <td><t t-out="line.subject_id.name"/></td>
+                                    <td><t t-out="line.credits"/></td>
                                     <td t-if="is_editable">
                                         <form t-attf-action="/my/krs/#{krs.id}/delete_line/#{line.id}" method="post" class="d-inline">
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
@@ -222,22 +222,22 @@
                                         <!-- Don't show if already in KRS -->
                                         <t t-set="is_enrolled" t-value="len(krs.line_ids.filtered(lambda l: l.schedule_id.id == sch.id)) > 0"/>
                                         <tr t-att-class="'table-success opacity-50' if is_enrolled else ''">
-                                            <td class="fw-bold"><t t-esc="sch.class_id.subject_id.name"/></td>
-                                            <td>Kelas <t t-esc="sch.class_code"/></td>
+                                            <td class="fw-bold"><t t-out="sch.class_id.subject_id.name"/></td>
+                                            <td>Kelas <t t-out="sch.class_code"/></td>
                                             <td>
                                                 <t t-if="sch.lecturer_id">
-                                                    <span class="badge bg-secondary mb-1"><t t-esc="sch.lecturer_id.name"/></span>
+                                                    <span class="badge bg-secondary mb-1"><t t-out="sch.lecturer_id.name"/></span>
                                                 </t>
                                                 <t t-else="">-</t>
                                             </td>
                                             <td>
                                                 <div class="small">
                                                     <i class="fa fa-clock-o text-muted me-1"/>
-                                                    <t t-esc="sch.display_name"/>
-                                                    <span class="ms-1 px-1 bg-light border rounded text-dark"><i class="fa fa-map-marker text-danger"/> <t t-esc="sch.room_id.name"/></span>
+                                                    <t t-out="sch.display_name"/>
+                                                    <span class="ms-1 px-1 bg-light border rounded text-dark"><i class="fa fa-map-marker text-danger"/> <t t-out="sch.room_id.name"/></span>
                                                 </div>
                                             </td>
-                                            <td><span class="badge bg-info"><t t-esc="sch.class_id.subject_id.credits"/> SKS</span></td>
+                                            <td><span class="badge bg-info"><t t-out="sch.class_id.subject_id.credits"/> SKS</span></td>
                                             <td class="text-center">
                                                 <t t-if="is_enrolled">
                                                     <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Diambil</button>

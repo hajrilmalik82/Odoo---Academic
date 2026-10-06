@@ -17,7 +17,7 @@ class AcademicClass(models.Model):
     name = fields.Char(string='Class Name', compute='_compute_class_name', store=True, tracking=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, check_company=True, ondelete='restrict')
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, tracking=True, check_company=True)
-    start_date = fields.Date(string='Start Date', required=True, tracking=True, help="Used as the starting point to generate 14 sessions.")
+    start_date = fields.Date(string='Start Date', required=True, tracking=True, help="Starting point for Generate Sessions. The number of meetings comes from Settings.")
     class_capacity_display = fields.Char(string='Total Class Capacity', compute='_compute_class_capacity_display')
     schedule_ids = fields.One2many('academic.class.schedule', 'class_id', string='Schedules')
     student_line_ids = fields.One2many('academic.krs.line', 'class_id', string='Students')
@@ -74,6 +74,10 @@ class AcademicClass(models.Model):
         tz_name = self.company_id.resource_calendar_id.tz or self.env.user.tz or 'UTC'
         user_tz = pytz.timezone(tz_name)
 
+        # How many weekly meetings a term has is institution policy, not a
+        # constant. It used to be range(14) buried in the loop below.
+        sessions_per_term = self.env['res.config.settings']._get_sessions_per_term()
+
         sessions = []
         for schedule in self.schedule_ids:
             current_date = fields.Date.from_string(self.start_date)
@@ -85,7 +89,7 @@ class AcademicClass(models.Model):
                 days_ahead += 7
             first_session_date = current_date + timedelta(days=days_ahead)
 
-            for i in range(14):
+            for i in range(sessions_per_term):
                 session_date = first_session_date + timedelta(weeks=i)
 
                 # Add minutes to midnight instead of building time(hour, minute).

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_campus" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.campus</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="70"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app data-string="Campus Academic" string="Campus Academic" name="campus_core"
+                     groups="campus_core.group_campus_administrator">
+                    <block title="Grading" name="campus_grading">
+                        <setting string="Passing Grade Point"
+                                 help="Lowest grade point that counts as a pass. Decides whether a prerequisite has been met and which credits count as earned.">
+                            <field name="campus_pass_grade_point"/>
+                        </setting>
+                    </block>
+                    <block title="Scheduling" name="campus_scheduling">
+                        <setting string="Sessions per Term"
+                                 help="How many weekly meetings Generate Sessions creates for a class.">
+                            <field name="campus_sessions_per_term"/>
+                        </setting>
+                    </block>
+                    <block title="Credit Limits" name="campus_credit_limits">
+                        <setting string="Credit limit by CGPA"
+                                 help="How many credits a student may take at each CGPA level.">
+                            <button name="%(campus_core.action_academic_credit_limit)d"
+                                    string="Configure Credit Limits"
+                                    type="action" class="btn-link" icon="fa-arrow-right"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>

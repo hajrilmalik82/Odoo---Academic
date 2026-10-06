@@ -1,7 +1,7 @@
 import logging
 
 from odoo import _, api, fields, models, Command
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -129,15 +129,22 @@ class AcademicKrs(models.Model):
             record.total_credits = sum(record.line_ids.mapped('credits'))
 
     def _get_max_credits_allowed(self):
+        """Credit cap for this student, from the configured CGPA bands.
+
+        The bands used to be an if/elif ladder of literals here. They are
+        registrar policy and change between terms, so they live in
+        academic.credit.limit now, seeded with the same figures.
+        """
         self.ensure_one()
         cgpa = self.student_id.cgpa or 0.0
-        if cgpa >= 3.0:
-            return 24
-        if cgpa >= 2.5:
-            return 21
-        if cgpa >= 2.0:
-            return 18
-        return 15
+        max_credits = self.env['academic.credit.limit'].sudo()._get_max_credits(cgpa)
+        if max_credits is None:
+            raise ValidationError(_(
+                "No credit limit bands are configured. Set them under "
+                "Academic System > Configuration > Credit Limits before students "
+                "can submit a KRS."
+            ))
+        return max_credits
 
     # A KRS is only editable while the student is still filling it in.
     _EDITABLE_STATES = ('draft', 'revision')
@@ -189,11 +196,11 @@ class AcademicKrs(models.Model):
                     "Invalid KRS status change from '%(old_state)s' to '%(new_state)s'."
                 ) % {'old_state': record.state, 'new_state': new_state})
             if not is_internal and transition not in self._PORTAL_STATE_TRANSITIONS:
-                raise ValidationError(_("Students can only submit their KRS for approval."))
+                raise AccessError(_("Students can only submit their KRS for approval."))
             if transition in self._ADMIN_STATE_TRANSITIONS:
-                raise ValidationError(_("Only Campus Administrators can perform this KRS status change."))
+                raise AccessError(_("Only Campus Administrators can perform this KRS status change."))
             if transition == ('submitted', 'approved') and record.advisor_id not in user.employee_ids:
-                raise ValidationError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
+                raise AccessError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
 
     def write(self, vals):
         self._check_content_write_allowed(vals)
@@ -220,123 +227,139 @@ class AcademicKrs(models.Model):
         if submitted:
             submitted._validate_for_submission()
 
+    # --- submission rules -------------------------------------------------
+    # Split out of a single ~110-line method with nine numbered comment blocks.
+    # Each rule is named, so a failure points at a rule instead of a line number,
+    # and each can be called on its own from a test.
+
+    def _passed_subject_ids(self):
+        """Subjects each student has already passed, in one query for the batch."""
+        pass_grade_point = self.env['res.config.settings']._get_pass_grade_point()
+        khs_lines = self.env['academic.khs.line'].search([
+            ('khs_id.student_id', 'in', self.mapped('student_id.id')),
+            ('is_graded', '=', True),
+            ('grade_points', '>=', pass_grade_point),
+        ])
+        passed = {}
+        for line in khs_lines:
+            passed.setdefault(line.khs_id.student_id.id, set()).add(line.subject_id.id)
+        return passed
+
+    def _check_lines_ready(self):
+        self.ensure_one()
+        if not self.line_ids:
+            raise ValidationError(_("Please add at least one class before submitting the KRS."))
+        if any(not line.schedule_id for line in self.line_ids):
+            raise ValidationError(_("All subjects must have a selected schedule before submitting."))
+
+    def _check_student_active(self):
+        self.ensure_one()
+        if self.student_id.student_status != 'active':
+            raise ValidationError(_("Student status must be active to submit a KRS."))
+
+    def _check_registration_period(self):
+        """Enforced for students only: staff may register on their behalf late."""
+        self.ensure_one()
+        if self.env.user.has_group('base.group_user'):
+            return
+        year = self.academic_year_id
+        if not year.krs_start_date or not year.krs_end_date:
+            raise ValidationError(_("Academic year KRS period is not configured."))
+        if not (year.krs_start_date <= fields.Date.context_today(self) <= year.krs_end_date):
+            raise ValidationError(_("Current date is outside the allowed KRS period."))
+
+    def _check_advisor_assigned(self):
+        self.ensure_one()
+        if not self.advisor_id and not self.env.user.has_group('campus_core.group_campus_administrator'):
+            raise ValidationError(_("The student must have an assigned Academic Advisor."))
+
+    def _check_credit_limit(self):
+        self.ensure_one()
+        max_credits = self._get_max_credits_allowed()
+        if self.total_credits > max_credits:
+            raise ValidationError(
+                _("Total credits cannot exceed %(max_credits)s SKS for this student.") % {
+                    'max_credits': max_credits,
+                }
+            )
+
+    def _check_subjects_valid(self, passed_subject_ids):
+        """Programme match, no duplicate subject, prerequisites met."""
+        self.ensure_one()
+        seen_subjects = set()
+        for line in self.line_ids:
+            subject = line.subject_id
+            if subject.program_id and self.program_id and subject.program_id != self.program_id:
+                raise ValidationError(_("Subject '%s' does not belong to the student's program.") % subject.name)
+            if subject.id in seen_subjects:
+                raise ValidationError(_("Student cannot take the same subject '%s' twice in one KRS.") % subject.name)
+            seen_subjects.add(subject.id)
+            missing_prerequisites = subject.prerequisite_ids.filtered(
+                lambda prerequisite: prerequisite.id not in passed_subject_ids
+            )
+            if missing_prerequisites:
+                raise ValidationError(
+                    _("Missing prerequisite(s) for %(subject)s: %(prerequisites)s") % {
+                        'subject': subject.name,
+                        'prerequisites': ', '.join(missing_prerequisites.mapped('name')),
+                    }
+                )
+
+    def _check_section_quota(self):
+        """Seats belong to the section's room, not to the class as a whole.
+
+        This KRS is excluded from the count so the student is not measured
+        against the seat they already hold.
+        """
+        self.ensure_one()
+        for line in self.line_ids:
+            schedule = line.schedule_id
+            capacity = schedule.room_capacity
+            if capacity <= 0:
+                raise ValidationError(
+                    _("Schedule '%s' has no room capacity set.") % schedule.display_name
+                )
+            taken = schedule._enrolled_count(exclude_krs=self)
+            if taken >= capacity:
+                raise ValidationError(
+                    _("Class '%(name)s' is full (%(taken)s / %(capacity)s seats taken).") % {
+                        'name': schedule.display_name,
+                        'taken': taken,
+                        'capacity': capacity,
+                    }
+                )
+
+    def _check_no_schedule_overlap(self):
+        self.ensure_one()
+        schedules = self.line_ids.mapped('schedule_id')
+        for index, first in enumerate(schedules):
+            for second in schedules[index + 1:]:
+                if first.day_of_week != second.day_of_week:
+                    continue
+                if first.start_time < second.end_time and first.end_time > second.start_time:
+                    raise ValidationError(
+                        _("Schedule overlap detected between:\n%(first)s\n%(second)s") % {
+                            'first': first.display_name,
+                            'second': second.display_name,
+                        }
+                    )
+
     def _validate_for_submission(self):
         """Every rule a KRS must satisfy to be submitted for approval."""
         # Claim the seat locks before counting anything, so two students
         # submitting into the same section cannot both read the last seat as free.
         self.mapped('line_ids.schedule_id')._lock_for_enrolment()
-
-        # Pre-fetch ALL passed subjects for ALL students in one query to avoid N+1 queries
-        student_ids = self.mapped('student_id.id')
-        khs_lines = self.env['academic.khs.line'].search([
-            ('khs_id.student_id', 'in', student_ids),
-            ('grade_points', '>=', 2.0),
-        ])
-        passed_subjects_by_student = {}
-        for line in khs_lines:
-            passed_subjects_by_student.setdefault(line.khs_id.student_id.id, set()).add(line.subject_id.id)
-            
-        is_portal = not self.env.user.has_group('base.group_user')
-        is_admin = self.env.user.has_group('campus_core.group_campus_administrator')
-        today = fields.Date.context_today(self)
-
+        passed_by_student = self._passed_subject_ids()
         for record in self:
-            if not record.line_ids:
-                raise ValidationError(_("Please add at least one class before submitting the KRS."))
-                
-            if any(not line.schedule_id for line in record.line_ids):
-                raise ValidationError(_("All subjects must have a selected schedule before submitting."))
-                
-            # 1. Student Status
-            if record.student_id.student_status != 'active':
-                raise ValidationError(_("Student status must be active to submit a KRS."))
-                
-            # 2. Period Open (Only enforced for students / portal users)
-            if is_portal:
-                if not record.academic_year_id.krs_start_date or not record.academic_year_id.krs_end_date:
-                    raise ValidationError(_("Academic year KRS period is not configured."))
-                if not (record.academic_year_id.krs_start_date <= today <= record.academic_year_id.krs_end_date):
-                    raise ValidationError(_("Current date is outside the allowed KRS period."))
-                
-            # 3. Has Advisor (Admin can bypass)
-            if not record.advisor_id and not is_admin:
-                raise ValidationError(_("The student must have an assigned Academic Advisor."))
-                
-            # 4. Max SKS Limit based on current CGPA.
-            max_credits = record._get_max_credits_allowed()
-            if record.total_credits > max_credits:
-                raise ValidationError(
-                    _("Total credits cannot exceed %(max_credits)s SKS for this student.") % {
-                        'max_credits': max_credits,
-                    }
-                )
-                
-            passed_subject_ids = passed_subjects_by_student.get(record.student_id.id, set())
+            record._check_lines_ready()
+            record._check_student_active()
+            record._check_registration_period()
+            record._check_advisor_assigned()
+            record._check_credit_limit()
+            record._check_subjects_valid(passed_by_student.get(record.student_id.id, set()))
+            record._check_section_quota()
+            record._check_no_schedule_overlap()
 
-            # Validate Line constraints
-            taken_subjects = []
-            schedules = []
-            
-            for line in record.line_ids:
-                subject = line.subject_id
-                
-                # 5. Subject Matches Program
-                if subject.program_id and record.program_id and subject.program_id != record.program_id:
-                    raise ValidationError(_("Subject '%s' does not belong to the student's program.") % subject.name)
-                    
-                # 6. No Duplicate Subjects
-                if subject.id in taken_subjects:
-                    raise ValidationError(_("Student cannot take the same subject '%s' twice in one KRS.") % subject.name)
-                taken_subjects.append(subject.id)
-                
-                # 7. Prerequisites Met (using pre-fetched data)
-                missing_prerequisites = subject.prerequisite_ids.filtered(
-                    lambda prerequisite: prerequisite.id not in passed_subject_ids
-                )
-                if missing_prerequisites:
-                    raise ValidationError(
-                        _("Missing prerequisite(s) for %(subject)s: %(prerequisites)s") % {
-                            'subject': subject.name,
-                            'prerequisites': ', '.join(missing_prerequisites.mapped('name')),
-                        }
-                    )
-                
-                # 8. Section quota, measured on the schedule the student picked.
-                # Capacity belongs to the section's room, not to the class as a
-                # whole, and this KRS is excluded so the student is not counted
-                # against their own seat.
-                schedule = line.schedule_id
-                capacity = schedule.room_capacity
-                if capacity <= 0:
-                    raise ValidationError(
-                        _("Schedule '%s' has no room capacity set.") % schedule.display_name
-                    )
-                taken = schedule._enrolled_count(exclude_krs=record)
-                if taken >= capacity:
-                    raise ValidationError(
-                        _("Class '%(name)s' is full (%(taken)s / %(capacity)s seats taken).") % {
-                            'name': schedule.display_name,
-                            'taken': taken,
-                            'capacity': capacity,
-                        }
-                    )
-                    
-                # Collect the specific schedule selected
-                if line.schedule_id:
-                    sched = line.schedule_id
-                    schedules.append({
-                        'day': sched.day_of_week,
-                        'start': sched.start_time,
-                        'end': sched.end_time,
-                        'name': f"{class_record.name} - {dict(sched._fields['day_of_week'].selection).get(sched.day_of_week)} {sched.start_time}-{sched.end_time}"
-                    })
-                    
-            # 9. No Schedule Overlap
-            for i, s1 in enumerate(schedules):
-                for s2 in schedules[i + 1:]:
-                    if s1['day'] == s2['day']:
-                        if s1['start'] < s2['end'] and s1['end'] > s2['start']:
-                            raise ValidationError(_("Schedule overlap detected between:\n%s\n%s") % (s1['name'], s2['name']))
 
     def action_submit(self):
         if any(record.state not in ('draft', 'revision') for record in self):
@@ -354,7 +377,7 @@ class AcademicKrs(models.Model):
             # Security
             user = self.env.user
             if record.advisor_id not in user.employee_ids and not user.has_group('campus_core.group_campus_administrator'):
-                raise ValidationError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
+                raise AccessError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
             # Set state to approved
             record.state = 'approved'
 
@@ -405,7 +428,7 @@ class AcademicKrs(models.Model):
         to preserve any grade data that may have already been entered.
         """
         if not self.env.user.has_group('campus_core.group_campus_administrator'):
-            raise ValidationError(_(
+            raise AccessError(_(
                 "Only Campus Administrators can unlock a KRS record."
             ))
         for record in self:
@@ -422,7 +445,7 @@ class AcademicKrs(models.Model):
             if record.state == 'locked':
                 raise ValidationError(_("Locked KRS records cannot be reset to draft."))
             if record.state == 'approved' and not self.env.user.has_group('campus_core.group_campus_administrator'):
-                raise ValidationError(_("Only campus administrators can reset an approved KRS to draft."))
+                raise AccessError(_("Only campus administrators can reset an approved KRS to draft."))
             # A KHS outlives its KRS on purpose: action_unlock keeps it so entered
             # grades are not lost. But a KHS whose KRS has gone back to draft is an
             # orphan that still feeds the student's CGPA and still shows on the
@@ -459,20 +482,6 @@ class AcademicKrs(models.Model):
                     'subject_id': pkg_line.subject_id.id,
                 }))
             self.line_ids = lines
-
-    def _apply_package_lines(self, package):
-        """Apply course package lines. Calls write() — safe to use from code."""
-        self.ensure_one()
-        self.write({
-            'faculty_id': package.program_id.faculty_id.id,
-            'program_id': package.program_id.id,
-            'academic_year_id': package.academic_year_id.id,
-            'line_ids': [Command.clear()] + [
-                Command.create({'subject_id': line.subject_id.id})
-                for line in package.line_ids
-            ],
-        })
-
 
 class AcademicKrsLine(models.Model):
     _name = 'academic.krs.line'

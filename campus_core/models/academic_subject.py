@@ -8,6 +8,24 @@ class AcademicSubject(models.Model):
     _order = 'code, name'
     _check_company_auto = True
 
+    @api.model
+    def search_panel_select_multi_range(self, field_name, **kwargs):
+        """Work around an Odoo 19 crash in the search panel.
+
+        addons/web/models/models.py does AND([extra_domain,
+        kwargs.get('group_domain', [])]) on the many2one branch. The default only
+        applies when the key is absent, so a client that sends group_domain null
+        reaches AND() with None and trips its assertion. Only a searchpanel field
+        that is many2one, select="multi" and grouped can produce that, which in
+        this codebase is this model and campus.admission.
+
+        Previously patched on the 'base' abstract model, which applied it to every
+        model in the database. Remove once Odoo fixes it upstream.
+        """
+        if kwargs.get('group_domain') is None:
+            kwargs['group_domain'] = []
+        return super().search_panel_select_multi_range(field_name, **kwargs)
+
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', required=True)
     credits = fields.Integer(string='Credits (SKS)', default=2)

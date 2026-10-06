@@ -12,7 +12,7 @@
                                 Study Plan (KRS)
                             </h3>
                             <p style="font-size: 11pt; color: #555; margin-bottom: 0;">
-                                Semester: <strong><t t-esc="o.academic_year_id.name or '-'"/></strong>
+                                Semester: <strong><t t-out="o.academic_year_id.name or '-'"/></strong>
                             </p>
                             <hr style="border-top: 2px solid #000; margin-top: 10px;"/>
                         </div>
@@ -22,26 +22,26 @@
                             <tr>
                                 <td style="width: 15%; padding: 3px 0;">Student ID (NIM)</td>
                                 <td style="width: 2%;">:</td>
-                                <td style="width: 35%;"><strong><t t-esc="o.student_id.nim or '-'"/></strong></td>
+                                <td style="width: 35%;"><strong><t t-out="o.student_id.nim or '-'"/></strong></td>
                                 <td style="width: 15%; padding: 3px 0;">Faculty</td>
                                 <td style="width: 2%;">:</td>
-                                <td style="width: 31%;"><t t-esc="o.faculty_id.name or '-'"/></td>
+                                <td style="width: 31%;"><t t-out="o.faculty_id.name or '-'"/></td>
                             </tr>
                             <tr>
                                 <td style="padding: 3px 0;">Name</td>
                                 <td>:</td>
-                                <td><strong><t t-esc="o.student_id.name"/></strong></td>
+                                <td><strong><t t-out="o.student_id.name"/></strong></td>
                                 <td style="padding: 3px 0;">Study Program</td>
                                 <td>:</td>
-                                <td><t t-esc="o.program_id.name or '-'"/></td>
+                                <td><t t-out="o.program_id.name or '-'"/></td>
                             </tr>
                             <tr>
                                 <td style="padding: 3px 0;">Academic Year</td>
                                 <td>:</td>
-                                <td><t t-esc="o.academic_year_id.display_name or '-'"/></td>
+                                <td><t t-out="o.academic_year_id.display_name or '-'"/></td>
                                 <td style="padding: 3px 0;">Advisor</td>
                                 <td>:</td>
-                                <td><t t-esc="o.advisor_id.name or '-'"/></td>
+                                <td><t t-out="o.advisor_id.name or '-'"/></td>
                             </tr>
                             <tr>
                                 <td style="padding: 3px 0;">Status</td>
@@ -56,7 +56,7 @@
                                 </td>
                                 <td style="padding: 3px 0;">KRS No.</td>
                                 <td>:</td>
-                                <td><t t-esc="o.name"/></td>
+                                <td><t t-out="o.name"/></td>
                             </tr>
                         </table>
 
@@ -77,18 +77,18 @@
                                 <t t-foreach="o.line_ids" t-as="line">
                                     <t t-set="line_no" t-value="line_no + 1"/>
                                     <tr>
-                                        <td style="text-align: center; padding: 6px;"><t t-esc="line_no"/></td>
-                                        <td style="text-align: center; padding: 6px;"><t t-esc="line.subject_id.code or '-'"/></td>
-                                        <td style="padding: 6px;"><t t-esc="line.subject_id.name"/></td>
-                                        <td style="text-align: center; padding: 6px;"><t t-esc="line.credits"/></td>
+                                        <td style="text-align: center; padding: 6px;"><t t-out="line_no"/></td>
+                                        <td style="text-align: center; padding: 6px;"><t t-out="line.subject_id.code or '-'"/></td>
+                                        <td style="padding: 6px;"><t t-out="line.subject_id.name"/></td>
+                                        <td style="text-align: center; padding: 6px;"><t t-out="line.credits"/></td>
                                         <td style="text-align: center; padding: 6px;">
                                             <t t-if="line.schedule_id">
-                                                <t t-esc="line.schedule_id.class_code or '-'"/>
+                                                <t t-out="line.schedule_id.class_code or '-'"/>
                                             </t>
                                         </td>
                                         <td style="text-align: center; padding: 6px; font-size: 9pt;">
                                             <t t-if="line.schedule_id">
-                                                <t t-esc="line.schedule_id.display_name"/>
+                                                <t t-out="line.schedule_id.display_name"/>
                                             </t>
                                         </td>
                                     </tr>
@@ -97,7 +97,7 @@
                             <tfoot>
                                 <tr style="background-color: #ecf0f1; font-weight: bold;">
                                     <td colspan="3" style="text-align: right; padding: 8px;">Total Credits</td>
-                                    <td style="text-align: center; padding: 8px;"><t t-esc="o.total_credits"/></td>
+                                    <td style="text-align: center; padding: 8px;"><t t-out="o.total_credits"/></td>
                                     <td colspan="2"/>
                                 </tr>
                             </tfoot>
@@ -111,15 +111,15 @@
                                         <p style="margin-bottom: 0;">Student,</p>
                                         <br/><br/><br/>
                                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                                            <t t-esc="o.student_id.name"/>
+                                            <t t-out="o.student_id.name"/>
                                         </p>
-                                        <p style="margin-bottom: 0;">NIM: <t t-esc="o.student_id.nim or '-'"/></p>
+                                        <p style="margin-bottom: 0;">NIM: <t t-out="o.student_id.nim or '-'"/></p>
                                     </td>
                                     <td class="krs_advisor_signature" style="width: 50%; text-align: center;">
                                         <p style="margin-bottom: 0;">Academic Advisor,</p>
                                         <br/><br/><br/>
                                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                                            <t t-esc="o.advisor_id.name or '____________________'"/>
+                                            <t t-out="o.advisor_id.name or '____________________'"/>
                                         </p>
                                     </td>
                                 </tr>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate: these are defaults to start from, not values the module owns.
+         A registrar who adjusts the bands must not have them overwritten on the
+         next module upgrade. The figures match the ladder that used to be
+         hard-coded in academic.krs._get_max_credits_allowed. -->
+    <data noupdate="1">
+        <record id="credit_limit_band_300" model="academic.credit.limit">
+            <field name="min_cgpa">3.00</field>
+            <field name="max_credits">24</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="credit_limit_band_250" model="academic.credit.limit">
+            <field name="min_cgpa">2.50</field>
+            <field name="max_credits">21</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="credit_limit_band_200" model="academic.credit.limit">
+            <field name="min_cgpa">2.00</field>
+            <field name="max_credits">18</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- Floor: applies to everyone below 2.00, new students included, since
+             a student with no grades yet has a CGPA of 0.00. -->
+        <record id="credit_limit_band_000" model="academic.credit.limit">
+            <field name="min_cgpa">0.00</field>
+            <field name="max_credits">15</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -48,6 +48,16 @@ class ResPartner(models.Model):
         string='Total Graded Credits', compute='_compute_cgpa', store=True,
         help="Credits counted towards the CGPA: one attempt per subject, the best one.",
     )
+    # Deliberately not stored. It depends on the configured passing grade point,
+    # which is an ir.config_parameter and so cannot appear in @api.depends; a
+    # stored value would silently keep the old threshold after the registrar
+    # changed it. Recomputed on read instead, which is cheap at transcript scale.
+    earned_credits = fields.Integer(
+        string='Credits Earned (SKS Lulus)', compute='_compute_earned_credits',
+        help="Credits from subjects passed at or above the configured passing grade "
+             "point. Lower than the graded total when a subject was failed and not "
+             "yet repeated.",
+    )
 
     def _recognised_khs_lines(self):
         """The attempt that counts for each subject: one per subject, the best.
@@ -85,6 +95,23 @@ class ResPartner(models.Model):
 
     @api.depends('khs_ids.line_ids.grade_points', 'khs_ids.line_ids.credits',
                  'khs_ids.line_ids.is_graded', 'khs_ids.line_ids.subject_id')
+    def _compute_earned_credits(self):
+        """SKS Lulus: credits from subjects actually passed.
+
+        Separate from graded_credits, which is the CGPA denominator and counts a
+        failed subject too. An Indonesian transcript states both: how many
+        credits were graded, and how many were earned.
+        """
+        pass_grade_point = self.env['res.config.settings']._get_pass_grade_point()
+        for record in self:
+            record.earned_credits = sum(
+                line.credits
+                for line in record._recognised_khs_lines()
+                if line.grade_points >= pass_grade_point
+            )
+
+    @api.depends('khs_ids.line_ids.grade_points', 'khs_ids.line_ids.credits',
+                 'khs_ids.line_ids.is_graded', 'khs_ids.line_ids.subject_id')
     def _compute_cgpa(self):
         for record in self:
             counted = record._recognised_khs_lines()
@@ -92,15 +119,6 @@ class ResPartner(models.Model):
             points = sum(line.credits * line.grade_points for line in counted)
             record.graded_credits = credits
             record.cgpa = points / credits if credits else 0.0
-
-    @api.depends('name')
-    @api.depends_context('display_nim')
-    def _compute_display_name(self):
-        super()._compute_display_name()
-        if self.env.context.get('display_nim'):
-            for partner in self:
-                if partner.nim:
-                    partner.display_name = partner.nim
 
     @api.model
     def _search_display_name(self, operator, value):

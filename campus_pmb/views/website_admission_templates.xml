@@ -14,7 +14,7 @@
                                 <div class="card-body p-4">
                                     <t t-if="error">
                                         <div class="alert alert-danger" role="alert">
-                                            <t t-esc="error"/>
+                                            <t t-out="error"/>
                                         </div>
                                     </t>
                                     <p class="text-muted mb-4">Please fill out the form below with correct information.</p>
@@ -50,7 +50,7 @@
                                                 <select class="form-select" name="faculty_id" id="faculty_id" required="required">
                                                     <option value="">-- Choose Faculty --</option>
                                                     <t t-foreach="faculties" t-as="fac">
-                                                        <option t-att-value="fac.id"><t t-esc="fac.name"/></option>
+                                                        <option t-att-value="fac.id"><t t-out="fac.name"/></option>
                                                     </t>
                                                 </select>
                                             </div>
@@ -59,7 +59,7 @@
                                                 <select class="form-select" name="program_id" id="program_id" required="required" disabled="disabled">
                                                     <option value="">-- Choose Study Program --</option>
                                                     <t t-foreach="programs" t-as="prog">
-                                                        <option t-att-value="prog.id" t-att-data-faculty="prog.faculty_id.id"><t t-esc="prog.name"/></option>
+                                                        <option t-att-value="prog.id" t-att-data-faculty="prog.faculty_id.id"><t t-out="prog.name"/></option>
                                                     </t>
                                                 </select>
                                             </div>

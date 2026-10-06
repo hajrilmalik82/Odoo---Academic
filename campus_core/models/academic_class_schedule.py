@@ -121,7 +121,14 @@ class AcademicClassSchedule(models.Model):
             day_name = day_dict.get(record.day_of_week, '')
             start = self._format_float_time(record.start_time)
             end = self._format_float_time(record.end_time)
-            record.display_name = f"Kelas {record.class_code} - {day_name} ({start} - {end})"
+            # "Kelas" was baked into the f-string, so it could never be
+            # translated. Everything user-facing goes through _().
+            record.display_name = _("Class %(code)s - %(day)s (%(start)s - %(end)s)") % {
+                'code': record.class_code,
+                'day': day_name,
+                'start': start,
+                'end': end,
+            }
 
     @api.constrains('day_of_week', 'start_time', 'end_time', 'room_id', 'lecturer_id', 'class_id')
     def _check_schedule_overlap(self):

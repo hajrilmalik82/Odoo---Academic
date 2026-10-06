@@ -88,6 +88,17 @@ class CampusAdmission(models.Model):
         "An admission record already exists for this email in this academic year.",
     )
 
+    @api.model
+    def search_panel_select_multi_range(self, field_name, **kwargs):
+        """See academic.subject for why: Odoo 19 crashes on group_domain=None.
+
+        This model's search panel groups program_id by faculty, which is exactly
+        the configuration that triggers it.
+        """
+        if kwargs.get('group_domain') is None:
+            kwargs['group_domain'] = []
+        return super().search_panel_select_multi_range(field_name, **kwargs)
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:

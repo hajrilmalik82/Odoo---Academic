@@ -1,4 +1,4 @@
-from . import base
+from . import academic_credit_limit
 from . import academic_institution
 from . import academic_facility
 from . import academic_subject
@@ -8,3 +8,4 @@ from . import academic_krs
 from . import academic_khs
 from . import res_partner
 from . import res_users
+from . import res_config_settings

@@ -10,23 +10,6 @@ class HrEmployee(models.Model):
         ('pmb', 'PMB Staff'),
         ('academic', 'Academic Staff (TU)')
     ], string="Academic Role", store=True, tracking=True)
-
-    @api.onchange('job_id')
-    def _onchange_job_id_academic(self):
-        if self.job_id and self.job_id.academic_role:
-            self.academic_role = self.job_id.academic_role
-
-    @api.onchange('department_id')
-    def _onchange_department_id_sync_manager(self):
-        if self.department_id:
-            dept_manager = self.department_id.manager_id
-            # If there's a manager and it's NOT the current employee
-            if dept_manager and dept_manager._origin.id != self._origin.id:
-                self.parent_id = dept_manager
-            # If this employee IS the manager, their boss is the parent department's manager (e.g. Dean)
-            elif dept_manager and dept_manager._origin.id == self._origin.id:
-                if self.department_id.parent_id and self.department_id.parent_id.manager_id:
-                    self.parent_id = self.department_id.parent_id.manager_id
     nidn = fields.Char(string="NIDN (Nomor Induk Dosen Nasional)")
     academic_rank = fields.Selection([
         ('asisten_ahli', 'Asisten Ahli'),
@@ -62,6 +45,27 @@ class HrEmployee(models.Model):
         domain="[('faculty_id', 'in', academic_faculty_ids)]",
         help="If empty, it means no restriction by program."
     )
+
+    # --- onchange ---------------------------------------------------------
+    # Odoo's own ordering convention: every field declaration first, then the
+    # onchange methods. These two used to sit in the middle of the field list.
+
+    @api.onchange('job_id')
+    def _onchange_job_id_academic(self):
+        if self.job_id and self.job_id.academic_role:
+            self.academic_role = self.job_id.academic_role
+
+    @api.onchange('department_id')
+    def _onchange_department_id_sync_manager(self):
+        if self.department_id:
+            dept_manager = self.department_id.manager_id
+            # If there's a manager and it's NOT the current employee
+            if dept_manager and dept_manager._origin.id != self._origin.id:
+                self.parent_id = dept_manager
+            # If this employee IS the manager, their boss is the parent department's manager (e.g. Dean)
+            elif dept_manager and dept_manager._origin.id == self._origin.id:
+                if self.department_id.parent_id and self.department_id.parent_id.manager_id:
+                    self.parent_id = self.department_id.parent_id.manager_id
 
     @api.onchange('academic_all_faculties')
     def _onchange_academic_all_faculties(self):
