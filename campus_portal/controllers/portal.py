@@ -28,6 +28,20 @@ class CampusPortal(CustomerPortal):
             return Krs.sudo().browse()
         return krs
 
+    def _get_own_khs(self, khs_id):
+        """Return the KHS if it belongs to the logged-in student, else empty.
+
+        Same contract as _get_own_krs: the report routes below render with sudo,
+        so this ownership check is the only thing between a student and someone
+        else's grades.
+        """
+        Khs = request.env['academic.khs']
+        partner = request.env.user.partner_id
+        khs = Khs.sudo().browse(khs_id).exists()
+        if not khs or khs.student_id != partner:
+            return Khs.sudo().browse()
+        return khs
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         partner = request.env.user.partner_id
@@ -246,3 +260,38 @@ class CampusPortal(CustomerPortal):
             'default_url': '/my/khs',
         })
         return request.render("campus_portal.portal_my_khs", values)
+
+    @http.route(['/my/khs/<int:khs_id>/report'], type='http', auth="user", website=True)
+    def portal_my_khs_report(self, khs_id, report_type='pdf', download=False, **kw):
+        """Print one term's grade report.
+
+        Rendered through CustomerPortal._show_report, which uses
+        ir.actions.report.sudo(). Ownership is settled by _get_own_khs first, so
+        sudo widens nothing the student could not already see.
+        """
+        khs = self._get_own_khs(khs_id)
+        if not khs:
+            return request.redirect('/my/khs')
+        return self._show_report(
+            model=khs,
+            report_type=report_type,
+            report_ref='campus_core.action_report_khs',
+            download=download,
+        )
+
+    @http.route(['/my/khs/<int:khs_id>/transcript'], type='http', auth="user", website=True)
+    def portal_my_khs_transcript(self, khs_id, report_type='pdf', download=False, **kw):
+        """Print the cumulative academic transcript.
+
+        The report is bound to academic.khs but reads the student's whole
+        history, so any of their own KHS records serves as the entry point.
+        """
+        khs = self._get_own_khs(khs_id)
+        if not khs:
+            return request.redirect('/my/khs')
+        return self._show_report(
+            model=khs,
+            report_type=report_type,
+            report_ref='campus_core.action_report_transcript',
+            download=download,
+        )

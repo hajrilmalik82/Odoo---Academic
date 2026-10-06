@@ -76,7 +76,7 @@
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> The committee <strong>cannot</strong> proceed to the next stage if there are still mandatory documents that have not been received (Checklist is not 100%).
                         </div>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> If all documents are complete, the committee clicks <strong>Verify Documents</strong>.
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> If all documents are complete, the committee clicks <strong>Accept</strong>.
                         </div>
                     </div>
 

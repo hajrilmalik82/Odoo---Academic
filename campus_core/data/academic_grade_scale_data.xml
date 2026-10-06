@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate: defaults to start from, not values the module owns. A registrar
+         who adjusts the scale must not have it overwritten on the next upgrade.
+         The bands match the tuple that used to sit on academic.khs.line. -->
+    <data noupdate="1">
+        <record id="grade_scale_a" model="academic.grade.scale">
+            <field name="min_score">80.00</field>
+            <field name="letter">A</field>
+            <field name="grade_point">4.00</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_aminus" model="academic.grade.scale">
+            <field name="min_score">75.00</field>
+            <field name="letter">A-</field>
+            <field name="grade_point">3.75</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_bplus" model="academic.grade.scale">
+            <field name="min_score">70.00</field>
+            <field name="letter">B+</field>
+            <field name="grade_point">3.50</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_b" model="academic.grade.scale">
+            <field name="min_score">65.00</field>
+            <field name="letter">B</field>
+            <field name="grade_point">3.00</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_bminus" model="academic.grade.scale">
+            <field name="min_score">60.00</field>
+            <field name="letter">B-</field>
+            <field name="grade_point">2.75</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_cplus" model="academic.grade.scale">
+            <field name="min_score">55.00</field>
+            <field name="letter">C+</field>
+            <field name="grade_point">2.50</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_c" model="academic.grade.scale">
+            <field name="min_score">50.00</field>
+            <field name="letter">C</field>
+            <field name="grade_point">2.00</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_d" model="academic.grade.scale">
+            <field name="min_score">40.00</field>
+            <field name="letter">D</field>
+            <field name="grade_point">1.00</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="grade_scale_e" model="academic.grade.scale">
+            <field name="min_score">0.00</field>
+            <field name="letter">E</field>
+            <field name="grade_point">0.00</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

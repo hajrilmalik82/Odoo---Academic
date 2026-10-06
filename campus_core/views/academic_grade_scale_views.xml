@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_academic_grade_scale_tree" model="ir.ui.view">
+        <field name="name">academic.grade.scale.list</field>
+        <field name="model">academic.grade.scale</field>
+        <field name="arch" type="xml">
+            <list string="Grade Scale" editable="bottom">
+                <field name="min_score"/>
+                <field name="letter"/>
+                <field name="grade_point"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_academic_grade_scale_form" model="ir.ui.view">
+        <field name="name">academic.grade.scale.form</field>
+        <field name="model">academic.grade.scale</field>
+        <field name="arch" type="xml">
+            <form string="Grade Band">
+                <sheet>
+                    <group>
+                        <field name="min_score"/>
+                        <field name="letter"/>
+                        <field name="grade_point"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_academic_grade_scale" model="ir.actions.act_window">
+        <field name="name">Grade Scale</field>
+        <field name="res_model">academic.grade.scale</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Define how numeric scores convert to letter grades
+            </p>
+            <p>
+                Bands are read from the highest score down, and the first one a
+                score reaches applies. Keep a band at 0 so every score lands
+                somewhere.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_academic_grade_scale"
+              name="Grade Scale"
+              parent="menu_academic_configuration"
+              action="action_academic_grade_scale"
+              sequence="46"/>
+</odoo>

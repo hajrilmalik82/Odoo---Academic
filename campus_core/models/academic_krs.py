@@ -181,6 +181,19 @@ class AcademicKrs(models.Model):
     _ADMIN_STATE_TRANSITIONS = {('approved', 'locked'), ('locked', 'approved'), ('approved', 'draft')}
 
     def _check_state_transition_allowed(self, new_state):
+        # The state graph is a data-integrity rule, not a permission, so it holds
+        # for everyone: administrators and sudo'd code included. Previously the
+        # whole method returned early for them, which let an administrator write
+        # state='approved' straight onto a draft over RPC and skip submission
+        # entirely. Only the role checks further down are relaxed.
+        for record in self:
+            if record.state == new_state:
+                continue
+            if new_state not in self._STATE_TRANSITIONS.get(record.state, set()):
+                raise ValidationError(_(
+                    "Invalid KRS status change from '%(old_state)s' to '%(new_state)s'."
+                ) % {'old_state': record.state, 'new_state': new_state})
+
         if self.env.su:
             return
         user = self.env.user
@@ -191,10 +204,6 @@ class AcademicKrs(models.Model):
             if record.state == new_state:
                 continue
             transition = (record.state, new_state)
-            if new_state not in self._STATE_TRANSITIONS.get(record.state, set()):
-                raise ValidationError(_(
-                    "Invalid KRS status change from '%(old_state)s' to '%(new_state)s'."
-                ) % {'old_state': record.state, 'new_state': new_state})
             if not is_internal and transition not in self._PORTAL_STATE_TRANSITIONS:
                 raise AccessError(_("Students can only submit their KRS for approval."))
             if transition in self._ADMIN_STATE_TRANSITIONS:

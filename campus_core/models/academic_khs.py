@@ -48,6 +48,16 @@ class AcademicKhs(models.Model):
             record.total_grade_points = total_grade_points
             record.term_gpa = total_grade_points / graded_credits if graded_credits > 0 else 0.0
 
+    def _get_report_base_filename(self):
+        """Filename for a KHS or transcript downloaded from the portal.
+
+        Not a base-model method: portal's _show_report calls it when building the
+        Content-Disposition header, and every model printed that way defines its
+        own.
+        """
+        self.ensure_one()
+        return '%s - %s' % (self.name, self.student_id.name or '')
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
@@ -108,17 +118,6 @@ class AcademicKhs(models.Model):
 class AcademicKhsLine(models.Model):
     _name = 'academic.khs.line'
     _description = 'KHS Grade Line'
-    _grade_scale = (
-        (80, 'A', 4.00),
-        (75, 'A-', 3.75),
-        (70, 'B+', 3.50),
-        (65, 'B', 3.00),
-        (60, 'B-', 2.75),
-        (55, 'C+', 2.50),
-        (50, 'C', 2.00),
-        (40, 'D', 1.00),
-        (0, 'E', 0.00),
-    )
 
     khs_id = fields.Many2one('academic.khs', string='KHS', ondelete='cascade')
     subject_id = fields.Many2one('academic.subject', string='Subject', required=True)
@@ -156,10 +155,12 @@ class AcademicKhsLine(models.Model):
 
     @api.model
     def _get_grade_from_score(self, score):
-        for minimum_score, letter, points in self._grade_scale:
-            if score >= minimum_score:
-                return letter, points
-        return 'E', 0.0
+        """Letter and grade point for a numeric score.
+
+        The bands live in academic.grade.scale now. sudo() because a lecturer
+        entering grades is reading campus configuration, not someone else's data.
+        """
+        return self.env['academic.grade.scale'].sudo()._get_grade(score)
 
     @api.depends('numeric_grade', 'is_graded')
     def _compute_grade_conversion(self):

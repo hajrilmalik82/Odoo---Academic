@@ -29,6 +29,14 @@
                                     type="action" class="btn-link" icon="fa-arrow-right"/>
                         </setting>
                     </block>
+                    <block title="Grade Scale" name="campus_grade_scale">
+                        <setting string="Score to letter grade"
+                                 help="How numeric scores convert to letter grades and grade points.">
+                            <button name="%(campus_core.action_academic_grade_scale)d"
+                                    string="Configure Grade Scale"
+                                    type="action" class="btn-link" icon="fa-arrow-right"/>
+                        </setting>
+                    </block>
                 </app>
             </xpath>
         </field>

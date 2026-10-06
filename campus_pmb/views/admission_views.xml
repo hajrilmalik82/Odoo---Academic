@@ -10,7 +10,6 @@
                 <header>
                     <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_start_document_review" string="Start Document Review" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
-                    <button name="action_verify_documents" string="Verify Documents" type="object" class="oe_highlight" invisible="state != 'document_review'"/>
                     <button name="action_accept" string="Accept" type="object" class="btn-success" invisible="state != 'document_review'"/>
                     <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state in ('accepted', 'registered', 'rejected')"/>
                     <button name="action_register" type="object" string="Register Student" class="oe_highlight" invisible="state != 'accepted'"/>
@@ -161,17 +160,6 @@ if records:
         </field>
     </record>
 
-    <record id="action_server_admission_verify_docs" model="ir.actions.server">
-        <field name="name">Verify Documents</field>
-        <field name="model_id" ref="model_campus_admission"/>
-        <field name="binding_model_id" ref="model_campus_admission"/>
-        <field name="binding_view_types">list</field>
-        <field name="state">code</field>
-        <field name="code">
-if records:
-    records.action_verify_documents()
-        </field>
-    </record>
 
 
     <record id="action_server_admission_accept" model="ir.actions.server">

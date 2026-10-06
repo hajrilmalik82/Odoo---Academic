@@ -165,10 +165,10 @@ class CampusAdmission(models.Model):
     def _do_accept(self):
         """The single path into the 'accepted' state.
 
-        There used to be two: action_accept checked the group, and
-        action_verify_documents did the same transition without checking, which
-        made the check in action_accept dead code. Any internal user with write
-        access could accept an applicant through the other button.
+        There used to be two buttons doing this, and only one of them checked
+        the group, so the check was effectively dead: any internal user with
+        write access could accept an applicant through the other one. Both the
+        duplicate method and its button are gone.
         """
         self._require_state({'document_review'})
         self._check_may_accept()
@@ -176,9 +176,6 @@ class CampusAdmission(models.Model):
             if not record.documents_complete:
                 raise UserError(_("All required documents must be received first."))
         self.write({'state': 'accepted'})
-
-    def action_verify_documents(self):
-        self._do_accept()
 
     def action_reject(self):
         for record in self:

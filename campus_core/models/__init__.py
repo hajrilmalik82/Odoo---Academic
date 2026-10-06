@@ -1,4 +1,5 @@
 from . import academic_credit_limit
+from . import academic_grade_scale
 from . import academic_institution
 from . import academic_facility
 from . import academic_subject

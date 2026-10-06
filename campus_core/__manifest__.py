@@ -11,6 +11,7 @@
         'security/ir.model.access.csv',
         'data/ir_sequence_data.xml',
         'data/academic_credit_limit_data.xml',
+        'data/academic_grade_scale_data.xml',
         'data/mail_activity_type_data.xml',
         'data/website_configurator_bypass.xml',
         'report/report_actions.xml',
@@ -34,6 +35,7 @@
         # After menus.xml: the credit-limit menu hangs off menu_academic_configuration,
         # and the settings view links to the credit-limit action.
         'views/academic_credit_limit_views.xml',
+        'views/academic_grade_scale_views.xml',
         'views/res_config_settings_views.xml',
     ],
     'installable': True,

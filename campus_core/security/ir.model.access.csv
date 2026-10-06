@@ -63,3 +63,6 @@ access_res_partner_lecturer,res.partner lecturer,base.model_res_partner,group_ca
 access_academic_credit_limit_admin,academic.credit.limit admin,model_academic_credit_limit,group_campus_administrator,1,1,1,1
 access_academic_credit_limit_staff,academic.credit.limit staff,model_academic_credit_limit,group_campus_academic_staff,1,1,1,1
 access_academic_credit_limit_lecturer,academic.credit.limit lecturer,model_academic_credit_limit,group_campus_lecturer,1,0,0,0
+access_academic_grade_scale_admin,academic.grade.scale admin,model_academic_grade_scale,group_campus_administrator,1,1,1,1
+access_academic_grade_scale_staff,academic.grade.scale staff,model_academic_grade_scale,group_campus_academic_staff,1,1,1,1
+access_academic_grade_scale_lecturer,academic.grade.scale lecturer,model_academic_grade_scale,group_campus_lecturer,1,0,0,0
