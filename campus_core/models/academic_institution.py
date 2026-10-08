@@ -1,4 +1,33 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
+from odoo.exceptions import UserError
+
+
+def _drop_linked_departments(departments):
+    """Remove the HR departments that mirrored the deleted academic records.
+
+    Must run after super().unlink(): department_id is ondelete='restrict', so
+    the department can only go once the row pointing at it is gone.
+
+    Deleting a faculty or a programme used to leave its department behind, and
+    the HR Departments list slowly filled with entries for faculties and
+    programmes that no longer existed, several of them sharing a name.
+
+    Refuses while people are still assigned. hr.version.department_id is
+    ON DELETE SET NULL, so removing an occupied department would quietly strip
+    the department from every employee in it and leave nothing behind to say
+    what it used to be.
+    """
+    if not departments:
+        return
+    occupied = departments.filtered('member_ids')
+    if occupied:
+        raise UserError(_(
+            "Cannot delete %(names)s: employees are still assigned to the "
+            "linked HR department. Move them to another department first."
+        ) % {
+            'names': ', '.join(occupied.mapped('name')),
+        })
+    departments.unlink()
 
 
 class AcademicFaculty(models.Model):
@@ -52,6 +81,12 @@ class AcademicFaculty(models.Model):
                     program._set_head_reports_to(faculty.dean_id)
         return res
 
+    def unlink(self):
+        departments = self.department_id
+        res = super().unlink()
+        _drop_linked_departments(departments)
+        return res
+
 
 class AcademicProgram(models.Model):
     _name = 'academic.program'
@@ -59,9 +94,16 @@ class AcademicProgram(models.Model):
     _order = 'name'
     _check_company_auto = True
 
-    _check_name_faculty_unique = models.Constraint(
-        'UNIQUE (name, faculty_id)',
-        "Program name must be unique within the same Faculty!",
+    # Global, not scoped by faculty. A programme name identifies the programme
+    # across the whole institution: "Teknik Informatika" belongs to exactly one
+    # faculty, and the same name appearing under two faculties is a data-entry
+    # mistake rather than a legitimate second programme. Scoped by faculty, the
+    # constraint accepted those duplicates, and they then showed up twice in the
+    # HR department tree with no way to tell them apart.
+    # Kept company-wide for the same reason as academic.faculty above.
+    _check_name_unique = models.Constraint(
+        'UNIQUE (name)',
+        "Program name must be unique!",
     )
 
     name = fields.Char(string='Name', required=True)
@@ -120,4 +162,10 @@ class AcademicProgram(models.Model):
                 program._set_head_reports_to(program.faculty_id.dean_id)
             if 'faculty_id' in vals:
                 program.department_id.parent_id = program.faculty_id.department_id.id if program.faculty_id.department_id else False
+        return res
+
+    def unlink(self):
+        departments = self.department_id
+        res = super().unlink()
+        _drop_linked_departments(departments)
         return res

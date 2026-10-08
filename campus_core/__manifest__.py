@@ -21,6 +21,7 @@
         'wizard/krs_generator_wizard_views.xml',
         'wizard/assign_schedule_wizard_views.xml',
         'views/res_partner_views.xml',
+        'views/hr_department_views.xml',
         'views/campus_facility_views.xml',
         'views/academic_institution_views.xml',
         'views/academic_krs_views.xml',

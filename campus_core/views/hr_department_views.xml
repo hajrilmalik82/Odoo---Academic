@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Faculties and study programmes are mirrored into hr.department, the
+         programme nested under its faculty. The HR Departments list renders that
+         tree flat, so faculties and programmes sat side by side with nothing to
+         tell them apart. Odoo 19 Community has no hierarchy view type for this
+         model (ir.ui.view.type offers list, form, graph, pivot, calendar, kanban,
+         search and qweb only), so grouping is the closest native equivalent:
+         every faculty becomes a heading with its programmes inside it. -->
+    <record id="view_department_filter_campus" model="ir.ui.view">
+        <field name="name">hr.department.search.inherit.campus</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_filter"/>
+        <field name="arch" type="xml">
+            <filter name="inactive" position="after">
+                <group>
+                    <filter string="Parent Department" name="group_parent_department"
+                            domain="[]" context="{'group_by': 'parent_id'}"/>
+                    <filter string="Manager" name="group_manager"
+                            domain="[]" context="{'group_by': 'manager_id'}"/>
+                </group>
+            </filter>
+        </field>
+    </record>
+
+    <!-- Both stock actions, because the Employees menu points at the kanban one
+         (hr.menu_hr_department_kanban -> hr_department_kanban_action) while
+         hr_department_tree_action is reached from elsewhere. Patching only one
+         leaves the menu ungrouped. Neither carries a context of its own, so this
+         adds one rather than replacing anything. Faculties have no parent and
+         gather under "None"; everything below a heading is a study programme. -->
+    <record id="hr.hr_department_kanban_action" model="ir.actions.act_window">
+        <field name="context">{'search_default_group_parent_department': 1}</field>
+    </record>
+
+    <record id="hr.hr_department_tree_action" model="ir.actions.act_window">
+        <field name="context">{'search_default_group_parent_department': 1}</field>
+    </record>
+</odoo>
