@@ -30,16 +30,51 @@ def _drop_linked_departments(departments):
     departments.unlink()
 
 
+def _set_department_manager(department, manager):
+    """Point the linked HR department at the dean or programme head.
+
+    hr.department.write() reacts to manager_id by calling
+    _update_employee_manager, which re-parents every employee of the department
+    whose parent_id is the outgoing manager. On a replacement that is exactly
+    right: the previous dean's reports follow on to the new one.
+
+    On a clear it is not. Emptying the Dean field describes the faculty, it does
+    not reorganise it, yet it left every one of that dean's reports with no
+    manager at all. The earlier fix dodged that by never writing a blank
+    manager, but then the department went on showing a dean the faculty no
+    longer had.
+
+    So the department is updated either way, and the reporting lines that were
+    only collateral damage are put back afterwards.
+    """
+    if not department:
+        return
+    if manager:
+        department.manager_id = manager.id
+        return
+    members = department.member_ids
+    previous = {employee.id: employee.parent_id.id for employee in members}
+    department.manager_id = False
+    for employee in members:
+        if employee.parent_id.id != previous[employee.id]:
+            employee.parent_id = previous[employee.id]
+
+
 class AcademicFaculty(models.Model):
     _name = 'academic.faculty'
     _description = 'Academic Faculty'
     _order = 'name'
     _check_company_auto = True
 
+    # Case-insensitive on purpose: a plain UNIQUE (name) compares byte for byte,
+    # so "Fakultas Teknologi Industri" and "FAKULTAS TEKNOLOGI INDUSTRI" were
+    # accepted as two different faculties and then sat side by side in the HR
+    # department tree with no way to tell them apart. An index on lower(name) is
+    # what makes the two collide.
     # Kept global (not scoped by company_id) to preserve the previous semantics.
     # See audit item S-07 before making this per-company.
-    _check_name_unique = models.Constraint(
-        'UNIQUE (name)',
+    _unique_name_case_insensitive = models.UniqueIndex(
+        "(lower(name))",
         "Faculty name must be unique!",
     )
 
@@ -69,16 +104,12 @@ class AcademicFaculty(models.Model):
                 continue
             if 'name' in vals:
                 faculty.department_id.name = faculty.name
-            # Only ever push a real dean onto the department. hr.department.write()
-            # reacts to manager_id by rewriting parent_id on every employee of the
-            # department (_update_employee_manager in addons/hr), so writing False
-            # here stripped the manager from everyone in the faculty merely because
-            # the Dean field had been cleared.
-            if 'dean_id' in vals and faculty.dean_id:
-                faculty.department_id.manager_id = faculty.dean_id.id
-                programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
-                for program in programs:
-                    program._set_head_reports_to(faculty.dean_id)
+            if 'dean_id' in vals:
+                _set_department_manager(faculty.department_id, faculty.dean_id)
+                if faculty.dean_id:
+                    programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
+                    for program in programs:
+                        program._set_head_reports_to(faculty.dean_id)
         return res
 
     def unlink(self):
@@ -100,9 +131,10 @@ class AcademicProgram(models.Model):
     # mistake rather than a legitimate second programme. Scoped by faculty, the
     # constraint accepted those duplicates, and they then showed up twice in the
     # HR department tree with no way to tell them apart.
-    # Kept company-wide for the same reason as academic.faculty above.
-    _check_name_unique = models.Constraint(
-        'UNIQUE (name)',
+    # Kept company-wide, and case-insensitive, for the same reasons as
+    # academic.faculty above.
+    _unique_name_case_insensitive = models.UniqueIndex(
+        "(lower(name))",
         "Program name must be unique!",
     )
 
@@ -155,11 +187,10 @@ class AcademicProgram(models.Model):
                 continue
             if 'name' in vals:
                 program.department_id.name = program.name
-            # Same reason as on the faculty: writing a blank manager_id would make
-            # hr.department strip parent_id from every employee of this programme.
-            if 'head_id' in vals and program.head_id:
-                program.department_id.manager_id = program.head_id.id
-                program._set_head_reports_to(program.faculty_id.dean_id)
+            if 'head_id' in vals:
+                _set_department_manager(program.department_id, program.head_id)
+                if program.head_id:
+                    program._set_head_reports_to(program.faculty_id.dean_id)
             if 'faculty_id' in vals:
                 program.department_id.parent_id = program.faculty_id.department_id.id if program.faculty_id.department_id else False
         return res
