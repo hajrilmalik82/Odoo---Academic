@@ -30,36 +30,6 @@ def _drop_linked_departments(departments):
     departments.unlink()
 
 
-def _set_department_manager(department, manager):
-    """Point the linked HR department at the dean or programme head.
-
-    hr.department.write() reacts to manager_id by calling
-    _update_employee_manager, which re-parents every employee of the department
-    whose parent_id is the outgoing manager. On a replacement that is exactly
-    right: the previous dean's reports follow on to the new one.
-
-    On a clear it is not. Emptying the Dean field describes the faculty, it does
-    not reorganise it, yet it left every one of that dean's reports with no
-    manager at all. The earlier fix dodged that by never writing a blank
-    manager, but then the department went on showing a dean the faculty no
-    longer had.
-
-    So the department is updated either way, and the reporting lines that were
-    only collateral damage are put back afterwards.
-    """
-    if not department:
-        return
-    if manager:
-        department.manager_id = manager.id
-        return
-    members = department.member_ids
-    previous = {employee.id: employee.parent_id.id for employee in members}
-    department.manager_id = False
-    for employee in members:
-        if employee.parent_id.id != previous[employee.id]:
-            employee.parent_id = previous[employee.id]
-
-
 class AcademicFaculty(models.Model):
     _name = 'academic.faculty'
     _description = 'Academic Faculty'
@@ -98,6 +68,9 @@ class AcademicFaculty(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
+        # Captured before the write, so the programme heads below can tell
+        # whether they were reporting to the dean who is now leaving.
+        outgoing_deans = {faculty.id: faculty.dean_id for faculty in self} if 'dean_id' in vals else {}
         res = super().write(vals)
         for faculty in self:
             if not faculty.department_id:
@@ -105,11 +78,18 @@ class AcademicFaculty(models.Model):
             if 'name' in vals:
                 faculty.department_id.name = faculty.name
             if 'dean_id' in vals:
-                _set_department_manager(faculty.department_id, faculty.dean_id)
-                if faculty.dean_id:
-                    programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
-                    for program in programs:
-                        program._set_head_reports_to(faculty.dean_id)
+                # Written even when the Dean is cleared. hr.department answers a
+                # manager change by re-parenting the employees of that department
+                # whose manager was the outgoing dean, and only those: a colleague
+                # who reports to somebody else keeps their manager. An earlier fix
+                # here refused to write a blank manager, on the belief that it wiped
+                # the manager of everyone in the faculty. It does not, and the
+                # refusal left the department showing a dean the faculty no longer
+                # had, with the faculty's staff still reporting to them.
+                faculty.department_id.manager_id = faculty.dean_id.id
+                programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
+                for program in programs:
+                    program._set_head_reports_to(faculty.dean_id, outgoing_deans.get(faculty.id))
         return res
 
     def unlink(self):
@@ -168,17 +148,29 @@ class AcademicProgram(models.Model):
             program._set_head_reports_to(program.faculty_id.dean_id)
         return programs
 
-    def _set_head_reports_to(self, dean):
+    def _set_head_reports_to(self, dean, outgoing_dean=None):
         """Point the programme head at the dean, unless they are the same person.
 
         hr.employee.parent_id carries no recursion guard in Odoo, so making
         someone their own manager goes through silently and leaves a self-loop in
         the org chart. That happens whenever a dean also heads one of their own
         faculty's programmes, which is ordinary at a small campus.
+
+        The clearing branch exists because a programme head is usually not a
+        member of the faculty's own HR department, so hr.department's re-parenting
+        never reaches them. Without it, removing a dean left every head of that
+        faculty still reporting to someone who no longer held the post. Only the
+        link this method created is undone: a head who reports to somebody else
+        keeps their manager.
         """
         self.ensure_one()
-        if self.head_id and dean and self.head_id != dean:
-            self.head_id.parent_id = dean.id
+        if not self.head_id:
+            return
+        if dean:
+            if self.head_id != dean:
+                self.head_id.parent_id = dean.id
+        elif outgoing_dean and self.head_id.parent_id == outgoing_dean:
+            self.head_id.parent_id = False
 
     def write(self, vals):
         res = super().write(vals)
@@ -188,7 +180,9 @@ class AcademicProgram(models.Model):
             if 'name' in vals:
                 program.department_id.name = program.name
             if 'head_id' in vals:
-                _set_department_manager(program.department_id, program.head_id)
+                # Same reasoning as the dean above: a cleared Head of Program
+                # leaves the programme's department without a manager.
+                program.department_id.manager_id = program.head_id.id
                 if program.head_id:
                     program._set_head_reports_to(program.faculty_id.dean_id)
             if 'faculty_id' in vals:
