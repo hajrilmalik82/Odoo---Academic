@@ -83,6 +83,13 @@
         <field name="name">Academic Years</field>
         <field name="res_model">academic.year</field>
         <field name="view_mode">list,form</field>
+        <!-- Archived years stay on the list instead of hiding behind the Archived
+             filter. There are only a handful of them, they are consulted often
+             when checking an old intake, and the list already carries an Active
+             column to tell them apart. Archiving still does its real job
+             elsewhere: an archived year is kept out of every dropdown, which is
+             what stops anyone registering a KRS against a closed term. -->
+        <field name="context">{'active_test': False}</field>
     </record>
 
     <menuitem id="menu_academic_faculty" name="Faculties" parent="menu_academic_configuration" action="action_academic_faculty" sequence="10"/>

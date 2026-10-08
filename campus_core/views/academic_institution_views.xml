@@ -124,10 +124,10 @@
         <field name="name">academic.year.tree</field>
         <field name="model">academic.year</field>
         <field name="arch" type="xml">
-            <list string="Academic Years">
+            <list string="Academic Years" decoration-muted="not active">
                 <field name="name"/>
                 <field name="term_type"/>
-                <field name="active"/>
+                <field name="active" widget="boolean_toggle"/>
                 <field name="krs_start_date"/>
                 <field name="krs_end_date"/>
                 <field name="company_id" column_invisible="1"/>
