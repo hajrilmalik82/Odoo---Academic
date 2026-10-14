@@ -1,7 +1,5 @@
 from odoo import api, fields, models
-
-
-from odoo.osv import expression
+from odoo.fields import Domain
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -122,16 +120,22 @@ class ResPartner(models.Model):
 
     @api.model
     def _search_display_name(self, operator, value):
-        # Odoo 17+ menggunakan _search_display_name alih-alih _name_search
+        """Let a contact be found by its student number as well as its name.
+
+        Built with odoo.fields.Domain. The previous odoo.osv.expression is
+        deprecated in 19.0 (odoo/osv/__init__.py:3-4 warns on import) and no
+        stock addon imports it any more; campus_employees/models/hr_job.py in
+        this same codebase already uses the replacement.
+        """
         domain = super()._search_display_name(operator, value)
         if not value:
             return domain
-        nim_domain = [('nim', operator, value)]
-        if operator in expression.NEGATIVE_TERM_OPERATORS:
+        nim_domain = Domain('nim', operator, value)
+        if operator in Domain.NEGATIVE_OPERATORS:
             # "does not contain" has to exclude NIM matches as well, so the two
             # conditions combine with AND. OR'ing a negative operator asked for
             # "name doesn't match OR nim doesn't match", which nearly every
             # partner satisfies, so the search returned the whole table.
-            return expression.AND([domain, nim_domain])
+            return domain & nim_domain
         # Positive search: match on the usual fields or on the student number.
-        return expression.OR([domain, nim_domain])
+        return domain | nim_domain
