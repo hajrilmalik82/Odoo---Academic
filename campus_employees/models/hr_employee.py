@@ -198,8 +198,19 @@ class HrEmployee(models.Model):
 class HrEmployeePublic(models.Model):
     _inherit = 'hr.employee.public'
 
-    academic_role = fields.Selection(related='employee_id.academic_role', readonly=True, store=True)
-    nidn = fields.Char(related='employee_id.nidn', readonly=True, store=True)
+    # Deliberately not stored, like every other mirror on this model. The parent
+    # is an _auto = False model whose table is a SQL view joining hr_employee to
+    # hr_version (addons/hr/models/hr_employee_public.py:194-203), and PostgreSQL
+    # refuses to update a view built from more than one table. Storing these two
+    # folded them into that view's SELECT via _get_fields(), so every write of
+    # academic_role or nidn on an existing employee queued a recompute here and
+    # died at flush with "cannot update view hr_employee_public", taking the
+    # whole transaction with it. Creating an employee happened to survive, which
+    # is why the Lecturer and PMB forms looked fine.
+    # Nothing is lost by dropping it: fields.py:636-638 grants a non-stored
+    # related field its own search, which a stored one on a view never had.
+    academic_role = fields.Selection(related='employee_id.academic_role', readonly=True)
+    nidn = fields.Char(related='employee_id.nidn', readonly=True)
     academic_rank = fields.Selection(related='employee_id.academic_rank', readonly=True)
     faculty_id = fields.Many2one(related='employee_id.faculty_id', readonly=True)
     program_id = fields.Many2one(related='employee_id.program_id', readonly=True)
