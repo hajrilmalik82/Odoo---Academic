@@ -65,18 +65,25 @@ class AcademicKrs(models.Model):
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
 
     advisor_id = fields.Many2one('hr.employee', related='student_id.academic_advisor_id', string='Academic Advisor', readonly=True)
+    # Snapshot, not a live mirror of where the student studies today. Same
+    # reasoning as `credits` on the KRS line below: depending on student_id
+    # alone copies the faculty and programme when the KRS is created, and never
+    # again. Depending on student_id.program_id meant a programme transfer
+    # rewrote every KRS that student had ever had, locked plans from previous
+    # years included — and a KRS records which programme they were enrolled in
+    # THAT term. The printed document, the PMB jurisdiction rule and every
+    # per-programme report read these as history. readonly=False keeps them
+    # correctable by hand while the plan is still a draft.
     faculty_id = fields.Many2one('academic.faculty', string='Faculty', compute='_compute_student_info', store=True, readonly=False)
     program_id = fields.Many2one('academic.program', string='Program', compute='_compute_student_info', store=True, readonly=False)
 
-    @api.depends('student_id.program_id', 'student_id.faculty_id')
+    @api.depends('student_id')
     def _compute_student_info(self):
         for record in self:
-            if record.student_id:
-                record.program_id = record.student_id.program_id
-                record.faculty_id = record.student_id.faculty_id
-            else:
-                record.program_id = False
-                record.faculty_id = False
+            # Assigned unconditionally, so picking a different student on a
+            # draft replaces both, and clearing the student clears them.
+            record.program_id = record.student_id.program_id
+            record.faculty_id = record.student_id.faculty_id
 
 
 
