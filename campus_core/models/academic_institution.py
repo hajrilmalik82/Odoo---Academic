@@ -58,6 +58,11 @@ class AcademicFaculty(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # Checked up front: the loop below creates an hr.department before
+        # super() gets to verify the caller may create a faculty at all. Without
+        # this, a user without create rights was refused by a message naming
+        # hr.department, which says nothing about what they actually lack.
+        self.check_access('create')
         for vals in vals_list:
             if 'name' in vals and not vals.get('department_id'):
                 dept = self.env['hr.department'].create({
@@ -131,6 +136,8 @@ class AcademicProgram(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        # Same reason as on the faculty above.
+        self.check_access('create')
         for vals in vals_list:
             if 'name' in vals and not vals.get('department_id'):
                 parent_dept_id = False
