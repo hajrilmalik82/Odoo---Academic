@@ -227,6 +227,7 @@ class AcademicKrs(models.Model):
     def unlink(self):
         if self.filtered(lambda record: record.state == 'locked'):
             raise ValidationError(_("Locked KRS records cannot be deleted."))
+        self._check_no_orphan_khs(_("deleting this KRS"))
         return super().unlink()
 
     @api.constrains('state')
@@ -462,11 +463,23 @@ class AcademicKrs(models.Model):
                 raise ValidationError(_("Locked KRS records cannot be reset to draft."))
             if record.state == 'approved' and not self.env.user.has_group('campus_core.group_campus_administrator'):
                 raise AccessError(_("Only campus administrators can reset an approved KRS to draft."))
-            # A KHS outlives its KRS on purpose: action_unlock keeps it so entered
-            # grades are not lost. But a KHS whose KRS has gone back to draft is an
-            # orphan that still feeds the student's CGPA and still shows on the
-            # transcript, with nothing left to justify it. Make the administrator
-            # deal with it first rather than leaving it behind silently.
+            record._check_no_orphan_khs(_("returning this KRS to draft"))
+            record.state = 'draft'
+
+    def _check_no_orphan_khs(self, action_phrase):
+        """Refuse while a KHS for the same student and term still stands.
+
+        A KHS outlives its KRS on purpose: action_unlock keeps it so entered
+        grades are not lost. But a KHS whose study plan is gone is an orphan. It
+        keeps feeding res.partner._compute_cgpa, keeps setting next term's
+        credit cap through _get_max_credits_allowed, and still prints on the
+        transcript, with nothing left to justify it.
+
+        Shared by action_set_draft and unlink deliberately. The check was
+        written for the reset path only, so deleting the KRS outright walked
+        straight past it and left exactly the orphan this was meant to prevent.
+        """
+        for record in self:
             orphan_khs = self.env['academic.khs'].sudo().search_count([
                 ('student_id', '=', record.student_id.id),
                 ('academic_year_id', '=', record.academic_year_id.id),
@@ -474,13 +487,13 @@ class AcademicKrs(models.Model):
             if orphan_khs:
                 raise ValidationError(_(
                     "A KHS already exists for %(student)s in %(year)s. Delete it before "
-                    "returning this KRS to draft, otherwise its grades would keep "
-                    "counting towards the CGPA with no study plan behind them."
+                    "%(action)s, otherwise its grades would keep counting towards the "
+                    "CGPA with no study plan behind them."
                 ) % {
                     'student': record.student_id.display_name,
                     'year': record.academic_year_id.display_name,
+                    'action': action_phrase,
                 })
-            record.state = 'draft'
 
     @api.onchange('package_id')
     def _onchange_package_id(self):
