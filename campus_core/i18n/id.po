@@ -20,22 +20,22 @@ msgstr ""
 #. odoo-python
 #: code:addons/campus_core/wizard/krs_generator_wizard.py:0
 msgid "%s KRS draft(s) successfully generated!"
-msgstr "(Catatan Akademik Resmi)"
+msgstr "%s draf KRS berhasil dibuat!"
 
 #. module: campus_core
 #: model:ir.actions.report,print_report_name:campus_core.action_report_khs
 msgid "'KHS - %s' % object.student_id.name"
-msgstr "(Catatan Akademik Resmi)"
+msgstr ""
 
 #. module: campus_core
 #: model:ir.actions.report,print_report_name:campus_core.action_report_krs
 msgid "'KRS - %s' % object.student_id.name"
-msgstr "(Catatan Akademik Resmi)"
+msgstr ""
 
 #. module: campus_core
 #: model:ir.actions.report,print_report_name:campus_core.action_report_transcript
 msgid "'Transkrip - %s' % object.student_id.name"
-msgstr "(Catatan Akademik Resmi)"
+msgstr ""
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document

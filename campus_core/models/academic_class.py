@@ -40,10 +40,13 @@ class AcademicClass(models.Model):
         sum of its sections. It used to be min(), which reported the whole class
         as limited by its smallest room while counting students from all of them.
         """
+        # One grouped query for every section on the page, instead of one COUNT
+        # per section per class.
+        counts = self.schedule_ids._enrolled_counts()
         for record in self:
             total_capacity = sum(record.schedule_ids.mapped('room_capacity'))
             total_students = sum(
-                schedule._enrolled_count() for schedule in record.schedule_ids
+                counts.get(schedule.id, 0) for schedule in record.schedule_ids
             )
             record.class_capacity_display = f"{total_students} / {total_capacity}"
 

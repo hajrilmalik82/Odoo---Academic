@@ -499,7 +499,9 @@ class AcademicKrsLine(models.Model):
     krs_id = fields.Many2one('academic.krs', string='KRS', ondelete='cascade')
     student_id = fields.Many2one(related='krs_id.student_id', string='Student', store=True)
     state = fields.Selection(related='krs_id.state', string='Status', store=True)
-    schedule_id = fields.Many2one('academic.class.schedule', string='Schedule')
+    # Indexed: every seat count groups academic_krs_line by this column, and
+    # the student record rules filter on it.
+    schedule_id = fields.Many2one('academic.class.schedule', string='Schedule', index=True)
     class_id = fields.Many2one(related='schedule_id.class_id', store=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', compute='_compute_subject_id', store=True, readonly=False)
     # Snapshot, not a live related. Depending on subject_id alone means the SKS

@@ -56,25 +56,43 @@ class AcademicClassSchedule(models.Model):
     # Draft and rejected plans must not hold places for everyone else.
     _ENROLLED_KRS_STATES = ('submitted', 'approved', 'locked')
 
-    def _enrolled_count(self, exclude_krs=None):
-        """Students actually holding a seat in this section.
+    def _enrolled_counts(self, exclude_krs=None):
+        """Seats taken, for the whole recordset, in ONE query.
 
         This is the single definition of "enrolled". It used to be spelled out
         three separate ways, so the figure the validator blocked on and the
         figure shown on screen disagreed.
 
+        Grouped rather than counted per section. Both list views read this for
+        every row on the page, so the per-record form issued one COUNT per
+        section: 40 classes of 3 sections cost 123 queries to paint one page,
+        and the Schedules list cost one per row. Each of those joined
+        academic_krs_line to academic_krs on an unindexed column.
+
         sudo() because a seat count is a capacity figure, not confidential: a
         student has to see a truthful 35 / 40 even though record rules stop them
         reading anyone else's KRS lines.
+
+        :return: {schedule_id: count}, with an entry for every record in self.
         """
-        self.ensure_one()
+        if not self:
+            return {}
         domain = [
-            ('schedule_id', '=', self.id),
+            ('schedule_id', 'in', self.ids),
             ('krs_id.state', 'in', self._ENROLLED_KRS_STATES),
         ]
         if exclude_krs:
             domain.append(('krs_id', 'not in', exclude_krs.ids))
-        return self.env['academic.krs.line'].sudo().search_count(domain)
+        groups = self.env['academic.krs.line'].sudo()._read_group(
+            domain, ['schedule_id'], ['__count'],
+        )
+        taken = {schedule.id: count for schedule, count in groups}
+        return {record.id: taken.get(record.id, 0) for record in self}
+
+    def _enrolled_count(self, exclude_krs=None):
+        """Seats taken in this one section. See _enrolled_counts."""
+        self.ensure_one()
+        return self._enrolled_counts(exclude_krs=exclude_krs)[self.id]
 
     def _lock_for_enrolment(self):
         """Serialize concurrent enrolment into the same sections.
@@ -98,8 +116,9 @@ class AcademicClassSchedule(models.Model):
 
     @api.depends('room_capacity', 'class_id.student_line_ids.schedule_id', 'class_id.student_line_ids.state')
     def _compute_capacity_display(self):
+        counts = self._enrolled_counts()
         for record in self:
-            enrolled = record._enrolled_count()
+            enrolled = counts.get(record.id, 0)
             record.enrolled_count = enrolled
             record.capacity_display = f"{enrolled} / {record.room_capacity}"
 
