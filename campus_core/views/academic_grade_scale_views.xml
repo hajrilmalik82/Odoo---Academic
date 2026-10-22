@@ -8,6 +8,7 @@
                 <field name="min_score"/>
                 <field name="letter"/>
                 <field name="grade_point"/>
+                <field name="description"/>
                 <field name="company_id" groups="base.group_multi_company"/>
             </list>
         </field>
@@ -23,6 +24,7 @@
                         <field name="min_score"/>
                         <field name="letter"/>
                         <field name="grade_point"/>
+                        <field name="description"/>
                         <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                 </sheet>

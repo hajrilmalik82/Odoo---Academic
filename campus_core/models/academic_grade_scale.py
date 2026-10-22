@@ -33,9 +33,51 @@ class AcademicGradeScale(models.Model):
         string='Grade Point', digits=(5, 2), required=True,
         help="Weight used in the GPA calculation.",
     )
+    description = fields.Char(
+        string='Description',
+        help="Wording printed beside this band on the official transcript, "
+             "for example Excellent or Pass.",
+    )
     company_id = fields.Many2one(
         'res.company', string='Company', default=lambda self: self.env.company,
     )
+
+    @api.model
+    def _get_scale_rows(self):
+        """The grading scale as the transcript prints it.
+
+        The transcript used to carry its own copy of the nine bands as literal
+        table rows, which is the one place they must not be: the moment a
+        registrar edits Configuration > Grade Scale, the letters in the body of
+        the document would follow the new bands while the legend underneath
+        still stated the old cut-offs. An official record contradicting itself
+        on the same page is unusable.
+
+        Only the minimum of each band is stored, so the upper bound shown here
+        is the next band's minimum less one. That assumes whole-number
+        cut-offs, which every shipped band uses and which is how Indonesian
+        campuses state a scale; a fractional cut-off would print one point low
+        in the legend without affecting any grade.
+
+        :return: list of dicts, highest band first.
+        """
+        bands = self.search([], order='min_score desc')
+        rows = []
+        for index, band in enumerate(bands):
+            upper = 100.0 if index == 0 else bands[index - 1].min_score - 1
+            rows.append({
+                'range': '%s – %s' % (self._format_score(band.min_score),
+                                      self._format_score(upper)),
+                'letter': band.letter or '',
+                'grade_point': '%.2f' % band.grade_point,
+                'description': band.description or '',
+            })
+        return rows
+
+    @staticmethod
+    def _format_score(value):
+        """Whole numbers without a decimal tail, so 80 reads 80 and not 80.0."""
+        return '%g' % round(value, 2)
 
     @api.depends('letter', 'min_score', 'grade_point')
     def _compute_display_name(self):
