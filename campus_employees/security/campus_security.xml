@@ -42,5 +42,21 @@
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="1"/>
         </record>
+
+        <!-- The jurisdiction has to reach the KRS lines too. It was enforced on
+             academic.krs but not on its lines, and the line model stores its own
+             student_id and state, so a staff member scoped to one faculty could
+             read and edit the study-plan lines of every student in the
+             university simply by querying the child model. -->
+        <record id="rule_academic_staff_krs_line_access" model="ir.rule">
+            <field name="name">Academic Staff: Faculty and Program Access for KRS Lines</field>
+            <field name="model_id" ref="campus_core.model_academic_krs_line"/>
+            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('krs_id.program_id')</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
     </data>
 </odoo>

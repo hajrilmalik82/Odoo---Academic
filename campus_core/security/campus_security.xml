@@ -160,6 +160,55 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
+        <!-- academic.khs carried an ACL for lecturers with nothing to narrow it,
+             so every lecturer could read the term GPA of every student in the
+             institution. Reachable straight from the menu, too: the Academic
+             Transcript (KHS) item carries no groups attribute, and Odoo decides
+             menu visibility from ACL read alone. A lecturer legitimately needs
+             the KHS of the students they advise, and of the students whose
+             grades they enter — the latter because the grade lines hang off it,
+             and those already have their own rule below. -->
+        <record id="rule_lecturer_khs_access" model="ir.rule">
+            <field name="name">Lecturer: KHS of Their Advisees or Subjects They Teach</field>
+            <field name="model_id" ref="model_academic_khs"/>
+            <field name="domain_force">['|', ('student_id.academic_advisor_id.user_id', '=', user.id), ('line_ids.schedule_ids.lecturer_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- academic.krs.line stores its own student_id and state, so asking the
+             child model answered exactly what rule_lecturer_krs_access refuses on
+             the parent. The line now follows its KRS. -->
+        <record id="rule_lecturer_krs_line_access" model="ir.rule">
+            <field name="name">Lecturer: Only KRS Lines of Their Own Advisees</field>
+            <field name="model_id" ref="model_academic_krs_line"/>
+            <field name="domain_force">[('krs_id.student_id.academic_advisor_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- group_campus_administrator implies both the lecturer and the
+             academic-staff group, so the two rules above and the staff rule in
+             campus_employees would otherwise narrow administrators too. Same
+             pairing as rule_admin_krs_access and rule_admin_khs_line_access.
+             academic.krs.line had no administrator rule at all. -->
+        <record id="rule_admin_krs_line_access" model="ir.rule">
+            <field name="name">Campus Admin: All KRS Lines</field>
+            <field name="model_id" ref="model_academic_krs_line"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
         <!-- Read-only. Students never write through the ORM directly: the portal
              controller verifies ownership and performs the change with sudo().
              Granting write here once let a student bypass every submission rule

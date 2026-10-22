@@ -42,6 +42,13 @@
     <record id="view_partner_search_student" model="ir.ui.view">
         <field name="name">res.partner.search.student</field>
         <field name="model">res.partner</field>
+        <!-- Pushed out of the way. ir.ui.view._order is "priority,name,id", so at
+             the default priority of 16 this tied with base.view_res_partner_filter
+             and won on name alone — making it the search view for every
+             res.partner action in the database, Contacts included, which lost its
+             Individuals/Companies/Customers filters. The Students action still
+             reaches it directly through search_view_id. -->
+        <field name="priority">99</field>
         <field name="arch" type="xml">
             <search string="Search Students">
                 <field name="name" string="Name/NIM" filter_domain="['|', ('name', 'ilike', self), ('nim', 'ilike', self)]"/>
