@@ -106,6 +106,11 @@ class CampusAdmission(models.Model):
                 vals['registration_number'] = (
                     self.env['ir.sequence'].sudo().next_by_code('campus.admission') or 'New'
                 )
+        for vals in vals_list:
+            # Same reason as the write guard: creating straight into a later
+            # state would skip every step that produces the student's account.
+            if vals.get('state') and vals['state'] != 'draft':
+                raise ValidationError(_("New admissions must start in draft status."))
         records = super().create(vals_list)
         for record in records:
             record._ensure_default_documents()
@@ -134,6 +139,37 @@ class CampusAdmission(models.Model):
             ]
             if lines:
                 record.write({'document_line_ids': lines})
+
+    # The admission state graph, mirrored on academic.krs. The buttons already
+    # enforced their own order, but nothing enforced it on a plain write, so a
+    # PMB officer or administrator could set state='registered' straight from
+    # the list view, an import or a server action. action_register and therefore
+    # _create_account never ran, leaving a record that reads Registered with no
+    # NIM, no student contact and no portal account — a student who exists on
+    # the admission list and nowhere else in the system.
+    _STATE_TRANSITIONS = {
+        'draft': {'submitted', 'rejected'},
+        'submitted': {'document_review', 'rejected'},
+        'document_review': {'accepted', 'rejected'},
+        'accepted': {'registered'},
+        'registered': set(),
+        'rejected': set(),
+    }
+
+    def _check_state_transition_allowed(self, new_state):
+        """Data integrity, not permission: it holds for sudo and admins too."""
+        for record in self:
+            if record.state == new_state:
+                continue
+            if new_state not in self._STATE_TRANSITIONS.get(record.state, set()):
+                raise ValidationError(_(
+                    "Invalid admission status change from '%(old)s' to '%(new)s'."
+                ) % {'old': record.state, 'new': new_state})
+
+    def write(self, vals):
+        if 'state' in vals:
+            self._check_state_transition_allowed(vals['state'])
+        return super().write(vals)
 
     def _require_state(self, allowed_states):
         for record in self:
@@ -272,8 +308,16 @@ class CampusAdmission(models.Model):
             # Generate NIM using centralized method
             nim, batch_year = record._generate_nim(record.faculty_id, record.program_id, record.academic_year_id)
 
-            # Check if partner exists (e.g. created by finance module via invoice)
-            partner = self.env['res.partner'].sudo().search([('email', '=', record.email)], limit=1)
+            # Only an existing STUDENT contact is reused. The search used to match
+            # any partner sharing the email and overwrite its name and phone, so
+            # registering an applicant could rename a vendor, a customer or a
+            # finance contact that happened to use the same address. Creating a
+            # second contact is the lesser evil: res.partner.email is not unique
+            # in Odoo, and renaming someone else's record is not recoverable.
+            partner = self.env['res.partner'].sudo().search([
+                ('email', '=', record.email),
+                ('is_student', '=', True),
+            ], limit=1)
             
             if partner:
                 partner.sudo().write({

@@ -234,10 +234,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <!-- Read once, not once per row: the old lambda ran a filtered()
+                                         over every KRS line for each schedule on the page. -->
+                                    <t t-set="taken_schedule_ids" t-value="krs.line_ids.schedule_id.ids"/>
+                                    <t t-set="taken_subject_ids" t-value="krs.line_ids.subject_id.ids"/>
                                     <t t-foreach="available_schedules" t-as="sch">
-                                        <!-- Don't show if already in KRS -->
-                                        <t t-set="is_enrolled" t-value="len(krs.line_ids.filtered(lambda l: l.schedule_id.id == sch.id)) > 0"/>
-                                        <tr t-att-class="'table-success opacity-50' if is_enrolled else ''">
+                                        <t t-set="is_enrolled" t-value="sch.id in taken_schedule_ids"/>
+                                        <!-- Another section of a subject already in the KRS. Taking it
+                                             is refused at submit time ("same subject twice in one KRS"),
+                                             so the button is closed here instead of failing later. -->
+                                        <t t-set="other_section_taken" t-value="not is_enrolled and sch.class_id.subject_id.id in taken_subject_ids"/>
+                                        <tr t-att-class="'table-success opacity-50' if is_enrolled else ('opacity-50' if other_section_taken else '')">
                                             <td class="fw-bold"><t t-out="sch.class_id.subject_id.name"/></td>
                                             <td>Kelas <t t-out="sch.class_code"/></td>
                                             <td>
@@ -257,6 +264,12 @@
                                             <td class="text-center">
                                                 <t t-if="is_enrolled">
                                                     <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Diambil</button>
+                                                </t>
+                                                <t t-elif="other_section_taken">
+                                                    <button class="btn btn-sm btn-outline-secondary" disabled="1"
+                                                            title="Mata kuliah ini sudah diambil di kelas lain. Hapus dulu kelas yang lama kalau mau pindah.">
+                                                        <i class="fa fa-ban"/> Kelas lain diambil
+                                                    </button>
                                                 </t>
                                                 <t t-else="">
                                                     <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">

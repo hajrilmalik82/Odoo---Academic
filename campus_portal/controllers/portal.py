@@ -46,12 +46,20 @@ class CampusPortal(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         partner = request.env.user.partner_id
 
+        # sudo() with the domain pinned to the logged-in partner, the same
+        # contract as _get_own_krs: it counts the caller's own records and
+        # nothing else. Read ACL on academic.krs is granted to portal, campus
+        # staff and lecturers only, so without sudo this raised AccessError for
+        # every other internal user. /my/counters batches up to five counters
+        # per call and the client awaits it in willStart, so that single refusal
+        # left the whole batch's cards hidden and the portal spinner turning for
+        # ever - including cards owned by other modules.
         if 'krs_count' in counters:
-            values['krs_count'] = request.env['academic.krs'].search_count([
+            values['krs_count'] = request.env['academic.krs'].sudo().search_count([
                 ('student_id', '=', partner.id)
             ])
         if 'khs_count' in counters:
-            values['khs_count'] = request.env['academic.khs'].search_count([
+            values['khs_count'] = request.env['academic.khs'].sudo().search_count([
                 ('student_id', '=', partner.id)
             ])
         return values
@@ -131,10 +139,27 @@ class CampusPortal(CustomerPortal):
         if not krs:
             return request.redirect('/my/krs')
 
+        # Offer only what this student can actually submit. The list used to be
+        # every schedule of the academic year, so a student saw sections from
+        # other study programmes, pressed Ambil, and only found out at submit
+        # time that _check_subjects_valid refuses a subject whose programme is
+        # not theirs. The filter mirrors that rule exactly: a subject with no
+        # programme is university-wide and stays, and a KRS with no programme
+        # is not filtered at all, because the rule lets those through too.
+        # That also bounds the query - one programme's offering for one year -
+        # where the old one grew with the whole catalogue. No hard limit: a
+        # truncated list would silently hide a class the student must take.
         # sudo() so the template can read the advisor from hr.employee without a 403
-        available_schedules = request.env['academic.class.schedule'].sudo().search([
-            ('class_id.academic_year_id', '=', krs.academic_year_id.id)
-        ])
+        schedule_domain = [('class_id.academic_year_id', '=', krs.academic_year_id.id)]
+        if krs.program_id:
+            schedule_domain += [
+                '|',
+                ('class_id.subject_id.program_id', '=', False),
+                ('class_id.subject_id.program_id', '=', krs.program_id.id),
+            ]
+        available_schedules = request.env['academic.class.schedule'].sudo().search(
+            schedule_domain, order='class_id, class_code, id',
+        )
         values = self._prepare_portal_layout_values()
         values.update({
             'krs': krs,

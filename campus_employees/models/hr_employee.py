@@ -30,19 +30,29 @@ class HrEmployee(models.Model):
     # depend on campus_pmb while campus_pmb already depended on it.
 
     # Academic Staff Row-Level Security Wewenang (Jurisdiction)
-    academic_all_faculties = fields.Boolean("All Faculties")
+    #
+    # These four are the sole input to every academic-staff record rule, so they
+    # are the access-control map itself. Restricted to campus administrators:
+    # without groups= they were readable by anyone with HR access and writable
+    # by them too, so such a user could open their own employee form, tick All
+    # Faculties, and widen their own reach over every KRS and KHS in the
+    # institution. _academic_jurisdiction_domain reads them through sudo so the
+    # rules still evaluate for the staff member they describe.
+    academic_all_faculties = fields.Boolean("All Faculties", groups="campus_core.group_campus_administrator")
     academic_faculty_ids = fields.Many2many(
-        'academic.faculty', 
-        'hr_employee_academic_faculty_rel', 
+        'academic.faculty',
+        'hr_employee_academic_faculty_rel',
         string="Academic Assigned Faculties",
+        groups="campus_core.group_campus_administrator",
         help="If empty, it means no restriction by faculty (can access all, or restricted by program)."
     )
-    academic_all_programs = fields.Boolean("All Programs")
+    academic_all_programs = fields.Boolean("All Programs", groups="campus_core.group_campus_administrator")
     academic_program_ids = fields.Many2many(
-        'academic.program', 
-        'hr_employee_academic_program_rel', 
+        'academic.program',
+        'hr_employee_academic_program_rel',
         string="Academic Assigned Programs",
         domain="[('faculty_id', 'in', academic_faculty_ids)]",
+        groups="campus_core.group_campus_administrator",
         help="If empty, it means no restriction by program."
     )
 
@@ -87,10 +97,47 @@ class HrEmployee(models.Model):
         employees.filtered('academic_role')._sync_academic_user_role()
         return employees
 
+    def _jurisdiction_fields(self):
+        """Fields that decide what a staff member may reach.
+
+        A method rather than a class attribute so campus_pmb can add its own
+        pmb_* fields with super() instead of shadowing the list.
+        """
+        return (
+            'academic_all_faculties', 'academic_faculty_ids',
+            'academic_all_programs', 'academic_program_ids',
+        )
+
+    def _check_may_set_jurisdiction(self):
+        """Who may reach which faculty stays an administrator's decision.
+
+        Same reasoning as _check_may_grant_academic_groups: Odoo gives
+        hr.group_hr_user full write on hr.employee, so without this an HR
+        officer who also holds a campus role could widen their own jurisdiction
+        on their own employee record.
+        """
+        if self.env.su or self.env.user.has_group('campus_core.group_campus_administrator'):
+            return
+        raise AccessError(_(
+            "Only a Campus Administrator can change an employee's academic "
+            "jurisdiction, because it decides which students' records they reach."
+        ))
+
     def write(self, vals):
+        jurisdiction_changed = [f for f in self._jurisdiction_fields() if f in vals]
+        if jurisdiction_changed:
+            self._check_may_set_jurisdiction()
         res = super().write(vals)
         if 'academic_role' in vals or 'user_id' in vals:
             self._sync_academic_user_role()
+        if jurisdiction_changed:
+            # ir.rule._compute_domain is ormcached on (uid, su, model, mode,
+            # context values) only — see ir_rule.py:137 — so nothing here is part
+            # of the key. Without this, revoking a faculty kept working for the
+            # life of the worker process: the officer went on reading and writing
+            # the records they had just lost, for an unbounded window that
+            # differed per worker and so looked intermittent.
+            self.env.registry.clear_cache()
         return res
 
     def _build_jurisdiction_domain(self, program_path, all_faculties, faculty_ids,
@@ -128,8 +175,15 @@ class HrEmployee(models.Model):
         return domain or [(1, '=', 1)]
 
     def _academic_jurisdiction_domain(self, program_path='program_id'):
-        """Domain for an Academic Staff member, called from ir.rule.domain_force."""
-        employee = self[:1]
+        """Domain for an Academic Staff member, called from ir.rule.domain_force.
+
+        sudo() because ir.rule evaluates domain_force as the user themselves
+        (odoo/addons/base/models/ir_rule.py:48 passes env.user, not a sudo
+        recordset), while the jurisdiction fields are restricted to campus
+        administrators. Reading one's own jurisdiction to build one's own
+        restriction grants nothing: the result is the narrower domain.
+        """
+        employee = self[:1].sudo()
         return employee._build_jurisdiction_domain(
             program_path,
             employee.academic_all_faculties, employee.academic_faculty_ids,
@@ -217,7 +271,8 @@ class HrEmployeePublic(models.Model):
 
     # The pmb_* mirrors moved to campus_pmb alongside their source fields.
 
-    academic_all_faculties = fields.Boolean(related='employee_id.academic_all_faculties', readonly=True)
-    academic_faculty_ids = fields.Many2many(related='employee_id.academic_faculty_ids', readonly=True)
-    academic_all_programs = fields.Boolean(related='employee_id.academic_all_programs', readonly=True)
-    academic_program_ids = fields.Many2many(related='employee_id.academic_program_ids', readonly=True)
+    # Mirrors inherit the restriction; see the source fields above.
+    academic_all_faculties = fields.Boolean(related='employee_id.academic_all_faculties', readonly=True, groups="campus_core.group_campus_administrator")
+    academic_faculty_ids = fields.Many2many(related='employee_id.academic_faculty_ids', readonly=True, groups="campus_core.group_campus_administrator")
+    academic_all_programs = fields.Boolean(related='employee_id.academic_all_programs', readonly=True, groups="campus_core.group_campus_administrator")
+    academic_program_ids = fields.Many2many(related='employee_id.academic_program_ids', readonly=True, groups="campus_core.group_campus_administrator")

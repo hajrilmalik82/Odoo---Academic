@@ -16,21 +16,32 @@ class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
     # PMB Row-Level Security Wewenang (Jurisdiction)
-    pmb_all_faculties = fields.Boolean("All Faculties")
+    # Restricted for the same reason as the academic_* set in campus_employees:
+    # these decide which applicants a PMB officer reaches, so they are the
+    # access-control map and not ordinary HR data.
+    pmb_all_faculties = fields.Boolean("All Faculties", groups="campus_core.group_campus_administrator")
     pmb_faculty_ids = fields.Many2many(
         'academic.faculty',
         'hr_employee_pmb_faculty_rel',
         string="PMB Assigned Faculties",
+        groups="campus_core.group_campus_administrator",
         help="If empty, it means no restriction by faculty (can access all, or restricted by program)."
     )
-    pmb_all_programs = fields.Boolean("All Programs")
+    pmb_all_programs = fields.Boolean("All Programs", groups="campus_core.group_campus_administrator")
     pmb_program_ids = fields.Many2many(
         'academic.program',
         'hr_employee_pmb_program_rel',
         string="PMB Assigned Programs",
         domain="[('faculty_id', 'in', pmb_faculty_ids)]",
+        groups="campus_core.group_campus_administrator",
         help="If empty, it means no restriction by program."
     )
+
+    def _jurisdiction_fields(self):
+        return super()._jurisdiction_fields() + (
+            'pmb_all_faculties', 'pmb_faculty_ids',
+            'pmb_all_programs', 'pmb_program_ids',
+        )
 
     @api.onchange('pmb_all_faculties')
     def _onchange_pmb_all_faculties(self):
@@ -47,7 +58,7 @@ class HrEmployee(models.Model):
             'program_id' on campus.admission, 'admission_id.program_id' on its
             document checklist.
         """
-        employee = self[:1]
+        employee = self[:1].sudo()   # see _academic_jurisdiction_domain
         return employee._build_jurisdiction_domain(
             program_path,
             employee.pmb_all_faculties, employee.pmb_faculty_ids,
@@ -58,7 +69,9 @@ class HrEmployee(models.Model):
 class HrEmployeePublic(models.Model):
     _inherit = 'hr.employee.public'
 
-    pmb_all_faculties = fields.Boolean(related='employee_id.pmb_all_faculties', readonly=True)
-    pmb_faculty_ids = fields.Many2many(related='employee_id.pmb_faculty_ids', readonly=True)
-    pmb_all_programs = fields.Boolean(related='employee_id.pmb_all_programs', readonly=True)
-    pmb_program_ids = fields.Many2many(related='employee_id.pmb_program_ids', readonly=True)
+    # Mirrors inherit the restriction; hr.employee.public is readable by every
+    # internal user, so leaving these open would publish the access-control map.
+    pmb_all_faculties = fields.Boolean(related='employee_id.pmb_all_faculties', readonly=True, groups="campus_core.group_campus_administrator")
+    pmb_faculty_ids = fields.Many2many(related='employee_id.pmb_faculty_ids', readonly=True, groups="campus_core.group_campus_administrator")
+    pmb_all_programs = fields.Boolean(related='employee_id.pmb_all_programs', readonly=True, groups="campus_core.group_campus_administrator")
+    pmb_program_ids = fields.Many2many(related='employee_id.pmb_program_ids', readonly=True, groups="campus_core.group_campus_administrator")
