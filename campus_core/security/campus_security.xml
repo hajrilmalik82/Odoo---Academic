@@ -30,7 +30,28 @@
         <record id="group_campus_administrator" model="res.groups">
             <field name="name">Administrator</field>
             <field name="privilege_id" ref="privilege_campus_academic"/>
-            <field name="implied_ids" eval="[(4, ref('group_campus_lecturer')), (4, ref('group_campus_academic_staff')), (4, ref('hr.group_hr_manager'))]"/>
+            <!-- Officer, not Administrator. This used to imply
+                 hr.group_hr_manager, whose name is literally "Administrator",
+                 so appointing a Campus Administrator silently handed them full
+                 Odoo HR administration. Thirteen fields in hr/models/hr_version.py
+                 are gated on that group, `wage` and `contract_wage` among them,
+                 plus the Salary Information page in
+                 hr/views/hr_contract_template_views.xml:24.
+
+                 hr.group_hr_user is what this module actually needs: it carries
+                 hr.department CRUD, which creating a faculty or a programme
+                 relies on, and hr.employee.version_id, which Odoo 19 reads on
+                 any write to an employee. Dropping HR entirely was tried first
+                 and broke both setting a dean and syncing an academic role.
+
+                 (3, ...) unlinks. Removing the entry from this list would not
+                 have been enough: (4, ...) only ever links, so the manager group
+                 would have stayed attached to every database that already had
+                 it. It is also why this is not a (6, 0, [...]) replace —
+                 campus_pmb links group_pmb onto this same group, and replacing
+                 the list would strip that whenever campus_core is upgraded
+                 alone. -->
+            <field name="implied_ids" eval="[(4, ref('group_campus_lecturer')), (4, ref('group_campus_academic_staff')), (4, ref('hr.group_hr_user')), (3, ref('hr.group_hr_manager'))]"/>
             <field name="user_ids" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
         </record>
     </data>
