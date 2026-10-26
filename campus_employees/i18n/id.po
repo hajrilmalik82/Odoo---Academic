@@ -143,7 +143,7 @@ msgstr "<strong>Aktor:</strong> Staf HR"
 #. module: campus_employees
 #: model:ir.model,name:campus_employees.model_academic_class_schedule
 msgid "Academic Class Schedule"
-msgstr "Jadwal Perkuliahan Akademik"
+msgstr "Jadwal Kelas"
 
 #. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__academic_rank
@@ -161,7 +161,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee_public__academic_role
 #: model:ir.model.fields,field_description:campus_employees.field_hr_job__academic_role
 msgid "Academic Role"
-msgstr "Peran Akademis"
+msgstr "Peran Akademik"
 
 #. module: campus_employees
 #: model:ir.actions.act_window,name:campus_employees.action_hr_employee_academic_staff
@@ -247,7 +247,7 @@ msgstr "Nama Tampilan"
 #: model:ir.model,name:campus_employees.model_hr_employee
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__employee_id
 msgid "Employee"
-msgstr "Karyawan"
+msgstr "Pegawai"
 
 #. module: campus_employees
 #: model:ir.model,name:campus_employees.model_campus_jurisdiction
@@ -320,12 +320,12 @@ msgstr ""
 #. module: campus_employees
 #: model:ir.model,name:campus_employees.model_hr_job
 msgid "Job Position"
-msgstr "Jabatan Kerja"
+msgstr "Jabatan"
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid "Job Positions Setup"
-msgstr "Pengaturan Posisi Pekerjaan"
+msgstr "Pengaturan Jabatan"
 
 #. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__jurisdiction_ids

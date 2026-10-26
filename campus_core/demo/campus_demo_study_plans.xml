@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Study plans and grades.
+
+         Everything goes through the real path: action_submit runs the eight
+         submission rules, so if the credit cap, the prerequisite chain, the
+         seat quota or the timetable clash check broke, this file would refuse
+         to load. That is deliberate - the demo doubles as a smoke test.
+
+         Approval and rejection are written rather than clicked, because
+         action_approve asks whether the caller is the assigned advisor and a
+         data loader is nobody. The state graph still validates every move. -->
+
+    <!-- =================== 2025/2026: COMPLETED TERM =================== -->
+    <record id="demo_krs_if_01_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_01"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_02_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_02"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_03_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_03"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_04_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_04"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_05_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_05"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_06_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_06"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_01_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_01"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_02_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_02"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_03_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_03"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn104_2526')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_04_2526" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_04"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn101_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn102_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn103_2526')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn104_2526')}),
+        ]"/>
+    </record>
+
+    <function model="academic.krs" name="action_submit" eval="[[
+        ref('demo_krs_if_01_2526'),
+        ref('demo_krs_if_02_2526'),
+        ref('demo_krs_if_03_2526'),
+        ref('demo_krs_if_04_2526'),
+        ref('demo_krs_if_05_2526'),
+        ref('demo_krs_if_06_2526'),
+        ref('demo_krs_mn_01_2526'),
+        ref('demo_krs_mn_02_2526'),
+        ref('demo_krs_mn_03_2526'),
+        ref('demo_krs_mn_04_2526')
+    ]]"/>
+    <function model="academic.krs" name="write" eval="[[
+        ref('demo_krs_if_01_2526'),
+        ref('demo_krs_if_02_2526'),
+        ref('demo_krs_if_03_2526'),
+        ref('demo_krs_if_04_2526'),
+        ref('demo_krs_if_05_2526'),
+        ref('demo_krs_if_06_2526'),
+        ref('demo_krs_mn_01_2526'),
+        ref('demo_krs_mn_02_2526'),
+        ref('demo_krs_mn_03_2526'),
+        ref('demo_krs_mn_04_2526')
+    ], {'state': 'approved'}]"/>
+
+    <!-- Grades for the completed term. Written out rather than generated by
+         action_lock, so the numbers are visible in the data file and the
+         transcripts are reproducible. -->
+    <record id="demo_khs_if_01_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_if_01"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_if101'), 'numeric_grade': 88, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if102'), 'numeric_grade': 85, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if103'), 'numeric_grade': 82, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if104'), 'numeric_grade': 90, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_if_02_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_if_02"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_if101'), 'numeric_grade': 78, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if102'), 'numeric_grade': 72, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if103'), 'numeric_grade': 76, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if104'), 'numeric_grade': 81, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_if_03_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_if_03"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_if101'), 'numeric_grade': 68, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if102'), 'numeric_grade': 65, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if103'), 'numeric_grade': 71, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if104'), 'numeric_grade': 62, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_if_04_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_if_04"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_if101'), 'numeric_grade': 70, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if102'), 'numeric_grade': 45, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if103'), 'numeric_grade': 66, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if104'), 'numeric_grade': 74, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_if_05_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_if_05"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_if101'), 'numeric_grade': 83, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if102'), 'numeric_grade': 77, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if103'), 'numeric_grade': 69, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if104'), 'numeric_grade': 72, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_if_06_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_if_06"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_if101'), 'numeric_grade': 91, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if102'), 'numeric_grade': 86, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if103'), 'numeric_grade': 79, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_if104'), 'numeric_grade': 88, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_mn_01_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_mn_01"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_mn101'), 'numeric_grade': 80, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn102'), 'numeric_grade': 74, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn103'), 'numeric_grade': 69, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn104'), 'numeric_grade': 77, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_mn_02_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_mn_02"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_mn101'), 'numeric_grade': 86, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn102'), 'numeric_grade': 81, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn103'), 'numeric_grade': 78, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn104'), 'numeric_grade': 83, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_mn_03_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_mn_03"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_mn101'), 'numeric_grade': 64, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn102'), 'numeric_grade': 58, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn103'), 'numeric_grade': 67, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn104'), 'numeric_grade': 61, 'is_graded': True}),
+        ]"/>
+    </record>
+    <record id="demo_khs_mn_04_2526" model="academic.khs">
+        <field name="student_id" ref="demo_student_mn_04"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'subject_id': ref('demo_subject_mn101'), 'numeric_grade': 72, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn102'), 'numeric_grade': 70, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn103'), 'numeric_grade': 75, 'is_graded': True}),
+            (0, 0, {'subject_id': ref('demo_subject_mn104'), 'numeric_grade': 68, 'is_graded': True}),
+        ]"/>
+    </record>
+
+    <!-- ==================== 2026/2027: TERM IN PROGRESS ================= -->
+    <record id="demo_krs_if_01_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_01"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if202_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if203_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_02_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_02"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if202_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if203_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_03_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_03"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if202_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if203_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_04_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_04"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if202_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if203_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_05_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_05"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if202_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if203_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_if_06_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_if_06"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_if201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if202_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_if203_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_01_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_01"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn202_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_02_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_02"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn202_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_03_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_03"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn202_2627')}),
+        ]"/>
+    </record>
+    <record id="demo_krs_mn_04_2627" model="academic.krs">
+        <field name="student_id" ref="demo_student_mn_04"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="line_ids" eval="[
+            (0, 0, {'schedule_id': ref('demo_sched_mn201_2627')}),
+            (0, 0, {'schedule_id': ref('demo_sched_mn202_2627')}),
+        ]"/>
+    </record>
+
+    <!-- Every state the workflow can be in, so each kanban column has a card. -->
+    <function model="academic.krs" name="action_submit" eval="[[
+        ref('demo_krs_if_02_2627'),
+        ref('demo_krs_if_03_2627'),
+        ref('demo_krs_if_04_2627'),
+        ref('demo_krs_if_05_2627'),
+        ref('demo_krs_if_06_2627'),
+        ref('demo_krs_mn_02_2627'),
+        ref('demo_krs_mn_03_2627'),
+        ref('demo_krs_mn_04_2627')
+    ]]"/>
+    <function model="academic.krs" name="write" eval="[[ref('demo_krs_if_03_2627')], {'state': 'revision'}]"/>
+    <function model="academic.krs" name="write" eval="[[ref('demo_krs_if_04_2627')], {'state': 'rejected'}]"/>
+    <function model="academic.krs" name="write" eval="[[ref('demo_krs_if_05_2627'), ref('demo_krs_if_06_2627'), ref('demo_krs_mn_03_2627'), ref('demo_krs_mn_04_2627')], {'state': 'approved'}]"/>
+    <!-- Locking generates this term's KHS, still ungraded: the term has only
+         just started. -->
+    <function model="academic.krs" name="action_lock" eval="[[ref('demo_krs_if_06_2627')]]"/>
+
+    <!-- Close last year's registration window again. It was left open above
+         so the completed term could be built through the real rules. -->
+    <function model="academic.year" name="write" eval="[[ref('demo_year_2526')], {
+        'krs_start_date': (DateTime.today() - relativedelta(days=300)).strftime('%Y-%m-%d'),
+        'krs_end_date': (DateTime.today() - relativedelta(days=270)).strftime('%Y-%m-%d'),
+    }]"/>
+</odoo>

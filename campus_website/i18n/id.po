@@ -357,7 +357,7 @@ msgstr "Admin Akademik"
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "Academic Advisor"
-msgstr "Penasihat Akademik"
+msgstr "Dosen Pembimbing Akademik"
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
@@ -398,7 +398,7 @@ msgstr ""
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "Approve / Reject KRS"
-msgstr "Menyetujui/Menolak KRS"
+msgstr "Setujui / Tolak KRS"
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
@@ -506,7 +506,7 @@ msgstr "Generator KRS Massal &amp; Paket Kursus (Otomasi Tingkat Lanjut)"
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "Mass Schedule Assignment"
-msgstr "Penugasan Jadwal Massal"
+msgstr "Penjadwalan Massal"
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
@@ -556,7 +556,7 @@ msgstr "Penjadwalan &amp; Kelas Pembukaan"
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "Student (Portal)"
-msgstr "Pelajar (Portal)"
+msgstr "Mahasiswa (Portal)"
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
@@ -570,12 +570,12 @@ msgstr ""
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "Study Plan (KRS) Filling"
-msgstr "Pengisian Rencana Studi (KRS)."
+msgstr "Pengisian KRS"
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "Submit KRS"
-msgstr "Kirimkan KRS"
+msgstr "Ajukan KRS"
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs

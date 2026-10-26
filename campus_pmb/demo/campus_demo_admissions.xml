@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Applicants, one in each state the workflow can be in, so every kanban
+         column has a card and the Register button has something to act on.
+
+         The transitions go through the real buttons wherever the button carries
+         no permission check: action_submit and action_start_document_review run
+         the same guards a PMB officer would meet. Accepting is written instead
+         of clicked because action_accept asks whether the caller is PMB staff,
+         and a data loader is nobody. -->
+
+    <!-- The PMB officer: role, login and the faculties they handle. The 'pmb'
+         role is added by this module, so it can only be assigned from here.
+         Joko covers Teknologi Industri only, which is what makes the record
+         rule visible - signing in as him hides the Ekonomi applicants. -->
+    <record id="demo_user_pmb" model="res.users">
+        <field name="name">Joko Santoso, S.Kom.</field>
+        <field name="login">pmb@kampus.test</field>
+        <field name="password">demo123</field>
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="campus_core.demo_emp_joko" model="hr.employee">
+        <field name="academic_role">pmb</field>
+        <field name="user_id" ref="demo_user_pmb"/>
+    </record>
+    <record id="demo_jurisdiction_joko" model="campus.jurisdiction">
+        <field name="employee_id" ref="campus_core.demo_emp_joko"/>
+        <field name="scope">pmb</field>
+        <field name="all_programs" eval="True"/>
+        <field name="faculty_ids" eval="[(6, 0, [ref('campus_core.demo_faculty_fti')])]"/>
+    </record>
+
+    <record id="demo_admission_draft" model="campus.admission">
+        <field name="name">Putri Anggraini</field>
+        <field name="email">putri.anggraini@calon.test</field>
+        <field name="phone">081234567801</field>
+        <field name="admission_path">regular</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+    </record>
+
+    <record id="demo_admission_submitted" model="campus.admission">
+        <field name="name">Yoga Saputra</field>
+        <field name="email">yoga.saputra@calon.test</field>
+        <field name="phone">081234567802</field>
+        <field name="admission_path">regular</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_si"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+    </record>
+
+    <record id="demo_admission_review" model="campus.admission">
+        <field name="name">Maya Anjani</field>
+        <field name="email">maya.anjani@calon.test</field>
+        <field name="phone">081234567803</field>
+        <field name="admission_path">scholarship</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_feb"/>
+        <field name="program_id" ref="campus_core.demo_program_mn"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+    </record>
+
+    <!-- A transfer applicant: the checklist asks them for a transcript that the
+         other paths do not need, which is the case a hard-coded list could not
+         express. -->
+    <record id="demo_admission_transfer" model="campus.admission">
+        <field name="name">Reza Maulana</field>
+        <field name="email">reza.maulana@calon.test</field>
+        <field name="phone">081234567804</field>
+        <field name="admission_path">transfer</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_ti"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+    </record>
+
+    <record id="demo_admission_rejected" model="campus.admission">
+        <field name="name">Bayu Firmansyah</field>
+        <field name="email">bayu.firmansyah@calon.test</field>
+        <field name="phone">081234567805</field>
+        <field name="admission_path">regular</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_feb"/>
+        <field name="program_id" ref="campus_core.demo_program_ak"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+    </record>
+
+    <record id="demo_admission_registered" model="campus.admission">
+        <field name="name">Salsabila Nur</field>
+        <field name="email">salsabila.nur@calon.test</field>
+        <field name="phone">081234567806</field>
+        <field name="admission_path">regular</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+    </record>
+
+    <!-- Submitted: four of them move out of draft. -->
+    <function model="campus.admission" name="action_submit" eval="[[
+        ref('demo_admission_submitted'),
+        ref('demo_admission_review'),
+        ref('demo_admission_transfer'),
+        ref('demo_admission_rejected'),
+        ref('demo_admission_registered'),
+    ]]"/>
+
+    <!-- Document review for three of them. -->
+    <function model="campus.admission" name="action_start_document_review" eval="[[
+        ref('demo_admission_review'),
+        ref('demo_admission_transfer'),
+        ref('demo_admission_registered'),
+    ]]"/>
+
+    <!-- One is turned down. -->
+    <function model="campus.admission" name="action_reject" eval="[[ref('demo_admission_rejected')]]"/>
+
+    <!-- Salsabila hands everything in and is accepted, then registered: that is
+         what draws her NIM, creates her student contact and opens her portal
+         account. Accept is written rather than clicked, see the note above. -->
+    <function model="campus.admission.document" name="write" eval="[
+        obj().env['campus.admission.document'].search([
+            ('admission_id', '=', ref('demo_admission_registered')),
+        ]).ids,
+        {'received': True},
+    ]"/>
+    <function model="campus.admission" name="write"
+              eval="[[ref('demo_admission_registered')], {'state': 'accepted'}]"/>
+    <function model="campus.admission" name="action_register"
+              eval="[[ref('demo_admission_registered')]]"/>
+</odoo>

@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Staff and students.
+
+         The employees are created here, without an academic role: academic_role
+         is a campus_employees field and this module must not know about it.
+         campus_employees gives them their roles and jurisdictions, and does so
+         after these exist. -->
+
+    <!-- ============================= LECTURERS ============================ -->
+    <record id="demo_emp_budi" model="hr.employee">
+        <field name="name">Dr. Budi Hartono, M.Kom.</field>
+        <field name="work_email">budi.hartono@kampus.test</field>
+    </record>
+    <record id="demo_emp_siti" model="hr.employee">
+        <field name="name">Siti Rahmawati, M.T.</field>
+        <field name="work_email">siti.rahmawati@kampus.test</field>
+    </record>
+    <record id="demo_emp_andi" model="hr.employee">
+        <field name="name">Andi Pratama, M.Sc.</field>
+        <field name="work_email">andi.pratama@kampus.test</field>
+    </record>
+    <record id="demo_emp_rina" model="hr.employee">
+        <field name="name">Dr. Rina Kusuma, M.M.</field>
+        <field name="work_email">rina.kusuma@kampus.test</field>
+    </record>
+
+    <!-- =================== ACADEMIC STAFF AND PMB ==================== -->
+    <record id="demo_emp_dewi" model="hr.employee">
+        <field name="name">Dewi Lestari, S.E.</field>
+        <field name="work_email">dewi.lestari@kampus.test</field>
+    </record>
+    <record id="demo_emp_joko" model="hr.employee">
+        <field name="name">Joko Santoso, S.Kom.</field>
+        <field name="work_email">joko.santoso@kampus.test</field>
+    </record>
+
+    <!-- ============================== STUDENTS ============================
+         NIM follows the shape the generator produces: FACULTY-PROGRAMME-YY-NNNN.
+         Written out rather than generated, so the fixture is reproducible and
+         the numbers in it can be referred to. -->
+    <record id="demo_student_if_01" model="res.partner">
+        <field name="name">Ahmad Fauzi</field>
+        <field name="email">ahmad.fauzi@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FT-IF-25-0001</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_budi"/>
+    </record>
+    <record id="demo_student_if_02" model="res.partner">
+        <field name="name">Nabila Putri</field>
+        <field name="email">nabila.putri@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FT-IF-25-0002</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_budi"/>
+    </record>
+    <record id="demo_student_if_03" model="res.partner">
+        <field name="name">Rizky Ramadhan</field>
+        <field name="email">rizky.ramadhan@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FT-IF-25-0003</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_budi"/>
+    </record>
+    <record id="demo_student_if_04" model="res.partner">
+        <field name="name">Siti Aisyah</field>
+        <field name="email">siti.aisyah@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FT-IF-25-0004</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_siti"/>
+    </record>
+    <record id="demo_student_if_05" model="res.partner">
+        <field name="name">Dimas Prasetyo</field>
+        <field name="email">dimas.prasetyo@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FT-IF-25-0005</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_siti"/>
+    </record>
+    <record id="demo_student_if_06" model="res.partner">
+        <field name="name">Intan Permata</field>
+        <field name="email">intan.permata@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FT-IF-25-0006</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_siti"/>
+    </record>
+
+    <record id="demo_student_mn_01" model="res.partner">
+        <field name="name">Bagas Wicaksono</field>
+        <field name="email">bagas.wicaksono@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FE-MN-25-0001</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="academic_advisor_id" ref="demo_emp_rina"/>
+    </record>
+    <record id="demo_student_mn_02" model="res.partner">
+        <field name="name">Clara Oktaviani</field>
+        <field name="email">clara.oktaviani@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FE-MN-25-0002</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="academic_advisor_id" ref="demo_emp_rina"/>
+    </record>
+    <record id="demo_student_mn_03" model="res.partner">
+        <field name="name">Fajar Nugroho</field>
+        <field name="email">fajar.nugroho@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FE-MN-25-0003</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="academic_advisor_id" ref="demo_emp_rina"/>
+    </record>
+    <record id="demo_student_mn_04" model="res.partner">
+        <field name="name">Gita Maharani</field>
+        <field name="email">gita.maharani@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">active</field>
+        <field name="nim">FE-MN-25-0004</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="academic_advisor_id" ref="demo_emp_rina"/>
+    </record>
+
+    <!-- Two who are not active, so the Students screen shows that the status
+         field does something. -->
+    <record id="demo_student_if_07" model="res.partner">
+        <field name="name">Hendra Gunawan</field>
+        <field name="email">hendra.gunawan@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">leave</field>
+        <field name="nim">FT-IF-25-0007</field>
+        <field name="batch_year">2025</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="academic_advisor_id" ref="demo_emp_budi"/>
+    </record>
+    <record id="demo_student_mn_05" model="res.partner">
+        <field name="name">Lestari Wulandari</field>
+        <field name="email">lestari.wulandari@mahasiswa.test</field>
+        <field name="is_student" eval="True"/>
+        <field name="student_status">graduated</field>
+        <field name="nim">FE-MN-22-0011</field>
+        <field name="batch_year">2022</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="academic_advisor_id" ref="demo_emp_rina"/>
+    </record>
+</odoo>

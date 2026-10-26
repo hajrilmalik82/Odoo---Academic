@@ -266,7 +266,7 @@ msgstr ""
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_hr_employee__academic_role
 msgid "Academic Role"
-msgstr "Peran Akademis"
+msgstr "Peran Akademik"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__academic_year_id
@@ -404,12 +404,12 @@ msgstr "Nama Pendaftar"
 #. module: campus_pmb
 #: model:ir.ui.menu,name:campus_pmb.menu_campus_admission
 msgid "Applicants"
-msgstr "Pelamar"
+msgstr "Pendaftar"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
 msgid "Application Details"
-msgstr "Detail Aplikasi"
+msgstr "Detail Pendaftaran"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -419,7 +419,7 @@ msgstr "Penolakan Lamaran (Tolak)"
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
 msgid "Application Successful!"
-msgstr "Aplikasi Berhasil!"
+msgstr "Pendaftaran Berhasil!"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_attachment_count
@@ -434,7 +434,7 @@ msgstr "Kembali ke Beranda"
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "Candidate (Public)"
-msgstr "Kandidat (Publik)"
+msgstr "Calon Mahasiswa (Publik)"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -464,7 +464,7 @@ msgstr "Konfigurasi"
 #. module: campus_pmb
 #: model:mail.activity.type,name:campus_pmb.mail_activity_type_create_account
 msgid "Create Student Account"
-msgstr "Buat Akun Siswa"
+msgstr "Buat Akun Mahasiswa"
 
 #. module: campus_pmb
 #: model_terms:ir.actions.act_window,help:campus_pmb.action_hr_employee_pmb_staff
@@ -526,7 +526,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__document_review
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "Document Review"
-msgstr "Review Dokumen"
+msgstr "Verifikasi Dokumen"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__document_type
@@ -558,7 +558,7 @@ msgstr "Setiap jenis dokumen hanya dapat muncul satu kali per penerimaan."
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__email
 msgid "Email"
-msgstr "E-mail"
+msgstr "Email"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
@@ -574,7 +574,7 @@ msgstr "Email wajib diisi untuk membuat akun portal."
 #. module: campus_pmb
 #: model:ir.model,name:campus_pmb.model_hr_employee
 msgid "Employee"
-msgstr "Karyawan"
+msgstr "Pegawai"
 
 #. module: campus_pmb
 #: model:ir.model,name:campus_pmb.model_campus_jurisdiction
@@ -790,7 +790,7 @@ msgstr "Pendaftaran Mahasiswa Baru"
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 msgid "New Student Registration"
-msgstr "Pendaftaran Siswa Baru"
+msgstr "Pendaftaran Mahasiswa Baru"
 
 #. module: campus_pmb
 #. odoo-python
@@ -874,7 +874,7 @@ msgstr ""
 #. module: campus_pmb
 #: model:website.menu,name:campus_pmb.menu_admission
 msgid "PMB Admission"
-msgstr "Penerimaan PMB"
+msgstr "Penerimaan Mahasiswa Baru"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -929,7 +929,7 @@ msgstr "Pengguna Portal"
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__previous_school
 #: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 msgid "Previous School"
-msgstr "Sekolah Sebelumnya"
+msgstr "Asal Sekolah"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__program_id
@@ -956,7 +956,7 @@ msgstr "Diterima"
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__received_document_count
 msgid "Received Documents"
-msgstr "Dokumen yang Diterima"
+msgstr "Dokumen Diterima"
 
 #. module: campus_pmb
 #: model:ir.actions.server,name:campus_pmb.action_server_admission_register
@@ -993,7 +993,7 @@ msgstr "Tanggal Pendaftaran"
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_number
 msgid "Registration Number"
-msgstr "Nomor pendaftaran"
+msgstr "Nomor Pendaftaran"
 
 #. module: campus_pmb
 #. odoo-python
@@ -1016,12 +1016,12 @@ msgstr "Ditolak"
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__required
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__required
 msgid "Required"
-msgstr "Diperlukan"
+msgstr "Wajib"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__required_document_count
 msgid "Required Documents"
-msgstr "Dokumen yang Diperlukan"
+msgstr "Dokumen Wajib"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_user_id
@@ -1031,7 +1031,7 @@ msgstr "Pengguna yang Bertanggung Jawab"
 #. module: campus_pmb
 #: model:mail.activity.type,name:campus_pmb.mail_activity_type_document_review
 msgid "Review Admission Documents"
-msgstr "Tinjau Dokumen Penerimaan"
+msgstr "Verifikasi Dokumen Pendaftaran"
 
 #. module: campus_pmb
 #: model:mail.activity.type,summary:campus_pmb.mail_activity_type_document_review
@@ -1057,7 +1057,7 @@ msgstr ""
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
 msgid "Search Admissions"
-msgstr "Cari Penerimaan"
+msgstr "Cari Pendaftar"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_requirement_search
@@ -1078,7 +1078,7 @@ msgstr ""
 #: model:ir.actions.server,name:campus_pmb.action_server_admission_start_review
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
 msgid "Start Document Review"
-msgstr "Mulai Review Dokumen"
+msgstr "Mulai Verifikasi Dokumen"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__state
@@ -1102,12 +1102,12 @@ msgstr ""
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "Student Admission Workflow"
-msgstr "Alur Kerja Penerimaan Siswa"
+msgstr "Alur Penerimaan Mahasiswa Baru"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__partner_id
 msgid "Student Profile"
-msgstr "Profil Siswa"
+msgstr "Profil Mahasiswa"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
@@ -1135,7 +1135,7 @@ msgstr "Ajukan"
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 msgid "Submit Application"
-msgstr "Kirim Lamaran"
+msgstr "Kirim Pendaftaran"
 
 #. module: campus_pmb
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__submitted
@@ -1240,7 +1240,7 @@ msgstr "Verifikasi"
 #. module: campus_pmb
 #: model:mail.activity.type,name:campus_pmb.mail_activity_type_payment_verification
 msgid "Verify Admission Payment"
-msgstr "Verifikasi Pembayaran Penerimaan"
+msgstr "Verifikasi Pembayaran Pendaftaran"
 
 #. module: campus_pmb
 #: model:mail.activity.type,summary:campus_pmb.mail_activity_type_payment_verification

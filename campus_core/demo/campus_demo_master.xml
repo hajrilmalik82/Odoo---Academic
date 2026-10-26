@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- A small but complete campus: two faculties, five study programmes, a
+         curriculum with a real prerequisite chain, two terms and the rooms to
+         teach in.
+
+         Demo data, so it loads only when demo data is asked for and never reaches a
+         production install. Dates are relative to the install day, so the
+         fixture stays meaningful whenever it is seeded. -->
+
+    <!-- ============================ FACULTIES ============================ -->
+    <record id="demo_faculty_fti" model="academic.faculty">
+        <field name="name">Fakultas Teknologi Industri</field>
+        <field name="code">FT</field>
+    </record>
+    <record id="demo_faculty_feb" model="academic.faculty">
+        <field name="name">Fakultas Ekonomi dan Bisnis</field>
+        <field name="code">FE</field>
+    </record>
+
+    <!-- ============================ PROGRAMMES ===========================
+         Teknik Informatika is IF and Teknik Industri is TI, the convention on
+         Indonesian campuses. Deriving both from their names would give TI
+         twice, and the unique index on code refuses that - which is the point
+         of the index. -->
+    <record id="demo_program_if" model="academic.program">
+        <field name="name">Teknik Informatika</field>
+        <field name="code">IF</field>
+        <field name="faculty_id" ref="demo_faculty_fti"/>
+    </record>
+    <record id="demo_program_si" model="academic.program">
+        <field name="name">Sistem Informasi</field>
+        <field name="code">SI</field>
+        <field name="faculty_id" ref="demo_faculty_fti"/>
+    </record>
+    <record id="demo_program_ti" model="academic.program">
+        <field name="name">Teknik Industri</field>
+        <field name="code">TI</field>
+        <field name="faculty_id" ref="demo_faculty_fti"/>
+    </record>
+    <record id="demo_program_mn" model="academic.program">
+        <field name="name">Manajemen</field>
+        <field name="code">MN</field>
+        <field name="faculty_id" ref="demo_faculty_feb"/>
+    </record>
+    <record id="demo_program_ak" model="academic.program">
+        <field name="name">Akuntansi</field>
+        <field name="code">AK</field>
+        <field name="faculty_id" ref="demo_faculty_feb"/>
+    </record>
+
+    <!-- ========================= ACADEMIC YEARS ==========================
+         Both windows are open while the demo is being seeded, because the
+         submission rules are enforced on every path into 'submitted' and a
+         study plan cannot be built outside its own registration period. The
+         last file closes the older one again, so the finished database shows
+         one completed term and one in progress. -->
+    <record id="demo_year_2526" model="academic.year">
+        <field name="name">2025/2026</field>
+        <field name="term_type">odd</field>
+        <field name="krs_start_date" eval="(DateTime.today() - relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+        <field name="krs_end_date" eval="(DateTime.today() + relativedelta(days=1)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_year_2627" model="academic.year">
+        <field name="name">2026/2027</field>
+        <field name="term_type">odd</field>
+        <field name="krs_start_date" eval="(DateTime.today() - relativedelta(days=10)).strftime('%Y-%m-%d')"/>
+        <field name="krs_end_date" eval="(DateTime.today() + relativedelta(days=45)).strftime('%Y-%m-%d')"/>
+    </record>
+
+    <!-- ========================= BUILDINGS & ROOMS ======================== -->
+    <record id="demo_building_a" model="campus.building">
+        <field name="name">Gedung A - Teknologi Industri</field>
+        <field name="code">A</field>
+        <field name="location">Kampus Utama, Jalan Diponegoro</field>
+    </record>
+    <record id="demo_building_b" model="campus.building">
+        <field name="name">Gedung B - Ekonomi dan Bisnis</field>
+        <field name="code">B</field>
+        <field name="location">Kampus Utama, Jalan Diponegoro</field>
+    </record>
+
+    <record id="demo_room_a101" model="campus.room">
+        <field name="name">A-101</field>
+        <field name="building_id" ref="demo_building_a"/>
+        <field name="capacity">40</field>
+        <field name="room_type">theory</field>
+    </record>
+    <record id="demo_room_a102" model="campus.room">
+        <field name="name">A-102</field>
+        <field name="building_id" ref="demo_building_a"/>
+        <field name="capacity">40</field>
+        <field name="room_type">theory</field>
+    </record>
+    <record id="demo_room_alab1" model="campus.room">
+        <field name="name">A-Lab Komputer 1</field>
+        <field name="building_id" ref="demo_building_a"/>
+        <field name="capacity">30</field>
+        <field name="room_type">lab</field>
+    </record>
+    <record id="demo_room_b201" model="campus.room">
+        <field name="name">B-201</field>
+        <field name="building_id" ref="demo_building_b"/>
+        <field name="capacity">45</field>
+        <field name="room_type">theory</field>
+    </record>
+    <record id="demo_room_b202" model="campus.room">
+        <field name="name">B-202</field>
+        <field name="building_id" ref="demo_building_b"/>
+        <field name="capacity">45</field>
+        <field name="room_type">theory</field>
+    </record>
+</odoo>

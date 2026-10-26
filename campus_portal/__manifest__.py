@@ -15,6 +15,9 @@
         'views/portal_templates.xml',
         'views/website_homepage_portal.xml',
     ],
+    'demo': [
+        'demo/campus_demo_portal_users.xml',
+    ],
     'installable': True,
     'application': False,
     'auto_install': False,

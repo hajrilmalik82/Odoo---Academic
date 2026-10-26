@@ -73,3 +73,44 @@ class TestCampusReports(CampusCommon):
         )._get_report_base_filename()
         self.assertNotEqual(khs_name, transcript_name)
         self.assertIn(self.student.name, transcript_name)
+
+
+@tagged('post_install', '-at_install')
+class TestTranslatedLabels(CampusCommon):
+    """Selection labels that reach a printed document must be translated.
+
+    A display name built from the raw `.selection` attribute returns the list as
+    written in the source, so an Indonesian reader saw "(Odd)" on every row of
+    an official transcript. _description_selection resolves the catalogue.
+    """
+
+    def _in_indonesian(self, record):
+        return record.with_context(lang='id_ID').display_name
+
+    def test_the_academic_year_term_is_translated(self):
+        if not self.env['res.lang'].search([('code', '=', 'id_ID'), ('active', '=', True)]):
+            self.skipTest("id_ID is not installed on this database")
+        name = self._in_indonesian(self.year)
+        self.assertNotIn('Odd', name, "the term label must not stay in English")
+        self.assertIn('Ganjil', name)
+
+    def test_the_schedule_day_is_translated(self):
+        if not self.env['res.lang'].search([('code', '=', 'id_ID'), ('active', '=', True)]):
+            self.skipTest("id_ID is not installed on this database")
+        name = self._in_indonesian(self.schedule)
+        self.assertNotIn('Monday', name)
+        self.assertIn('Senin', name)
+
+    def test_no_display_name_reads_the_raw_selection(self):
+        """The mistake is cheap to repeat, so it is pinned by shape as well.
+
+        `self._fields['x'].selection` is the source list; only
+        `_description_selection(env)` goes through the catalogue.
+        """
+        import inspect
+        from odoo.addons.campus_core.models import academic_subject, academic_class_schedule
+        for module in (academic_subject, academic_class_schedule):
+            source = inspect.getsource(module)
+            for line in source.splitlines():
+                if '_fields[' in line and '.selection' in line and not line.strip().startswith('#'):
+                    self.fail("raw .selection read in %s: %s" % (module.__name__, line.strip()))

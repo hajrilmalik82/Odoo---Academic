@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The curriculum, with a real prerequisite chain: the semester 3 subjects
+         of each programme require the semester 1 subject the student took last
+         term. The study plans seeded later rely on that actually working, so
+         this is not decoration - if the prerequisite check broke, the demo
+         would refuse to load. -->
+
+    <!-- ===================== TEKNIK INFORMATIKA ====================== -->
+    <record id="demo_subject_if101" model="academic.subject">
+        <field name="name">Algoritma dan Pemrograman</field>
+        <field name="code">IF101</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+    </record>
+    <record id="demo_subject_if102" model="academic.subject">
+        <field name="name">Matematika Diskrit</field>
+        <field name="code">IF102</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+    </record>
+    <record id="demo_subject_if103" model="academic.subject">
+        <field name="name">Pengantar Teknologi Informasi</field>
+        <field name="code">IF103</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+    </record>
+    <record id="demo_subject_if104" model="academic.subject">
+        <field name="name">Bahasa Inggris Teknik</field>
+        <field name="code">IF104</field>
+        <field name="credits">2</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+    </record>
+
+    <record id="demo_subject_if201" model="academic.subject">
+        <field name="name">Struktur Data</field>
+        <field name="code">IF201</field>
+        <field name="credits">3</field>
+        <field name="semester">3</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_if101')])]"/>
+    </record>
+    <record id="demo_subject_if202" model="academic.subject">
+        <field name="name">Basis Data</field>
+        <field name="code">IF202</field>
+        <field name="credits">3</field>
+        <field name="semester">3</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_if101')])]"/>
+    </record>
+    <record id="demo_subject_if203" model="academic.subject">
+        <field name="name">Pemrograman Web</field>
+        <field name="code">IF203</field>
+        <field name="credits">3</field>
+        <field name="semester">3</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_if"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_if101')])]"/>
+    </record>
+
+    <!-- ========================== MANAJEMEN ========================== -->
+    <record id="demo_subject_mn101" model="academic.subject">
+        <field name="name">Pengantar Manajemen</field>
+        <field name="code">MN101</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_mn"/>
+    </record>
+    <record id="demo_subject_mn102" model="academic.subject">
+        <field name="name">Pengantar Akuntansi</field>
+        <field name="code">MN102</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_mn"/>
+    </record>
+    <record id="demo_subject_mn103" model="academic.subject">
+        <field name="name">Matematika Ekonomi</field>
+        <field name="code">MN103</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_mn"/>
+    </record>
+    <record id="demo_subject_mn104" model="academic.subject">
+        <field name="name">Bahasa Inggris Bisnis</field>
+        <field name="code">MN104</field>
+        <field name="credits">2</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_mn"/>
+    </record>
+
+    <record id="demo_subject_mn201" model="academic.subject">
+        <field name="name">Manajemen Keuangan</field>
+        <field name="code">MN201</field>
+        <field name="credits">3</field>
+        <field name="semester">3</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_mn102')])]"/>
+    </record>
+    <record id="demo_subject_mn202" model="academic.subject">
+        <field name="name">Manajemen Pemasaran</field>
+        <field name="code">MN202</field>
+        <field name="credits">3</field>
+        <field name="semester">3</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_mn"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_mn101')])]"/>
+    </record>
+
+    <!-- The other three programmes carry a curriculum but no cohort yet, so
+         the master-data screens are not misleadingly empty. -->
+    <record id="demo_subject_si101" model="academic.subject">
+        <field name="name">Analisis dan Perancangan Sistem</field>
+        <field name="code">SI101</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_si"/>
+    </record>
+    <record id="demo_subject_ti101" model="academic.subject">
+        <field name="name">Pengantar Teknik Industri</field>
+        <field name="code">TI101</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_ti"/>
+    </record>
+    <record id="demo_subject_ak101" model="academic.subject">
+        <field name="name">Akuntansi Keuangan Dasar</field>
+        <field name="code">AK101</field>
+        <field name="credits">3</field>
+        <field name="semester">1</field>
+        <field name="term_type">odd</field>
+        <field name="program_id" ref="demo_program_ak"/>
+    </record>
+</odoo>

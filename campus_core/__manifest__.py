@@ -39,6 +39,13 @@
         'views/academic_grade_scale_views.xml',
         'views/res_config_settings_views.xml',
     ],
+    'demo': [
+        'demo/campus_demo_master.xml',
+        'demo/campus_demo_curriculum.xml',
+        'demo/campus_demo_people.xml',
+        'demo/campus_demo_classes.xml',
+        'demo/campus_demo_study_plans.xml',
+    ],
     # Indonesian is asked for explicitly now that the source strings are
     # English; see _set_campus_language in __init__.py. The WEBSITE's language
     # is set by campus_website, which is the module that owns the site.

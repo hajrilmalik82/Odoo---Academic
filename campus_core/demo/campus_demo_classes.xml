@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Classes and their weekly sections, for both terms.
+
+         Times, rooms and lecturers are chosen so nothing clashes: the overlap
+         constraint checks room and lecturer within one academic year and one
+         day, so the two faculties can run at the same hours in their own
+         buildings. -->
+
+    <!-- ================= 2025/2026 - TEKNIK INFORMATIKA ================= -->
+    <record id="demo_class_if101_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if101"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if101_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if101_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_a101"/>
+        <field name="lecturer_id" ref="demo_emp_budi"/>
+    </record>
+
+    <record id="demo_class_if102_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if102"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if102_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if102_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">10.0</field>
+        <field name="end_time">12.0</field>
+        <field name="room_id" ref="demo_room_a101"/>
+        <field name="lecturer_id" ref="demo_emp_siti"/>
+    </record>
+
+    <record id="demo_class_if103_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if103"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if103_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if103_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">1</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_a102"/>
+        <field name="lecturer_id" ref="demo_emp_andi"/>
+    </record>
+
+    <record id="demo_class_if104_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if104"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if104_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if104_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">1</field>
+        <field name="start_time">10.0</field>
+        <field name="end_time">12.0</field>
+        <field name="room_id" ref="demo_room_a102"/>
+        <field name="lecturer_id" ref="demo_emp_siti"/>
+    </record>
+
+    <!-- ===================== 2025/2026 - MANAJEMEN ====================== -->
+    <record id="demo_class_mn101_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_mn101"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_mn101_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_mn101_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_b201"/>
+        <field name="lecturer_id" ref="demo_emp_rina"/>
+    </record>
+
+    <record id="demo_class_mn102_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_mn102"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_mn102_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_mn102_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">10.0</field>
+        <field name="end_time">12.0</field>
+        <field name="room_id" ref="demo_room_b201"/>
+        <field name="lecturer_id" ref="demo_emp_rina"/>
+    </record>
+
+    <record id="demo_class_mn103_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_mn103"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_mn103_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_mn103_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">1</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_b202"/>
+        <field name="lecturer_id" ref="demo_emp_rina"/>
+    </record>
+
+    <record id="demo_class_mn104_2526" model="academic.class">
+        <field name="subject_id" ref="demo_subject_mn104"/>
+        <field name="academic_year_id" ref="demo_year_2526"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=290)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_mn104_2526" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_mn104_2526"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">1</field>
+        <field name="start_time">10.0</field>
+        <field name="end_time">12.0</field>
+        <field name="room_id" ref="demo_room_b202"/>
+        <field name="lecturer_id" ref="demo_emp_rina"/>
+    </record>
+
+    <!-- ================= 2026/2027 - TEKNIK INFORMATIKA ================= -->
+    <record id="demo_class_if201_2627" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if201"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if201_2627" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if201_2627"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_a101"/>
+        <field name="lecturer_id" ref="demo_emp_budi"/>
+    </record>
+
+    <record id="demo_class_if202_2627" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if202"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if202_2627" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if202_2627"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">10.0</field>
+        <field name="end_time">12.0</field>
+        <field name="room_id" ref="demo_room_alab1"/>
+        <field name="lecturer_id" ref="demo_emp_siti"/>
+    </record>
+
+    <record id="demo_class_if203_2627" model="academic.class">
+        <field name="subject_id" ref="demo_subject_if203"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_if203_2627" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_if203_2627"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">2</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_alab1"/>
+        <field name="lecturer_id" ref="demo_emp_andi"/>
+    </record>
+
+    <!-- ===================== 2026/2027 - MANAJEMEN ====================== -->
+    <record id="demo_class_mn201_2627" model="academic.class">
+        <field name="subject_id" ref="demo_subject_mn201"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_mn201_2627" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_mn201_2627"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">0</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_b201"/>
+        <field name="lecturer_id" ref="demo_emp_rina"/>
+    </record>
+
+    <record id="demo_class_mn202_2627" model="academic.class">
+        <field name="subject_id" ref="demo_subject_mn202"/>
+        <field name="academic_year_id" ref="demo_year_2627"/>
+        <field name="start_date" eval="(DateTime.today() - relativedelta(days=5)).strftime('%Y-%m-%d')"/>
+    </record>
+    <record id="demo_sched_mn202_2627" model="academic.class.schedule">
+        <field name="class_id" ref="demo_class_mn202_2627"/>
+        <field name="class_code">A</field>
+        <field name="day_of_week">2</field>
+        <field name="start_time">8.0</field>
+        <field name="end_time">10.0</field>
+        <field name="room_id" ref="demo_room_b201"/>
+        <field name="lecturer_id" ref="demo_emp_rina"/>
+    </record>
+
+    <!-- Weekly meetings for this term's classes, so the Sessions calendar has
+         something on it. The number of meetings comes from Settings. -->
+    <function model="academic.class" name="action_generate_sessions" eval="[[ref('demo_class_if201_2627')]]"/>
+    <function model="academic.class" name="action_generate_sessions" eval="[[ref('demo_class_if202_2627')]]"/>
+    <function model="academic.class" name="action_generate_sessions" eval="[[ref('demo_class_mn201_2627')]]"/>
+</odoo>

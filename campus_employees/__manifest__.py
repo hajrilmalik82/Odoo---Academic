@@ -21,6 +21,9 @@
         'views/website_homepage_employees.xml',
         'views/menus.xml',
     ],
+    'demo': [
+        'demo/campus_demo_roles.xml',
+    ],
     'installable': True,
     'application': False,
     'auto_install': False,

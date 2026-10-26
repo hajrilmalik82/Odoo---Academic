@@ -108,12 +108,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__academic_advisor_id
 #: model:ir.model.fields,field_description:campus_core.field_res_users__academic_advisor_id
 msgid "Academic Advisor"
-msgstr "Penasihat Akademik"
+msgstr "Dosen Pembimbing Akademik"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 msgid "Academic Advisor,"
-msgstr "Penasihat Akademik,"
+msgstr "Dosen Pembimbing Akademik,"
 
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_class
@@ -123,17 +123,17 @@ msgstr "Kelas Akademik"
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_class_schedule
 msgid "Academic Class Schedule"
-msgstr "Jadwal Perkuliahan Akademik"
+msgstr "Jadwal Kelas"
 
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_class_session
 msgid "Academic Class Session"
-msgstr "Sesi Kelas Akademik"
+msgstr "Pertemuan Kelas"
 
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_course_package
 msgid "Academic Course Package"
-msgstr "Paket Kursus Akademik"
+msgstr "Paket Mata Kuliah"
 
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_course_package_line
@@ -158,7 +158,7 @@ msgstr "KRS (Kartu Rencana Studi)"
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_krs_line
 msgid "Academic KRS Line"
-msgstr "Jalur KRS Akademik"
+msgstr "Baris KRS"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
@@ -287,7 +287,7 @@ msgstr "Administrator"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 msgid "Advisor"
-msgstr "Dosen Pembimbing"
+msgstr "Dosen Pembimbing Akademik"
 
 #. module: campus_core
 #. odoo-python
@@ -341,7 +341,7 @@ msgstr "Tetapkan Jadwal"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
 msgid "Assign Schedule (Massive)"
-msgstr "Tetapkan Jadwal (Besar)"
+msgstr "Penjadwalan Massal"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__message_attachment_count
@@ -376,8 +376,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__batch_year
 #: model:ir.model.fields,field_description:campus_core.field_res_users__batch_year
 msgid "Batch / Generation"
-msgstr ""
-"Sebelum semester dimulai, Admin harus mempersiapkan landasan kurikulum:"
+msgstr "Angkatan"
 
 #. module: campus_core
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__both
@@ -401,7 +400,7 @@ msgstr "Kode gedung tidak boleh sama dalam satu perusahaan!"
 #: model:ir.ui.menu,name:campus_core.menu_campus_building_config
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_tree
 msgid "Buildings"
-msgstr "Bangunan"
+msgstr "Gedung"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__cgpa
@@ -537,7 +536,7 @@ msgstr "Jadwal Kelas"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_calendar
 msgid "Class Sessions"
-msgstr "Sesi Kelas"
+msgstr "Pertemuan Kelas"
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_academic_class
@@ -619,7 +618,7 @@ msgstr "Paket Mata Kuliah"
 #: model:ir.ui.menu,name:campus_core.menu_academic_course_package
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_tree
 msgid "Course Packages"
-msgstr "Paket Kursus"
+msgstr "Paket Mata Kuliah"
 
 #. module: campus_core
 #: model_terms:ir.actions.act_window,help:campus_core.action_academic_krs
@@ -764,13 +763,13 @@ msgstr "Kredit harus lebih besar dari nol."
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
 msgid "Credits:"
-msgstr "Kredit:"
+msgstr "SKS:"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Cumulative GPA (CGPA)"
-msgstr "IPK Kumulatif (CGPA)"
+msgstr "IPK"
 
 #. module: campus_core
 #. odoo-python
@@ -787,7 +786,7 @@ msgstr "Tanggal"
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__day_of_week
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
 msgid "Day of Week"
-msgstr "Hari dalam Seminggu"
+msgstr "Hari"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_campus_signatures
@@ -870,12 +869,12 @@ msgstr ""
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_session__end_datetime
 msgid "End Datetime"
-msgstr "Tanggal Waktu Berakhir"
+msgstr "Waktu Selesai"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__end_time
 msgid "End Time"
-msgstr "Akhir Waktu"
+msgstr "Waktu Selesai"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__enrolled_count
@@ -897,7 +896,7 @@ msgstr "Masukkan nilai siswa di KHS"
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__even
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_year__term_type__even
 msgid "Even"
-msgstr "Bahkan"
+msgstr "Genap"
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_campus_building__location
@@ -980,12 +979,12 @@ msgstr "Buat KRS"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
 msgid "Generate Sessions"
-msgstr "Hasilkan Sesi"
+msgstr "Buat Pertemuan"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Generation"
-msgstr "Generasi"
+msgstr "Angkatan"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_grade_scale_form
@@ -995,7 +994,7 @@ msgstr "Rentang Nilai"
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs__line_ids
 msgid "Grade Lines"
-msgstr "Garis Kelas"
+msgstr "Baris Nilai"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__grade_point
@@ -1005,12 +1004,12 @@ msgstr "Bobot Nilai"
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__grade_points
 msgid "Grade Points"
-msgstr "Nilai Mutu"
+msgstr "Mutu"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Grade Points (Credits×Weight)"
-msgstr "Poin Nilai (Kredit×Berat)"
+msgstr "Mutu (SKS × Bobot)"
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_academic_grade_scale
@@ -1040,7 +1039,7 @@ msgstr "SKS Dinilai"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
 msgid "Grades"
-msgstr "Skala Penilaian:"
+msgstr "Nilai"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
@@ -1050,7 +1049,7 @@ msgstr "Penilaian"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Grading Scale:"
-msgstr "Skala Penilaian:"
+msgstr "Skala Nilai:"
 
 #. module: campus_core
 #: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__graduated
@@ -1073,7 +1072,7 @@ msgstr "Pimpinan Fakultas/Dekan"
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_program__head_id
 msgid "Head of Program"
-msgstr "Ketua Jurusan"
+msgstr "Ketua Program Studi"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_campus_signatures
@@ -1163,17 +1162,17 @@ msgstr "Jika dicentang, beberapa pesan mengalami kesalahan pengiriman."
 #. module: campus_core
 #: model:mail.activity.type,name:campus_core.mail_activity_type_input_grades
 msgid "Input Student Grades"
-msgstr "Masukkan Nilai Siswa"
+msgstr "Masukkan Nilai Mahasiswa"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
 msgid "Internal Notes"
-msgstr "Catatan Dalaman"
+msgstr "Catatan Internal"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
 msgid "Internal note..."
-msgstr "Catatan dalaman..."
+msgstr "Catatan internal..."
 
 #. module: campus_core
 #. odoo-python
@@ -1194,7 +1193,7 @@ msgstr "Adalah Pengikut"
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__is_student
 #: model:ir.model.fields,field_description:campus_core.field_res_users__is_student
 msgid "Is a Student"
-msgstr "Adalah seorang Siswa"
+msgstr "Mahasiswa"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__khs_id
@@ -1204,12 +1203,12 @@ msgstr "KHS"
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_academic_khs_line
 msgid "KHS Grade Line"
-msgstr "Garis Kelas KHS"
+msgstr "Baris Nilai KHS"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 msgid "KHS No."
-msgstr "Nomor KHS."
+msgstr "No. KHS"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs__name
@@ -1235,18 +1234,18 @@ msgstr "Tanggal Berakhirnya KRS"
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_krs_generator_wizard
 msgid "KRS Generator Wizard"
-msgstr "Wisaya Pembangkit KRS"
+msgstr "Wizard Pembuat KRS"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_krs__line_ids
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
 msgid "KRS Lines"
-msgstr "Jalur KRS"
+msgstr "Baris KRS"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 msgid "KRS No."
-msgstr "Nomor KRS."
+msgstr "No. KRS"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_krs__name
@@ -1350,7 +1349,7 @@ msgstr "Tumpang tindih dosen terdeteksi pada %s"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Letter"
-msgstr "Surat"
+msgstr "Huruf Mutu"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__letter
@@ -1358,12 +1357,12 @@ msgstr "Surat"
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Letter Grade"
-msgstr "Kelas Surat"
+msgstr "Huruf Mutu"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_course_package__line_ids
 msgid "Lines"
-msgstr "Garis"
+msgstr "Baris"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_faculty__department_id
@@ -1379,7 +1378,7 @@ msgstr "Lokasi"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
 msgid "Lock & Generate KHS"
-msgstr "Kunci & Hasilkan KHS"
+msgstr "Kunci & Buat KHS"
 
 #. module: campus_core
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__locked
@@ -1441,13 +1440,13 @@ msgstr "Atasan"
 #. module: campus_core
 #: model:ir.actions.server,name:campus_core.action_krs_mass_approve
 msgid "Mass Approve"
-msgstr "Persetujuan Massal"
+msgstr "Setujui Massal"
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_assign_schedule_wizard
 #: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
 msgid "Mass Assign Schedule"
-msgstr "Jadwal Penugasan Massal"
+msgstr "Penjadwalan Massal"
 
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_assign_schedule_wizard
@@ -1462,7 +1461,7 @@ msgstr "Kunci Massal"
 #. module: campus_core
 #: model:ir.actions.server,name:campus_core.action_krs_mass_reject
 msgid "Mass Reject"
-msgstr "Penolakan Massal"
+msgstr "Tolak Massal"
 
 #. module: campus_core
 #: model:ir.actions.server,name:campus_core.action_krs_mass_request_revision
@@ -1472,7 +1471,7 @@ msgstr "Minta Revisi Massal"
 #. module: campus_core
 #: model:ir.actions.server,name:campus_core.action_krs_mass_submit
 msgid "Mass Submit"
-msgstr "Pengiriman Massal"
+msgstr "Ajukan Massal"
 
 #. module: campus_core
 #: model:ir.actions.server,name:campus_core.action_krs_mass_unlock
@@ -1620,7 +1619,7 @@ msgstr "Jenis Aktivitas Berikutnya"
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "No"
-msgstr "TIDAK"
+msgstr "No."
 
 #. module: campus_core
 #. odoo-python
@@ -1695,7 +1694,7 @@ msgstr "Hanya PMB yang dapat menerima lamaran."
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Numeric Grade"
-msgstr "Kelas Numerik"
+msgstr "Nilai Angka"
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_khs_line_numeric_grade_range
@@ -1706,13 +1705,13 @@ msgstr "Nilai numerik harus antara 0 dan 100."
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__odd
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_year__term_type__odd
 msgid "Odd"
-msgstr "Aneh"
+msgstr "Ganjil"
 
 #. module: campus_core
 #: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__leave
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "On Leave"
-msgstr "Sedang cuti"
+msgstr "Cuti"
 
 #. module: campus_core
 #. odoo-python
@@ -1799,7 +1798,7 @@ msgstr ""
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__package_id
 msgid "Package"
-msgstr "Kemasan"
+msgstr "Paket"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_department_filter_campus
@@ -1815,7 +1814,7 @@ msgstr "Bobot Nilai Kelulusan"
 #. module: campus_core
 #: model:ir.ui.menu,name:campus_core.menu_academic_people
 msgid "People"
-msgstr "Rakyat"
+msgstr "Orang"
 
 #. module: campus_core
 #. odoo-python
@@ -1866,7 +1865,7 @@ msgstr "Cetak KRS"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
 msgid "Print Transcript"
-msgstr "Print Transkrip"
+msgstr "Cetak Transkrip"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_program_id
@@ -1895,7 +1894,7 @@ msgstr ""
 #: model:ir.ui.menu,name:campus_core.menu_academic_program
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_program_tree
 msgid "Programs"
-msgstr "Program"
+msgstr "Program Studi"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__rating_ids
@@ -1907,7 +1906,7 @@ msgstr "Penilaian"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
 msgid "Real Sessions"
-msgstr "Sesi Nyata"
+msgstr "Pertemuan Terlaksana"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
@@ -1971,13 +1970,13 @@ msgstr "Ruangan"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
 msgid "Room Information"
-msgstr "Informasi Kamar"
+msgstr "Informasi Ruangan"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_campus_room__room_type
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_search
 msgid "Room Type"
-msgstr "Tipe Kamar"
+msgstr "Jenis Ruangan"
 
 #. module: campus_core
 #. odoo-python
@@ -2001,7 +2000,7 @@ msgstr "Ruangan tumpang tindih terdeteksi pada %s"
 #: model:ir.ui.menu,name:campus_core.menu_campus_room_config
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_tree
 msgid "Rooms"
-msgstr "Kamar"
+msgstr "Ruangan"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_sms_error
@@ -2110,7 +2109,7 @@ msgstr ""
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
 msgid "Search KHS"
-msgstr "Pencarian KHS"
+msgstr "Cari KHS"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
@@ -2130,7 +2129,7 @@ msgstr ""
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
 msgid "Search Schedules"
-msgstr "Jadwal Pencarian"
+msgstr "Cari Jadwal"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
@@ -2145,12 +2144,12 @@ msgstr "Cari Mahasiswa"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_search
 msgid "Search Subjects"
-msgstr "Cari Subjek"
+msgstr "Cari Mata Kuliah"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
 msgid "Select Students..."
-msgstr "Pilih Siswa..."
+msgstr "Pilih Mahasiswa..."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
@@ -2221,18 +2220,18 @@ msgstr "Semester 8"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 msgid "Semester GPA"
-msgstr "IPK Semester"
+msgstr "IP Semester"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 msgid "Semester:"
-msgstr "Tanggal akhir sesi harus setelah tanggal mulai."
+msgstr "Semester:"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_form
 msgid "Session"
-msgstr "Sidang"
+msgstr "Pertemuan"
 
 #. module: campus_core
 #. odoo-python
@@ -2246,7 +2245,7 @@ msgstr "Tanggal akhir sesi harus setelah tanggal mulai."
 #: model:ir.ui.menu,name:campus_core.menu_academic_class_session_act
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_tree
 msgid "Sessions"
-msgstr "Sesi"
+msgstr "Pertemuan"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_res_config_settings__campus_sessions_per_term
@@ -2257,7 +2256,7 @@ msgstr "Jumlah Pertemuan per Semester"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
 msgid "Set to Draft"
-msgstr "Setel ke Draf"
+msgstr "Kembalikan ke Draf"
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_faculty__code
@@ -2277,7 +2276,7 @@ msgstr "Tanggal Mulai"
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_session__start_datetime
 msgid "Start Datetime"
-msgstr "Mulai Tanggal Waktu"
+msgstr "Waktu Mulai"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__start_time
@@ -2381,7 +2380,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_core.report_campus_student_header
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
 msgid "Student ID (NIM)"
-msgstr "Kartu Identitas Mahasiswa (NIM)"
+msgstr "NIM"
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_res_partner_check_nim_unique
@@ -2391,12 +2390,12 @@ msgstr "NIM tidak boleh sama!"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
 msgid "Student Information"
-msgstr "Informasi Siswa"
+msgstr "Informasi Mahasiswa"
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_academic_khs
 msgid "Student KHS"
-msgstr "Mahasiswa KHS"
+msgstr "KHS Mahasiswa"
 
 #. module: campus_core
 #: model:ir.ui.menu,name:campus_core.menu_academic_krs_act
@@ -2407,7 +2406,7 @@ msgstr "KRS Mahasiswa"
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__student_status
 #: model:ir.model.fields,field_description:campus_core.field_res_users__student_status
 msgid "Student Status"
-msgstr "Status Pelajar"
+msgstr "Status Mahasiswa"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
@@ -2441,12 +2440,12 @@ msgstr "Status pelajar harus aktif untuk mengajukan KRS."
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 msgid "Student,"
-msgstr "Murid,"
+msgstr "Mahasiswa,"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
 msgid "Student:"
-msgstr "Murid:"
+msgstr "Mahasiswa:"
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_res_partner_student
@@ -2461,7 +2460,7 @@ msgstr "Mahasiswa"
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__krs_line_ids
 msgid "Students (KRS Lines)"
-msgstr "Mahasiswa (KRS Jalur)"
+msgstr "Mahasiswa (Baris KRS)"
 
 #. module: campus_core
 #. odoo-python
@@ -2494,7 +2493,7 @@ msgstr "Program Studi"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 msgid "Study Result Card (KHS)"
-msgstr "Kartu Hasil Belajar (KHS)"
+msgstr "Kartu Hasil Studi (KHS)"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__subject_id
@@ -2517,14 +2516,14 @@ msgstr "Mata pelajaran '%s' bukan milik program siswa."
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Subject Code"
-msgstr "Kode Subjek"
+msgstr "Kode Mata Kuliah"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Subject Name"
-msgstr "Nama Subjek"
+msgstr "Nama Mata Kuliah"
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_subject_code_program_unique
@@ -2537,7 +2536,7 @@ msgstr "Kode subjek harus unik dalam suatu program."
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_tree
 msgid "Subjects"
-msgstr "Subyek"
+msgstr "Mata Kuliah"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
@@ -2548,7 +2547,7 @@ msgstr "Ajukan"
 #. odoo-python
 #: code:addons/campus_core/wizard/krs_generator_wizard.py:0
 msgid "Success"
-msgstr "Kesuksesan"
+msgstr "Berhasil"
 
 #. module: campus_core
 #: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__6
@@ -2558,13 +2557,13 @@ msgstr "Minggu"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
 msgid "Target Students"
-msgstr "Sasaran Siswa"
+msgstr "Mahasiswa Sasaran"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs__term_gpa
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_tree
 msgid "Term GPA"
-msgstr "Jangka waktu IPK"
+msgstr "IP Semester"
 
 #. module: campus_core
 #: model:ir.actions.report,name:campus_core.action_report_khs
@@ -2575,12 +2574,12 @@ msgstr "Kartu Hasil Studi (KHS)"
 #: model:ir.model.fields,field_description:campus_core.field_academic_subject__term_type
 #: model:ir.model.fields,field_description:campus_core.field_academic_year__term_type
 msgid "Term Type"
-msgstr "Jenis Istilah"
+msgstr "Jenis Semester"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
 msgid "Term:"
-msgstr "Ketentuan:"
+msgstr "Semester:"
 
 #. module: campus_core
 #. odoo-python
@@ -2650,7 +2649,7 @@ msgstr "Total SKS"
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs__total_grade_points
 msgid "Total Grade Points"
-msgstr "Total Poin Nilai"
+msgstr "Total Mutu"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__graded_credits
@@ -2686,7 +2685,7 @@ msgstr "Jenis aktivitas pengecualian yang tercatat."
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
 msgid "Unassigned Students"
-msgstr "Siswa yang Belum Ditugaskan"
+msgstr "Mahasiswa Belum Terjadwal"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
@@ -2733,7 +2732,7 @@ msgstr "Jadwal Mingguan"
 #: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
 msgid "Weight"
-msgstr "Berat"
+msgstr "Bobot"
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_grade_scale__grade_point
@@ -2752,7 +2751,7 @@ msgstr ""
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
 msgid "ZIP"
-msgstr "RITSLETING"
+msgstr "Kode Pos"
 
 #. module: campus_core
 #. odoo-python

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Roles, logins and jurisdiction for the staff campus_core created.
+
+         The employees themselves live in campus_core, which knows nothing about
+         academic_role. This module gives them their roles, and the roles are
+         what grant the campus groups: writing academic_role runs
+         _sync_academic_user_role, so these records exercise that path rather
+         than assigning groups by hand. -->
+
+    <!-- ============================== LOGINS ==============================
+         One account per role, so a reviewer can sign in as each and see what
+         the access rules actually do. Demo data only: these never reach a
+         production install. -->
+    <record id="demo_user_dosen" model="res.users">
+        <field name="name">Dr. Budi Hartono, M.Kom.</field>
+        <field name="login">dosen@kampus.test</field>
+        <field name="password">demo123</field>
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+    </record>
+    <record id="demo_user_staf" model="res.users">
+        <field name="name">Dewi Lestari, S.E.</field>
+        <field name="login">staf@kampus.test</field>
+        <field name="password">demo123</field>
+        <field name="group_ids" eval="[(6, 0, [ref('base.group_user')])]"/>
+    </record>
+
+    <!-- =============================== ROLES ==============================
+         Writing academic_role is what grants the campus group. Nothing here
+         touches group_ids directly, so if that sync broke the demo would show
+         it immediately. -->
+    <record id="campus_core.demo_emp_budi" model="hr.employee">
+        <field name="academic_role">lecturer</field>
+        <field name="academic_rank">lektor_kepala</field>
+        <field name="nidn">0012078901</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+        <field name="user_id" ref="demo_user_dosen"/>
+    </record>
+    <record id="campus_core.demo_emp_siti" model="hr.employee">
+        <field name="academic_role">lecturer</field>
+        <field name="academic_rank">lektor</field>
+        <field name="nidn">0023059102</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+    </record>
+    <record id="campus_core.demo_emp_andi" model="hr.employee">
+        <field name="academic_role">lecturer</field>
+        <field name="academic_rank">asisten_ahli</field>
+        <field name="nidn">0031128803</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_fti"/>
+        <field name="program_id" ref="campus_core.demo_program_si"/>
+    </record>
+    <record id="campus_core.demo_emp_rina" model="hr.employee">
+        <field name="academic_role">lecturer</field>
+        <field name="academic_rank">guru_besar</field>
+        <field name="nidn">0005037504</field>
+        <field name="faculty_id" ref="campus_core.demo_faculty_feb"/>
+        <field name="program_id" ref="campus_core.demo_program_mn"/>
+    </record>
+
+    <!-- Joko's PMB role and login live in campus_pmb: the 'pmb' value is added
+         there with selection_add, so it does not exist yet while this file is
+         being read. -->
+    <record id="campus_core.demo_emp_dewi" model="hr.employee">
+        <field name="academic_role">academic</field>
+        <field name="user_id" ref="demo_user_staf"/>
+    </record>
+
+    <!-- ============================ JURISDICTION ==========================
+         Dewi handles Teknologi Industri only, so signing in as her shows the
+         record rules narrowing the lists rather than an empty system: she sees
+         the Teknik Informatika study plans and not the Manajemen ones. -->
+    <record id="demo_jurisdiction_dewi" model="campus.jurisdiction">
+        <field name="employee_id" ref="campus_core.demo_emp_dewi"/>
+        <field name="scope">academic</field>
+        <field name="all_programs" eval="True"/>
+        <field name="faculty_ids" eval="[(6, 0, [ref('campus_core.demo_faculty_fti')])]"/>
+    </record>
+</odoo>

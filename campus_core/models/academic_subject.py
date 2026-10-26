@@ -140,9 +140,13 @@ class AcademicYear(models.Model):
 
     @api.depends('name', 'term_type')
     def _compute_display_name(self):
+        # _description_selection, not .selection: the raw attribute is the list
+        # as written in the source, so the label came out in English even for a
+        # user reading the system in Indonesian - including on the printed
+        # transcript, where every row said "(Odd)".
+        terms = dict(self._fields['term_type']._description_selection(self.env))
         for record in self:
             if record.name and record.term_type:
-                term = dict(self._fields['term_type'].selection).get(record.term_type)
-                record.display_name = f"{record.name} ({term})"
+                record.display_name = f"{record.name} ({terms.get(record.term_type, '')})"
             else:
                 record.display_name = record.name or ""

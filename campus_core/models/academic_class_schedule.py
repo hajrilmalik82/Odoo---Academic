@@ -153,7 +153,9 @@ class AcademicClassSchedule(models.Model):
 
     @api.depends('class_code', 'day_of_week', 'start_time', 'end_time')
     def _compute_display_name(self):
-        day_dict = dict(self._fields['day_of_week'].selection)
+        # Translated labels; see academic.year._compute_display_name for why
+        # the raw .selection attribute is the wrong source here.
+        day_dict = dict(self._fields['day_of_week']._description_selection(self.env))
         for record in self:
             day_name = day_dict.get(record.day_of_week, '')
             start = self._format_float_time(record.start_time)
