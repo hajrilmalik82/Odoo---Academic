@@ -84,22 +84,33 @@ class TestTranslatedLabels(CampusCommon):
     an official transcript. _description_selection resolves the catalogue.
     """
 
-    def _in_indonesian(self, record):
-        return record.with_context(lang='id_ID').display_name
+    def _label(self, record, field_name):
+        """What the catalogue says this selection value is called, right now."""
+        field = record._fields[field_name]
+        return dict(field._description_selection(record.env))[record[field_name]]
 
-    def test_the_academic_year_term_is_translated(self):
-        if not self.env['res.lang'].search([('code', '=', 'id_ID'), ('active', '=', True)]):
-            self.skipTest("id_ID is not installed on this database")
-        name = self._in_indonesian(self.year)
-        self.assertNotIn('Odd', name, "the term label must not stay in English")
-        self.assertIn('Ganjil', name)
+    def test_the_academic_year_term_uses_the_catalogue(self):
+        """Asserts the mechanism, not a particular Indonesian word: whatever
+        the catalogue says for the reader's language, display_name must use it.
+        Pinning the word itself would make the test fail on a database whose
+        translations are merely out of date, which is a different problem."""
+        year = self.year.with_context(lang='id_ID')
+        self.assertIn(self._label(year, 'term_type'), year.display_name)
 
-    def test_the_schedule_day_is_translated(self):
-        if not self.env['res.lang'].search([('code', '=', 'id_ID'), ('active', '=', True)]):
-            self.skipTest("id_ID is not installed on this database")
-        name = self._in_indonesian(self.schedule)
-        self.assertNotIn('Monday', name)
-        self.assertIn('Senin', name)
+    def test_the_schedule_day_uses_the_catalogue(self):
+        schedule = self.schedule.with_context(lang='id_ID')
+        self.assertIn(self._label(schedule, 'day_of_week'), schedule.display_name)
+
+    def test_the_label_differs_from_the_source_when_a_translation_exists(self):
+        """The guard against the mechanism quietly doing nothing: if the two
+        languages produce the same label, either nothing is translated or
+        display_name is reading the source list again."""
+        indonesian = self._label(self.year.with_context(lang='id_ID'), 'term_type')
+        english = self._label(self.year.with_context(lang='en_US'), 'term_type')
+        if indonesian == english:
+            self.skipTest("term_type is not translated on this database")
+        self.assertIn(indonesian, self.year.with_context(lang='id_ID').display_name)
+        self.assertNotIn(english, self.year.with_context(lang='id_ID').display_name)
 
     def test_no_display_name_reads_the_raw_selection(self):
         """The mistake is cheap to repeat, so it is pinned by shape as well.

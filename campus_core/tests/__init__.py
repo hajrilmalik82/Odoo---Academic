@@ -5,3 +5,4 @@ from . import test_institution_code
 from . import test_capacity
 from . import test_bands
 from . import test_reports
+from . import test_wizards

@@ -1,7 +1,7 @@
 from datetime import timedelta
 
 from odoo import fields
-from odoo.tests.common import TransactionCase
+from odoo.tests.common import HttpCase, TransactionCase
 
 # Every record this fixture creates carries this marker in its name or code.
 #
@@ -16,8 +16,14 @@ from odoo.tests.common import TransactionCase
 TAG = 'ZZTEST'
 
 
-class CampusCommon(TransactionCase):
-    """Shared fixture: one faculty, one programme, two subjects, one class.
+class CampusFixture:
+    """Builds the campus. Mixed into both test bases below.
+
+    A plain mixin rather than a base class, so the same fixture serves a
+    TransactionCase (model-level tests) and an HttpCase (routes and rendered
+    pages) without being written twice.
+
+    Shared fixture: one faculty, one programme, two subjects, one class.
 
     Built in setUpClass so every test starts from the same known campus rather
     than from whatever happens to be in the database. Everything is rolled back
@@ -129,3 +135,46 @@ class CampusCommon(TransactionCase):
                 (0, 0, {'schedule_id': schedule.id}) for schedule in schedules
             ],
         })
+
+
+class CampusCommon(CampusFixture, TransactionCase):
+    """Model-level tests: call the methods directly, no HTTP involved."""
+
+
+class CampusHttpCommon(CampusFixture, HttpCase):
+    """Route-level tests: a real server, real requests, real rendering.
+
+    What a TransactionCase cannot reach - routing and its methods, CSRF, the
+    auth decorator, QWeb rendering, and which language a frontend page is
+    served in - only shows up here.
+
+    Adds the two accounts the routes need. Passwords are set on the fixture's
+    own users and never leave this database.
+    """
+
+    PORTAL_PASSWORD = 'zz-portal-password'
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.student_user = cls.env['res.users'].create({
+            'name': cls.student.name,
+            'login': 'zz.mahasiswa.http@contoh.test',
+            'password': cls.PORTAL_PASSWORD,
+            'partner_id': cls.student.id,
+            'group_ids': [(6, 0, [cls.env.ref('base.group_portal').id])],
+        })
+        # An internal user with no campus role: the one whose /my/home used to
+        # break because the counters raised AccessError.
+        cls.outsider_user = cls.env['res.users'].create({
+            'name': '%s Karyawan Biasa' % TAG,
+            'login': 'zz.karyawan.http@contoh.test',
+            'password': cls.PORTAL_PASSWORD,
+            'group_ids': [(6, 0, [cls.env.ref('base.group_user').id])],
+        })
+
+    def sign_in_as_student(self):
+        self.authenticate(self.student_user.login, self.PORTAL_PASSWORD)
+
+    def sign_in_as_outsider(self):
+        self.authenticate(self.outsider_user.login, self.PORTAL_PASSWORD)

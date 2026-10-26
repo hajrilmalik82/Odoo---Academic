@@ -31,10 +31,39 @@ They declare their own dependencies, so installing `campus_portal` and
 ## Tests
 
 ```
-odoo-bin -c odoo.conf -d <db> -u campus_core,campus_website,campus_employees,campus_pmb,campus_portal --test-enable --stop-after-init
+./jalankan-test.sh            # the default database
+./jalankan-test.sh <db>       # another one
 ```
 
-96 tests. They are the reason several of the fixes in this history are safe to
+129 tests, in two kinds. Most are `TransactionCase` and call the methods
+directly. The rest are `HttpCase`: a real server, real requests, real
+rendering — the only way to reach routing and its methods, CSRF, the auth
+decorator, QWeb errors and which language a frontend page is served in.
+
+## Seeding a database to show
+
+```
+odoo-bin -c odoo.conf -d <db> -i campus_portal,campus_pmb,campus_website --with-demo --stop-after-init
+```
+
+Two flags are easy to forget, and both have cost time here:
+
+- **`--with-demo`.** Odoo 19 installs demo data only when asked. Without it the
+  database comes up correct and completely empty.
+- **`--i18n-overwrite`** when re-running an upgrade. Odoo does *not* replace a
+  translation that already exists in the database, so editing an `id.po` and
+  upgrading changes nothing — the old wording stays, including on printed
+  transcripts. `jalankan-test.sh` passes it.
+
+And one setting outside this repository: `odoo.conf` carries a `dbfilter`. A
+database whose name does not match it is not served over HTTP at all, so the
+site comes up blank with no error.
+
+The demo data is a campus that works: two faculties, five programmes, a
+curriculum with a real prerequisite chain, two terms, thirteen students, every
+workflow state occupied. It is built through `action_submit`, so it refuses to
+load if the credit cap, the prerequisites, the seat quota or the timetable
+clash check breaks — it doubles as a smoke test. They are the reason several of the fixes in this history are safe to
 make: the suite found two real defects while it was being restored — a
 `check_company` that made every student contact impossible to save, and a
 `NULLS FIRST` ordering that picked the wrong grade band.
