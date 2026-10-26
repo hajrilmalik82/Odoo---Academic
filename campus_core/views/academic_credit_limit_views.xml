@@ -1,6 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_academic_credit_limit_tree" model="ir.ui.view">
+    <record id="view_academic_credit_limit_search" model="ir.ui.view">
+        <field name="name">academic.credit.limit.search</field>
+        <field name="model">academic.credit.limit</field>
+        <field name="arch" type="xml">
+            <search string="Search Credit Limits">
+                <field name="min_cgpa"/>
+                <field name="max_credits"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_academic_credit_limit_list" model="ir.ui.view">
         <field name="name">academic.credit.limit.list</field>
         <field name="model">academic.credit.limit</field>
         <field name="arch" type="xml">

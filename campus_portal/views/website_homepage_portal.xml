@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="portal_homepage_docs" inherit_id="campus_core.core_homepage_docs" name="Portal ERP Documentation">
+    <template id="portal_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Portal ERP Documentation">
         
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">

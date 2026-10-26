@@ -82,8 +82,11 @@ class AcademicClass(models.Model):
         sessions_per_term = self.env['res.config.settings']._get_sessions_per_term()
 
         sessions = []
+        # fields.Date.from_string is a deprecated alias marked for removal in the
+        # framework, and a no-op here: start_date is a Date field, so the ORM
+        # already hands back a datetime.date. Read once, outside the loop.
+        current_date = self.start_date
         for schedule in self.schedule_ids:
-            current_date = fields.Date.from_string(self.start_date)
             # Find the first date matching schedule.day_of_week
             # weekday() returns 0 for Monday, 6 for Sunday
             target_weekday = int(schedule.day_of_week)
@@ -125,13 +128,20 @@ class AcademicClass(models.Model):
 class AcademicClassSession(models.Model):
     _name = 'academic.class.session'
     _description = 'Academic Class Session'
+    _check_company_auto = True
+    _order = 'start_datetime'
 
     name = fields.Char(string='Name', required=True)
-    class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade')
+    class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade', index=True)
     start_datetime = fields.Datetime(string='Start Datetime', required=True)
     end_datetime = fields.Datetime(string='End Datetime', required=True)
-    room_id = fields.Many2one('campus.room', string='Room')
+    room_id = fields.Many2one('campus.room', string='Room', check_company=True)
     lecturer_id = fields.Many2one('hr.employee', string='Lecturer')
+    # Every model around this one carries a company, so sessions could not be
+    # filtered or grouped by company anywhere and _check_company_auto had
+    # nothing to work with. Related and stored, the way academic.class.schedule
+    # does it, so the column is backfilled from the class on upgrade.
+    company_id = fields.Many2one(related='class_id.company_id', store=True)
 
     @api.constrains('start_datetime', 'end_datetime')
     def _check_session_datetime(self):

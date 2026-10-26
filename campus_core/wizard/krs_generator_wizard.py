@@ -13,8 +13,8 @@ class KrsGeneratorWizard(models.TransientModel):
     student_ids = fields.Many2many('res.partner', string='Students', domain="[('is_student', '=', True), ('program_id', '=', program_id)]")
 
     @api.model
-    def default_get(self, fields_list):
-        res = super().default_get(fields_list)
+    def default_get(self, fields):
+        res = super().default_get(fields)
         if self.env.context.get('active_model') == 'academic.course.package' and self.env.context.get('active_id'):
             package_id = self.env.context.get('active_id')
             package = self.env['academic.course.package'].browse(package_id)

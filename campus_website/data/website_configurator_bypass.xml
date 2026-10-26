@@ -22,10 +22,12 @@
             <field name="state">done</field>
         </record>
 
-        <function model="website" name="write">
-            <value model="website" search="[]"/>
-            <value eval="{'configurator_done': True}"/>
-        </function>
+        <!-- eval, not <value model=... search=.../>: convert.py:76-96 returns
+             only ids[0] when the <value> carries no name=, so the search form
+             marked just the first website done and every website added after
+             that still walked into the configurator. -->
+        <function model="website" name="write"
+                  eval="[obj().env['website'].search([]).ids, {'configurator_done': True}]"/>
 
         <!-- Renamed with a plain write rather than a <record> override of
              website.menu_home. Overriding another module's xmlid is what

@@ -15,34 +15,41 @@
                         <field name="program_id"/>
                     </group>
                 </page>
-                <!-- The PMB Jurisdiction page moved to
-                     campus_pmb/views/hr_employee_views.xml, beside its fields. -->
-                <page string="Academic Jurisdiction" invisible="academic_role != 'academic'">
-                    <group>
-                        <field name="academic_all_faculties"/>
-                        <field name="academic_faculty_ids" widget="many2many_tags" invisible="academic_all_faculties == True"/>
-                        <field name="academic_all_programs"/>
-                        <field name="academic_program_ids" widget="many2many_tags" invisible="academic_all_programs == True"/>
-                    </group>
+                <!-- One page for every purpose, not one per module. This used
+                     to be two near-identical pages - Academic Jurisdiction here
+                     and PMB Jurisdiction in campus_pmb - over two parallel sets
+                     of four fields. A module that adds a scope now needs no view
+                     change at all: its rows simply appear in this list.
+                     The page is shown only to campus administrators, which is
+                     also who the ACL on campus.jurisdiction admits. -->
+                <page string="Jurisdiction" name="campus_jurisdiction"
+                      groups="campus_core.group_campus_administrator"
+                      invisible="academic_role not in ('academic', 'pmb')">
+                    <field name="jurisdiction_ids">
+                        <list editable="bottom">
+                            <field name="scope"/>
+                            <field name="all_faculties"/>
+                            <field name="faculty_ids" widget="many2many_tags"
+                                   column_invisible="0" invisible="all_faculties"/>
+                            <field name="all_programs"/>
+                            <field name="program_ids" widget="many2many_tags"
+                                   invisible="all_programs"/>
+                        </list>
+                    </field>
                 </page>
             </xpath>
+            <!-- The stock keys are restated, not dropped. position="attributes"
+                 with no add= replaces the attribute outright
+                 (odoo/tools/template_inheritance.py:306-309), and the stock
+                 job_id in hr.view_employee_form carries
+                 {'default_no_of_recruitment': 0, 'default_is_favorite': False}.
+                 Losing them meant a Job Position created inline from this form
+                 got a recruitment target of 1 instead of 0 and, with
+                 hr_recruitment installed, was silently favourited for whoever
+                 created it - a phantom open position for every lecturer job. -->
             <xpath expr="//field[@name='job_id']" position="attributes">
-                <attribute name="context">{'default_academic_role': context.get('default_academic_role')}</attribute>
+                <attribute name="context">{'default_no_of_recruitment': 0, 'default_is_favorite': False, 'default_academic_role': context.get('default_academic_role')}</attribute>
             </xpath>
-        </field>
-    </record>
-
-    <!-- Action for PMB Staff -->
-    <record id="action_hr_employee_pmb_staff" model="ir.actions.act_window">
-        <field name="name">PMB Staff</field>
-        <field name="res_model">hr.employee</field>
-        <field name="view_mode">kanban,list,form</field>
-        <field name="domain">[('academic_role', '=', 'pmb')]</field>
-        <field name="context">{'default_academic_role': 'pmb'}</field>
-        <field name="help" type="html">
-            <p class="o_view_nocontent_smiling_face">
-                Create a new PMB Staff
-            </p>
         </field>
     </record>
 

@@ -1,3 +1,4 @@
+import functools
 import logging
 from urllib.parse import urlencode
 
@@ -9,8 +10,58 @@ from odoo.exceptions import ValidationError, UserError
 _logger = logging.getLogger(__name__)
 
 
+def _redirect_with_error(url, message):
+    return request.redirect('%s?%s' % (url, urlencode({'error': message})))
+
+
+def report_errors_to(url_for):
+    """Turn an exception into a redirect carrying a message the student can read.
+
+    The same four lines used to be copied into every mutating route: a
+    ValidationError or UserError is a rule the student can act on and is shown
+    as written, anything else is our bug and is logged with a traceback while
+    the visitor gets one neutral sentence. Copied four times, a fix to one of
+    them reached only one route.
+
+    :param url_for: builds the page to return to out of the route's own arguments.
+    """
+    def decorator(route):
+        @functools.wraps(route)
+        def wrapper(self, *args, **kwargs):
+            try:
+                return route(self, *args, **kwargs)
+            except (ValidationError, UserError) as error:
+                message = error.args[0] if error.args else _("The action could not be completed.")
+                return _redirect_with_error(url_for(*args, **kwargs), message)
+            except Exception:
+                _logger.exception(
+                    "%s failed for user %s", route.__name__, request.env.user.login,
+                )
+                return _redirect_with_error(url_for(*args, **kwargs), _("A system error occurred."))
+        return wrapper
+    return decorator
+
+
+def _krs_page(krs_id, *_args, **_kwargs):
+    return '/my/krs/%s' % krs_id
+
+
+# Module-level, NOT an override of CustomerPortal._items_per_page. That
+# attribute is shared by every module that subclasses CustomerPortal - sale,
+# account, project - and Odoo merges all of them into one class at runtime, so
+# setting it here silently re-paginated every other module's portal lists to 20.
+_CAMPUS_ITEMS_PER_PAGE = 20
+
+
 class CampusPortal(CustomerPortal):
-    _items_per_page = 20
+
+    def env_editable_states(self):
+        """The states a student may still change, read from the model.
+
+        One definition: academic.krs._EDITABLE_STATES. Spelled out as a literal
+        in three routes, a change to the model would have left them behind.
+        """
+        return request.env['academic.krs']._EDITABLE_STATES
 
     def _get_own_krs(self, krs_id):
         """Return the KRS if it belongs to the logged-in student, else empty.
@@ -64,7 +115,7 @@ class CampusPortal(CustomerPortal):
             ])
         return values
 
-    @http.route(['/my/krs', '/my/krs/page/<int:page>'], type='http', auth="user", website=True)
+    @http.route(['/my/krs', '/my/krs/page/<int:page>'], type='http', auth="user", website=True, readonly=True)
     def portal_my_krs(self, page=1, **kw):
         partner = request.env.user.partner_id
         domain = [('student_id', '=', partner.id)]
@@ -75,11 +126,11 @@ class CampusPortal(CustomerPortal):
             url='/my/krs',
             total=total,
             page=page,
-            step=self._items_per_page,
+            step=_CAMPUS_ITEMS_PER_PAGE,
         )
         krs_records = KrsObj.search(
             domain,
-            limit=self._items_per_page,
+            limit=_CAMPUS_ITEMS_PER_PAGE,
             offset=pager['offset'],
             order='academic_year_id desc, id desc',
         )
@@ -94,9 +145,23 @@ class CampusPortal(CustomerPortal):
         })
         return request.render("campus_portal.portal_my_krs", values)
 
-    @http.route(['/my/krs/register'], type='http', auth="user", website=True)
+    # POST, not GET. This route CREATES a KRS, and as a GET it was reachable
+    # from any link, image or prefetch - no CSRF token involved - so anything
+    # that fetched the URL on the student's behalf opened a study plan for them.
+    # The template posts a form carrying request.csrf_token().
+    @http.route(['/my/krs/register'], type='http', auth="user", website=True, methods=['POST'])
+    @report_errors_to(lambda *args, **kwargs: '/my/krs')
     def portal_my_krs_register(self, **kw):
         partner = request.env.user.partner_id
+
+        # Only an active student may hold a KRS. Without this any internal user
+        # - an accountant, a warehouse operator - could open /my/krs/register
+        # and create a study plan against their own contact, which then failed
+        # every submission rule in a way nobody could explain.
+        if not partner.is_student or partner.student_status != 'active':
+            return request.redirect('/my?' + urlencode({
+                'error': _("Only active students can fill in a KRS."),
+            }))
         
         # 1. The academic year currently open for registration. Shared definition
         # with campus_pmb, and it also honours `active`, which this inline search
@@ -104,40 +169,36 @@ class CampusPortal(CustomerPortal):
         active_year = request.env['academic.year'].sudo()._get_krs_period_open()
 
         if not active_year:
-            return request.redirect('/my/krs?' + urlencode({
-                'error': _("Masa pengisian KRS sedang ditutup atau Tahun Akademik belum diatur."),
-            }))
-            
-        # 2. Prevent duplicate: Find existing KRS for this term regardless of state
+            return _redirect_with_error('/my/krs', _(
+                "The KRS registration period is closed, or no academic year has "
+                "been configured."
+            ))
+
+        # 2. One study plan per term, whatever state it is in.
         existing_krs = request.env['academic.krs'].search([
             ('student_id', '=', partner.id),
-            ('academic_year_id', '=', active_year.id)
+            ('academic_year_id', '=', active_year.id),
         ], limit=1)
-        
         if existing_krs:
             return request.redirect('/my/krs/%s' % existing_krs.id)
-            
-        # 3. Create a new KRS automatically.
-        # sudo() because portal users are read-only on academic.krs; student_id
-        # is pinned to the logged-in partner so a visitor cannot create a KRS
-        # for someone else, and state is left to its 'draft' default.
-        try:
-            new_krs = request.env['academic.krs'].sudo().create({
-                'student_id': partner.id,
-                'academic_year_id': active_year.id,
-            })
-            return request.redirect('/my/krs/%s' % new_krs.id)
-        except (ValidationError, UserError) as e:
-            return request.redirect('/my/krs?' + urlencode({'error': e.args[0]}))
-        except Exception:
-            _logger.exception("KRS register failed for user %s", request.env.user.login)
-            return request.redirect('/my/krs?' + urlencode({'error': _("Terjadi kesalahan sistem.")}))
 
-    @http.route(['/my/krs/<int:krs_id>'], type='http', auth="user", website=True)
+        # 3. Create it. sudo() because portal users are read-only on
+        # academic.krs; student_id is pinned to the logged-in partner so a
+        # visitor cannot open one for someone else, and state is left to its
+        # 'draft' default. Errors are turned into a message by the decorator.
+        new_krs = request.env['academic.krs'].sudo().create({
+            'student_id': partner.id,
+            'academic_year_id': active_year.id,
+        })
+        return request.redirect('/my/krs/%s' % new_krs.id)
+
+    @http.route(['/my/krs/<int:krs_id>'], type='http', auth="user", website=True, readonly=True)
     def portal_my_krs_detail(self, krs_id, **kw):
         krs = self._get_own_krs(krs_id)
         if not krs:
-            return request.redirect('/my/krs')
+            return request.redirect('/my/krs?' + urlencode({
+                'error': _("That KRS is not available."),
+            }))
 
         # Offer only what this student can actually submit. The list used to be
         # every schedule of the academic year, so a student saw sections from
@@ -182,7 +243,9 @@ class CampusPortal(CustomerPortal):
         """
         krs = self._get_own_krs(krs_id)
         if not krs:
-            return request.redirect('/my/krs')
+            return request.redirect('/my/krs?' + urlencode({
+                'error': _("That KRS is not available."),
+            }))
         return self._show_report(
             model=krs,
             report_type=report_type,
@@ -191,73 +254,64 @@ class CampusPortal(CustomerPortal):
         )
 
     @http.route(['/my/krs/<int:krs_id>/add_line'], type='http', auth="user", website=True, methods=['POST'])
+    @report_errors_to(_krs_page)
     def portal_my_krs_add_line(self, krs_id, **post):
         krs = self._get_own_krs(krs_id)
         if not krs:
-            return request.redirect('/my/krs')
+            return _redirect_with_error('/my/krs', _("That KRS is not available."))
+
+        if krs.state not in self.env_editable_states():
+            raise UserError(_("You can only add subjects while the KRS is in Draft or Needs Revision."))
+
         try:
-            if krs.state not in ('draft', 'revision'):
-                raise UserError(_("You can only add subjects while the KRS is in Draft or Needs Revision."))
+            schedule_id = int(post.get('schedule_id') or 0)
+        except (TypeError, ValueError):
+            schedule_id = 0
+        schedule = request.env['academic.class.schedule'].sudo().browse(schedule_id).exists()
+        if not schedule:
+            raise UserError(_("Please choose a valid schedule."))
+        if schedule.class_id.academic_year_id != krs.academic_year_id:
+            raise UserError(_("That schedule belongs to a different academic year."))
 
-            try:
-                schedule_id = int(post.get('schedule_id') or 0)
-            except (TypeError, ValueError):
-                schedule_id = 0
-            schedule = request.env['academic.class.schedule'].sudo().browse(schedule_id).exists()
-            if not schedule:
-                raise UserError(_("Please choose a valid schedule."))
-            if schedule.class_id.academic_year_id != krs.academic_year_id:
-                raise UserError(_("That schedule belongs to a different academic year."))
-
-            request.env['academic.krs.line'].sudo().create({
-                'krs_id': krs.id,
-                'schedule_id': schedule.id,
-            })
-        except (ValidationError, UserError) as e:
-            return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': e.args[0]})))
-        except Exception:
-            _logger.exception("KRS add_line failed for user %s", request.env.user.login)
-            return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': _("Terjadi kesalahan sistem.")})))
+        request.env['academic.krs.line'].sudo().create({
+            'krs_id': krs.id,
+            'schedule_id': schedule.id,
+        })
         return request.redirect('/my/krs/%s' % krs_id)
 
     @http.route(['/my/krs/<int:krs_id>/delete_line/<int:line_id>'], type='http', auth="user", website=True, methods=['POST'])
+    @report_errors_to(_krs_page)
     def portal_my_krs_delete_line(self, krs_id, line_id, **kw):
         krs = self._get_own_krs(krs_id)
         if not krs:
-            return request.redirect('/my/krs')
-        try:
-            if krs.state not in ('draft', 'revision'):
-                raise UserError(_("You can only remove subjects while the KRS is in Draft or Needs Revision."))
-            line = request.env['academic.krs.line'].sudo().browse(line_id).exists()
-            if not line or line.krs_id != krs:
-                raise UserError(_("That subject is not part of this KRS."))
-            line.unlink()
-        except (ValidationError, UserError) as e:
-            return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': e.args[0]})))
-        except Exception:
-            _logger.exception("KRS delete_line failed for user %s", request.env.user.login)
-            return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': _("Terjadi kesalahan sistem.")})))
+            return _redirect_with_error('/my/krs', _("That KRS is not available."))
+
+        if krs.state not in self.env_editable_states():
+            raise UserError(_("You can only remove subjects while the KRS is in Draft or Needs Revision."))
+        line = request.env['academic.krs.line'].sudo().browse(line_id).exists()
+        if not line or line.krs_id != krs:
+            raise UserError(_("That subject is not part of this KRS."))
+        line.unlink()
         return request.redirect('/my/krs/%s' % krs_id)
 
     @http.route(['/my/krs/<int:krs_id>/submit'], type='http', auth="user", website=True, methods=['POST'])
+    @report_errors_to(_krs_page)
     def portal_my_krs_submit(self, krs_id, **post):
         krs = self._get_own_krs(krs_id)
         if not krs:
-            return request.redirect('/my/krs')
-        try:
-            if krs.state not in ('draft', 'revision'):
-                raise UserError(_("This KRS has already been submitted."))
-            # sudo() only bypasses access rights. The nine submission rules are
-            # an @api.constrains on academic.krs, so they still run here.
-            krs.action_submit()
-        except (ValidationError, UserError) as e:
-            return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': e.args[0]})))
-        except Exception:
-            _logger.exception("KRS submit failed for user %s", request.env.user.login)
-            return request.redirect('/my/krs/%s?%s' % (krs_id, urlencode({'error': _("Terjadi kesalahan sistem.")})))
+            return _redirect_with_error('/my/krs', _("That KRS is not available."))
+
+        if krs.state not in self.env_editable_states():
+            raise UserError(_("This KRS has already been submitted."))
+        # sudo() only bypasses access rights. The submission rules are an
+        # @api.constrains on academic.krs, so they still run here.
+        krs.action_submit()
         return request.redirect('/my/krs/%s' % krs_id)
 
-    @http.route(['/my/khs', '/my/khs/page/<int:page>'], type='http', auth="user", website=True)
+    # readonly=True on the three pure-read pages only. The report routes are
+    # left on a read/write cursor because rendering a report can write an
+    # ir.attachment, and the POST routes obviously mutate.
+    @http.route(['/my/khs', '/my/khs/page/<int:page>'], type='http', auth="user", website=True, readonly=True)
     def portal_my_khs(self, page=1, **kw):
         partner = request.env.user.partner_id
         domain = [('student_id', '=', partner.id)]
@@ -268,21 +322,32 @@ class CampusPortal(CustomerPortal):
             url='/my/khs',
             total=total,
             page=page,
-            step=self._items_per_page,
+            step=_CAMPUS_ITEMS_PER_PAGE,
         )
         khs_records = KhsObj.search(
             domain,
-            limit=self._items_per_page,
+            limit=_CAMPUS_ITEMS_PER_PAGE,
             offset=pager['offset'],
             order='academic_year_id desc, id desc',
         )
 
+        # The transcript entry point is resolved here, not derived from the
+        # paginated list. The template used to link khs_records[0], which is the
+        # newest term ON THE CURRENT PAGE - so a student on page 2 printed a
+        # transcript keyed off an old semester.
+        latest_khs = KhsObj.search(domain, order='academic_year_id desc, id desc', limit=1)
+
         values = self._prepare_portal_layout_values()
         values.update({
             'khs_records': khs_records,
+            'transcript_khs': latest_khs,
             'pager': pager,
             'page_name': 'khs',
             'default_url': '/my/khs',
+            # Supplied so the KHS page can show the same error banner the KRS
+            # page does; without it a failed ownership check redirected here
+            # with a message nothing rendered.
+            'error': kw.get('error'),
         })
         return request.render("campus_portal.portal_my_khs", values)
 
@@ -296,7 +361,9 @@ class CampusPortal(CustomerPortal):
         """
         khs = self._get_own_khs(khs_id)
         if not khs:
-            return request.redirect('/my/khs')
+            return request.redirect('/my/khs?' + urlencode({
+                'error': _("That KHS is not available."),
+            }))
         return self._show_report(
             model=khs,
             report_type=report_type,
@@ -313,9 +380,14 @@ class CampusPortal(CustomerPortal):
         """
         khs = self._get_own_khs(khs_id)
         if not khs:
-            return request.redirect('/my/khs')
+            return request.redirect('/my/khs?' + urlencode({
+                'error': _("That KHS is not available."),
+            }))
         return self._show_report(
-            model=khs,
+            # The flag is what makes _get_report_base_filename name this a
+            # Transcript; without it the download arrives called "KHS - ...",
+            # which is the other report printed from the same model.
+            model=khs.with_context(campus_transcript_filename=True),
             report_type=report_type,
             report_ref='campus_core.action_report_transcript',
             download=download,

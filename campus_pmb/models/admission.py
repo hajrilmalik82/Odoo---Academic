@@ -11,7 +11,19 @@ class CampusAdmission(models.Model):
     _name = 'campus.admission'
     _description = 'New Student Admission'
     _order = 'registration_date desc, id desc'
-    _inherit = ['mail.thread', 'mail.activity.mixin']
+    # campus.searchpanel.group.domain.mixin carries the Odoo 19 search-panel
+    # workaround this model's faculty-grouped program_id panel needs; it used to
+    # be a verbatim copy of the one in academic.subject.
+    _inherit = ['mail.thread', 'mail.activity.mixin', 'campus.searchpanel.group.domain.mixin']
+
+    @api.model
+    def _admission_path_selection(self):
+        """One definition, shared with campus.admission.requirement."""
+        return [
+            ('regular', _('Regular')),
+            ('scholarship', _('Scholarship')),
+            ('transfer', _('Transfer')),
+        ]
     _check_company_auto = True
 
     registration_number = fields.Char(
@@ -31,11 +43,10 @@ class CampusAdmission(models.Model):
     email = fields.Char(string='Email', required=True, tracking=True)
     phone = fields.Char(string='Phone', tracking=True)
     previous_school = fields.Char(string='Previous School', tracking=True)
-    admission_path = fields.Selection([
-        ('regular', 'Regular'),
-        ('scholarship', 'Scholarship'),
-        ('transfer', 'Transfer'),
-    ], string='Admission Path', default='regular', required=True, tracking=True)
+    admission_path = fields.Selection(
+        selection=lambda self: self._admission_path_selection(),
+        string='Admission Path', default='regular', required=True, tracking=True,
+    )
 
     registration_date = fields.Date(
         string='Registration Date', default=fields.Date.context_today, tracking=True
@@ -60,14 +71,24 @@ class CampusAdmission(models.Model):
     document_line_ids = fields.One2many(
         'campus.admission.document', 'admission_id', string='Document Checklist'
     )
+    # All three share one compute and one @api.depends, so they share one
+    # storage decision too. Odoo warns at registry build time when a compute
+    # method feeds both stored and non-stored fields, because reading the
+    # non-stored one then silently recomputes and rewrites the stored one.
     required_document_count = fields.Integer(
-        string='Required Documents', compute='_compute_document_progress'
+        string='Required Documents', compute='_compute_document_progress', store=True,
     )
     received_document_count = fields.Integer(
-        string='Received Documents', compute='_compute_document_progress'
+        string='Received Documents', compute='_compute_document_progress', store=True,
     )
+    # store=True because the field is tracked: without it the value is computed
+    # on read and mail.thread only logs a change when the record itself is
+    # written, so ticking the last checklist line from the document list left no
+    # trace while ticking it from the admission form did. The @api.depends
+    # already covers both write paths.
     documents_complete = fields.Boolean(
-        string='Documents Complete', compute='_compute_document_progress', tracking=True
+        string='Documents Complete', compute='_compute_document_progress',
+        store=True, tracking=True,
     )
 
     state = fields.Selection([
@@ -80,24 +101,17 @@ class CampusAdmission(models.Model):
     ], string='Status', default='draft', tracking=True, index=True, copy=False)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
-    # NOTE: this is case-sensitive, so Budi@x.com and budi@x.com are still two
-    # distinct applications. Normalising the email on write is tracked
-    # separately; see the audit checklist.
+    # Case-sensitive on purpose for now: Budi@x.com and budi@x.com are two
+    # applications. Lower-casing on write is the obvious fix, but it has to be
+    # paired with a migration that folds the rows already stored, and folding
+    # them can collide with this very constraint - two applicants who really are
+    # two people, typed differently. Doing it properly means deciding what
+    # happens to each collision, which is a registrar's call. Stated here rather
+    # than deferred to an "audit checklist" that is not in this repository.
     _email_year_unique = models.Constraint(
         'UNIQUE (email, academic_year_id)',
         "An admission record already exists for this email in this academic year.",
     )
-
-    @api.model
-    def search_panel_select_multi_range(self, field_name, **kwargs):
-        """See academic.subject for why: Odoo 19 crashes on group_domain=None.
-
-        This model's search panel groups program_id by faculty, which is exactly
-        the configuration that triggers it.
-        """
-        if kwargs.get('group_domain') is None:
-            kwargs['group_domain'] = []
-        return super().search_panel_select_multi_range(field_name, **kwargs)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -111,9 +125,22 @@ class CampusAdmission(models.Model):
             # state would skip every step that produces the student's account.
             if vals.get('state') and vals['state'] != 'draft':
                 raise ValidationError(_("New admissions must start in draft status."))
+        # The checklist goes into the same insert. It used to be a second write
+        # per record right after create, which also re-triggered tracking and
+        # the document progress compute for every new applicant.
+        Document = self.env['campus.admission.document']
+        for vals in vals_list:
+            if not vals.get('document_line_ids'):
+                vals['document_line_ids'] = [
+                    Command.create({'document_type': document_type, 'required': True})
+                    for document_type in Document._default_document_types(
+                        vals.get('admission_path', 'regular'),
+                    )
+                ]
         records = super().create(vals_list)
-        for record in records:
-            record._ensure_default_documents()
+        # Still called for the rows that arrived carrying their own checklist:
+        # a partial list must still be topped up with the missing types.
+        records._ensure_default_documents()
         return records
 
     @api.depends('document_line_ids.required', 'document_line_ids.received')
@@ -126,8 +153,9 @@ class CampusAdmission(models.Model):
             record.documents_complete = bool(required_lines) and len(required_lines) == len(received_lines)
 
     def _ensure_default_documents(self):
-        default_documents = self.env['campus.admission.document']._default_document_types()
+        Document = self.env['campus.admission.document']
         for record in self:
+            default_documents = Document._default_document_types(record.admission_path)
             existing_types = set(record.document_line_ids.mapped('document_type'))
             lines = [
                 Command.create({
@@ -172,18 +200,23 @@ class CampusAdmission(models.Model):
         return super().write(vals)
 
     def _require_state(self, allowed_states):
-        for record in self:
-            if record.state not in allowed_states:
-                raise UserError(_(
-                    "This action is not allowed from the current admission status."
-                ))
+        """Refuse the action unless every record is in one of these states.
+
+        Every transition goes through here. Two of them used to hand-roll the
+        same check with their own wording, so a user met two different messages
+        for the same kind of refusal and the shared helper could be changed
+        without those two following.
+        """
+        wrong = self.filtered(lambda record: record.state not in allowed_states)
+        if wrong:
+            raise UserError(_(
+                "This action is not allowed from the current admission status."
+            ))
 
     def action_submit(self):
-        for record in self:
-            if record.state != 'draft':
-                raise UserError(_("Only draft applications can be submitted."))
-            record._ensure_default_documents()
-            record.state = 'submitted'
+        self._require_state({'draft'})
+        self._ensure_default_documents()
+        self.write({'state': 'submitted'})
 
     def action_start_document_review(self):
         self._require_state({'submitted'})
@@ -198,29 +231,33 @@ class CampusAdmission(models.Model):
             return
         raise AccessError(_("Only PMB staff can accept an application."))
 
-    def _do_accept(self):
+    def action_reject(self):
+        # Spelled as the states it IS allowed from, matching every other
+        # transition and the _STATE_TRANSITIONS graph above, rather than as the
+        # two it is not.
+        self._require_state({'draft', 'submitted', 'document_review', 'rejected'})
+        self.write({'state': 'rejected'})
+
+    def action_accept(self):
         """The single path into the 'accepted' state.
 
         There used to be two buttons doing this, and only one of them checked
         the group, so the check was effectively dead: any internal user with
         write access could accept an applicant through the other one. Both the
-        duplicate method and its button are gone.
+        duplicate method and its button are gone, and the remaining button does
+        the work itself rather than delegating to a one-line _do_accept() - the
+        indirection was the last trace of the pair.
+
+        _check_may_accept stays on THIS path deliberately: accepting an
+        applicant is a PMB decision, and the group check is the only thing that
+        makes it one.
         """
         self._require_state({'document_review'})
         self._check_may_accept()
-        for record in self:
-            if not record.documents_complete:
-                raise UserError(_("All required documents must be received first."))
+        incomplete = self.filtered(lambda record: not record.documents_complete)
+        if incomplete:
+            raise UserError(_("All required documents must be received first."))
         self.write({'state': 'accepted'})
-
-    def action_reject(self):
-        for record in self:
-            if record.state in ('accepted', 'registered'):
-                raise UserError(_("Accepted or registered applications cannot be rejected."))
-            record.state = 'rejected'
-
-    def action_accept(self):
-        self._do_accept()
 
     def action_register(self):
         self._require_state({'accepted'})
@@ -248,11 +285,16 @@ class CampusAdmission(models.Model):
         batch_year = self._intake_year(academic_year)
         year_short = batch_year[-2:]
 
-        fac_name = faculty_id.name or 'FA'
-        prog_name = program_id.name or 'PR'
-
-        faculty_str = "".join([w[0].upper() for w in fac_name.split() if w.isalpha()])[:2] or "FA"
-        program_str = "".join([w[0].upper() for w in prog_name.split() if w.isalpha()])[:2] or "PR"
+        # From the stored codes, not from the current display names. This used
+        # to take the initials of faculty_id.name and program_id.name, so
+        # renaming "Fakultas Teknik" to "Fakultas Teknologi Industri" changed
+        # the prefix for every student admitted afterwards - one faculty's
+        # cohort split across two numbering series, with nothing in the data to
+        # say they were the same place. academic.faculty.code and
+        # academic.program.code are seeded from those initials on creation and
+        # locked once a NIM has been issued from them.
+        faculty_str = (faculty_id.code or '').strip().upper() or 'FA'
+        program_str = (program_id.code or '').strip().upper() or 'PR'
 
         prefix = f"{faculty_str}-{program_str}-{year_short}-"
         seq_code = f"student.nim.{prefix}"
@@ -305,9 +347,6 @@ class CampusAdmission(models.Model):
                 existing_user.partner_id.sudo().write(update_vals)
                 continue
             
-            # Generate NIM using centralized method
-            nim, batch_year = record._generate_nim(record.faculty_id, record.program_id, record.academic_year_id)
-
             # Only an existing STUDENT contact is reused. The search used to match
             # any partner sharing the email and overwrite its name and phone, so
             # registering an applicant could rename a vendor, a customer or a
@@ -318,16 +357,38 @@ class CampusAdmission(models.Model):
                 ('email', '=', record.email),
                 ('is_student', '=', True),
             ], limit=1)
-            
+
+            # The NIM is drawn only when one is actually going to be written.
+            # It used to be generated unconditionally above this block, so every
+            # registration that reused an existing student burned a sequence
+            # number that was never assigned to anybody, leaving permanent gaps
+            # in a campus's enrolment numbering.
+            nim = batch_year = None
+            if not partner or not partner.nim:
+                nim, batch_year = record._generate_nim(
+                    record.faculty_id, record.program_id, record.academic_year_id,
+                )
+
             if partner:
-                partner.sudo().write({
+                partner_vals = {
                     'name': record.name,
                     'phone': record.phone,
                     'is_student': True,
-                    'nim': nim,
-                    'batch_year': batch_year,
-                    'program_id': record.program_id.id,
-                })
+                }
+                # Guarded the same way the existing_user branch above is. A NIM
+                # is a permanent identifier: it is on the student's transcript,
+                # their card and every KHS already issued. Overwriting one with
+                # a fresh sequence value violates no constraint - the unique
+                # index only forbids two partners SHARING a NIM - so a student
+                # re-registering for a second programme silently acquired a new
+                # number and their old documents stopped matching the system.
+                if not partner.nim:
+                    partner_vals.update({
+                        'nim': nim,
+                        'batch_year': batch_year,
+                        'program_id': record.program_id.id,
+                    })
+                partner.sudo().write(partner_vals)
             else:
                 # Create Partner
                 partner = self.env['res.partner'].sudo().create({
@@ -385,12 +446,25 @@ class CampusAdmission(models.Model):
         except (ValueError, TypeError):
             raise ValidationError(_("Invalid faculty or program selection."))
 
+        # exists() before reading. browse() on an id that is not there raises
+        # MissingError, whose message names the model, the record id and the
+        # internal uid - handed straight to an anonymous visitor by the
+        # controller. The faculty was never checked at all.
+        company_domain = ['|', ('company_id', '=', False), ('company_id', '=', self.env.company.id)]
         if program_id:
-            program = self.env['academic.program'].sudo().browse(program_id)
+            program = self.env['academic.program'].sudo().search(
+                [('id', '=', program_id)] + company_domain, limit=1,
+            )
+            if not program:
+                raise ValidationError(_("Invalid study programme selection."))
             if faculty_id and program.faculty_id.id != faculty_id:
                 raise ValidationError(_("Program does not belong to the selected faculty."))
             if not faculty_id:
                 faculty_id = program.faculty_id.id
+        if faculty_id and not self.env['academic.faculty'].sudo().search_count(
+            [('id', '=', faculty_id)] + company_domain,
+        ):
+            raise ValidationError(_("Invalid faculty selection."))
 
         # Shared definition, so PMB and the student portal agree on which year
         # is current. This used to be "the highest id among active years", which
@@ -406,10 +480,27 @@ class CampusAdmission(models.Model):
         }
 
         # A selection value straight off the wire is still untrusted input.
+        # Read through the helper, not off the field: the selection is a
+        # callable now, so _fields[...].selection is the function itself.
         admission_path = vals.get('admission_path') or 'regular'
-        if admission_path not in dict(self._fields['admission_path'].selection):
+        if admission_path not in dict(self._admission_path_selection()):
             raise ValidationError(_("Invalid admission path selection."))
         vals['admission_path'] = admission_path
+
+        # Checked before the insert so a second application with the same email
+        # reaches the applicant as "you have already applied" rather than as the
+        # controller's catch-all "system error" - a UNIQUE violation is a
+        # psycopg2 IntegrityError, not a ValidationError, so it fell through to
+        # the generic branch. The database constraint stays as the race backstop.
+        if vals.get('email') and self.sudo().search_count([
+            ('email', '=', vals['email']),
+            ('academic_year_id', '=', active_year.id),
+        ]):
+            raise ValidationError(_(
+                "An application with this email address already exists for this "
+                "academic year. Please contact the admissions office if you need "
+                "to change it."
+            ))
 
         vals.update({
             'faculty_id': faculty_id,
@@ -423,26 +514,93 @@ class CampusAdmission(models.Model):
         return self.sudo().create(vals)
 
 
+class CampusAdmissionRequirement(models.Model):
+    """Which documents a given admission path asks for.
+
+    The default checklist used to be a hard-coded list of four selection keys
+    inside _default_document_types, so a campus that wanted a fifth document -
+    or different documents for a transfer applicant than for a regular one -
+    had to change Python and redeploy. It is registrar configuration, like the
+    grade scale and the credit limits beside it.
+
+    Shipped as noupdate data, so the four it starts with are a starting point an
+    administrator may edit, not something an upgrade puts back.
+    """
+
+    _name = 'campus.admission.requirement'
+    _description = 'Admission Document Requirement'
+    _order = 'sequence, id'
+
+    name = fields.Char(string='Label', compute='_compute_name')
+    sequence = fields.Integer(default=10)
+    document_type = fields.Selection(
+        selection=lambda self: self.env['campus.admission.document']._document_type_selection(),
+        string='Document Type', required=True,
+    )
+    admission_path = fields.Selection(
+        selection=lambda self: [('all', 'All Paths')] + self.env['campus.admission']._admission_path_selection(),
+        string='Admission Path', default='all', required=True,
+        help="Which applicants are asked for this document. 'All Paths' covers every one.",
+    )
+    required = fields.Boolean(string='Required', default=True)
+    company_id = fields.Many2one(
+        'res.company', string='Company', default=lambda self: self.env.company,
+    )
+
+    _unique_requirement = models.UniqueIndex(
+        "(document_type, admission_path, COALESCE(company_id, 0))",
+        "A document type may only be listed once per admission path.",
+    )
+
+    @api.depends('document_type', 'admission_path')
+    def _compute_name(self):
+        types = dict(self.env['campus.admission.document']._document_type_selection())
+        paths = dict([('all', _('All Paths'))] + self.env['campus.admission']._admission_path_selection())
+        for record in self:
+            record.name = '%s - %s' % (
+                types.get(record.document_type, ''), paths.get(record.admission_path, ''),
+            )
+
+
 class CampusAdmissionDocument(models.Model):
     _name = 'campus.admission.document'
     _description = 'Admission Document Checklist'
     _order = 'admission_id, document_type'
 
     @api.model
-    def _default_document_types(self):
+    def _document_type_selection(self):
+        """One definition of the document types, shared with the requirements."""
+        return [
+            ('identity_card', _('Identity Card')),
+            ('family_card', _('Family Card')),
+            ('diploma', _('Diploma or Graduation Letter')),
+            ('photo', _('Photo')),
+            ('transcript', _('Transcript')),
+            ('other', _('Other')),
+        ]
+
+    @api.model
+    def _default_document_types(self, admission_path=None):
+        """The checklist an applicant on this path is asked for.
+
+        Read from campus.admission.requirement, which an administrator can edit,
+        rather than from a list written into this method. Falls back to the four
+        the module ships only when nothing at all is configured, so a
+        half-set-up campus still produces a usable checklist.
+        """
+        domain = [('admission_path', 'in', ['all', admission_path] if admission_path else ['all'])]
+        requirements = self.env['campus.admission.requirement'].sudo().search(domain)
+        if requirements:
+            return list(dict.fromkeys(requirements.mapped('document_type')))
         return ['identity_card', 'family_card', 'diploma', 'photo']
 
     admission_id = fields.Many2one(
         'campus.admission', string='Admission', required=True, ondelete='cascade'
     )
-    document_type = fields.Selection([
-        ('identity_card', 'Identity Card'),
-        ('family_card', 'Family Card'),
-        ('diploma', 'Diploma or Graduation Letter'),
-        ('photo', 'Photo'),
-        ('transcript', 'Transcript'),
-        ('other', 'Other'),
-    ], string='Document Type', required=True)
+    document_type = fields.Selection(
+        selection=lambda self: self._document_type_selection(),
+        string='Document Type', required=True,
+    )
     required = fields.Boolean(string='Required', default=True)
     received = fields.Boolean(string='Received')
     note = fields.Char(string='Note')

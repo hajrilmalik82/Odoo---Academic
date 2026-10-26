@@ -114,6 +114,61 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
+        <!-- Academic staff may create contacts (the ACL grants it so the student
+             master-data screens work), but create is evaluated against the
+             created record, so without this rule they could create a vendor or
+             a company just as easily as a student. -->
+        <record id="rule_academic_staff_partner_create" model="ir.rule">
+            <field name="name">Academic Staff: Only Create Student Contacts</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[('is_student', '=', True)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- Administrators imply academic staff, so the create rule above would
+             otherwise bind them too. Group rules are OR'ed. -->
+        <record id="rule_admin_partner_create" model="ir.rule">
+            <field name="name">Campus Admin: Create Any Contact</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- Lecturers hold create and write on academic.class.session through the
+             ACL so they can maintain their own calendar, but nothing scoped it:
+             any lecturer could edit or add sessions for every class in the
+             university. perm_read stays 0 so the shared timetable is still
+             readable by everyone. -->
+        <record id="rule_lecturer_class_session_write" model="ir.rule">
+            <field name="name">Lecturer: Only Own Class Sessions</field>
+            <field name="model_id" ref="model_academic_class_session"/>
+            <field name="domain_force">['|', ('lecturer_id.user_id', '=', user.id), ('class_id.schedule_ids.lecturer_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_admin_class_session_write" model="ir.rule">
+            <field name="name">Campus Admin: All Class Sessions</field>
+            <field name="model_id" ref="model_academic_class_session"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
         <!-- Without this rule administrators see almost no grade lines at all.
              group_campus_administrator implies group_campus_lecturer, so the
              lecturer rule below was the only one matching their groups, and it

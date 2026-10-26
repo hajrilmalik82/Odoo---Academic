@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Pieces the three campus PDFs genuinely share.
+
+         The student-information header and the Head of Programme / Dean
+         signature block were written out verbatim in each report, so a change
+         to the campus letterhead meant the same edit in three files and the
+         blocks had already drifted apart: the transcript's signatures carried
+         page-break-inside: avoid and a 30px top margin, the KHS copy had
+         neither and 40px. The better of the two is what is kept here.
+
+         The header takes the student and the faculty/programme to print - the
+         KRS reads them off the KRS itself, the other two off the student - and
+         renders whatever extra rows the caller puts inside the t-call, which
+         QWeb hands over as `0`. The KRS signature block is NOT here: it is a
+         different document signed by different people (student and advisor),
+         and pretending otherwise would be sharing a shape rather than a fact. -->
+
+    <template id="report_campus_student_header">
+        <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
+            <tr>
+                <td style="width: 15%; padding: 3px 0;">Student ID (NIM)</td>
+                <td style="width: 2%;">:</td>
+                <td style="width: 35%;"><strong><t t-out="student.nim or '-'"/></strong></td>
+                <td style="width: 15%; padding: 3px 0;">Faculty</td>
+                <td style="width: 2%;">:</td>
+                <td style="width: 31%;"><t t-out="faculty.name or '-'"/></td>
+            </tr>
+            <tr>
+                <td style="padding: 3px 0;">Name</td>
+                <td>:</td>
+                <td><strong><t t-out="student.name"/></strong></td>
+                <td style="padding: 3px 0;">Study Program</td>
+                <td>:</td>
+                <td><t t-out="program.name or '-'"/></td>
+            </tr>
+            <t t-out="0"/>
+        </table>
+    </template>
+
+    <template id="report_campus_signatures">
+        <div style="margin-top: 30px; font-size: 10pt; page-break-inside: avoid;">
+            <table style="width: 100%;">
+                <tr>
+                    <td style="width: 50%; text-align: center;">
+                        <p style="margin-bottom: 0;">Approved by,</p>
+                        <p style="margin-bottom: 0;">Head of Study Program</p>
+                        <br/><br/><br/>
+                        <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
+                            <t t-if="program.head_id"><t t-out="program.head_id.name"/></t>
+                            <t t-else="">____________________</t>
+                        </p>
+                    </td>
+                    <td style="width: 50%; text-align: center;">
+                        <p style="margin-bottom: 0;">Approved by,</p>
+                        <p style="margin-bottom: 0;">Dean of Faculty</p>
+                        <br/><br/><br/>
+                        <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
+                            <t t-if="faculty.dean_id"><t t-out="faculty.dean_id.name"/></t>
+                            <t t-else="">____________________</t>
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </template>
+
+</odoo>

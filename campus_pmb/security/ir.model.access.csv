@@ -6,3 +6,6 @@ access_campus_admission_document_pmb,campus.admission.document.pmb,model_campus_
 access_academic_faculty_pmb,academic.faculty.pmb,campus_core.model_academic_faculty,group_pmb,1,0,0,0
 access_academic_program_pmb,academic.program.pmb,campus_core.model_academic_program,group_pmb,1,0,0,0
 access_academic_year_pmb,academic.year.pmb,campus_core.model_academic_year,group_pmb,1,0,0,0
+access_campus_admission_requirement_admin,campus.admission.requirement admin,model_campus_admission_requirement,campus_core.group_campus_administrator,1,1,1,1
+access_campus_admission_requirement_pmb,campus.admission.requirement pmb,model_campus_admission_requirement,campus_pmb.group_pmb,1,1,1,1
+access_campus_admission_requirement_user,campus.admission.requirement internal,model_campus_admission_requirement,base.group_user,1,0,0,0

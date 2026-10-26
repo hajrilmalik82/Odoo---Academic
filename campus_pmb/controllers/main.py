@@ -10,10 +10,17 @@ _logger = logging.getLogger(__name__)
 
 class CampusPMBWebsite(http.Controller):
 
-    @http.route('/admission', type='http', auth="public", website=True)
+    @http.route('/admission', type='http', auth="public", website=True, sitemap=True)
     def admission_form(self, **kw):
-        faculties = request.env['academic.faculty'].sudo().search([])
-        programs = request.env['academic.program'].sudo().search([])
+        # Scoped to this website's company plus the company-less rows. sudo()
+        # bypasses record rules, so without a clause here a multi-company
+        # database offered an anonymous visitor every institution's faculties
+        # and programmes in one dropdown. _create_admission_from_portal applies
+        # the same domain, so a hand-crafted POST cannot pick another one.
+        company_domain = ['|', ('company_id', '=', False),
+                          ('company_id', '=', request.env.company.id)]
+        faculties = request.env['academic.faculty'].sudo().search(company_domain)
+        programs = request.env['academic.program'].sudo().search(company_domain)
         
         values = {
             'faculties': faculties,
@@ -41,6 +48,8 @@ class CampusPMBWebsite(http.Controller):
             user_msg = _("Submission failed because of a system error. Please try again later.")
             return request.redirect('/admission?' + urlencode({'error': user_msg}))
 
-    @http.route('/admission/thanks', type='http', auth="public", website=True)
+    # sitemap=False: a thank-you page has nothing to index and Odoo logs a
+    # warning for every public route that leaves the value unstated.
+    @http.route('/admission/thanks', type='http', auth="public", website=True, sitemap=False)
     def admission_thanks(self, **kw):
         return request.render("campus_pmb.admission_thanks", {})

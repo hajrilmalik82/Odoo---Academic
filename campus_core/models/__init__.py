@@ -1,3 +1,4 @@
+from . import campus_mixins
 from . import academic_credit_limit
 from . import academic_grade_scale
 from . import academic_institution
@@ -7,6 +8,6 @@ from . import academic_class
 from . import academic_class_schedule
 from . import academic_krs
 from . import academic_khs
+from . import hr_department
 from . import res_partner
-from . import res_users
 from . import res_config_settings

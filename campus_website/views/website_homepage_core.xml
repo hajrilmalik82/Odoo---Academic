@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="core_homepage_docs" inherit_id="website.homepage" name="Campus ERP Documentation">
+        <!-- The stock homepage is a single <div id="wrap" class="oe_structure oe_empty"/>,
+             and oe_structure is what makes the Website Builder work: it is the drop
+             zone the editor saves dragged blocks into. Replacing the div outright
+             removed it, so Edit on / had nowhere to put anything and the whole front
+             page could only be changed through XML and a module upgrade.
+
+             The documentation below stays - it is what this site is for - but two
+             oe_structure bands are kept around it, so the owner can add or change
+             content on / from the editor without touching code.
+
+             NOTE: #docs-tab and #docs-tabContent below are not private markup. Three
+             other modules (campus_employees, campus_pmb, campus_portal) xpath into
+             them by id to append their own documentation tab. Renaming or restructuring
+             those two divs breaks all three at load time. -->
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="bg-light pb-5">
+                <!-- Editable band above the documentation. -->
+                <div class="oe_structure"/>
+
                 <!-- Header -->
                 <section class="bg-white border-bottom pt-5 pb-4 mb-5 shadow-sm">
                     <div class="container text-center">
@@ -271,6 +288,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Editable band below the documentation. -->
+                <div class="oe_structure"/>
             </div>
         </xpath>
     </template>

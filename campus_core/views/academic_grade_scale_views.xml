@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="view_academic_grade_scale_tree" model="ir.ui.view">
+    <record id="view_academic_grade_scale_search" model="ir.ui.view">
+        <field name="name">academic.grade.scale.search</field>
+        <field name="model">academic.grade.scale</field>
+        <field name="arch" type="xml">
+            <search string="Search Grade Scale">
+                <field name="letter"/>
+                <field name="min_score"/>
+                <field name="description"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_academic_grade_scale_list" model="ir.ui.view">
         <field name="name">academic.grade.scale.list</field>
         <field name="model">academic.grade.scale</field>
         <field name="arch" type="xml">

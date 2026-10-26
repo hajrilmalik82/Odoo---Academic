@@ -22,8 +22,8 @@ class AssignScheduleWizard(models.TransientModel):
     )
 
     @api.model
-    def default_get(self, fields_list):
-        res = super().default_get(fields_list)
+    def default_get(self, fields):
+        res = super().default_get(fields)
         if self.env.context.get('active_model') == 'academic.class' and self.env.context.get('active_id'):
             res['class_id'] = self.env.context['active_id']
         return res
@@ -48,7 +48,7 @@ class AssignScheduleWizard(models.TransientModel):
                 raise ValidationError(_("Student %(student)s's KRS line is for a different subject than this class.") % {'student': line.student_id.name})
             if line.krs_id.academic_year_id != self.class_id.academic_year_id:
                 raise ValidationError(_("Student %(student)s's KRS belongs to a different academic year than this class.") % {'student': line.student_id.name})
-            if line.krs_id.state not in ('draft', 'revision'):
+            if line.krs_id.state not in self.env['academic.krs']._EDITABLE_STATES:
                 raise ValidationError(
                     _("Student %(student)s's KRS is already %(state)s and can no longer be changed.") % {
                         'student': line.student_id.name,
@@ -65,7 +65,13 @@ class AssignScheduleWizard(models.TransientModel):
                 _("Schedule '%s' has no room capacity set.") % self.schedule_id.display_name
             )
         self.schedule_id._lock_for_enrolment()
-        taken = self.schedule_id._enrolled_count()
+        # Counted against the reserving states as well, not just the enrolled
+        # ones. _check_section_quota deliberately counts only submitted and
+        # above, but this wizard writes schedule_id onto DRAFT lines, so with
+        # the strict count a second run saw its own previous assignments as
+        # free seats and the same room could be filled twice over.
+        reserving = self.env['academic.krs']._EDITABLE_STATES + self.schedule_id._ENROLLED_KRS_STATES
+        taken = self.schedule_id._enrolled_count(states=reserving)
         if taken + len(self.krs_line_ids) > capacity:
             raise ValidationError(
                 _("Not enough seats: %(capacity)s in the room, %(taken)s already taken, "

@@ -17,13 +17,33 @@ msgstr ""
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "<i class=\"fa fa-check\"/> Diambil"
-msgstr ""
+msgid "<i class=\"fa fa-ban\"/> Another section taken"
+msgstr "<i class=\"fa fa-ban\"/> Kelas lain diambil"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-check\"/> Taken"
+msgstr "<i class=\"fa fa-check\"/> Diambil"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-download me-1\"/>Download PDF"
+msgstr "<i class=\"fa fa-download me-1\"/>Unduh PDF"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "<i class=\"fa fa-download me-1\"/>Download Transcript"
+msgstr "<i class=\"fa fa-download me-1\"/>Unduh Transkrip"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "<i class=\"fa fa-download me-1\"/>KHS"
+msgstr "<i class=\"fa fa-download me-1\"/>KHS"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
-msgid "<i class=\"fa fa-edit\"/> Daftar KRS Sekarang"
-msgstr ""
+msgid "<i class=\"fa fa-edit\"/> Register KRS Now"
+msgstr "<i class=\"fa fa-edit\"/> Daftar KRS Sekarang"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -36,13 +56,13 @@ msgid ""
 "403 Forbidden* if the document ownership (Partner ID) does not intersect "
 "with the current logged-in session."
 msgstr ""
-"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Isolasi Data Horizontal "
-"(Data Leakage Prevention):</strong> <em>Domain Filtering</em> absolut "
-"diinjeksikan pada level <em>ORM Query</em>. Mahasiswa A tidak dapat melakukan"
-" <em>URL Spoofing</em> (misal: mengubah ID pada URL dari /krs/1"
-" menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo secara otomatis mengembalikan *Error "
-"403 Forbidden* jika kepemilikan dokumen (Partner ID) tidak beririsan "
-"dengan sesi login saat ini."
+"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Isolasi Data "
+"Horizontal (Data Leakage Prevention):</strong> <em>Domain Filtering</em> "
+"absolut diinjeksikan pada level <em>ORM Query</em>. Mahasiswa A tidak dapat "
+"melakukan <em>URL Spoofing</em> (misal: mengubah ID pada URL dari /krs/1 "
+"menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo secara otomatis "
+"mengembalikan *Error 403 Forbidden* jika kepemilikan dokumen (Partner ID) "
+"tidak beririsan dengan sesi login saat ini."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -53,12 +73,13 @@ msgstr "<i class=\"fa fa-laptop me-2\"/> Modul Portal Kampus"
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid ""
 "<i class=\"fa fa-lock text-dark me-2\"/> Cyber Security &amp; Data Isolation"
-msgstr "<i class=\"fa fa-lock text-dark me-2\"/> Keamanan Cyber &amp; Isolasi Data"
+msgstr ""
+"<i class=\"fa fa-lock text-dark me-2\"/> Keamanan Cyber &amp; Isolasi Data"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "<i class=\"fa fa-plus\"/> Ambil"
-msgstr ""
+msgid "<i class=\"fa fa-plus\"/> Take"
+msgstr "<i class=\"fa fa-plus\"/> Ambil"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -70,36 +91,38 @@ msgid ""
 "trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF)"
 " threats."
 msgstr ""
-"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Sesi Terenkripsi "
-"&amp; Middleware Otorisasi:</strong> Setiap rute URL (Controller) pada "
-"modul ini dibentengi oleh dekorator <code>@http.route(auth='user')</code>. "
-"Lapisan <em>Middleware</em> Odoo mengalihkan lalu lintas anonim yang "
-"mencoba memotong layar dan menetralkan ancaman *Cross-Site Request Forgery* (CSRF)."
+"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Sesi Terenkripsi &amp; "
+"Middleware Otorisasi:</strong> Setiap rute URL (Controller) pada modul ini "
+"dibentengi oleh dekorator <code>@http.route(auth='user')</code>. Lapisan "
+"<em>Middleware</em> Odoo mengalihkan lalu lintas anonim yang mencoba "
+"memotong layar dan menetralkan ancaman *Cross-Site Request Forgery* (CSRF)."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid "<i class=\"fa fa-star text-warning me-2\"/> Self-Service Operational Steps"
-msgstr "<i class=\"fa fa-star text-warning me-2\"/> Langkah Operasional Self-Service"
+msgstr ""
+"<i class=\"fa fa-star text-warning me-2\"/> Langkah Operasional Self-Service"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "<i class=\"fa fa-trash\"/> Hapus"
-msgstr ""
+msgid "<i class=\"fa fa-trash\"/> Remove"
+msgstr "<i class=\"fa fa-trash\"/> Hapus"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "<strong>Tahun Akademik:</strong>"
-msgstr ""
+msgid "<strong>Academic Year:</strong>"
+msgstr "<strong>Tahun Akademik:</strong>"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "<strong>Total SKS:</strong>"
-msgstr ""
+msgid "<strong>Total Credits:</strong>"
+msgstr "<strong>Total SKS:</strong>"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
-msgid "Academic Transcripts (KHS)"
-msgstr "Transkrip Akademik (KHS)"
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "A system error occurred."
+msgstr "Terjadi kesalahan sistem."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
@@ -109,8 +132,9 @@ msgstr "Tahun Akademik"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Aksi"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Actions"
+msgstr "Aksi"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -120,10 +144,10 @@ msgid ""
 "this module prioritizes a smooth User Experience (UX) while maintaining "
 "real-time data integrity to and from the main database."
 msgstr ""
-"Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem ERP "
-"Core dan Mahasiswa sebagai End-User. Dibangun di atas web controller Odoo, "
-"modul ini mengutamakan User Experience (UX) yang mulus sekaligus menjaga "
-"integritas data real-time dari dan ke database utama."
+"Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem"
+" ERP Core dan Mahasiswa sebagai End-User. Dibangun di atas web controller "
+"Odoo, modul ini mengutamakan User Experience (UX) yang mulus sekaligus "
+"menjaga integritas data real-time dari dan ke database utama."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -133,13 +157,8 @@ msgstr "Disetujui"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Belum ada jadwal yang dibuka untuk semester ini."
-msgstr ""
-
-#. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Belum ada mata kuliah yang ditambahkan."
-msgstr ""
+msgid "Available Schedules"
+msgstr "Daftar Jadwal yang Tersedia"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -147,34 +166,40 @@ msgid "Campus Portal Module (Self-Service Frontend)"
 msgstr "Modul Portal Kampus (Self-Service Frontend)"
 
 #. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Class"
+msgstr "Kelas"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
 msgid "Close"
 msgstr "Tutup"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
-msgid "Course Packages (KRS)"
-msgstr "Paket Mata Kuliah (KRS)"
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Code"
+msgstr "Kode"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Daftar Jadwal yang Tersedia"
-msgstr ""
+msgid "Credits"
+msgstr "SKS"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Daftar Mata Kuliah"
-msgstr ""
+msgid "Download the KRS as a PDF"
+msgstr "Unduh KRS dalam format PDF"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Detail KRS:"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Download the cumulative academic transcript"
+msgstr "Unduh transkrip nilai kumulatif"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Dosen Pengajar"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Download this term's KHS"
+msgstr "Unduh KHS semester ini"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -188,20 +213,14 @@ msgid "GPA"
 msgstr "IPK"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Jadwal &amp; Ruangan"
-msgstr ""
-
-#. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
 msgid "KHS Number"
 msgstr "Nomor KHS"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
-msgid "KHS Saya"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "KRS Details:"
+msgstr "Detail KRS:"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
@@ -209,20 +228,9 @@ msgid "KRS Number"
 msgstr "Nomor KRS"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
-msgid "KRS Saya"
-msgstr ""
-
-#. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Kelas"
-msgstr ""
-
-#. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Kode"
-msgstr ""
+msgid "Lecturer"
+msgstr "Dosen Pengajar"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -231,9 +239,16 @@ msgid "Locked"
 msgstr "Terkunci"
 
 #. module: campus_portal
-#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Mata Kuliah"
-msgstr ""
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
+msgid "My KHS"
+msgstr "KHS Saya"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
+msgid "My KRS"
+msgstr "KRS Saya"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -243,14 +258,36 @@ msgstr "Perlu Revisi"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "No schedules are open for this term yet."
+msgstr "Belum ada jadwal yang dibuka untuk semester ini."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "No subjects added yet."
+msgstr "Belum ada mata kuliah yang ditambahkan."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "Only active students can fill in a KRS."
+msgstr "Hanya mahasiswa aktif yang dapat mengisi KRS."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "Please choose a valid schedule."
+msgstr "Silakan pilih jadwal yang sah."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
 msgid "Rejected"
 msgstr "Ditolak"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "SKS"
-msgstr ""
+msgid "Schedule &amp; Room"
+msgstr "Jadwal &amp; Ruangan"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
@@ -280,20 +317,68 @@ msgid ""
 "display main metric aggregations, such as current running KRS and grade "
 "transcripts."
 msgstr ""
-"Mahasiswa login dan diarahkan ke rute <code>/my/home</code> "
-"(Portal My Account) secara default. Antarmuka ini dirancang secara ergonomis untuk "
+"Mahasiswa login dan diarahkan ke rute <code>/my/home</code> (Portal My "
+"Account) secara default. Antarmuka ini dirancang secara ergonomis untuk "
 "menampilkan agregasi metrik utama, seperti KRS yang sedang berjalan dan "
 "transkrip nilai."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid "Submit ke Dosen PA"
-msgstr ""
+msgid "Subject"
+msgstr "Mata Kuliah"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Subject List"
+msgstr "Daftar Mata Kuliah"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Submit to Academic Advisor"
+msgstr "Submit ke Dosen PA"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
 msgid "Submitted"
 msgstr "Diajukan"
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That KHS is not available."
+msgstr "KHS tersebut tidak tersedia."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That KRS is not available."
+msgstr "KRS tersebut tidak tersedia."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That schedule belongs to a different academic year."
+msgstr "Jadwal tersebut berasal dari tahun akademik yang berbeda."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That subject is not part of this KRS."
+msgstr "Mata kuliah tersebut tidak ada dalam KRS ini."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid ""
+"The KRS registration period is closed, or no academic year has been "
+"configured."
+msgstr "Masa pengisian KRS sedang ditutup atau Tahun Akademik belum diatur."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "The action could not be completed."
+msgstr ""
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
@@ -306,6 +391,21 @@ msgid "There are currently no KRS records for your account."
 msgstr "Saat ini tidak ada catatan KRS untuk akun Anda."
 
 #. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "This KRS has already been submitted."
+msgstr "KRS ini sudah diajukan."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid ""
+"This subject is already taken in another section. Remove the existing one "
+"first to switch."
+msgstr ""
+"Mata kuliah ini sudah diambil di kelas lain. Hapus dulu kelas yang lama "
+"kalau mau pindah."
+
+#. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid ""
 "Through the KHS menu, students monitor grade movements in real-time. The "
@@ -313,9 +413,9 @@ msgid ""
 " publishes grades in the backend, the grades propagate and display on the "
 "student portal screen, minimizing information latency."
 msgstr ""
-"Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. Prinsip "
-"<em>Single Source of Truth</em> memastikan bahwa saat Dosen"
-" mempublikasikan nilai di backend, nilai tersebut merambat dan tampil di "
+"Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. "
+"Prinsip <em>Single Source of Truth</em> memastikan bahwa saat Dosen "
+"mempublikasikan nilai di backend, nilai tersebut merambat dan tampil di "
 "layar portal mahasiswa, meminimalkan latensi informasi."
 
 #. module: campus_portal
@@ -342,13 +442,28 @@ msgstr ""
 "Saat mahasiswa membuka dokumen Draft KRS, tabel bawah secara dinamis "
 "merender semua jadwal kelas yang ditawarkan saat ini (*Jadwal Tersedia*). "
 "Mahasiswa berinteraksi melalui *Point-and-Click* (mengklik tombol "
-"<strong>\"Ambil\"</strong>) pada kelas yang diinginkan. Request HTTP "
-"dikirim melalui <em>Web Controller</em> ke <em>Odoo Backend</em> untuk mengikat "
-"data secara langsung tanpa pengetikan manual. Jika batas SKS terlampaui, "
-"UI portal akan langsung memblokirnya dengan *Flash Message*."
+"<strong>\"Ambil\"</strong>) pada kelas yang diinginkan. Request HTTP dikirim"
+" melalui <em>Web Controller</em> ke <em>Odoo Backend</em> untuk mengikat "
+"data secara langsung tanpa pengetikan manual. Jika batas SKS terlampaui, UI "
+"portal akan langsung memblokirnya dengan *Flash Message*."
 
 #. module: campus_portal
 #. odoo-python
 #: code:addons/campus_portal/controllers/portal.py:0
-msgid "You can only add subjects to a draft KRS."
-msgstr "Anda hanya dapat menambahkan mata kuliah ke KRS yang berstatus draf."
+msgid "You can only add subjects while the KRS is in Draft or Needs Revision."
+msgstr ""
+"Mata kuliah hanya dapat ditambahkan selama KRS berstatus Draf atau Perlu "
+"Revisi."
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid ""
+"You can only remove subjects while the KRS is in Draft or Needs Revision."
+msgstr ""
+"Mata kuliah hanya dapat dihapus selama KRS berstatus Draf atau Perlu Revisi."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "credits"
+msgstr "SKS"

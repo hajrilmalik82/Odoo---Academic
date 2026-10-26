@@ -1,0 +1,2704 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_core
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 09:31+0000\n"
+"PO-Revision-Date: 2026-10-22 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid ""
+"%(count)s session(s) of this class have already started. Delete them "
+"manually first if you really mean to rebuild the schedule."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_grade_scale.py:0
+msgid "%(letter)s (from %(score).2f, %(point).2f)"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "%s KRS draft(s) successfully generated!"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "(Official Academic Record)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid ""
+"<span class=\"o_form_label o_td_label\" name=\"address_name\">\n"
+"                                        <b>Address</b>\n"
+"                                    </span>"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"A KHS already exists for %(student)s in %(year)s. Delete it before "
+"%(action)s, otherwise its grades would keep counting towards the CGPA with "
+"no study plan behind them."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "A KRS can only be edited while it is in Draft or Needs Revision."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_krs_line_unique_class_per_krs
+msgid "A class can only appear once in the same KRS."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_khs_unique_khs
+msgid "A student can only have one KHS per Academic Year!"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_krs_unique_student_academic_year_term
+msgid "A student can only have one KRS per academic year."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_course_package_line_unique_subject_per_package
+msgid "A subject can only appear once in a course package."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_subject.py:0
+msgid ""
+"A subject cannot be its own prerequisite, directly or through a chain of "
+"prerequisites."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__advisor_id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__academic_advisor_id
+#: model:ir.model.fields,field_description:campus_core.field_res_users__academic_advisor_id
+msgid "Academic Advisor"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Academic Advisor,"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_class
+msgid "Academic Class"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_class_schedule
+msgid "Academic Class Schedule"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_class_session
+msgid "Academic Class Session"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_course_package
+msgid "Academic Course Package"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_course_package_line
+msgid "Academic Course Package Line"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_faculty
+msgid "Academic Faculty"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_form_inherit_campus
+msgid "Academic Info"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_krs
+msgid "Academic KRS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_krs_line
+msgid "Academic KRS Line"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Academic Period"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_program
+msgid "Academic Program"
+msgstr ""
+
+#. module: campus_core
+#: model:res.groups,name:campus_core.group_campus_academic_staff
+msgid "Academic Staff (TU)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_subject
+msgid "Academic Subject"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_root
+msgid "Academic System"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.report,name:campus_core.action_report_transcript
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Academic Transcript"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_khs
+#: model:ir.ui.menu,name:campus_core.menu_academic_khs_act
+msgid "Academic Transcript (KHS)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_year
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__academic_year_id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__academic_year_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_year_form
+msgid "Academic Year"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_year_name_term_company_unique
+msgid "Academic Year with this name and term already exists for this company."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_year
+#: model:ir.ui.menu,name:campus_core.menu_academic_year
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_year_tree
+msgid "Academic Years"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Academic year KRS period is not configured."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_needaction
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_needaction
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__active
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__active
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Active"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_search_student
+msgid "Active Students"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_exception_decoration
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_exception_decoration
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_state
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_state
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_type_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_type_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: campus_core
+#: model:res.groups,name:campus_core.group_campus_administrator
+msgid "Administrator"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Advisor"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "All selected students already have a KRS for this academic year."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "All subjects must have a selected schedule before submitting."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid ""
+"An approved KRS is required before creating a KHS for this academic period."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Approve"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__approved
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Approved"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid "Approved KRS Not Found"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_signatures
+msgid "Approved by,"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Assign Schedule"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Assign Schedule (Massive)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_attachment_count
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_attachment_count
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_credit_limit
+msgid ""
+"Bands are read from the highest CGPA down, and the first one the\n"
+"                student reaches applies. Keep a band at 0.00 so students with no\n"
+"                grades yet still have a limit."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_grade_scale
+msgid ""
+"Bands are read from the highest score down, and the first one a\n"
+"                score reaches applies. Keep a band at 0 so every score lands\n"
+"                somewhere."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__batch_year
+#: model:ir.model.fields,field_description:campus_core.field_res_users__batch_year
+msgid "Batch / Generation"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__both
+msgid "Both"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__building_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_search
+msgid "Building"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_campus_building_check_code_unique
+msgid "Building code must be unique per company!"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_campus_building
+#: model:ir.ui.menu,name:campus_core.menu_campus_building_config
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_tree
+msgid "Buildings"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__cgpa
+#: model:ir.model.fields,field_description:campus_core.field_res_users__cgpa
+msgid "CGPA"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_credit_limit.py:0
+msgid "CGPA %(cgpa).2f and above: %(credits)s SKS"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "CREDITS EARNED (SKS LULUS)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "CUMULATIVE TOTAL"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.module.category,name:campus_core.module_category_campus
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Campus Academic"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_campus_building
+msgid "Campus Building"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_campus_room
+msgid "Campus Room"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_institution.py:0
+msgid ""
+"Cannot delete %(names)s: employees are still assigned to the linked HR "
+"department. Move them to another department first."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__room_capacity
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__capacity
+msgid "Capacity"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__capacity_display
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_tree
+msgid "Capacity (Max/Filled)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "City"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__class_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__class_id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__class_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+msgid "Class"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Class %(code)s - %(day)s (%(start)s - %(end)s)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_class
+msgid "Class & Schedule"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Class '%(name)s' is full (%(taken)s / %(capacity)s seats taken)."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_code
+msgid "Class Code (A/B/C)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Class Information"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__name
+msgid "Class Name"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Class Name (e.g. ALPRO - A)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Class Schedule"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_class_schedule
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_tree
+msgid "Class Schedules"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_calendar
+msgid "Class Sessions"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_class
+#: model:ir.ui.menu,name:campus_core.menu_academic_class_act
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_tree
+msgid "Classes"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__code
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__code
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__code
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__code
+msgid "Code"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__company_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__company_id
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__company_id
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__company_id
+msgid "Company"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_configuration
+msgid "Configuration"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Configure Credit Limits"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Configure Grade Scale"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Contact Details"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Country"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__package_id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__package_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
+msgid "Course Package"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_course_package
+#: model:ir.ui.menu,name:campus_core.menu_academic_course_package
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_tree
+msgid "Course Packages"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_krs
+msgid "Create your first Study Plan (KRS)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__create_uid
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__create_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__create_date
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__create_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__create_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__create_date
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_credit_limit_form
+msgid "Credit Limit"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_credit_limit
+msgid "Credit Limit by CGPA"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_credit_limit
+#: model:ir.ui.menu,name:campus_core.menu_academic_credit_limit
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_credit_limit_list
+msgid "Credit Limits"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Credit limit by CGPA"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__credits
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Credits"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__credits
+msgid "Credits (SKS)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__earned_credits
+#: model:ir.model.fields,field_description:campus_core.field_res_users__earned_credits
+msgid "Credits Earned (SKS Lulus)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+msgid "Credits Graded"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+msgid "Credits Taken"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid ""
+"Credits already marked by a lecturer. This is the denominator of the Term "
+"GPA; unmarked subjects are not averaged in."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_res_partner__graded_credits
+#: model:ir.model.fields,help:campus_core.field_res_users__graded_credits
+msgid ""
+"Credits counted towards the CGPA: one attempt per subject, the best one."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_res_partner__earned_credits
+#: model:ir.model.fields,help:campus_core.field_res_users__earned_credits
+msgid ""
+"Credits from subjects passed at or above the configured passing grade point."
+" Lower than the graded total when a subject was failed and not yet repeated."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_subject.py:0
+msgid "Credits must be greater than zero."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
+msgid "Credits:"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Cumulative GPA (CGPA)"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Current date is outside the allowed KRS period."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+msgid "Date"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__day_of_week
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+msgid "Day of Week"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_signatures
+msgid "Dean of Faculty"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_credit_limit
+msgid "Define how many credits a student may take at each CGPA level"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_grade_scale
+msgid "Define how numeric scores convert to letter grades"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_hr_department
+msgid "Department"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__description
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Description"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__display_name
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__display_name
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__display_name
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__display_name
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__display_name
+#: model:ir.model.fields,field_description:campus_core.field_campus_searchpanel_group_domain_mixin__display_name
+#: model:ir.model.fields,field_description:campus_core.field_hr_department__display_name
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__display_name
+#: model:ir.model.fields,field_description:campus_core.field_res_config_settings__display_name
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__draft
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Draft"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__dropout
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Drop Out"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid ""
+"Each subject is listed once with its recognised grade. For a repeated\n"
+"                            subject, the recognised grade replaces the earlier attempt and only\n"
+"                            that grade counts towards the total credits and the CGPA."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__end_datetime
+msgid "End Datetime"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__end_time
+msgid "End Time"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__enrolled_count
+msgid "Enrolled"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid "Enter grades for %s"
+msgstr ""
+
+#. module: campus_core
+#: model:mail.activity.type,summary:campus_core.mail_activity_type_input_grades
+msgid "Enter grades for students in the KHS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__even
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_year__term_type__even
+msgid "Even"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_campus_building__location
+msgid "Example: Campus A Sudirman"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_facility_config
+msgid "Facilities"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_faculty
+#: model:ir.ui.menu,name:campus_core.menu_academic_faculty
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_faculty_tree
+msgid "Faculties"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__faculty_id
+#: model:ir.model.fields,field_description:campus_core.field_res_users__faculty_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_student_header
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_faculty_form
+msgid "Faculty"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_faculty_unique_code_per_company
+msgid ""
+"Faculty code must be unique: it is what student numbers are built from."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_faculty_unique_name_case_insensitive
+msgid "Faculty name must be unique!"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_follower_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_follower_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_partner_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_partner_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_type_icon
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_type_icon
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__4
+msgid "Friday"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "GPA Summary"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_krs_generator_wizard
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid "Generate KRS"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Generate Sessions"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Generation"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_grade_scale_form
+msgid "Grade Band"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__line_ids
+msgid "Grade Lines"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__grade_point
+msgid "Grade Point"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__grade_points
+msgid "Grade Points"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Grade Points (Credits×Weight)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_grade_scale
+#: model:ir.model,name:campus_core.model_academic_grade_scale
+#: model:ir.ui.menu,name:campus_core.menu_academic_grade_scale
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_grade_scale_list
+msgid "Grade Scale"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_grade_scale.py:0
+msgid "Grade point must be between 0.00 and 4.00."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__is_graded
+msgid "Graded"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__graded_credits
+msgid "Graded Credits"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Grades"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Grading"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Grading Scale:"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__graduated
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Graduated"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__has_message
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__has_message
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__dean_id
+msgid "Head of Faculty / Dean"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__head_id
+msgid "Head of Program"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_signatures
+msgid "Head of Study Program"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.module.category,description:campus_core.module_category_campus
+msgid "Helps you manage your Campus Master Data, Curriculums, and KRS."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "How many credits a student may take at each CGPA level."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_res_config_settings__campus_sessions_per_term
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "How many weekly meetings Generate Sessions creates for a class."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "How numeric scores convert to letter grades and grade points."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__id
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__id
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__id
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__id
+#: model:ir.model.fields,field_description:campus_core.field_campus_searchpanel_group_domain_mixin__id
+#: model:ir.model.fields,field_description:campus_core.field_hr_department__id
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__id
+#: model:ir.model.fields,field_description:campus_core.field_res_config_settings__id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_exception_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_exception_icon
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_exception_icon
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_exception_icon
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_needaction
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_needaction
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_has_error
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_has_sms_error
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_error
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_sms_error
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_error
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: campus_core
+#: model:mail.activity.type,name:campus_core.mail_activity_type_input_grades
+msgid "Input Student Grades"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Internal Notes"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Internal note..."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Invalid KRS status change from '%(old_state)s' to '%(new_state)s'."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_is_follower
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_is_follower
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__is_student
+#: model:ir.model.fields,field_description:campus_core.field_res_users__is_student
+msgid "Is a Student"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__khs_id
+msgid "KHS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_academic_khs_line
+msgid "KHS Grade Line"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+msgid "KHS No."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__name
+msgid "KHS Number"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__khs_ids
+#: model:ir.model.fields,field_description:campus_core.field_res_users__khs_ids
+msgid "KHS Records"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__krs_id
+msgid "KRS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__krs_end_date
+msgid "KRS End Date"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_krs_generator_wizard
+msgid "KRS Generator Wizard"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__line_ids
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "KRS Lines"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "KRS No."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__name
+msgid "KRS Number"
+msgstr ""
+
+#. module: campus_core
+#: model:mail.activity.type,name:campus_core.mail_activity_type_krs_revision
+msgid "KRS Revision Required"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__krs_start_date
+msgid "KRS Start Date"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"KRS subjects can only be added while the KRS is in Draft or Needs Revision."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"KRS subjects can only be changed while the KRS is in Draft or Needs "
+"Revision."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__campus_room__room_type__lab
+msgid "Laboratory"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__write_uid
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__write_date
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__write_date
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__write_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__write_date
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__write_date
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__lecturer_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__lecturer_id
+#: model:res.groups,name:campus_core.group_campus_lecturer
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+msgid "Lecturer"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Lecturer overlap detected on %s"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Letter"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__letter
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__letter_grade
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Letter Grade"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__line_ids
+msgid "Lines"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__department_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__department_id
+msgid "Linked HR Department"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__location
+msgid "Location"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Lock & Generate KHS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__locked
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Locked"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS records cannot be deleted."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Locked KRS records cannot be reset to draft."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_credit_limit__min_cgpa
+msgid "Lowest CGPA that qualifies for this credit limit."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid ""
+"Lowest grade point that counts as a pass. Decides whether a prerequisite has"
+" been met and which credits count as earned."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_res_config_settings__campus_pass_grade_point
+msgid ""
+"Lowest grade point that counts as a pass. Used to decide whether a "
+"prerequisite has been met and which credits count as earned."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_grade_scale__min_score
+msgid "Lowest numeric score that earns this letter grade."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_krs
+msgid "Manage student course registrations per academic period."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_department_filter_campus
+msgid "Manager"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_approve
+msgid "Mass Approve"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_assign_schedule_wizard
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Mass Assign Schedule"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_assign_schedule_wizard
+msgid "Mass Assign Schedule Wizard"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_lock
+msgid "Mass Lock"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_reject
+msgid "Mass Reject"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_request_revision
+msgid "Mass Request Revision"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_submit
+msgid "Mass Submit"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.server,name:campus_core.action_krs_mass_unlock
+msgid "Mass Unlock"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__max_credits
+msgid "Maximum Credits (SKS)"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_credit_limit.py:0
+msgid "Maximum credits must be greater than zero."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_has_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_credit_limit__min_cgpa
+msgid "Minimum CGPA"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_credit_limit.py:0
+msgid "Minimum CGPA must be between 0.00 and 4.00."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__min_score
+msgid "Minimum Score"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_grade_scale.py:0
+msgid "Minimum score must be between 0 and 100."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Missing prerequisite(s) for %(subject)s: %(prerequisites)s"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__0
+msgid "Monday"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_credit_limit__max_credits
+msgid "Most credits a student in this band may register in one term."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__my_activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__my_activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "NIM:"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_faculty__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_program__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__name
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__name
+#: model:ir.model.fields,field_description:campus_core.field_campus_building__name
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__name
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_student_header
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Name"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_search_student
+msgid "Name/NIM"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__revision
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Needs Revision"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "New Class"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "New KRS records must start in draft status."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_date_deadline
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_summary
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_summary
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_type_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_type_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "No"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid ""
+"No approved KRS found for this student in the selected academic period."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"No credit limit bands are configured. Set them under Academic System > "
+"Configuration > Credit Limits before students can submit a KRS."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "No graded subjects recorded yet."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.actions.act_window,help:campus_core.action_academic_class_schedule
+msgid "No schedules found. Schedules are created from within a Class record."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid ""
+"Not enough seats: %(capacity)s in the room, %(taken)s already taken, "
+"%(adding)s being assigned."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_needaction_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_needaction_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_error_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_has_error_counter
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_needaction_counter
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_needaction_counter
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__message_has_error_counter
+#: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_error_counter
+#: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__numeric_grade
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Numeric Grade"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_khs_line_numeric_grade_range
+msgid "Numeric grade must be between 0 and 100."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__term_type__odd
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_year__term_type__odd
+msgid "Odd"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__res_partner__student_status__leave
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "On Leave"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only Campus Administrators can perform this KRS status change."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only Campus Administrators can unlock a KRS record."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only approved KRS records can be locked."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only campus administrators can reset an approved KRS to draft."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only draft or revision KRS records can be submitted."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Only locked KRS records can be unlocked. '%(name)s' is currently "
+"'%(state)s'."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_credit_limit_unique_band_per_company
+msgid "Only one credit limit band may start at a given CGPA."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_grade_scale_unique_score_per_company
+msgid "Only one grade band may start at a given score."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only submitted KRS records can be approved."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only submitted KRS records can be rejected."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Only submitted KRS records can be sent for revision."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Only the assigned Academic Advisor or Academic Admin can approve this KRS."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__package_id
+msgid "Package"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_department_filter_campus
+msgid "Parent Department"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_config_settings__campus_pass_grade_point
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Passing Grade Point"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_people
+msgid "People"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Please add at least one class before submitting the KRS."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "Please define at least one schedule to generate sessions."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid "Please select a schedule."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "Please select at least one student."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "Please set a Start Date to generate sessions."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__prerequisite_ids
+msgid "Prerequisites"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Print KHS"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Print KRS"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Print Transcript"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__class_program_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__program_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__program_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__program_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__program_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_program_form
+msgid "Program"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_program_unique_name_case_insensitive
+msgid "Program name must be unique!"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_program_unique_code_per_company
+msgid ""
+"Programme code must be unique: it is what student numbers are built from."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_program
+#: model:ir.ui.menu,name:campus_core.menu_academic_program
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_program_tree
+msgid "Programs"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__rating_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__rating_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Real Sessions"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Reject"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__rejected
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Rejected"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Request Revision"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__activity_user_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__activity_user_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: campus_core
+#: model:mail.activity.type,name:campus_core.mail_activity_type_krs_review
+msgid "Review KRS"
+msgstr ""
+
+#. module: campus_core
+#: model:mail.activity.type,summary:campus_core.mail_activity_type_krs_review
+msgid "Review and approve/reject the student's KRS submission"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Review the KRS submitted by %s"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Revise and resubmit your KRS"
+msgstr ""
+
+#. module: campus_core
+#: model:res.groups.privilege,name:campus_core.privilege_campus_academic
+msgid "Role"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__room_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__room_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_form
+msgid "Room"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Room Information"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_campus_room__room_type
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_search
+msgid "Room Type"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_facility.py:0
+msgid "Room capacity must be greater than zero."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_campus_room_check_name_building_unique
+msgid "Room name must be unique within the same building!"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Room overlap detected on %s"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_campus_room
+#: model:ir.ui.menu,name:campus_core.menu_campus_room_config
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_tree
+msgid "Rooms"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__message_has_sms_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__message_has_sms_error
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__5
+msgid "Saturday"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__schedule_id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__schedule_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_form
+msgid "Schedule"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Schedule '%(schedule)s' belongs to a different academic year than this KRS."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid "Schedule '%(schedule)s' does not belong to class '%(class_name)s'."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid "Schedule '%s' has no room capacity set."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Schedule end time cannot be later than 24:00."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Schedule end time must be after start time."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid ""
+"Schedule overlap detected between:\n"
+"%(first)s\n"
+"%(second)s"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class_schedule.py:0
+msgid "Schedule times cannot be negative."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__schedule_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__schedule_ids
+#: model:ir.ui.menu,name:campus_core.menu_academic_class_schedule_act
+msgid "Schedules"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Scheduling"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Score to letter grade"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_search
+msgid "Search Buildings"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_credit_limit_search
+msgid "Search Credit Limits"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_grade_scale_search
+msgid "Search Grade Scale"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
+msgid "Search KHS"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Search KRS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model,name:campus_core.model_campus_searchpanel_group_domain_mixin
+msgid "Search Panel group_domain Workaround"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_search
+msgid "Search Rooms"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
+msgid "Search Schedules"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+msgid "Search Sessions"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_search_student
+msgid "Search Students"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_search
+msgid "Search Subjects"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Select Students..."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid ""
+"Select a schedule and the students you wish to assign to it. Only students "
+"who have added this subject to their KRS but haven't selected a schedule yet"
+" are shown."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid ""
+"Select the students you want to generate KRS for. \n"
+"                            Students who already have a KRS for this academic year will not appear here."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__semester
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Semester"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__1
+msgid "Semester 1"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__2
+msgid "Semester 2"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__3
+msgid "Semester 3"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__4
+msgid "Semester 4"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__5
+msgid "Semester 5"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__6
+msgid "Semester 6"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__7
+msgid "Semester 7"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_subject__semester__8
+msgid "Semester 8"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+msgid "Semester GPA"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Semester:"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_form
+msgid "Session"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_class.py:0
+msgid "Session end datetime must be after start datetime."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_class_session
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__session_ids
+#: model:ir.ui.menu,name:campus_core.menu_academic_class_session_act
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_tree
+msgid "Sessions"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_config_settings__campus_sessions_per_term
+#: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
+msgid "Sessions per Term"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Set to Draft"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_faculty__code
+#: model:ir.model.fields,help:campus_core.field_academic_program__code
+msgid ""
+"Short code used to build student numbers (NIM). Cannot be changed once a "
+"student number has been issued from it."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__start_date
+msgid "Start Date"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_session__start_datetime
+msgid "Start Datetime"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__start_time
+msgid "Start Time"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__start_date
+msgid ""
+"Starting point for Generate Sessions. The number of meetings comes from "
+"Settings."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "State"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__state
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__state
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Status"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_state
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_state
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Street 2..."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Street..."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__student_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__student_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__student_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Student"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid "Student %(student)s already has a schedule assigned."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid ""
+"Student %(student)s's KRS belongs to a different academic year than this "
+"class."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid ""
+"Student %(student)s's KRS is already %(state)s and can no longer be changed."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
+msgid ""
+"Student %(student)s's KRS line is for a different subject than this class."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__nim
+#: model:ir.model.fields,field_description:campus_core.field_res_users__nim
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_student_header
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "Student ID (NIM)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_res_partner_check_nim_unique
+msgid "Student ID (NIM) must be unique!"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Student Information"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_khs
+msgid "Student KHS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_krs_act
+msgid "Student KRS"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__student_status
+#: model:ir.model.fields,field_description:campus_core.field_res_users__student_status
+msgid "Student Status"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
+msgid "Student Transcript (KHS)"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_tree
+msgid "Student Transcripts (KHS)"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Student cannot take the same subject '%s' twice in one KRS."
+msgstr ""
+
+#. module: campus_core
+#: model:mail.activity.type,summary:campus_core.mail_activity_type_krs_revision
+msgid "Student needs to revise and resubmit their KRS"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Student status must be active to submit a KRS."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Student,"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
+msgid "Student:"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_res_partner_student
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__student_line_ids
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__student_ids
+#: model:ir.ui.menu,name:campus_core.menu_academic_student
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_partner_tree_student
+msgid "Students"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__krs_line_ids
+msgid "Students (KRS Lines)"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Students can only submit their KRS for approval."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.ui.menu,name:campus_core.menu_academic_krs
+msgid "Studies"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_krs
+#: model:ir.actions.report,name:campus_core.action_report_krs
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_tree
+msgid "Study Plan (KRS)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_krs_generator_wizard__program_id
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__program_id
+#: model:ir.model.fields,field_description:campus_core.field_res_users__program_id
+#: model_terms:ir.ui.view,arch_db:campus_core.report_campus_student_header
+msgid "Study Program"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+msgid "Study Result Card (KHS)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs_line__subject_id
+#: model:ir.model.fields,field_description:campus_core.field_assign_schedule_wizard__subject_id
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_form
+msgid "Subject"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Subject '%s' does not belong to the student's program."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Subject Code"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Subject Name"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_subject_code_program_unique
+msgid "Subject code must be unique within a program."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.act_window,name:campus_core.action_academic_subject
+#: model:ir.ui.menu,name:campus_core.menu_academic_subject
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_course_package_form
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_subject_tree
+msgid "Subjects"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Submit"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/wizard/krs_generator_wizard.py:0
+msgid "Success"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__6
+msgid "Sunday"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
+msgid "Target Students"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__term_gpa
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_tree
+msgid "Term GPA"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.report,name:campus_core.action_report_khs
+msgid "Term Grade Report (KHS)"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_subject__term_type
+#: model:ir.model.fields,field_description:campus_core.field_academic_year__term_type
+msgid "Term Type"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_kanban
+msgid "Term:"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_subject.py:0
+msgid "The KRS period cannot end before it starts."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_institution.py:0
+msgid ""
+"The code of '%(name)s' can no longer be changed: student numbers have "
+"already been issued from it."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.constraint,message:campus_core.constraint_academic_khs_line_unique_khs_subject
+msgid "The same subject cannot appear more than once in a KHS."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "The student must have an assigned Academic Advisor."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__campus_room__room_type__theory
+msgid "Theory"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/hr_department.py:0
+msgid ""
+"These departments mirror academic records and cannot be deleted from here: "
+"%(names)s. Delete the faculty or programme instead and its department goes "
+"with it."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+msgid "This Week"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__3
+msgid "Thursday"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__class_capacity_display
+msgid "Total Class Capacity"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_course_package__total_credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__total_credits
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__total_credits
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+msgid "Total Credits"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__total_grade_points
+msgid "Total Grade Points"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_res_partner__graded_credits
+#: model:ir.model.fields,field_description:campus_core.field_res_users__graded_credits
+msgid "Total Graded Credits"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "Total credits cannot exceed %(max_credits)s SKS for this student."
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_khs.py:0
+msgid "Transcript - %s"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__1
+msgid "Tuesday"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__activity_exception_decoration
+#: model:ir.model.fields,help:campus_core.field_academic_khs__activity_exception_decoration
+#: model:ir.model.fields,help:campus_core.field_academic_krs__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
+msgid "Unassigned Students"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
+msgid "Unlock"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
+msgid "Upcoming"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_krs__state__submitted
+#: model_terms:ir.ui.view,arch_db:campus_core.report_krs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_search
+msgid "Waiting for Approval"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,field_description:campus_core.field_academic_class__website_message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_khs__website_message_ids
+#: model:ir.model.fields,field_description:campus_core.field_academic_krs__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_class__website_message_ids
+#: model:ir.model.fields,help:campus_core.field_academic_khs__website_message_ids
+#: model:ir.model.fields,help:campus_core.field_academic_krs__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields.selection,name:campus_core.selection__academic_class_schedule__day_of_week__2
+msgid "Wednesday"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_form
+msgid "Weekly Schedule"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.report_khs_document
+#: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
+msgid "Weight"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_grade_scale__grade_point
+msgid "Weight used in the GPA calculation."
+msgstr ""
+
+#. module: campus_core
+#: model:ir.model.fields,help:campus_core.field_academic_grade_scale__description
+msgid ""
+"Wording printed beside this band on the official transcript, for example "
+"Excellent or Pass."
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
+msgid "ZIP"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "deleting this KRS"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_faculty_form
+msgid "e.g. FT"
+msgstr ""
+
+#. module: campus_core
+#: model_terms:ir.ui.view,arch_db:campus_core.view_academic_program_form
+msgid "e.g. TI"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.report,print_report_name:campus_core.action_report_khs
+#: model:ir.actions.report,print_report_name:campus_core.action_report_krs
+msgid "object._get_report_base_filename()"
+msgstr ""
+
+#. module: campus_core
+#: model:ir.actions.report,print_report_name:campus_core.action_report_transcript
+msgid ""
+"object.with_context(campus_transcript_filename=True)._get_report_base_filename()"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/academic_krs.py:0
+msgid "returning this KRS to draft"
+msgstr ""
+
+#. module: campus_core
+#. odoo-python
+#: code:addons/campus_core/models/hr_department.py:0
+msgid ""
+"“%(department)s” mirrors %(owner)s and is kept in step with it. Change it in"
+" Academic System > Configuration instead; editing it here would leave the "
+"two disagreeing with nothing to notice."
+msgstr ""

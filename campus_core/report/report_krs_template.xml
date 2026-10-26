@@ -18,23 +18,10 @@
                         </div>
 
                         <!-- STUDENT INFORMATION -->
-                        <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
-                            <tr>
-                                <td style="width: 15%; padding: 3px 0;">Student ID (NIM)</td>
-                                <td style="width: 2%;">:</td>
-                                <td style="width: 35%;"><strong><t t-out="o.student_id.nim or '-'"/></strong></td>
-                                <td style="width: 15%; padding: 3px 0;">Faculty</td>
-                                <td style="width: 2%;">:</td>
-                                <td style="width: 31%;"><t t-out="o.faculty_id.name or '-'"/></td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 3px 0;">Name</td>
-                                <td>:</td>
-                                <td><strong><t t-out="o.student_id.name"/></strong></td>
-                                <td style="padding: 3px 0;">Study Program</td>
-                                <td>:</td>
-                                <td><t t-out="o.program_id.name or '-'"/></td>
-                            </tr>
+                        <t t-call="campus_core.report_campus_student_header">
+                            <t t-set="student" t-value="o.student_id"/>
+                            <t t-set="faculty" t-value="o.faculty_id"/>
+                            <t t-set="program" t-value="o.program_id"/>
                             <tr>
                                 <td style="padding: 3px 0;">Academic Year</td>
                                 <td>:</td>
@@ -58,7 +45,7 @@
                                 <td>:</td>
                                 <td><t t-out="o.name"/></td>
                             </tr>
-                        </table>
+                        </t>
 
                         <!-- SUBJECTS TABLE -->
                         <table class="table table-sm table-bordered" style="font-size: 10pt;">

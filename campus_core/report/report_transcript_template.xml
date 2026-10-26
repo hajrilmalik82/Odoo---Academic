@@ -16,23 +16,10 @@
                         </div>
 
                         <!-- STUDENT INFORMATION -->
-                        <table style="width: 100%; font-size: 11pt; margin-bottom: 20px;">
-                            <tr>
-                                <td style="width: 15%; padding: 3px 0;">Student ID (NIM)</td>
-                                <td style="width: 2%;">:</td>
-                                <td style="width: 35%;"><strong><t t-out="o.student_id.nim or '-'"/></strong></td>
-                                <td style="width: 15%; padding: 3px 0;">Faculty</td>
-                                <td style="width: 2%;">:</td>
-                                <td style="width: 31%;"><t t-out="o.student_id.faculty_id.name or '-'"/></td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 3px 0;">Name</td>
-                                <td>:</td>
-                                <td><strong><t t-out="o.student_id.name"/></strong></td>
-                                <td style="padding: 3px 0;">Study Program</td>
-                                <td>:</td>
-                                <td><t t-out="o.student_id.program_id.name or '-'"/></td>
-                            </tr>
+                        <t t-call="campus_core.report_campus_student_header">
+                            <t t-set="student" t-value="o.student_id"/>
+                            <t t-set="faculty" t-value="o.student_id.faculty_id"/>
+                            <t t-set="program" t-value="o.student_id.program_id"/>
                             <tr>
                                 <td style="padding: 3px 0;">Generation</td>
                                 <td>:</td>
@@ -46,7 +33,7 @@
                                     <t t-if="o.student_id.student_status == 'dropout'">Drop Out</t>
                                 </td>
                             </tr>
-                        </table>
+                        </t>
 
                         <!-- RECOGNISED GRADES, ONE ROW PER SUBJECT.
                              A transcript states what each subject is finally recognised
@@ -104,9 +91,20 @@
                                      transcript does: credits graded is the CGPA
                                      denominator and includes a failed subject,
                                      credits earned counts only the passes. -->
+                                <!-- Summed from transcript_lines, the selection this page is
+                                     already holding, instead of reading
+                                     student_id.earned_credits. That field is a non-stored
+                                     compute - unlike cgpa and graded_credits beside it - so
+                                     reading it walked the student's entire grade history a
+                                     second time to produce a number the rows above already
+                                     contain. It is not stored because it depends on the
+                                     configured passing grade point, which a stored value
+                                     would go stale against. -->
+                                <t t-set="pass_point" t-value="o.env['res.config.settings'].sudo()._get_pass_grade_point()"/>
+                                <t t-set="earned" t-value="sum(line.credits for line in transcript_lines if line.grade_points >= pass_point)"/>
                                 <tr style="background-color: #eaf2f8; font-weight: bold;">
                                     <td colspan="4" style="text-align: right; padding: 8px;">CREDITS EARNED (SKS LULUS)</td>
-                                    <td style="text-align: center; padding: 8px;"><t t-out="o.student_id.earned_credits"/></td>
+                                    <td style="text-align: center; padding: 8px;"><t t-out="earned"/></td>
                                     <td colspan="3" style="padding: 8px;"/>
                                 </tr>
                             </tfoot>
@@ -145,34 +143,10 @@
                         </div>
 
                         <!-- SIGNATURES -->
-                        <div style="margin-top: 30px; font-size: 10pt; page-break-inside: avoid;">
-                            <table style="width: 100%;">
-                                <tr>
-                                    <td style="width: 50%; text-align: center;">
-                                        <p style="margin-bottom: 0;">Approved by,</p>
-                                        <p style="margin-bottom: 0;">Head of Study Program</p>
-                                        <br/><br/><br/>
-                                        <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                                            <t t-if="o.student_id.program_id.head_id">
-                                                <t t-out="o.student_id.program_id.head_id.name"/>
-                                            </t>
-                                            <t t-else="">____________________</t>
-                                        </p>
-                                    </td>
-                                    <td style="width: 50%; text-align: center;">
-                                        <p style="margin-bottom: 0;">Approved by,</p>
-                                        <p style="margin-bottom: 0;">Dean of Faculty</p>
-                                        <br/><br/><br/>
-                                        <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                                            <t t-if="o.student_id.faculty_id.dean_id">
-                                                <t t-out="o.student_id.faculty_id.dean_id.name"/>
-                                            </t>
-                                            <t t-else="">____________________</t>
-                                        </p>
-                                    </td>
-                                </tr>
-                            </table>
-                        </div>
+                        <t t-call="campus_core.report_campus_signatures">
+                            <t t-set="faculty" t-value="o.student_id.faculty_id"/>
+                            <t t-set="program" t-value="o.student_id.program_id"/>
+                        </t>
 
                     </div>
                 </t>

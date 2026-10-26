@@ -5,16 +5,19 @@
     <template id="portal_my_home" inherit_id="portal.portal_my_home" priority="100">
         <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
             <t t-call="portal.portal_docs_entry">
-                <t t-set="title">KRS Saya</t>
+                <t t-set="title">My KRS</t>
                 <t t-set="url" t-value="'/my/krs'"/>
                 <t t-set="placeholder_count" t-value="'krs_count'"/>
-                <t t-set="config_card" t-value="True"/>
+                <!-- show_count, not config_card: a config card renders no badge,
+                     so the two counters the controller computes were never
+                     visible and the stock hide-when-zero behaviour never applied. -->
+                <t t-set="show_count" t-value="True"/>
             </t>
             <t t-call="portal.portal_docs_entry">
-                <t t-set="title">KHS Saya</t>
+                <t t-set="title">My KHS</t>
                 <t t-set="url" t-value="'/my/khs'"/>
                 <t t-set="placeholder_count" t-value="'khs_count'"/>
-                <t t-set="config_card" t-value="True"/>
+                <t t-set="show_count" t-value="True"/>
             </t>
         </xpath>
     </template>
@@ -23,17 +26,17 @@
     <template id="portal_my_breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="100">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
             <li t-if="page_name == 'krs'" class="breadcrumb-item active">
-                KRS Saya
+                My KRS
             </li>
             <li t-if="page_name == 'krs_detail'" class="breadcrumb-item">
-                <a href="/my/krs">KRS Saya</a>
+                <a href="/my/krs">My KRS</a>
             </li>
 
             <li t-if="page_name == 'krs_detail'" class="breadcrumb-item active">
                 <span t-field="krs.name"/>
             </li>
             <li t-if="page_name == 'khs'" class="breadcrumb-item active">
-                KHS Saya
+                My KHS
             </li>
         </xpath>
     </template>
@@ -51,10 +54,19 @@
             </t>
 
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <t t-call="portal.portal_searchbar">
-                    <t t-set="title">Course Packages (KRS)</t>
-                </t>
-                <a href="/my/krs/register" class="btn btn-primary"><i class="fa fa-edit"/> Daftar KRS Sekarang</a>
+                <!-- No t-set="title" here. These pages set
+                     breadcrumbs_searchbar, and portal.portal_searchbar renders
+                     the title only in the t-else of that branch
+                     (addons/portal/views/portal_templates.xml), so the heading
+                     could never appear. The breadcrumb is the more useful of
+                     the two on a list reached from /my/home, so it is what stays. -->
+                <t t-call="portal.portal_searchbar"/>
+                <!-- A form, not a link: the route creates a record, so it is a
+                     POST carrying the CSRF token, matching add_line and submit below. -->
+                <form action="/my/krs/register" method="post" class="d-inline">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-edit"/> Register KRS Now</button>
+                </form>
             </div>
             <t t-if="not krs_records">
                 <p>There are currently no KRS records for your account.</p>
@@ -84,7 +96,9 @@
                     </t>
                 </tbody>
             </t>
-            <t t-call="portal.pager"/>
+            <!-- No standalone <t t-call="portal.pager"/> here: portal_table
+                 above already renders one from the same `pager` value, so both
+                 pages showed two identical pagers. -->
         </t>
     </template>
 
@@ -93,16 +107,23 @@
         <t t-call="portal.portal_layout">
             <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
+            <t t-if="error">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <i class="fa fa-warning me-2"/> <t t-out="error"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </t>
+
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <t t-call="portal.portal_searchbar">
-                    <t t-set="title">Academic Transcripts (KHS)</t>
-                </t>
-                <!-- The transcript is cumulative, so any of the student's own KHS
-                     records serves as the entry point. -->
-                <a t-if="khs_records"
-                   t-attf-href="/my/khs/#{khs_records[0].id}/transcript?download=1"
-                   class="btn btn-primary" title="Unduh transkrip nilai kumulatif">
-                    <i class="fa fa-download me-1"/>Unduh Transkrip
+                <t t-call="portal.portal_searchbar"/>
+                <!-- transcript_khs is resolved by the controller from an
+                     unpaginated search. It used to be khs_records[0], the newest
+                     term on the CURRENT PAGE, so from page 2 the button printed
+                     a transcript keyed off an old semester. -->
+                <a t-if="transcript_khs"
+                   t-attf-href="/my/khs/#{transcript_khs.id}/transcript?download=1"
+                   class="btn btn-primary" title="Download the cumulative academic transcript">
+                    <i class="fa fa-download me-1"/>Download Transcript
                 </a>
             </div>
             <t t-if="not khs_records">
@@ -115,7 +136,7 @@
                         <th>Academic Year</th>
                         <th>Total Credits</th>
                         <th>GPA</th>
-                        <th class="text-end">Aksi</th>
+                        <th class="text-end">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -127,7 +148,7 @@
                             <td><span t-field="khs.term_gpa"/></td>
                             <td class="text-end">
                                 <a t-attf-href="/my/khs/#{khs.id}/report?download=1"
-                                   class="btn btn-sm btn-outline-secondary" title="Unduh KHS semester ini">
+                                   class="btn btn-sm btn-outline-secondary" title="Download this term's KHS">
                                     <i class="fa fa-download me-1"/>KHS
                                 </a>
                             </td>
@@ -135,7 +156,9 @@
                     </t>
                 </tbody>
             </t>
-            <t t-call="portal.pager"/>
+            <!-- No standalone <t t-call="portal.pager"/> here: portal_table
+                 above already renders one from the same `pager` value, so both
+                 pages showed two identical pagers. -->
         </t>
     </template>
 
@@ -144,7 +167,12 @@
     <!-- KRS Detail Page -->
     <template id="portal_krs_detail" name="Detail KRS">
         <t t-call="portal.portal_layout">
-            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <!-- No breadcrumbs_searchbar here. Setting it tells portal_layout
+                 that THIS page renders the breadcrumb bar itself, and this one
+                 never did - so the krs_detail entries added to
+                 portal.portal_breadcrumbs were dead markup and the page had no
+                 way back. It has no sortings or filters either, so there is
+                 nothing a searchbar would carry. -->
             <!-- One definition of "the student may still edit this".
                  It used to be spelled out per block, and the outer wrapper below
                  said 'draft' only, so a KRS returned for revision rendered with
@@ -154,11 +182,11 @@
             <t t-set="is_editable" t-value="krs.state in ['draft', 'revision']"/>
             <div class="bg-white p-4 rounded shadow-sm mb-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3>Detail KRS: <t t-out="krs.name"/></h3>
+                    <h3>KRS Details: <t t-out="krs.name"/></h3>
                     <div>
                         <a t-attf-href="/my/krs/#{krs.id}/report?download=1"
-                           class="btn btn-sm btn-outline-secondary me-2" title="Unduh KRS dalam format PDF">
-                            <i class="fa fa-download me-1"/>Unduh PDF
+                           class="btn btn-sm btn-outline-secondary me-2" title="Download the KRS as a PDF">
+                            <i class="fa fa-download me-1"/>Download PDF
                         </a>
                         <span t-if="krs.state == 'draft'" class="badge bg-secondary fs-6">Draft</span>
                         <span t-if="krs.state == 'submitted'" class="badge bg-info fs-6">Waiting for Approval</span>
@@ -171,10 +199,10 @@
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <p><strong>Tahun Akademik:</strong> <t t-out="krs.academic_year_id.name"/></p>
+                        <p><strong>Academic Year:</strong> <t t-out="krs.academic_year_id.name"/></p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Total SKS:</strong> <t t-out="krs.total_credits"/></p>
+                        <p><strong>Total Credits:</strong> <t t-out="krs.total_credits"/></p>
                     </div>
                 </div>
 
@@ -184,15 +212,15 @@
                     </div>
                 </t>
 
-                <h4 class="mb-3">Daftar Mata Kuliah</h4>
+                <h4 class="mb-3">Subject List</h4>
                 <div class="table-responsive mb-4">
                     <table class="table table-bordered table-striped">
                         <thead class="table-light">
                             <tr>
-                                <th>Kode</th>
-                                <th>Mata Kuliah</th>
-                                <th>SKS</th>
-                                <th t-if="is_editable">Aksi</th>
+                                <th>Code</th>
+                                <th>Subject</th>
+                                <th>Credits</th>
+                                <th t-if="is_editable">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -204,14 +232,17 @@
                                     <td t-if="is_editable">
                                         <form t-attf-action="/my/krs/#{krs.id}/delete_line/#{line.id}" method="post" class="d-inline">
                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"/> Hapus</button>
+                                            <button type="submit" class="btn btn-sm btn-danger"><i class="fa fa-trash"/> Remove</button>
                                         </form>
                                     </td>
                                 </tr>
                             </t>
                             <t t-if="not krs.line_ids">
                                 <tr>
-                                    <td colspan="4" class="text-center text-muted">Belum ada mata kuliah yang ditambahkan.</td>
+                                    <!-- The Action column only exists while the KRS is
+                                         editable, so the empty row has to span the same
+                                         number of columns the header actually rendered. -->
+                                    <td t-att-colspan="4 if is_editable else 3" class="text-center text-muted">No subjects added yet.</td>
                                 </tr>
                             </t>
                         </tbody>
@@ -220,17 +251,17 @@
 
                 <t t-if="is_editable">
                     <div class="card bg-light border-0 mb-4">
-                        <h5 class="mt-5 mb-3">Daftar Jadwal yang Tersedia</h5>
+                        <h5 class="mt-5 mb-3">Available Schedules</h5>
                         <div class="table-responsive bg-white rounded shadow-sm">
                             <table class="table table-hover align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Mata Kuliah</th>
-                                        <th>Kelas</th>
-                                        <th>Dosen Pengajar</th>
-                                        <th>Jadwal &amp; Ruangan</th>
-                                        <th>SKS</th>
-                                        <th class="text-center">Aksi</th>
+                                        <th>Subject</th>
+                                        <th>Class</th>
+                                        <th>Lecturer</th>
+                                        <th>Schedule &amp; Room</th>
+                                        <th>Credits</th>
+                                        <th class="text-center">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -246,7 +277,7 @@
                                         <t t-set="other_section_taken" t-value="not is_enrolled and sch.class_id.subject_id.id in taken_subject_ids"/>
                                         <tr t-att-class="'table-success opacity-50' if is_enrolled else ('opacity-50' if other_section_taken else '')">
                                             <td class="fw-bold"><t t-out="sch.class_id.subject_id.name"/></td>
-                                            <td>Kelas <t t-out="sch.class_code"/></td>
+                                            <td>Class <t t-out="sch.class_code"/></td>
                                             <td>
                                                 <t t-if="sch.lecturer_id">
                                                     <span class="badge bg-secondary mb-1"><t t-out="sch.lecturer_id.name"/></span>
@@ -260,29 +291,29 @@
                                                     <span class="ms-1 px-1 bg-light border rounded text-dark"><i class="fa fa-map-marker text-danger"/> <t t-out="sch.room_id.name"/></span>
                                                 </div>
                                             </td>
-                                            <td><span class="badge bg-info"><t t-out="sch.class_id.subject_id.credits"/> SKS</span></td>
+                                            <td><span class="badge bg-info"><t t-out="sch.class_id.subject_id.credits"/> credits</span></td>
                                             <td class="text-center">
                                                 <t t-if="is_enrolled">
-                                                    <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Diambil</button>
+                                                    <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Taken</button>
                                                 </t>
                                                 <t t-elif="other_section_taken">
                                                     <button class="btn btn-sm btn-outline-secondary" disabled="1"
-                                                            title="Mata kuliah ini sudah diambil di kelas lain. Hapus dulu kelas yang lama kalau mau pindah.">
-                                                        <i class="fa fa-ban"/> Kelas lain diambil
+                                                            title="This subject is already taken in another section. Remove the existing one first to switch.">
+                                                        <i class="fa fa-ban"/> Another section taken
                                                     </button>
                                                 </t>
                                                 <t t-else="">
                                                     <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">
                                                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                         <input type="hidden" name="schedule_id" t-att-value="sch.id"/>
-                                                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"/> Ambil</button>
+                                                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"/> Take</button>
                                                     </form>
                                                 </t>
                                             </td>
                                         </tr>
                                     </t>
                                     <tr t-if="not available_schedules">
-                                        <td colspan="6" class="text-center py-4 text-muted">Belum ada jadwal yang dibuka untuk semester ini.</td>
+                                        <td colspan="6" class="text-center py-4 text-muted">No schedules are open for this term yet.</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -292,7 +323,7 @@
                     <div class="text-end">
                         <form t-attf-action="/my/krs/#{krs.id}/submit" method="post">
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                            <button type="submit" class="btn btn-primary btn-lg">Submit ke Dosen PA</button>
+                            <button type="submit" class="btn btn-primary btn-lg">Submit to Academic Advisor</button>
                         </form>
                     </div>
                 </t>

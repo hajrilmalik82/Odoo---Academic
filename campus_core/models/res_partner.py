@@ -18,13 +18,25 @@ class ResPartner(models.Model):
     nim = fields.Char(string="Student ID (NIM)")
     
     academic_advisor_id = fields.Many2one(
-        'hr.employee', 
-        string="Academic Advisor"
+        'hr.employee',
+        string="Academic Advisor",
+        # btree_not_null, not index=True: the column is NULL for every contact
+        # that is not a student, which is most of res_partner.
+        index='btree_not_null',
     )
     # restrict, not the default set-null: deleting a programme used to blank the
     # Study Program and Faculty of every student enrolled in it, without warning.
     # A programme that is no longer offered should be archived, not deleted.
-    program_id = fields.Many2one('academic.program', string="Study Program", ondelete='restrict')
+    # Deliberately NO check_company here, unlike academic.subject.program_id.
+    # odoo/orm/models.py:4052 reads the record's own company_id as the reference,
+    # and when it is empty _check_company_domain narrows to
+    # ('company_id', '=', False) - so a contact with no company may only point at
+    # a programme with no company. res.partner.company_id is empty for ordinary
+    # contacts while academic.program defaults to the active company, which made
+    # every student contact impossible to save.
+    program_id = fields.Many2one(
+        'academic.program', string="Study Program", ondelete='restrict',
+    )
     faculty_id = fields.Many2one('academic.faculty', related='program_id.faculty_id', string="Faculty", store=True)
     student_status = fields.Selection([
         ('active', 'Active'),

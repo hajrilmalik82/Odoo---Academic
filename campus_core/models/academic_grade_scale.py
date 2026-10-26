@@ -16,11 +16,21 @@ class AcademicGradeScale(models.Model):
 
     _name = 'academic.grade.scale'
     _description = 'Grade Scale'
-    _order = 'min_score desc'
-    _check_company_auto = True
+    # See academic.credit.limit: highest score first because the lookup takes
+    # the first band the score reaches, company_id only as the tiebreak.
+    # NULLS LAST is not decoration: PostgreSQL sorts NULLs FIRST on DESC, so
+    # without it the shared band (company_id NULL) outranked an institution's
+    # own band at the same threshold - the exact opposite of the intent.
+    _order = 'min_score desc, company_id desc nulls last, id desc'
+    # No _check_company_auto here: the flag only does something when a field
+    # on the model carries check_company=True, and none does. Declared, it
+    # read as multi-company protection that was never in force.
 
-    _unique_score_per_company = models.Constraint(
-        'UNIQUE (min_score, company_id)',
+    # COALESCE for the same reason as academic.credit.limit: every shipped
+    # band has company_id unset and NULLs are distinct, so the plain UNIQUE
+    # never fired on the data this module itself installs.
+    _unique_score_per_company = models.UniqueIndex(
+        "(min_score, COALESCE(company_id, 0))",
         "Only one grade band may start at a given score.",
     )
 
@@ -97,15 +107,18 @@ class AcademicGradeScale(models.Model):
                 raise ValidationError(_("Grade point must be between 0.00 and 4.00."))
 
     @api.model
-    def _get_grade(self, score):
+    def _get_grade(self, score, company=None):
         """Letter and grade point for a score.
 
         Falls back to the historical bottom band when nothing is configured, so
         grading never crashes on a half-set-up database. Unlike the credit limit,
         refusing here would block a lecturer mid-entry for no good reason.
         """
+        company = company or self.env.company
         band = self.search(
-            [('min_score', '<=', score or 0.0)], order='min_score desc', limit=1,
+            [('min_score', '<=', score or 0.0),
+             ('company_id', 'in', [company.id, False])],
+            order='min_score desc, company_id desc nulls last, id desc', limit=1,
         )
         if band:
             return band.letter, band.grade_point

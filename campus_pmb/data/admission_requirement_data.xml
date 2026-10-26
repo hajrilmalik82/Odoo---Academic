@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- noupdate="1": the starting checklist, not something an upgrade puts
+         back. A registrar may add a document, drop one, or ask transfer
+         applicants for a transcript the regular path does not need - all from
+         Admissions > Configuration > Document Requirements. -->
+    <data noupdate="1">
+
+        <record id="requirement_identity_card" model="campus.admission.requirement">
+            <field name="document_type">identity_card</field>
+            <field name="admission_path">all</field>
+            <field name="sequence">10</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="requirement_family_card" model="campus.admission.requirement">
+            <field name="document_type">family_card</field>
+            <field name="admission_path">all</field>
+            <field name="sequence">20</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="requirement_diploma" model="campus.admission.requirement">
+            <field name="document_type">diploma</field>
+            <field name="admission_path">all</field>
+            <field name="sequence">30</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <record id="requirement_photo" model="campus.admission.requirement">
+            <field name="document_type">photo</field>
+            <field name="admission_path">all</field>
+            <field name="sequence">40</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+        <!-- A transfer applicant brings a transcript from their previous
+             institution; a school leaver has none. This is the case the
+             hard-coded list could not express. -->
+        <record id="requirement_transcript_transfer" model="campus.admission.requirement">
+            <field name="document_type">transcript</field>
+            <field name="admission_path">transfer</field>
+            <field name="sequence">50</field>
+            <field name="company_id" eval="False"/>
+        </record>
+
+    </data>
+</odoo>

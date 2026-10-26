@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Replace Default Layout elements (Copyright and Head Scripts) -->
+    <template id="campus_website_layout" inherit_id="website.layout" name="Campus Website Layout">
+        <!-- Replace Default Copyright Bar.
+             t-if="not no_copyright" is kept: it is the stock contract behind
+             the "Hide Copyright" switch in Website > Configuration, and
+             dropping it silently disabled that option. The inner
+             <div class="col-sm"> and <span class="o_footer_copyright_name">
+             are kept too - portal.footer_language_selector and
+             website.footer_copyright_company_name both xpath into them, so
+             without them those inherits have nothing to attach to. -->
+        <xpath expr="//div[hasclass('o_footer_copyright')]" position="replace">
+            <div t-if="not no_copyright" class="o_footer_copyright o_colored_level o_cc bg-dark text-white border-top border-secondary">
+                <div class="container py-3">
+                    <div class="row align-items-center">
+                        <div class="col-sm text-center">
+                            <p class="mb-0 text-light">
+                                © 2026 Copyright: <span class="o_footer_copyright_name"><strong>Campus Academic by Hajril Malik</strong></span>. All Rights Reserved.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+
+        <!-- The CSS and JS that used to be injected into //head from here now
+             live in static/src and are declared as web.assets_frontend in the
+             manifest, so they are bundled, minified and cached like everything
+             else the frontend loads. -->
+    </template>
+
+    <!-- Replace Default Custom Footer -->
+    <!-- Inherits website.layout, not website.footer_custom.
+         website.footer_custom is only ONE of the footer styles
+         (addons/website/views/website_templates.xml:1639) and each style is a
+         separate inherit of website.layout that replaces #footer. Hanging off
+         that one meant the campus footer vanished the moment the site owner
+         picked any other style in the editor, leaving a stock footer on a
+         campus site with no sign of why.
+
+         priority 90 so this applies AFTER whichever style ran - they sit at the
+         default 16 or below, and the last replacement of a node wins.
+
+         The wrapper keeps the two things the stock div carries: t-if="not
+         no_footer", which is the Hide Footer switch, and an oe_structure band,
+         which is the footer's drop zone in the editor. -->
+    <template id="campus_website_layout_footer" inherit_id="website.layout"
+              name="Campus Website Layout Footer" priority="90">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" t-if="not no_footer" class="bg-dark text-white pt-5 pb-4 border-top border-4 border-primary">
+                <div class="container text-center text-md-start">
+                    <div class="row text-center text-md-start">
+                        <!-- About -->
+                        <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
+                            <h5 class="text-uppercase mb-4 fw-bold text-white">Campus Academic SIAKAD</h5>
+                            <p class="text-light">
+                                Integrated Academic Information System built using modern Odoo technology.
+                                Supports full management of New Student Admissions, Academic Portal, and Employee Management.
+                            </p>
+                        </div>
+
+                        <!-- Developer Info -->
+                        <div class="col-md-5 col-lg-5 col-xl-5 mx-auto mt-3">
+                            <h5 class="text-uppercase mb-4 fw-bold text-white">Developed By</h5>
+                            <p>
+                                <i class="fa fa-user me-3 text-primary"></i> <strong>Hajril Malik</strong>
+                            </p>
+                            <p>
+                                <a href="mailto:hajrilmalik82@gmail.com" class="text-light text-decoration-none">
+                                    <i class="fa fa-envelope me-3 text-warning"></i> hajrilmalik82@gmail.com
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://wa.me/6281178783903" class="text-light text-decoration-none" target="_blank">
+                                    <i class="fa fa-whatsapp me-3 text-success"></i> 081178783903
+                                </a>
+                            </p>
+                            <p>
+                                <a href="https://www.linkedin.com/in/hajrilmalik/" class="text-light text-decoration-none" target="_blank">
+                                    <i class="fa fa-linkedin me-3 text-info"></i> LinkedIn Profile
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editable band, so the footer can still be extended from the
+                     website editor without touching this file. -->
+                <div class="oe_structure"/>
+            </div>
+        </xpath>
+    </template>
+
+</odoo>

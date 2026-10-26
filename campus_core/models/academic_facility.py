@@ -6,7 +6,9 @@ class CampusBuilding(models.Model):
     _name = 'campus.building'
     _description = 'Campus Building'
     _order = 'name'
-    _check_company_auto = True
+    # No _check_company_auto here: the flag only does something when a field
+    # on the model carries check_company=True, and none does. Declared, it
+    # read as multi-company protection that was never in force.
 
     # `code` is optional, so buildings without a code must stay unconstrained;
     # COALESCE keeps company-less buildings in a single bucket (NULLs are

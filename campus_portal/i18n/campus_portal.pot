@@ -1,0 +1,431 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_portal
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 09:31+0000\n"
+"PO-Revision-Date: 2026-10-22 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-ban\"/> Another section taken"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-check\"/> Taken"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-download me-1\"/>Download PDF"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "<i class=\"fa fa-download me-1\"/>Download Transcript"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "<i class=\"fa fa-download me-1\"/>KHS"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "<i class=\"fa fa-edit\"/> Register KRS Now"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Horizontal Data "
+"Isolation (Data Leakage Prevention):</strong> Absolute <em>Domain "
+"Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot"
+" perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1"
+" to /krs/2) to view Student B's data. Odoo automatically returns an *Error "
+"403 Forbidden* if the document ownership (Partner ID) does not intersect "
+"with the current logged-in session."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<i class=\"fa fa-laptop me-2\"/> Campus Portal Module"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-lock text-dark me-2\"/> Cyber Security &amp; Data Isolation"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-plus\"/> Take"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Encrypted Sessions "
+"&amp; Authorization Middleware:</strong> Every URL route (Controller) in "
+"this module is fortified by the <code>@http.route(auth='user')</code> "
+"decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic "
+"trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF)"
+" threats."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<i class=\"fa fa-star text-warning me-2\"/> Self-Service Operational Steps"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<i class=\"fa fa-trash\"/> Remove"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<strong>Academic Year:</strong>"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "<strong>Total Credits:</strong>"
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "A system error occurred."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Academic Year"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Actions"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"An architectural extension that acts as a Frontend bridge between the Core "
+"ERP system and the Student as an End-User. Built on Odoo web controllers, "
+"this module prioritizes a smooth User Experience (UX) while maintaining "
+"real-time data integrity to and from the main database."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Approved"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Available Schedules"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Campus Portal Module (Self-Service Frontend)"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Class"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Close"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Code"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Credits"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Download the KRS as a PDF"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Download the cumulative academic transcript"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Download this term's KHS"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Draft"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "GPA"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "KHS Number"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "KRS Details:"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "KRS Number"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Lecturer"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Locked"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
+msgid "My KHS"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_home
+msgid "My KRS"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Needs Revision"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "No schedules are open for this term yet."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "No subjects added yet."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "Only active students can fill in a KRS."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "Please choose a valid schedule."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Rejected"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Schedule &amp; Room"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Status"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Step 1: Accessing the Student Dashboard"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Step 2: Automated KRS Compilation (One-Click Enrollment)"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Step 3: Real-Time KHS Transcript Monitoring"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Students log in and are redirected to the <code>/my/home</code> route "
+"(Portal My Account) by default. This interface is ergonomically designed to "
+"display main metric aggregations, such as current running KRS and grade "
+"transcripts."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Subject"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Subject List"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Submit to Academic Advisor"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "Submitted"
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That KHS is not available."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That KRS is not available."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That schedule belongs to a different academic year."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "That subject is not part of this KRS."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid ""
+"The KRS registration period is closed, or no academic year has been "
+"configured."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "The action could not be completed."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "There are currently no KHS records for your account."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_krs
+msgid "There are currently no KRS records for your account."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "This KRS has already been submitted."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid ""
+"This subject is already taken in another section. Remove the existing one "
+"first to switch."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Through the KHS menu, students monitor grade movements in real-time. The "
+"<em>Single Source of Truth</em> principle ensures that the second a Lecturer"
+" publishes grades in the backend, the grades propagate and display on the "
+"student portal screen, minimizing information latency."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
+msgid "Total Credits"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "Waiting for Approval"
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"When a student opens a Draft KRS document, the bottom table dynamically "
+"renders all currently offered class schedules (*Available Schedules*). The "
+"student interacts via *Point-and-Click* (clicking the "
+"<strong>\"Take\"</strong> button) on the desired class. The HTTP request is "
+"sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind "
+"the data immediately without manual typing. If SKS limits are exceeded, the "
+"portal UI blocks it immediately with a *Flash Message*."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid "You can only add subjects while the KRS is in Draft or Needs Revision."
+msgstr ""
+
+#. module: campus_portal
+#. odoo-python
+#: code:addons/campus_portal/controllers/portal.py:0
+msgid ""
+"You can only remove subjects while the KRS is in Draft or Needs Revision."
+msgstr ""
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
+msgid "credits"
+msgstr ""

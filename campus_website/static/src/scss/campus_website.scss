@@ -1,0 +1,17 @@
+// Website chrome for the campus site.
+//
+// Was an inline <style> inside the website.layout override, so it was parsed
+// as part of every page's HTML instead of being bundled, minified and cached
+// with the rest of web.assets_frontend.
+
+header {
+    // The campus site leads with its own hero, so the stock logo slot is empty.
+    .navbar-brand {
+        display: none !important;
+    }
+
+    // No Contact Us page is published; the footer carries the contact details.
+    a[href*="/contactus"] {
+        display: none !important;
+    }
+}

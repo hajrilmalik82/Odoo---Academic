@@ -1,0 +1,1306 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_pmb
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 09:31+0000\n"
+"PO-Revision-Date: 2026-10-22 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Automated "
+"Academic Year:</strong> Candidates do not need to manually select the "
+"Academic Year. The backend controller automatically fetches the currently "
+"active Academic Year and attaches it to the candidate's application in the "
+"background."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Committee clicks <strong>Accept</strong>. The status changes to "
+"<em>Accepted</em>."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Committee clicks <strong>Submit</strong> from the <em>Actions</em> menu "
+"(Gear Icon) or form view."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" If all documents are complete, the committee clicks "
+"<strong>Accept</strong>."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> Next, the committee "
+"continues the review process from within the Odoo backend following the "
+"workflow stages above."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-cogs text-success me-2\"/>Document Automation &amp; "
+"Validation"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> "
+"<strong>Restrictions:</strong> Candidates who are already in "
+"<em>Accepted</em> or <em>Registered</em> status <strong>cannot</strong> be "
+"rejected anymore to prevent accidental cancellation after account creation."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Strict "
+"Validation:</strong> The committee <strong>cannot</strong> proceed to the "
+"next stage if there are still mandatory documents that have not been "
+"received (Checklist is not 100%)."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-filter text-info me-2\"/> <strong>Dynamic Form "
+"Filtering:</strong> The online registration form is equipped with smart "
+"JavaScript that automatically filters the available Study Programs based on "
+"the selected Faculty. This guarantees error-free data entry from candidates."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-filter text-primary me-2\"/>Smart Navigation (Search Panel)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-globe text-primary me-2\"/> <strong>URL Access:</strong> "
+"Prospective students simply open the page <strong>/admission/apply</strong> "
+"(or click PMB Admission on the menu), fill out the online form, and click "
+"<strong>Submit Application</strong>. The system automatically creates a new "
+"record in Admissions with <em>Draft</em> status."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<i class=\"fa fa-graduation-cap me-2\"/> PMB Admission Module"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-id-card text-dark me-2\"/> <strong>Automatic Student ID "
+"&amp; Academic Attributes:</strong> The system automatically creates the "
+"Student Registration Number (NIM) based on Faculty, Study Program, and Year."
+" It also sets the enrollment generation automatically."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Access "
+"Provisioning:</strong> Student accounts are instantly linked with Portal "
+"access so they can log in to view schedules or fill out KRS."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Contact Creation "
+"(Res.Partner):</strong> Candidate data is automatically migrated into a "
+"official Campus Contact database with Faculty and Study Program linked."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Portal Account Creation "
+"(Res.Users):</strong> Odoo automatically creates login accounts for students"
+" with their Email as the username."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-shield text-danger me-2\"/>Data Security (Row-Level "
+"Security)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-times-circle text-danger me-2\"/> <strong>Action:</strong> "
+"Committee clicks <strong>Reject</strong> from the form or <em>Actions</em> "
+"menu. The status changes to <em>Rejected</em> and cannot be processed "
+"further."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "<option value=\"\">-- Choose Faculty --</option>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "<option value=\"\">-- Choose Study Program --</option>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid ""
+"<select class=\"form-select\" name=\"admission_path\" required=\"required\">\n"
+"                                                <option value=\"regular\">Regular</option>\n"
+"                                                <option value=\"scholarship\">Scholarship</option>\n"
+"                                                <option value=\"transfer\">Transfer</option>\n"
+"                                            </select>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<span class=\"badge bg-danger position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">5</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">3</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
+"top: 0px; font-size: 1rem;\">1</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<span class=\"badge bg-success position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">4</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">2</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<strong>Actor:</strong> Automation System (Odoo Backend)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<strong>Actor:</strong> Candidate / Prospective Student"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<strong>Actor:</strong> PMB Committee"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<strong>Actor:</strong> PMB Committee / Administrator"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.constraint,message:campus_pmb.constraint_campus_admission_requirement_unique_requirement
+msgid "A document type may only be listed once per admission path."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "A portal account has already been created."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.actions.act_window,help:campus_pmb.action_campus_admission_requirement
+msgid ""
+"A requirement on \"All Paths\" is asked of everyone. One on a\n"
+"                specific path is added only for those applicants - a transfer\n"
+"                student's transcript, for instance."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_hr_employee__academic_role
+msgid "Academic Role"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__academic_year_id
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Academic Year"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.server,name:campus_pmb.action_server_admission_accept
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Accept"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Accept / Reject Candidate"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__accepted
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Accepted"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Action"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Administrator"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__admission_id
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Admission"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model,name:campus_pmb.model_campus_admission_document
+msgid "Admission Document Checklist"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model,name:campus_pmb.model_campus_admission_requirement
+msgid "Admission Document Requirement"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__admission_path
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__admission_path
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_requirement_search
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Admission Path"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Admission Path <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.act_window,name:campus_pmb.action_campus_admission
+#: model:ir.ui.menu,name:campus_pmb.menu_campus_pmb_root
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_tree
+msgid "Admissions"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_jurisdiction__scope__pmb
+msgid "Admissions (PMB)"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "All Paths"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "All required documents must be received first."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.constraint,message:campus_pmb.constraint_campus_admission_email_year_unique
+msgid ""
+"An admission record already exists for this email in this academic year."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid ""
+"An application with this email address already exists for this academic "
+"year. Please contact the admissions office if you need to change it."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__name
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Applicant Name"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.ui.menu,name:campus_pmb.menu_campus_admission
+msgid "Applicants"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Application Details"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Application Rejection (Reject)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
+msgid "Application Successful!"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
+msgid "Back to Homepage"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Candidate (Public)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Candidates who have passed all verifications are now ready to be officially "
+"accepted as prospective students."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.actions.act_window,help:campus_pmb.action_campus_admission_requirement
+msgid "Choose which documents each kind of applicant must hand in"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__company_id
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__company_id
+msgid "Company"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.ui.menu,name:campus_pmb.menu_pmb_configuration
+msgid "Configuration"
+msgstr ""
+
+#. module: campus_pmb
+#: model:mail.activity.type,name:campus_pmb.mail_activity_type_create_account
+msgid "Create Student Account"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.actions.act_window,help:campus_pmb.action_hr_employee_pmb_staff
+msgid "Create a new PMB Staff"
+msgstr ""
+
+#. module: campus_pmb
+#: model:mail.activity.type,summary:campus_pmb.mail_activity_type_create_account
+msgid "Create portal user and student profile for accepted applicant"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.actions.act_window,help:campus_pmb.action_campus_admission
+msgid "Create the first admission record!"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__create_uid
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__create_uid
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__create_date
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__create_date
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Diploma or Graduation Letter"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__display_name
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__display_name
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__display_name
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_jurisdiction__display_name
+#: model:ir.model.fields,field_description:campus_pmb.field_hr_employee__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__document_line_ids
+msgid "Document Checklist"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.act_window,name:campus_pmb.action_campus_admission_requirement
+#: model:ir.ui.menu,name:campus_pmb.menu_campus_admission_requirement
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_requirement_list
+msgid "Document Requirements"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__document_review
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Document Review"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__document_type
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__document_type
+msgid "Document Type"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Documents"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__documents_complete
+msgid "Documents Complete"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__draft
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Draft"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.constraint,message:campus_pmb.constraint_campus_admission_document_unique_document_type_per_admission
+msgid "Each document type can only appear once per admission."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__email
+msgid "Email"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Email Address <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Email is required to create a Portal account."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model,name:campus_pmb.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model,name:campus_pmb.model_campus_jurisdiction
+msgid "Employee Jurisdiction"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Equipped with an interactive *Search Panel* on the left side of the table. "
+"The committee can filter thousands of application records with one click by "
+"Faculty, Program, or Application Status."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Example: 08123456789"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Example: High School 1"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Example: John Doe"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Example: john@example.com"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__faculty_id
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Faculty"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Faculty <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Family Card"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Final Registration (Zero-Touch Provisioning)"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Full Name <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Graduation &amp; Acceptance"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__id
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__id
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__id
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_jurisdiction__id
+#: model:ir.model.fields,field_description:campus_pmb.field_hr_employee__id
+msgid "ID"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Identity Card"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__message_has_error
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"If the candidate does not meet the requirements at any stage, for example "
+"documents that cannot be verified, the process can be terminated."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "In Progress"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Invalid admission path selection."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Invalid admission status change from '%(old)s' to '%(new)s'."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Invalid faculty or program selection."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Invalid faculty selection."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Invalid study programme selection."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__name
+msgid "Label"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__write_uid
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__write_uid
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__write_date
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__write_date
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model,name:campus_pmb.model_campus_admission
+msgid "New Student Admission"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "New Student Registration"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "New admissions must start in draft status."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "No active academic year found for admission."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__note
+msgid "Note"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Only PMB staff can accept an application."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Only accepted applicants can have a portal account created."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Other"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
+msgid ""
+"Our admissions team will process your data shortly and contact you via Email"
+" or Phone for the next steps."
+msgstr ""
+
+#. module: campus_pmb
+#: model:website.menu,name:campus_pmb.menu_admission
+msgid "PMB Admission"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "PMB Committee"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "PMB Module (New Student Admissions)"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.act_window,name:campus_pmb.action_hr_employee_pmb_staff
+#: model:ir.model.fields.selection,name:campus_pmb.selection__hr_employee__academic_role__pmb
+#: model:ir.ui.menu,name:campus_pmb.menu_academic_pmb_staff
+#: model:res.groups,name:campus_pmb.group_pmb
+msgid "PMB Staff"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Personal Information"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__phone
+msgid "Phone"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Phone Number/WhatsApp <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Photo"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Please fill out the form below with correct information."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__user_id
+msgid "Portal User"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__previous_school
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Previous School"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__program_id
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Program"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Program does not belong to the selected faculty."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__rating_ids
+msgid "Ratings"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__received
+msgid "Received"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__received_document_count
+msgid "Received Documents"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.server,name:campus_pmb.action_server_admission_register
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Register Student"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Register Student (Create account &amp; Student ID)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Register via website (online)"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__registered
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Registered"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Registration &amp; Initial Draft"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_date
+msgid "Registration Date"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_number
+msgid "Registration Number"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Regular"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.server,name:campus_pmb.action_server_admission_reject
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Reject"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__rejected
+msgid "Rejected"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_document__required
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__required
+msgid "Required"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__required_document_count
+msgid "Required Documents"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: campus_pmb
+#: model:mail.activity.type,name:campus_pmb.mail_activity_type_document_review
+msgid "Review Admission Documents"
+msgstr ""
+
+#. module: campus_pmb
+#: model:mail.activity.type,summary:campus_pmb.mail_activity_type_document_review
+msgid "Review and verify the applicant's submitted documents"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Scholarship"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_jurisdiction__scope
+msgid "Scope"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Search Admissions"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_requirement_search
+msgid "Search Requirements"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Self-Registration via Website (Online)"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.server,name:campus_pmb.action_server_admission_start_review
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Start Document Review"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__state
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Status"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Student Admission Workflow"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__partner_id
+msgid "Student Profile"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Study Program <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/controllers/main.py:0
+msgid "Submission failed because of a system error. Please try again later."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/controllers/main.py:0
+msgid "Submission failed."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.server,name:campus_pmb.action_server_admission_submit
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Submit"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
+msgid "Submit Application"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__submitted
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
+msgid "Submitted"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
+msgid "Thank you, your application has been received."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The PMB module also provides a public application page that prospective "
+"students can access directly from the campus website without needing to log "
+"in first."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The final stage demonstrating the power of Odoo ERP. When the committee "
+"clicks <strong>Register Student</strong>, python code executes in the "
+"background without human intervention:"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The process starts when the candidate fills out the form. Each applicant is "
+"automatically assigned a unique Registration Number (e.g. PMB/2026/0001)."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The system blocks acceptance while any required document is still "
+"outstanding. Transitions between states are tightly controlled by backend "
+"algorithms."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The system restricts PMB Committee access rights. Committee members can only"
+" view and process candidates who apply to the Faculty or Study Program under"
+" their responsibility. Candidate privacy is guaranteed."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "This action is not allowed from the current admission status."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"This module is designed to digitize and automate the entire student "
+"admissions cycle. From filling out application forms to document "
+"verification and automatic portal account creation. This module ensures that"
+" no data is missed and minimizes human error."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Transcript"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Transfer"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "User Roles &amp; Permissions (PMB)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Verification"
+msgstr ""
+
+#. module: campus_pmb
+#: model:mail.activity.type,name:campus_pmb.mail_activity_type_payment_verification
+msgid "Verify Admission Payment"
+msgstr ""
+
+#. module: campus_pmb
+#: model:mail.activity.type,summary:campus_pmb.mail_activity_type_payment_verification
+msgid "Verify the applicant's payment for admission"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_jurisdiction__scope
+msgid ""
+"What this assignment governs. Each module that restricts records by faculty "
+"or programme adds its own scope."
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"When entering this stage, the system intelligently creates a *Checklist* of "
+"required documents (Diploma, ID Card, Photo) based on the candidate's "
+"admission path."
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,help:campus_pmb.field_campus_admission_requirement__admission_path
+msgid ""
+"Which applicants are asked for this document. 'All Paths' covers every one."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "diploma"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "e.g. John Doe"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "family_card"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "other"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "photo"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "scholarship"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "transcript"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "transfer"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "✓ (all)"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "✓ (only their program jurisdictions)"
+msgstr ""

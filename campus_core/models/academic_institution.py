@@ -1,5 +1,10 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
+
+
+# Marker for the guard on hr.department: writes coming from THIS file are the
+# sync itself and must be allowed through. See campus_core/models/hr_department.py.
+_SYNC = {'campus_mirror_sync': True}
 
 
 def _drop_linked_departments(departments):
@@ -27,7 +32,19 @@ def _drop_linked_departments(departments):
         ) % {
             'names': ', '.join(occupied.mapped('name')),
         })
-    departments.unlink()
+    departments.with_context(campus_mirror_sync=True).unlink()
+
+
+def _derive_code(name):
+    """Initials of a name, as the NIM generator used to compute them inline.
+
+    Only ever used to seed `code` when a record is created without one, so the
+    first NIM a new faculty or programme issues looks like the ones before it.
+    After that the stored code is what counts, and renaming the record no
+    longer touches it.
+    """
+    initials = "".join(word[0].upper() for word in (name or '').split() if word.isalpha())
+    return initials[:2] or 'XX'
 
 
 class AcademicFaculty(models.Model):
@@ -41,8 +58,38 @@ class AcademicFaculty(models.Model):
     # accepted as two different faculties and then sat side by side in the HR
     # department tree with no way to tell them apart. An index on lower(name) is
     # what makes the two collide.
-    # Kept global (not scoped by company_id) to preserve the previous semantics.
-    # See audit item S-07 before making this per-company.
+    # Immutable short code, and the half of a NIM that must never move. NIMs
+    # used to be built from the first letters of the CURRENT display name, so
+    # renaming "Fakultas Teknik" to "Fakultas Teknologi Industri" silently
+    # changed the prefix for every student admitted afterwards, splitting one
+    # faculty's cohort across two numbering series. Derived from the name only
+    # at creation, as a starting point; after that it is the registrar's to set
+    # and the constraint below stops it moving once NIMs exist.
+    code = fields.Char(
+        string='Code', size=4, copy=False,
+        help="Short code used to build student numbers (NIM). Cannot be changed "
+             "once a student number has been issued from it.",
+    )
+
+    # The NIM prefix is built from this, so two records sharing a code produce
+    # student numbers that cannot be told apart. The automatic derivation
+    # collides on exactly the pair a real campus has - "Teknik Informatika" and
+    # "Teknik Industri" both reduce to TI - so the database has to refuse it
+    # rather than leave it to be noticed years later. COALESCE for the same
+    # reason as everywhere else here: NULLs are distinct in PostgreSQL.
+    _unique_code_per_company = models.UniqueIndex(
+        "(upper(code), COALESCE(company_id, 0)) WHERE code IS NOT NULL",
+        "Faculty code must be unique: it is what student numbers are built from.",
+    )
+
+    # Kept global, not scoped by company_id, and deliberately so: this suite
+    # models one institution, every ir.rule in it is written without a company
+    # clause, and two faculties with the same name in one database would be a
+    # data-entry mistake whichever company they belong to. Scoping the index by
+    # company only becomes right once there are company record rules to go with
+    # it; until then it would quietly allow the duplicates this index exists to
+    # catch. (This used to defer to "audit item S-07", a document that is not in
+    # this repository and never was.)
     _unique_name_case_insensitive = models.UniqueIndex(
         "(lower(name))",
         "Faculty name must be unique!",
@@ -56,6 +103,30 @@ class AcademicFaculty(models.Model):
         default=lambda self: self.env.company
     )
 
+
+    def _issued_nim_count(self):
+        """How many student numbers already carry this record's code."""
+        self.ensure_one()
+        return self.env['res.partner'].sudo().search_count([
+            ('nim', '!=', False),
+            ('program_id.faculty_id', '=', self.id),
+        ])
+
+    @api.constrains('code')
+    def _check_code_not_reused(self):
+        """A code may be corrected right up until it has issued a NIM.
+
+        After that it is baked into student numbers printed on transcripts,
+        cards and every KHS already issued, so changing it would leave those
+        documents carrying a prefix the system no longer produces.
+        """
+        for record in self:
+            if record._issued_nim_count():
+                raise ValidationError(_(
+                    "The code of '%(name)s' can no longer be changed: student "
+                    "numbers have already been issued from it."
+                ) % {'name': record.display_name})
+
     @api.model_create_multi
     def create(self, vals_list):
         # Checked up front: the loop below creates an hr.department before
@@ -64,12 +135,18 @@ class AcademicFaculty(models.Model):
         # hr.department, which says nothing about what they actually lack.
         self.check_access('create')
         for vals in vals_list:
-            if 'name' in vals and not vals.get('department_id'):
-                dept = self.env['hr.department'].create({
-                    'name': vals['name'],
-                    'manager_id': vals.get('dean_id', False)
-                })
-                vals['department_id'] = dept.id
+            if not vals.get('code'):
+                vals['code'] = _derive_code(vals.get('name'))
+        # One hr.department.create for the whole batch rather than one per
+        # faculty: seeding master data used to cost a round trip per row.
+        needing = [vals for vals in vals_list if 'name' in vals and not vals.get('department_id')]
+        if needing:
+            departments = self.env['hr.department'].create([{
+                'name': vals['name'],
+                'manager_id': vals.get('dean_id', False),
+            } for vals in needing])
+            for vals, department in zip(needing, departments):
+                vals['department_id'] = department.id
         return super().create(vals_list)
 
     def write(self, vals):
@@ -77,11 +154,18 @@ class AcademicFaculty(models.Model):
         # whether they were reporting to the dean who is now leaving.
         outgoing_deans = {faculty.id: faculty.dean_id for faculty in self} if 'dean_id' in vals else {}
         res = super().write(vals)
+        # One search for the whole batch. This used to run inside the loop, so a
+        # bulk dean rotation cost one academic.program search per faculty on top
+        # of the per-programme writes.
+        programs_by_faculty = {}
+        if 'dean_id' in vals:
+            for program in self.env['academic.program'].search([('faculty_id', 'in', self.ids)]):
+                programs_by_faculty.setdefault(program.faculty_id.id, []).append(program)
         for faculty in self:
             if not faculty.department_id:
                 continue
             if 'name' in vals:
-                faculty.department_id.name = faculty.name
+                faculty.department_id.with_context(campus_mirror_sync=True).name = faculty.name
             if 'dean_id' in vals:
                 # Written even when the Dean is cleared. hr.department answers a
                 # manager change by re-parenting the employees of that department
@@ -91,9 +175,8 @@ class AcademicFaculty(models.Model):
                 # the manager of everyone in the faculty. It does not, and the
                 # refusal left the department showing a dean the faculty no longer
                 # had, with the faculty's staff still reporting to them.
-                faculty.department_id.manager_id = faculty.dean_id.id
-                programs = self.env['academic.program'].search([('faculty_id', '=', faculty.id)])
-                for program in programs:
+                faculty.department_id.with_context(campus_mirror_sync=True).manager_id = faculty.dean_id.id
+                for program in programs_by_faculty.get(faculty.id, ()):
                     program._set_head_reports_to(faculty.dean_id, outgoing_deans.get(faculty.id))
         return res
 
@@ -118,14 +201,40 @@ class AcademicProgram(models.Model):
     # HR department tree with no way to tell them apart.
     # Kept company-wide, and case-insensitive, for the same reasons as
     # academic.faculty above.
+    # The NIM prefix is built from this, so two records sharing a code produce
+    # student numbers that cannot be told apart. The automatic derivation
+    # collides on exactly the pair a real campus has - "Teknik Informatika" and
+    # "Teknik Industri" both reduce to TI - so the database has to refuse it
+    # rather than leave it to be noticed years later. COALESCE for the same
+    # reason as everywhere else here: NULLs are distinct in PostgreSQL.
+    _unique_code_per_company = models.UniqueIndex(
+        "(upper(code), COALESCE(company_id, 0)) WHERE code IS NOT NULL",
+        "Programme code must be unique: it is what student numbers are built from.",
+    )
+
     _unique_name_case_insensitive = models.UniqueIndex(
         "(lower(name))",
         "Program name must be unique!",
     )
 
     name = fields.Char(string='Name', required=True)
+    # Immutable short code, and the half of a NIM that must never move. NIMs
+    # used to be built from the first letters of the CURRENT display name, so
+    # renaming "Fakultas Teknik" to "Fakultas Teknologi Industri" silently
+    # changed the prefix for every student admitted afterwards, splitting one
+    # programme's cohort across two numbering series. Derived from the name only
+    # at creation, as a starting point; after that it is the registrar's to set
+    # and the constraint below stops it moving once NIMs exist.
+    code = fields.Char(
+        string='Code', size=4, copy=False,
+        help="Short code used to build student numbers (NIM). Cannot be changed "
+             "once a student number has been issued from it.",
+    )
     faculty_id = fields.Many2one(
-        'academic.faculty', string='Faculty', required=True, check_company=True
+        'academic.faculty', string='Faculty', required=True, check_company=True,
+        # Searched by faculty on every programme list and by the jurisdiction
+        # record rules in campus_employees.
+        index=True,
     )
     head_id = fields.Many2one('hr.employee', string="Head of Program", check_company=True)
     department_id = fields.Many2one('hr.department', string="Linked HR Department", ondelete='restrict', copy=False)
@@ -134,10 +243,37 @@ class AcademicProgram(models.Model):
         default=lambda self: self.env.company
     )
 
+
+    def _issued_nim_count(self):
+        """How many student numbers already carry this record's code."""
+        self.ensure_one()
+        return self.env['res.partner'].sudo().search_count([
+            ('nim', '!=', False),
+            ('program_id', '=', self.id),
+        ])
+
+    @api.constrains('code')
+    def _check_code_not_reused(self):
+        """A code may be corrected right up until it has issued a NIM.
+
+        After that it is baked into student numbers printed on transcripts,
+        cards and every KHS already issued, so changing it would leave those
+        documents carrying a prefix the system no longer produces.
+        """
+        for record in self:
+            if record._issued_nim_count():
+                raise ValidationError(_(
+                    "The code of '%(name)s' can no longer be changed: student "
+                    "numbers have already been issued from it."
+                ) % {'name': record.display_name})
+
     @api.model_create_multi
     def create(self, vals_list):
         # Same reason as on the faculty above.
         self.check_access('create')
+        for vals in vals_list:
+            if not vals.get('code'):
+                vals['code'] = _derive_code(vals.get('name'))
         for vals in vals_list:
             if 'name' in vals and not vals.get('department_id'):
                 parent_dept_id = False
@@ -185,15 +321,17 @@ class AcademicProgram(models.Model):
             if not program.department_id:
                 continue
             if 'name' in vals:
-                program.department_id.name = program.name
+                program.department_id.with_context(campus_mirror_sync=True).name = program.name
             if 'head_id' in vals:
                 # Same reasoning as the dean above: a cleared Head of Program
                 # leaves the programme's department without a manager.
-                program.department_id.manager_id = program.head_id.id
+                program.department_id.with_context(campus_mirror_sync=True).manager_id = program.head_id.id
                 if program.head_id:
                     program._set_head_reports_to(program.faculty_id.dean_id)
             if 'faculty_id' in vals:
-                program.department_id.parent_id = program.faculty_id.department_id.id if program.faculty_id.department_id else False
+                program.department_id.with_context(campus_mirror_sync=True).parent_id = (
+                    program.faculty_id.department_id.id if program.faculty_id.department_id else False
+                )
         return res
 
     def unlink(self):

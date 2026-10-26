@@ -12,8 +12,8 @@ class AcademicCoursePackage(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string='Name', required=True)
-    program_id = fields.Many2one('academic.program', string='Program', required=True)
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True)
+    program_id = fields.Many2one('academic.program', string='Program', required=True, check_company=True)
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
     total_credits = fields.Integer(string='Total Credits', compute='_compute_total_credits', store=True)
     line_ids = fields.One2many('academic.course.package.line', 'package_id', string='Lines')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
@@ -60,7 +60,7 @@ class AcademicKrs(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string='KRS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict')
+    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict', index=True)
     
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
 
@@ -95,7 +95,7 @@ class AcademicKrs(models.Model):
         ('revision', 'Needs Revision'),
         ('rejected', 'Rejected'),
         ('locked', 'Locked')
-    ], string='Status', default='draft', group_expand='_expand_states', tracking=True, index=True, copy=False)
+    ], string='Status', default='draft', group_expand=True, tracking=True, index=True, copy=False)
     
     total_credits = fields.Integer(string='Total Credits', compute='_compute_total_credits', store=True)
     line_ids = fields.One2many('academic.krs.line', 'krs_id', string='KRS Lines')
@@ -115,10 +115,6 @@ class AcademicKrs(models.Model):
         """
         self.ensure_one()
         return 'KRS - %s' % (self.student_id.name or self.name)
-
-    @api.model
-    def _expand_states(self, states, domain):
-        return [key for key, _val in type(self).state.selection]
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -144,7 +140,9 @@ class AcademicKrs(models.Model):
         """
         self.ensure_one()
         cgpa = self.student_id.cgpa or 0.0
-        max_credits = self.env['academic.credit.limit'].sudo()._get_max_credits(cgpa)
+        max_credits = self.env['academic.credit.limit'].sudo()._get_max_credits(
+            cgpa, company=self.company_id,
+        )
         if max_credits is None:
             raise ValidationError(_(
                 "No credit limit bands are configured. Set them under "
@@ -245,7 +243,7 @@ class AcademicKrs(models.Model):
             submitted._validate_for_submission()
 
     # --- submission rules -------------------------------------------------
-    # Split out of a single ~110-line method with nine numbered comment blocks.
+    # Split out of a single ~110-line method of numbered comment blocks.
     # Each rule is named, so a failure points at a rule instead of a line number,
     # and each can be called on its own from a test.
 
@@ -381,34 +379,75 @@ class AcademicKrs(models.Model):
     def action_submit(self):
         if any(record.state not in ('draft', 'revision') for record in self):
             raise ValidationError(_("Only draft or revision KRS records can be submitted."))
-        # The nine checks run from _check_submission_requirements, triggered by
+        # The submission checks run from _check_submission_requirements, triggered by
         # this write. Keeping them in the constraint means the button and a raw
         # write() are validated identically.
         self.write({'state': 'submitted'})
+        self._schedule_advisor_review()
+
+    def _schedule_advisor_review(self):
+        """Put the submitted KRS on the advisor's activity list.
+
+        data/mail_activity_type_data.xml shipped three activity types whose
+        delay_count encoded a chasing workflow - Review KRS three days after
+        submission - that nothing ever scheduled. They appeared in the Schedule
+        Activity dropdown as manual options nobody was prompted to use, and a
+        reader of the data files reasonably concluded the workflow existed.
+        """
+        activity_type = self.env.ref('campus_core.mail_activity_type_krs_review', raise_if_not_found=False)
+        if not activity_type:
+            return
+        for record in self:
+            advisor_user = record.advisor_id.user_id
+            if not advisor_user:
+                # No account to chase. The advisor-assigned submission rule
+                # already guarantees there IS an advisor; it cannot guarantee
+                # they have a login.
+                continue
+            # The name is bound first: an empty-string literal on the same
+            # line as _() makes the gettext extractor warn about an empty msgid.
+            student_name = record.student_id.name or '-'
+            record.activity_schedule(
+                'campus_core.mail_activity_type_krs_review',
+                user_id=advisor_user.id,
+                summary=_("Review the KRS submitted by %s") % student_name,
+            )
 
     def action_approve(self):
         for record in self:
             if record.state != 'submitted':
                 raise ValidationError(_("Only submitted KRS records can be approved."))
-            
+
             # Security
             user = self.env.user
             if record.advisor_id not in user.employee_ids and not user.has_group('campus_core.group_campus_administrator'):
                 raise AccessError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
             # Set state to approved
             record.state = 'approved'
+            record.activity_feedback(['campus_core.mail_activity_type_krs_review'])
 
     def action_request_revision(self):
         for record in self:
             if record.state != 'submitted':
                 raise ValidationError(_("Only submitted KRS records can be sent for revision."))
             record.state = 'revision'
+            # Close the review activity this answers, and open the one the
+            # student now owes. Same reason as _schedule_advisor_review.
+            record.activity_feedback(['campus_core.mail_activity_type_krs_review'])
+            student_user = record.student_id.user_ids[:1]
+            if student_user:
+                record.activity_schedule(
+                    'campus_core.mail_activity_type_krs_revision',
+                    user_id=student_user.id,
+                    summary=_("Revise and resubmit your KRS"),
+                )
 
     def action_reject(self):
         for record in self:
             if record.state != 'submitted':
                 raise ValidationError(_("Only submitted KRS records can be rejected."))
             record.state = 'rejected'
+            record.activity_feedback(['campus_core.mail_activity_type_krs_review'])
 
     def action_lock(self):
         for record in self:
@@ -432,11 +471,12 @@ class AcademicKrs(models.Model):
                         # grade and grade_points will be set by the lecturer later
                     }))
                     
-                self.env['academic.khs'].create({
+                khs = self.env['academic.khs'].create({
                     'student_id': record.student_id.id,
                     'academic_year_id': record.academic_year_id.id,
                     'line_ids': khs_lines,
                 })
+                khs._schedule_grade_entry(record.line_ids.schedule_id.lecturer_id)
                 _logger.info("Successfully generated KHS for student %s, academic year %s", record.student_id.name, record.academic_year_id.name)
 
     def action_unlock(self):
@@ -516,7 +556,7 @@ class AcademicKrsLine(models.Model):
     _name = 'academic.krs.line'
     _description = 'Academic KRS Line'
 
-    krs_id = fields.Many2one('academic.krs', string='KRS', ondelete='cascade')
+    krs_id = fields.Many2one('academic.krs', string='KRS', ondelete='cascade', index=True)
     student_id = fields.Many2one(related='krs_id.student_id', string='Student', store=True)
     state = fields.Selection(related='krs_id.state', string='Status', store=True)
     # Indexed: every seat count groups academic_krs_line by this column, and
@@ -541,8 +581,11 @@ class AcademicKrsLine(models.Model):
     @api.depends('subject_id')
     def _compute_credits(self):
         for record in self:
-            if record.subject_id:
-                record.credits = record.subject_id.credits
+            # Assigned unconditionally, like _compute_subject_id above: with the
+            # `if` in place, clearing the subject left the old SKS behind and the
+            # KRS total kept counting credits for a line that no longer has a
+            # subject. A falsy subject yields 0.
+            record.credits = record.subject_id.credits
 
     @api.constrains('schedule_id', 'krs_id')
     def _check_schedule_academic_year(self):
@@ -571,10 +614,15 @@ class AcademicKrsLine(models.Model):
         "(krs_id, class_id) WHERE class_id IS NOT NULL",
         "A class can only appear once in the same KRS.",
     )
+    # Every seat count is COUNT(*) WHERE schedule_id = ? AND state IN (...).
+    # With both columns in one index that becomes an index-only scan instead of
+    # a heap lookup per row.
+    _schedule_state_index = models.Index("(schedule_id, state)")
 
     def _check_krs_editable(self):
         """Lines follow their KRS: once it is submitted, the content is frozen."""
-        if self.filtered(lambda line: line.krs_id.state not in AcademicKrs._EDITABLE_STATES):
+        editable = self.env['academic.krs']._EDITABLE_STATES
+        if self.filtered(lambda line: line.krs_id.state not in editable):
             raise ValidationError(_(
                 "KRS subjects can only be changed while the KRS is in Draft or Needs Revision."
             ))
@@ -594,7 +642,7 @@ class AcademicKrsLine(models.Model):
         krs_ids = {vals['krs_id'] for vals in vals_list if vals.get('krs_id')}
         if krs_ids:
             frozen = self.env['academic.krs'].browse(list(krs_ids)).filtered(
-                lambda krs: krs.state not in AcademicKrs._EDITABLE_STATES
+                lambda krs: krs.state not in krs._EDITABLE_STATES
             )
             if frozen:
                 raise ValidationError(_(

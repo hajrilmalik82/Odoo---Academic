@@ -7,6 +7,22 @@
         <field name="model">academic.class.schedule</field>
         <field name="arch" type="xml">
             <search string="Search Schedules">
+                <!-- Typed search and Group By. The view used to carry only the
+                     searchpanel, so the search box matched nothing and the
+                     Group By menu was empty on a screen whose row count grows
+                     with every term. The <group> carries no attributes at all:
+                     Odoo 19's RNG rejects both expand= and string= on a group
+                     inside a search view, the same shape stock uses. -->
+                <field name="class_id"/>
+                <field name="class_code"/>
+                <field name="lecturer_id"/>
+                <field name="room_id"/>
+                <group>
+                    <filter name="group_class" string="Class" domain="[]" context="{'group_by': 'class_id'}"/>
+                    <filter name="group_lecturer" string="Lecturer" domain="[]" context="{'group_by': 'lecturer_id'}"/>
+                    <filter name="group_room" string="Room" domain="[]" context="{'group_by': 'room_id'}"/>
+                    <filter name="group_day" string="Day of Week" domain="[]" context="{'group_by': 'day_of_week'}"/>
+                </group>
                 <!-- Left Sidebar Search Panel -->
                 <searchpanel>
                     <field name="class_id" string="Class" select="multi" enable_counters="1"/>

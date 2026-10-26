@@ -1,18 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <!-- Standalone KRS Line Tree (Used for popups) -->
-    <record id="view_academic_krs_line_tree_standalone" model="ir.ui.view">
-        <field name="name">academic.krs.line.tree.standalone</field>
-        <field name="model">academic.krs.line</field>
-        <field name="arch" type="xml">
-            <list string="Students">
-                <field name="student_id"/>
-                <field name="krs_id"/>
-                <field name="state" widget="badge" decoration-success="state == 'approved'" decoration-info="state == 'submitted'" decoration-muted="state == 'draft'" decoration-danger="state == 'rejected'"/>
-            </list>
-        </field>
-    </record>
+    <!-- No standalone academic.krs.line list view here on purpose. The one that
+         used to live at this spot said "used for popups" and was reachable from
+         nowhere: both popups that show KRS lines (the class form and the
+         mass-assign wizard) declare their own inline <list>, because each needs
+         different columns and the wizard needs a <control>. The badge
+         decorations below are kept identical to view_academic_krs_tree so the
+         same status never looks different on two screens. -->
 
     <!-- KRS Kanban -->
     <record id="view_academic_krs_kanban" model="ir.ui.view">
@@ -57,7 +52,9 @@
         <field name="arch" type="xml">
             <form string="Study Plan (KRS)">
                 <header>
-                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state not in ('draft', 'revision')"/>
+                    <!-- Same groups as action_krs_mass_submit, so the comment there stays
+                         true. Students submit from the portal, which has its own route. -->
+                    <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state not in ('draft', 'revision')" groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <button name="action_approve" string="Approve" type="object" class="oe_highlight" invisible="state != 'submitted'" groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_request_revision" string="Request Revision" type="object" invisible="state != 'submitted'" groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_reject" string="Reject" type="object" invisible="state != 'submitted'" groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
@@ -163,9 +160,7 @@
         <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_academic_staff'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-            for rec in records:
-                if rec.state == 'draft':
-                    rec.action_submit()
+            records.filtered(lambda record: record.state == 'draft').action_submit()
         </field>
     </record>
 
@@ -178,9 +173,7 @@
         <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_lecturer'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-            for rec in records:
-                if rec.state == 'submitted':
-                    rec.action_approve()
+            records.filtered(lambda record: record.state == 'submitted').action_approve()
         </field>
     </record>
 
@@ -193,9 +186,7 @@
         <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-            for rec in records:
-                if rec.state == 'approved':
-                    rec.action_lock()
+            records.filtered(lambda record: record.state == 'approved').action_lock()
         </field>
     </record>
 
@@ -208,9 +199,20 @@
         <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_lecturer'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-            for rec in records:
-                if rec.state == 'submitted':
-                    rec.action_reject()
+            records.filtered(lambda record: record.state == 'submitted').action_reject()
+        </field>
+    </record>
+
+    <!-- Mass Action: Request Revision -->
+    <record id="action_krs_mass_request_revision" model="ir.actions.server">
+        <field name="name">Mass Request Revision</field>
+        <field name="model_id" ref="model_academic_krs"/>
+        <field name="binding_model_id" ref="model_academic_krs"/>
+        <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_lecturer'), ref('campus_core.group_campus_administrator')])]"/>
+        <field name="state">code</field>
+        <field name="code">
+            records.filtered(lambda record: record.state == 'submitted').action_request_revision()
         </field>
     </record>
 
@@ -223,9 +225,7 @@
         <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-            for rec in records:
-                if rec.state == 'locked':
-                    rec.action_unlock()
+            records.filtered(lambda record: record.state == 'locked').action_unlock()
         </field>
     </record>
 

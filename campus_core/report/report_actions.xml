@@ -3,36 +3,39 @@
 
     <!-- Report Action: KRS -->
     <record id="action_report_krs" model="ir.actions.report">
-        <field name="name">Kartu Rencana Studi (KRS)</field>
+        <field name="name">Study Plan (KRS)</field>
         <field name="model">academic.krs</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">campus_core.report_krs_document</field>
 
-        <field name="print_report_name">'KRS - %s' % object.student_id.name</field>
+        <!-- One definition. The model method is what the portal download uses
+             through _show_report, so calling it here keeps the backend Print
+             filename identical instead of restating it. -->
+        <field name="print_report_name">object._get_report_base_filename()</field>
         <field name="binding_model_id" ref="model_academic_krs"/>
         <field name="binding_type">report</field>
     </record>
 
     <!-- Report Action: KHS -->
     <record id="action_report_khs" model="ir.actions.report">
-        <field name="name">Kartu Hasil Studi (KHS)</field>
+        <field name="name">Term Grade Report (KHS)</field>
         <field name="model">academic.khs</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">campus_core.report_khs_document</field>
 
-        <field name="print_report_name">'KHS - %s' % object.student_id.name</field>
+        <field name="print_report_name">object._get_report_base_filename()</field>
         <field name="binding_model_id" ref="model_academic_khs"/>
         <field name="binding_type">report</field>
     </record>
 
-    <!-- Report Action: Transkrip Nilai -->
+    <!-- Report Action: Academic Transcript -->
     <record id="action_report_transcript" model="ir.actions.report">
-        <field name="name">Transkrip Nilai Akademik</field>
+        <field name="name">Academic Transcript</field>
         <field name="model">academic.khs</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">campus_core.report_transcript_document</field>
 
-        <field name="print_report_name">'Transkrip - %s' % object.student_id.name</field>
+        <field name="print_report_name">object.with_context(campus_transcript_filename=True)._get_report_base_filename()</field>
         <field name="binding_model_id" ref="model_academic_khs"/>
         <field name="binding_type">report</field>
     </record>

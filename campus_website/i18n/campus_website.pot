@@ -1,0 +1,647 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_website
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-22 09:31+0000\n"
+"PO-Revision-Date: 2026-10-22 09:31+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-bolt text-danger me-2\"/> <strong>Available Options in "
+"Actions Menu:</strong>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calculator text-success me-2\"/> <strong>Action:</strong> "
+"Lecturer inputs final grade (e.g. 80). The system instantly calculates the "
+"grade points and GPA (Cumulative Grade Point Average) of the student."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-calculator text-success me-2\"/>KHS Transcript Automation"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar text-dark me-2\"/> <strong>Scheduling "
+"System:</strong> Schedule determines Day, Start Time, End Time, Room, and "
+"Lecturer. You can create multiple schedules for one class (e.g., theory and "
+"lab)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar-check-o text-primary me-2\"/> <strong>Setup "
+"Guide:</strong> Open <strong>Configuration → Academic Years</strong> menu → "
+"Choose active Academic Year → Fill <strong>KRS Start Date</strong> and "
+"<strong>KRS End Date</strong> fields."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-calendar-check-o text-primary me-2\"/>Dynamic Scheduling"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Advisor clicks <strong>Approve</strong>. KRS is locked and the student is "
+"officially registered in the class."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
+" Student clicks <strong>Submit</strong> to send KRS to the Academic Advisor "
+"(PA)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-cogs me-2\"/> Campus Core Module"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-cubes text-dark me-2\"/> <strong>Course Packages:</strong> "
+"Collect mandatory subjects for each Study Program into a Package per "
+"Academic Year."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid "<i class=\"fa fa-envelope me-3 text-warning\"/> hajrilmalik82@gmail.com"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Strict "
+"Validation:</strong> The system <strong>rejects</strong> KRS submissions if:"
+" (1) SKS exceeds the GPA limit, (2) Schedule conflicts, (3) Class quota is "
+"full, or (4) Student has not passed the prerequisite subjects."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-flash text-info me-2\"/> <strong>Action (Generate "
+"KRS):</strong> Click \"Generate KRS\" on the Package, and the system will "
+"filter students of that program who have not created KRS. Check dozens of "
+"student names, and mass <em>Draft KRS</em> (with their subject lines) will "
+"be issued in the blink of an eye!"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid "<i class=\"fa fa-info-circle me-1\"/> Demo Login (Pass: 123)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid "<i class=\"fa fa-info-circle me-2\"/> Portfolio Reviewer?"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Note:</strong> This "
+"period restriction <strong>only applies to Students</strong> (Portal users)."
+" Academic Admin can create or edit KRS anytime without being bound by the "
+"period, assisting students who cannot fill it themselves."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Smart Note:</strong>"
+" The system automatically skips lines with mismatching status. For example, "
+"if you check 10 KRS and select <em>Mass Approve</em>, only KRS in Submitted "
+"status will be processed; Draft KRS will remain untouched."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid "<i class=\"fa fa-linkedin me-3 text-info\"/> LinkedIn Profile"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-list-ul text-dark me-2\"/> <strong>How to Use:</strong> "
+"Open <strong>Study Plan (KRS)</strong> menu → Check one or more KRS lines to"
+" process → Click <strong>\"⚙️ Actions\"</strong> button at the top of the "
+"table."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-lock text-dark me-2\"/> <strong>Security (Row-Level "
+"Security):</strong> Advisor A <strong>cannot</strong> approve or view KRS "
+"from Advisor B's students. Access rights are absolutely restricted."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Automatic "
+"Creation:</strong> Admin does not need to create KHS from scratch. Simply "
+"click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the"
+" system automatically creates an exact copy in the KHS module!"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-magic text-primary me-2\"/> <strong>Action (Assign "
+"Schedule):</strong> Open Class form, click <strong>Students</strong> tab, "
+"then click <strong>Assign Schedule (Massive)</strong>. The system will "
+"search for all students taking this class but have no schedule, and you can "
+"assign them to a schedule at once!"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-shield text-danger me-2\"/>Smart Constraints"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid "<i class=\"fa fa-user me-3 text-primary\"/> <strong>Hajril Malik</strong>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-user-md text-info me-2\"/>Smart Advisor Assignment"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid "<i class=\"fa fa-user-secret me-1\"/> Login Admin Kampus"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid "<i class=\"fa fa-user-secret me-2\"/> admincampus@gmail.com"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-users text-info me-2\"/> <strong>Automatic "
+"Capacity:</strong> Odoo automatically calculates the class maximum capacity "
+"based on the capacity of the selected Room in the schedule!"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid "<i class=\"fa fa-whatsapp me-3 text-success\"/> 081178783903"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid ""
+"<small class=\"text-light opacity-75\">Password: "
+"<strong>123</strong></small>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-danger position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">8</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-info position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">2</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-info position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">6</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">3</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">7</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
+"top: 0px; font-size: 1rem;\">1</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-success position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">5</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">4</span>"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Admin"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Admin / Academic Advisor"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Administrator (Academic Office)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Actor:</strong> Academic Advisor (PA)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Actor:</strong> Course Lecturer / Academic Admin"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Actor:</strong> Student / Academic Admin"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Approve</strong> — Approve all checked Submitted KRS at once "
+"(Advisor / Admin only)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Lock</strong> — Lock all checked Approved KRS and automatically"
+" generate KHS (Admin only)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Reject</strong> — Reject all checked Submitted KRS at once."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Submit</strong> — Send all checked Draft KRS at once to "
+"Academic Advisor."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Unlock</strong> — Reopen locked KRS back to Approved status if "
+"corrections are needed (Admin only)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Admin"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Advisor"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Advisor Approval (KRS Approval)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Information System (SIAKAD) Technical Documentation"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Workflow"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Action"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Admin creates a <strong>Class (Class)</strong> for the subject to be taught,"
+" then arranges the <strong>Class Schedule (Class Schedule)</strong>."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"After KRS is generated, the Admin no need to set student schedules one by "
+"one manually!"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Approve / Reject KRS"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"At the end of the lecture period, grades must be issued in the form of a "
+"Study Result Card (KHS)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Before the semester starts, the Admin must prepare the curriculum "
+"foundation:"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid "Campus Academic"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid "Campus Academic SIAKAD"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Campus Core Module (Core Academic Management)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Create &amp; Edit KRS (during open period)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Create active <strong>Academic Year</strong> (Example: 2026/2027 Odd)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid "Developed By"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Enter the list of <strong>Subjects</strong> and assign credits (SKS) "
+"weights."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Input Grades (KHS)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout_footer
+msgid ""
+"Integrated Academic Information System built using modern Odoo technology.\n"
+"                                Supports full management of New Student Admissions, Academic Portal, and Employee Management."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "KHS Issuance &amp; Grading (End of Semester)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "KRS Period Configuration"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Lecturers only need to enter the final numeric score (e.g. 85). The system "
+"automatically converts it to a letter grade (A), multiplies the points (4.0)"
+" by credits (SKS), and calculates the student's GPA without manual "
+"calculation."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Lock KRS &amp; Generate KHS"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Manage Master Data (Programs, Rooms, etc)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Mass KRS Generator &amp; Course Packages (Advanced Automation)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Mass Schedule Assignment"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Mass Status Transitions via Actions Menu"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Master Data Preparation (Prerequisites)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"No need to compile KRS one by one anymore! Now you can use our smart "
+"<em>Wizard</em>."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"No need to open KRS documents one by one to change status! Simply use the "
+"<em>Actions</em> feature in list view."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Register <strong>Classrooms</strong> along with <em>Maximum Capacity</em> "
+"(Max Capacity)."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
+msgid "SIAKAD Portfolio"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Scheduling &amp; Opening Classes"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Student (Portal)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Students compile their study plan for the current semester. It can be filled"
+" independently via the Portal or assisted by the Admin."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Study Plan (KRS) Filling"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Submit KRS"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "The Advisor reviews the subjects submitted by their advised students."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"The system automatically blocks students from taking credits (SKS) exceeding"
+" their GPA limit, and prevents registration if the class capacity is full. "
+"No more manual administrative leniency."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"The system detects class schedule conflict (Time Overlap) in real-time when "
+"students compile their KRS, ensuring students do not choose two classes at "
+"the same time."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"The system supports limiting KRS entry time so students can only fill during"
+" the specified period."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"This document contains the technical specifications and Standard Operating Procedure (SOP) of the Educational Enterprise Resource Planning (ERP).\n"
+"                            The system is designed with Odoo's modular architecture, implementing Python ORM automation, comprehensive business validation, and layered security systems."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"This module is the heart of your campus system. It manages all academic "
+"foundation data, starting from curriculum management, course scheduling, "
+"Study Plan (KRS) entry, to grade transcript (KHS) printing. Designed to keep"
+" academic processes running smoothly, automatically, and with minimal "
+"administrative errors."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"This system is designed with a layered security hierarchy. Each user can "
+"only see and perform actions appropriate to their role."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "User Roles &amp; Permissions"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"When assigning an Academic Advisor, the system automatically filters the "
+"list to only show active Lecturers within the same Study Program as the "
+"student. No more misassigned roles."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.campus_website_layout
+msgid ""
+"© 2026 Copyright: <span class=\"o_footer_copyright_name\"><strong>Campus "
+"Academic by Hajril Malik</strong></span>. All Rights Reserved."
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✓ (all)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✓ (anytime)"
+msgstr ""
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✓ (only their advised students)"
+msgstr ""

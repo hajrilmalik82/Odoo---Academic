@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_admission_requirement_list" model="ir.ui.view">
+        <field name="name">campus.admission.requirement.list</field>
+        <field name="model">campus.admission.requirement</field>
+        <field name="arch" type="xml">
+            <list string="Document Requirements" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="document_type"/>
+                <field name="admission_path"/>
+                <field name="required"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_campus_admission_requirement_search" model="ir.ui.view">
+        <field name="name">campus.admission.requirement.search</field>
+        <field name="model">campus.admission.requirement</field>
+        <field name="arch" type="xml">
+            <search string="Search Requirements">
+                <field name="document_type"/>
+                <field name="admission_path"/>
+                <group>
+                    <filter name="group_path" string="Admission Path" domain="[]" context="{'group_by': 'admission_path'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_campus_admission_requirement" model="ir.actions.act_window">
+        <field name="name">Document Requirements</field>
+        <field name="res_model">campus.admission.requirement</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Choose which documents each kind of applicant must hand in
+            </p>
+            <p>
+                A requirement on "All Paths" is asked of everyone. One on a
+                specific path is added only for those applicants - a transfer
+                student's transcript, for instance.
+            </p>
+        </field>
+    </record>
+
+    <!-- PMB has no Configuration section yet; this creates it. Restricted to
+         PMB staff and campus administrators, matching who may accept an
+         applicant in the first place. -->
+    <menuitem id="menu_pmb_configuration"
+              name="Configuration"
+              parent="menu_campus_pmb_root"
+              sequence="100"
+              groups="campus_pmb.group_pmb,campus_core.group_campus_administrator"/>
+
+    <menuitem id="menu_campus_admission_requirement"
+              name="Document Requirements"
+              parent="menu_pmb_configuration"
+              action="action_campus_admission_requirement"
+              sequence="10"/>
+</odoo>

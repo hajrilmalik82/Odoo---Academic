@@ -1,13 +1,16 @@
 {
     'name': 'Campus Employees',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.2.0',
     'summary': 'Academic Profile for Employees (Lecturers)',
     'description': 'Extends HR Employee to include academic profiles and integrates with Campus Core.',
-    'category': 'Human Resources',
+    'category': 'Education',
     'author': 'Hajril Malik',
     # Must NOT depend on campus_pmb: campus_pmb depends on this module.
     # The PMB jurisdiction fields that used to require it now live in campus_pmb.
-    'depends': ['base', 'hr', 'campus_core', 'website'],
+    # campus_website, not website: the only thing this module puts on the
+    # site is its page of the documentation, which inherits a template that
+    # module owns.
+    'depends': ['hr', 'campus_core', 'campus_website'],
     'data': [
         'security/campus_security.xml',
         'security/ir.model.access.csv',

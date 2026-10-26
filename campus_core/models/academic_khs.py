@@ -10,7 +10,7 @@ class AcademicKhs(models.Model):
     _check_company_auto = True
 
     name = fields.Char(string='KHS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict')
+    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict', index=True)
     academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
 
     line_ids = fields.One2many('academic.khs.line', 'khs_id', string='Grade Lines')
@@ -53,10 +53,35 @@ class AcademicKhs(models.Model):
 
         Not a base-model method: portal's _show_report calls it when building the
         Content-Disposition header, and every model printed that way defines its
-        own.
+        own. It takes no arguments, so the transcript - which prints from this
+        same model - says which document it is through the context, and the
+        report action's print_report_name calls straight back into here so the
+        backend Print button and the portal download cannot drift apart.
         """
         self.ensure_one()
+        if self.env.context.get('campus_transcript_filename'):
+            return _("Transcript - %s") % (self.student_id.name or self.name)
         return '%s - %s' % (self.name, self.student_id.name or '')
+
+    def _schedule_grade_entry(self, lecturers):
+        """Ask the lecturers of this term's classes to enter their grades.
+
+        The 'Input Student Grades' activity type shipped with a 14-day delay and
+        was never scheduled by anything, so the deadline it encoded existed only
+        in the data file. One activity per lecturer, not per line: a lecturer
+        teaching three of the student's subjects should be chased once.
+        """
+        self.ensure_one()
+        activity_type = self.env.ref('campus_core.mail_activity_type_input_grades', raise_if_not_found=False)
+        if not activity_type:
+            return
+        student_name = self.student_id.name or '-'
+        for user in lecturers.user_id:
+            self.activity_schedule(
+                'campus_core.mail_activity_type_input_grades',
+                user_id=user.id,
+                summary=_("Enter grades for %s") % student_name,
+            )
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -119,7 +144,7 @@ class AcademicKhsLine(models.Model):
     _name = 'academic.khs.line'
     _description = 'KHS Grade Line'
 
-    khs_id = fields.Many2one('academic.khs', string='KHS', ondelete='cascade')
+    khs_id = fields.Many2one('academic.khs', string='KHS', ondelete='cascade', index=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', required=True)
     # Snapshot, not a live related: a transcript must keep the SKS the subject
     # carried when it was taken. As a related, editing a subject's credits
@@ -150,8 +175,8 @@ class AcademicKhsLine(models.Model):
     @api.depends('subject_id')
     def _compute_credits(self):
         for record in self:
-            if record.subject_id:
-                record.credits = record.subject_id.credits
+            # Unconditional, matching academic.krs.line._compute_credits.
+            record.credits = record.subject_id.credits
 
     @api.model
     def _get_grade_from_score(self, score):
@@ -160,20 +185,39 @@ class AcademicKhsLine(models.Model):
         The bands live in academic.grade.scale now. sudo() because a lecturer
         entering grades is reading campus configuration, not someone else's data.
         """
-        return self.env['academic.grade.scale'].sudo()._get_grade(score)
+        return self.env['academic.grade.scale'].sudo()._get_grade(
+            score, company=self.khs_id.company_id,
+        )
 
     @api.depends('numeric_grade', 'is_graded')
     def _compute_grade_conversion(self):
+        # Bands read once per compute call, not once per line. Saving a class's
+        # grades in the editable list used to issue one ordered SELECT per row,
+        # and a stored recompute across the whole table would have issued one per
+        # historical grade. Deliberately not ormcached: academic.grade.scale is
+        # master data a registrar edits, and a cache with no invalidation would
+        # reintroduce the staleness this audit found elsewhere.
+        Scale = self.env['academic.grade.scale'].sudo()
+        bands_by_company = {}
         for record in self:
+            company = record.khs_id.company_id or self.env.company
+            if company.id not in bands_by_company:
+                bands_by_company[company.id] = Scale.search(
+                    [('company_id', 'in', [company.id, False])],
+                )
+        for record in self:
+            company = record.khs_id.company_id or self.env.company
+            bands = bands_by_company[company.id]
             if not record.is_graded:
                 # Show nothing rather than a fabricated E for a subject nobody
                 # has marked yet.
                 record.letter_grade = ''
                 record.grade_points = 0.0
                 continue
-            letter, points = self._get_grade_from_score(record.numeric_grade or 0.0)
-            record.letter_grade = letter
-            record.grade_points = points
+            score = record.numeric_grade or 0.0
+            band = next((b for b in bands if score >= b.min_score), None)
+            record.letter_grade = band.letter if band else 'E'
+            record.grade_points = band.grade_point if band else 0.0
 
     @api.model_create_multi
     def create(self, vals_list):
