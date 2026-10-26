@@ -32,12 +32,17 @@
         <!-- Renamed with a plain write rather than a <record> override of
              website.menu_home. Overriding another module's xmlid is what
              forced that noupdate flag off in the first place; writing to the
-             record leaves website's own protection intact, so the name now
-             survives `-u website`. -->
-        <function model="website.menu" name="write">
-            <value model="website.menu" search="[('id', '=', ref('website.menu_home'))]"/>
-            <value eval="{'name': 'Panduan'}"/>
-        </function>
+             record leaves website's own protection intact, so the name
+             survives `-u website`.
+
+             Searched by url, NOT by ref('website.menu_home'). That xmlid is
+             the TEMPLATE menu, carrying website_id = False; every website gets
+             its own copy of the tree when it is created, and the copy is what
+             the header actually renders. Writing to the template alone renamed
+             a menu nobody sees - which went unnoticed while a line of
+             JavaScript was renaming the visible one on the client. -->
+        <function model="website.menu" name="write"
+                  eval="[obj().env['website.menu'].search([('url', '=', '/')]).ids, {'name': 'Panduan'}]"/>
 
     </data>
 </odoo>

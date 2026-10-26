@@ -70,7 +70,12 @@ fi
 
 echo "$RESULT" | sed 's/.*odoo.tests.result: /MERAH: /'
 echo "Yang gagal:"
-grep -E "(ERROR|FAIL): Test" "$LOG" | sed 's/.*: /  /' || echo "  (tidak ada baris test yang gagal - lihat log, mungkin gagal saat upgrade)"
+# "FAIL: Subtest Foo.bar (...)" as well as "FAIL: Foo.bar" - a subTest failure
+# carries an extra word, and the first version of this grep missed it entirely,
+# so a red run reported that it could not name what had failed.
+grep -oE "(ERROR|FAIL): (Subtest )?Test[A-Za-z0-9_]*\.[a-z0-9_]+" "$LOG" \
+    | sed -E 's/^(ERROR|FAIL): //' | sort -u | sed 's/^/  /' \
+    || echo "  (tidak ada baris test yang gagal - lihat log, mungkin gagal saat upgrade)"
 echo
 echo "Log lengkap: $LOG"
 exit "${STATUS:-1}"
