@@ -4,9 +4,9 @@
  * This was an inline <script> in the website.layout override. Two of the three
  * things it did have been removed rather than moved:
  *
- *  - Renaming the Home menu to "Panduan" is declared once, as data, in
- *    data/website_configurator_bypass.xml. Doing it again here meant the real
- *    mechanism could break and nobody would notice, because the JS covered it.
+ *  - Renaming the Home menu is done once, in post_init_hook. Doing it again
+ *    here meant the real mechanism could break and nobody would notice,
+ *    because the JS covered it.
  *  - The styles moved to static/src/scss/campus_website.scss.
  *
  * What is left is genuinely client-side: website.menu carries no group or
@@ -50,4 +50,4 @@ export class CampusWebsiteChrome extends Interaction {
     }
 }
 
-registry.category("public.interactions").add("campus_core.website_chrome", CampusWebsiteChrome);
+registry.category("public.interactions").add("campus_website.chrome", CampusWebsiteChrome);

@@ -1,6 +1,6 @@
 {
     'name': 'Campus PMB (Student Admission)',
-    'version': '19.0.1.3.0',
+    'version': '19.0.1.0.0',
     'summary': 'Penerimaan Mahasiswa Baru (PMB)',
     'description': """
         This module manages new student admissions.

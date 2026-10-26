@@ -92,21 +92,39 @@ code, and plausible-looking test names collided with real ones.
 - **The NIM prefix comes from `academic.faculty.code` and
   `academic.program.code`,** not from their names. A code is locked once a
   student number has been issued from it.
-- **Migrations live in `campus_core/migrations/<version>/`.** Bump the module
-  version in the manifest on any release that changes schema, data or views, and
-  bump all four together for a change that crosses modules.
+- **No migration scripts.** Every module sits at `19.0.1.0.0` and installs
+  clean. The database is built from the modules, not carried forward from an
+  earlier release, so there is no older state for a script to repair. A change
+  that does need existing data rewritten has nowhere to do it: either rebuild
+  the database, or add `<module>/migrations/<version>/` and bump that module's
+  manifest version in the same commit.
 
 ## Deliberate decisions that are not defects
 
 - The demo-credentials panel on the login page and the email-derived portal
   passwords in `campus_pmb` are portfolio choices, not oversights.
 - The developer contact details in the website footer are intentional.
-- **Language.** Source strings are English, the interface is Indonesian. Every
-  user-facing string is written in English in the code and translated in
-  `i18n/id.po`; `post_init_hook` activates `id_ID` and makes it the language of
-  the websites and the users. New strings follow the same rule - English in
-  `_()`, Indonesian in the catalogue - never Indonesian in the source, because
-  an Indonesian msgid cannot be translated and renders by falling back to itself.
+- **`web_responsive/` is third-party and deliberate.** It is the OCA module of
+  that name (LasLabs, Tecnativa and others, LGPL-3), vendored here rather than
+  written for this project. No campus module depends on it and it is installed
+  or not as the operator prefers; nothing in this suite assumes it.
+- **Language.** English is the source and the default; Indonesian is a
+  translation. Every user-facing string is written in English in the code and
+  translated in `i18n/id.po`. `post_init_hook` activates `id_ID` and loads the
+  catalogue, and `campus_website` adds it to each site's languages, so the
+  option is there for anyone who wants it - but nothing switches a user or a
+  site to it. A reader who wants Indonesian chooses it in Preferences.
+
+  New strings follow the same rule - English in `_()`, Indonesian in the
+  catalogue - never Indonesian in the source, because an Indonesian msgid
+  cannot be translated and renders by falling back to itself. The one label
+  outside the catalogue is the website main menu, which is record data rather
+  than a catalogue term: `campus_website` writes both keys by hand in
+  `data/website_configurator_bypass.xml`.
+
+  This is the second arrangement. The first one wrote `lang` on every user and
+  set a default on `res.partner`, which switched an administrator working in
+  English to Indonesian on install, with no setting to point at.
 - **The documentation page is translated where it was already translated.** The
   four `website_homepage_*.xml` templates are technical documentation for a
   reviewer rather than an operational screen, so the parts still in English are
@@ -118,7 +136,11 @@ code, and plausible-looking test names collided with real ones.
   adds its scope with `selection_add`. It is the access-control map, so its ACL
   admits campus administrators only — read included — and everything that
   consumes it goes through `_jurisdiction_domain`, which sudoes.
-- **Migrations live in `<module>/migrations/<version>/`** and several of them
-  only report. Odoo logs a warning and carries on when an index cannot be
-  created, so an upgrade over data that violates a new constraint looks clean
-  while the constraint silently does not exist. Those scripts say so out loud.
+- **No migration scripts, and that is a trade.** Odoo logs a warning and
+  carries on when an index cannot be created, so an upgrade over data that
+  violates a new constraint looks clean while the constraint silently does not
+  exist. Eleven scripts used to say so out loud and to re-home data across the
+  module split; they were removed deliberately, because this suite is installed
+  fresh rather than upgraded in place and every one of them had nothing left to
+  do. The day that stops being true, the first thing to add back is a
+  pre-migrate that reports.

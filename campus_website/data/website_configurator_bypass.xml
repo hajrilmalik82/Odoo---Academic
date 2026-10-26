@@ -11,7 +11,7 @@
          website.menu_home permanently — the flag that stops `-u website`
          restoring that menu from the website module's own data file, where it
          is called "Home" (addons/website/data/website_data.xml:508). With the
-         flag gone, every website upgrade reverted the menu from Panduan. -->
+         flag gone, every website upgrade reverted the renamed menu. -->
     <data noupdate="1">
 
         <!-- Skip the website setup wizard.
@@ -29,20 +29,10 @@
         <function model="website" name="write"
                   eval="[obj().env['website'].search([]).ids, {'configurator_done': True}]"/>
 
-        <!-- Renamed with a plain write rather than a <record> override of
-             website.menu_home. Overriding another module's xmlid is what
-             forced that noupdate flag off in the first place; writing to the
-             record leaves website's own protection intact, so the name
-             survives `-u website`.
-
-             Searched by url, NOT by ref('website.menu_home'). That xmlid is
-             the TEMPLATE menu, carrying website_id = False; every website gets
-             its own copy of the tree when it is created, and the copy is what
-             the header actually renders. Writing to the template alone renamed
-             a menu nobody sees - which went unnoticed while a line of
-             JavaScript was renaming the visible one on the client. -->
-        <function model="website.menu" name="write"
-                  eval="[obj().env['website.menu'].search([('url', '=', '/')]).ids, {'name': 'Panduan'}]"/>
+        <!-- The menu at '/' is renamed in post_init_hook, not here. It needs a
+             loop - update_field_translations is ensure_one() and there is
+             always more than one menu at that url - and a <function> cannot
+             provide one. See campus_website/__init__.py. -->
 
     </data>
 </odoo>

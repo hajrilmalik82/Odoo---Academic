@@ -1,6 +1,6 @@
 {
     'name': 'Campus Employees',
-    'version': '19.0.1.2.0',
+    'version': '19.0.1.0.0',
     'summary': 'Academic Profile for Employees (Lecturers)',
     'description': 'Extends HR Employee to include academic profiles and integrates with Campus Core.',
     'category': 'Education',

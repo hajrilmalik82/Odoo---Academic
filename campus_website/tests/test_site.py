@@ -31,7 +31,29 @@ class TestCampusSite(HttpCase):
         self.assertTrue(menus)
         for menu in menus:
             with self.subTest(website=menu.website_id.name or 'template'):
-                self.assertEqual(menu.name, 'Panduan')
+                self.assertEqual(menu.name, 'Guide')
+
+    def test_the_main_menu_carries_its_indonesian_label(self):
+        """The label is record data, not a catalogue term, so i18n export never
+        sees it - the id_ID key has to be written by hand or an Indonesian
+        reader falls back to the English source."""
+        menus = self.env['website.menu'].search([('url', '=', '/')])
+        self.assertTrue(menus)
+        for menu in menus:
+            with self.subTest(website=menu.website_id.name or 'template'):
+                self.assertEqual(menu.with_context(lang='id_ID').name, 'Panduan')
+
+    def test_every_website_offers_indonesian_without_defaulting_to_it(self):
+        """A frontend page renders in the SITE's language, so id_ID has to be
+        among a site's languages to be reachable at all. English stays the
+        default: the hook used to replace the list instead of adding to it,
+        which left no way back to the language the source is written in."""
+        for website in self.env['website'].search([]):
+            with self.subTest(website=website.name):
+                codes = website.language_ids.mapped('code')
+                self.assertIn('id_ID', codes)
+                self.assertIn('en_US', codes)
+                self.assertEqual(website.default_lang_id.code, 'en_US')
 
     def test_the_configurator_is_marked_done(self):
         """Otherwise opening the site walks into Odoo's setup wizard."""
