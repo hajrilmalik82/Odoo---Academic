@@ -94,12 +94,33 @@ code, and plausible-looking test names collided with real ones.
   student number has been issued from it.
 - **A unit is headed by one of its own.** `academic.faculty.dean_id` and
   `academic.program.head_id` accept only a lecturer of that faculty or that
-  programme. The rule lives in `campus_employees`, not beside the fields:
+  programme. Teaching is looser on purpose - `lecturer_id` on a schedule or a
+  session accepts a lecturer of the programme *or* of its faculty, because
+  teaching across programmes inside your own faculty is ordinary while heading
+  somebody else's programme is not.
+
+  All of it lives in `campus_employees`, not beside the fields it narrows:
   `academic_role`, `faculty_id` and `program_id` on `hr.employee` are its
-  fields, and `campus_core` carries no dependency on it. It is enforced from
-  both sides, because a constraint only fires on the record being written -
-  writing the post checks the person, and writing the person checks the posts
-  they still hold.
+  fields, and `campus_core` carries no dependency on it. The lecturer domain is
+  declared once in `models/academic_teaching.py` and shared by the schedule and
+  the session; a dynamic domain is evaluated by the CLIENT, so every view that
+  picks a lecturer must also carry `class_program_id` and `class_faculty_id`,
+  invisible. Leaving them out raises nothing - the domain quietly stops
+  narrowing - so a test asserts their presence.
+
+- **Nobody moves while they are still wired up.** Changing an employee's
+  faculty, programme or academic role is refused while anything still points at
+  them - a deanship, a programme head post, a weekly schedule, a session, a
+  student being advised - and the refusal lists all of them at once rather than
+  one per attempt.
+
+  The guard sits in `write()`, not in an `@api.constrains`. A constraint cannot
+  see what a field held before the write, so it could not tell a move from a
+  re-save that stores the value already there, and it fires after the fact when
+  the point is to stop the change. Filling a profile in for the first time is
+  not a move: `campus_core` builds the teaching schedule and `campus_employees`
+  only afterwards says which faculty those lecturers belong to, so an
+  empty-to-set write has to stay legal or the demo data refuses itself.
 - **No migration scripts.** Every module sits at `19.0.1.0.0` and installs
   clean. The database is built from the modules, not carried forward from an
   earlier release, so there is no older state for a script to repair. A change

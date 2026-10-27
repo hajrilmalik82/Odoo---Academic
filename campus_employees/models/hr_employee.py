@@ -92,49 +92,103 @@ class HrEmployee(models.Model):
         return employees
 
     def write(self, vals):
+        self._filtered_moving(vals)._assert_nothing_still_attached()
         res = super().write(vals)
         if 'academic_role' in vals or 'user_id' in vals:
             self._sync_academic_user_role()
         return res
 
-    # --- constraints ------------------------------------------------------
+    # --- moving somebody between units ------------------------------------
 
-    @api.constrains('faculty_id', 'program_id', 'academic_role')
-    def _check_not_still_holding_a_post(self):
-        """Refuse to move or demote somebody who still heads a unit.
+    _MOVE_FIELDS = ('faculty_id', 'program_id', 'academic_role')
 
-        academic.faculty and academic.program carry the same rule, but a
-        constraint there only fires when THAT record is written. Moving the
-        person instead - or taking their lecturer role away - leaves the post
-        pointing at somebody who no longer belongs to the unit, and nothing
-        notices. This is the same rule read from the other side.
+    def _filtered_moving(self, vals):
+        """Those of these employees that `vals` would actually move.
 
-        The posts are searched with sudo(): an HR officer editing a personnel
-        record is not required to have read access to the institution tree, and
-        whether a move is legal must not depend on whether they happen to.
+        Checked here rather than in an @api.constrains for two reasons. A
+        constraint cannot see the value a field held before the write, so it
+        cannot tell a move from a write that stores the value already there -
+        and an import or a re-save would then be refused for changing nothing.
+        And it fires after the write, while the point of this rule is to stop
+        the change from happening.
+
+        Filling a profile in for the first time is not a move. The demo data
+        relies on it, and so does ordinary use: campus_core creates the
+        teaching schedule, and campus_employees only afterwards says which
+        faculty and programme those lecturers belong to. A guard that counted
+        an empty-to-set write as a move would refuse its own fixtures.
         """
-        faculties = self.env['academic.faculty'].sudo().search([('dean_id', 'in', self.ids)])
-        for faculty in faculties:
-            dean = faculty.dean_id
-            if dean.academic_role == 'lecturer' and dean.faculty_id == faculty:
-                continue
-            raise ValidationError(_(
-                "%(person)s is still Dean of %(faculty)s. Clear that post first,"
-                " then make this change.",
-                person=dean.name,
-                faculty=faculty.name,
+        moving = self.browse()
+        for employee in self:
+            for name in self._MOVE_FIELDS:
+                if name not in vals:
+                    continue
+                current = employee[name]
+                if not current:
+                    continue
+                before = current.id if name.endswith('_id') else current
+                if vals[name] != before:
+                    moving |= employee
+                    break
+        return moving
+
+    def _what_still_points_here(self):
+        """Everything that would be left dangling, named so a user can act.
+
+        sudo() throughout: an HR officer editing a personnel record is not
+        required to have read access to the institution tree or to the student
+        list, and whether a move is safe must not depend on whether they happen
+        to have it.
+        """
+        self.ensure_one()
+        attached = []
+
+        for faculty in self.env['academic.faculty'].sudo().search([('dean_id', '=', self.id)]):
+            attached.append(_("Dean of %(faculty)s", faculty=faculty.name))
+
+        for program in self.env['academic.program'].sudo().search([('head_id', '=', self.id)]):
+            attached.append(_("Head of %(program)s", program=program.name))
+
+        schedules = self.env['academic.class.schedule'].sudo().search([('lecturer_id', '=', self.id)])
+        if schedules:
+            subjects = sorted(set(schedules.mapped('class_id.subject_id.name')))
+            attached.append(_(
+                "Teaching %(count)s weekly schedule(s): %(subjects)s",
+                count=len(schedules),
+                subjects=", ".join(subjects),
             ))
 
-        programs = self.env['academic.program'].sudo().search([('head_id', 'in', self.ids)])
-        for program in programs:
-            head = program.head_id
-            if head.academic_role == 'lecturer' and head.program_id == program:
+        sessions = self.env['academic.class.session'].sudo().search([('lecturer_id', '=', self.id)])
+        if sessions:
+            attached.append(_("Named on %(count)s class session(s)", count=len(sessions)))
+
+        students = self.env['res.partner'].sudo().search([('academic_advisor_id', '=', self.id)])
+        if students:
+            attached.append(_(
+                "Academic advisor to %(count)s student(s): %(names)s",
+                count=len(students),
+                names=", ".join(students[:5].mapped('name')) + ("..." if len(students) > 5 else ""),
+            ))
+
+        return attached
+
+    def _assert_nothing_still_attached(self):
+        """Refuse a move while anything still points at the person.
+
+        Everything is collected before anything is raised: being told about one
+        class, fixing it, and then being told about a second is a worse
+        experience than being handed the whole list once.
+        """
+        for employee in self:
+            attached = employee._what_still_points_here()
+            if not attached:
                 continue
             raise ValidationError(_(
-                "%(person)s is still Head of %(program)s. Clear that post first,"
-                " then make this change.",
-                person=head.name,
-                program=program.name,
+                "%(person)s cannot be moved to another faculty or programme yet."
+                " These still point at them:\n\n%(items)s\n\n"
+                "Reassign or clear them first, then make this change.",
+                person=employee.name,
+                items="\n".join("  - %s" % item for item in attached),
             ))
 
     def _jurisdiction(self, scope):

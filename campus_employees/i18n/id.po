@@ -489,8 +489,12 @@ msgstr "%(person)s bukan dosen, jadi tidak bisa menjadi dekan %(faculty)s."
 
 #. module: campus_employees
 #: code:addons/campus_employees/models/academic_institution.py:0
-msgid "%(person)s belongs to %(their_faculty)s, so they cannot be dean of %(faculty)s. Move them first, or pick a lecturer of this faculty."
-msgstr "%(person)s terdaftar di %(their_faculty)s, jadi tidak bisa menjadi dekan %(faculty)s. Pindahkan dulu, atau pilih dosen dari fakultas ini."
+msgid ""
+"%(person)s belongs to %(their_faculty)s, so they cannot be dean of "
+"%(faculty)s. Move them first, or pick a lecturer of this faculty."
+msgstr ""
+"%(person)s terdaftar di %(their_faculty)s, jadi tidak bisa menjadi dekan "
+"%(faculty)s. Pindahkan dulu, atau pilih dosen dari fakultas ini."
 
 #. module: campus_employees
 #: code:addons/campus_employees/models/academic_institution.py:0
@@ -499,8 +503,12 @@ msgstr "%(person)s bukan dosen, jadi tidak bisa menjadi kepala %(program)s."
 
 #. module: campus_employees
 #: code:addons/campus_employees/models/academic_institution.py:0
-msgid "%(person)s teaches on %(their_program)s, so they cannot head %(program)s. Move them first, or pick a lecturer of this programme."
-msgstr "%(person)s mengajar di %(their_program)s, jadi tidak bisa menjadi kepala %(program)s. Pindahkan dulu, atau pilih dosen dari program studi ini."
+msgid ""
+"%(person)s teaches on %(their_program)s, so they cannot head %(program)s. "
+"Move them first, or pick a lecturer of this programme."
+msgstr ""
+"%(person)s mengajar di %(their_program)s, jadi tidak bisa menjadi kepala "
+"%(program)s. Pindahkan dulu, atau pilih dosen dari program studi ini."
 
 #. module: campus_employees
 #: code:addons/campus_employees/models/academic_institution.py:0
@@ -514,10 +522,40 @@ msgstr "tanpa program studi"
 
 #. module: campus_employees
 #: code:addons/campus_employees/models/hr_employee.py:0
-msgid "%(person)s is still Dean of %(faculty)s. Clear that post first, then make this change."
-msgstr "%(person)s masih menjabat Dekan %(faculty)s. Kosongkan jabatan itu dulu, baru lakukan perubahan ini."
+msgid "Dean of %(faculty)s"
+msgstr "Dekan %(faculty)s"
 
 #. module: campus_employees
 #: code:addons/campus_employees/models/hr_employee.py:0
-msgid "%(person)s is still Head of %(program)s. Clear that post first, then make this change."
-msgstr "%(person)s masih menjabat Kepala %(program)s. Kosongkan jabatan itu dulu, baru lakukan perubahan ini."
+msgid "Head of %(program)s"
+msgstr "Kepala %(program)s"
+
+#. module: campus_employees
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Teaching %(count)s weekly schedule(s): %(subjects)s"
+msgstr "Mengajar %(count)s jadwal mingguan: %(subjects)s"
+
+#. module: campus_employees
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Named on %(count)s class session(s)"
+msgstr "Tercantum pada %(count)s sesi kuliah"
+
+#. module: campus_employees
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Academic advisor to %(count)s student(s): %(names)s"
+msgstr "Dosen pembimbing akademik bagi %(count)s mahasiswa: %(names)s"
+
+#. module: campus_employees
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid ""
+"%(person)s cannot be moved to another faculty or programme yet. These still point at them:\n"
+"\n"
+"%(items)s\n"
+"\n"
+"Reassign or clear them first, then make this change."
+msgstr ""
+"%(person)s belum bisa dipindahkan ke fakultas atau program studi lain. Masih ada yang menempel padanya:\n"
+"\n"
+"%(items)s\n"
+"\n"
+"Alihkan atau kosongkan dulu, baru lakukan perubahan ini."
