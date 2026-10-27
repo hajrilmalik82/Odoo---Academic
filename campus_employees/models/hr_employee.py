@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models, Command
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, ValidationError
 
 
 class HrEmployee(models.Model):
@@ -96,6 +96,46 @@ class HrEmployee(models.Model):
         if 'academic_role' in vals or 'user_id' in vals:
             self._sync_academic_user_role()
         return res
+
+    # --- constraints ------------------------------------------------------
+
+    @api.constrains('faculty_id', 'program_id', 'academic_role')
+    def _check_not_still_holding_a_post(self):
+        """Refuse to move or demote somebody who still heads a unit.
+
+        academic.faculty and academic.program carry the same rule, but a
+        constraint there only fires when THAT record is written. Moving the
+        person instead - or taking their lecturer role away - leaves the post
+        pointing at somebody who no longer belongs to the unit, and nothing
+        notices. This is the same rule read from the other side.
+
+        The posts are searched with sudo(): an HR officer editing a personnel
+        record is not required to have read access to the institution tree, and
+        whether a move is legal must not depend on whether they happen to.
+        """
+        faculties = self.env['academic.faculty'].sudo().search([('dean_id', 'in', self.ids)])
+        for faculty in faculties:
+            dean = faculty.dean_id
+            if dean.academic_role == 'lecturer' and dean.faculty_id == faculty:
+                continue
+            raise ValidationError(_(
+                "%(person)s is still Dean of %(faculty)s. Clear that post first,"
+                " then make this change.",
+                person=dean.name,
+                faculty=faculty.name,
+            ))
+
+        programs = self.env['academic.program'].sudo().search([('head_id', 'in', self.ids)])
+        for program in programs:
+            head = program.head_id
+            if head.academic_role == 'lecturer' and head.program_id == program:
+                continue
+            raise ValidationError(_(
+                "%(person)s is still Head of %(program)s. Clear that post first,"
+                " then make this change.",
+                person=head.name,
+                program=program.name,
+            ))
 
     def _jurisdiction(self, scope):
         """This employee's assignment for one purpose, or an empty recordset.

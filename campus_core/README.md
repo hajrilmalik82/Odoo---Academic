@@ -92,6 +92,14 @@ code, and plausible-looking test names collided with real ones.
 - **The NIM prefix comes from `academic.faculty.code` and
   `academic.program.code`,** not from their names. A code is locked once a
   student number has been issued from it.
+- **A unit is headed by one of its own.** `academic.faculty.dean_id` and
+  `academic.program.head_id` accept only a lecturer of that faculty or that
+  programme. The rule lives in `campus_employees`, not beside the fields:
+  `academic_role`, `faculty_id` and `program_id` on `hr.employee` are its
+  fields, and `campus_core` carries no dependency on it. It is enforced from
+  both sides, because a constraint only fires on the record being written -
+  writing the post checks the person, and writing the person checks the posts
+  they still hold.
 - **No migration scripts.** Every module sits at `19.0.1.0.0` and installs
   clean. The database is built from the modules, not carried forward from an
   earlier release, so there is no older state for a script to repair. A change
