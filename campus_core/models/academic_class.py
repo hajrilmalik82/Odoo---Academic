@@ -137,6 +137,12 @@ class AcademicClassSession(models.Model):
     end_datetime = fields.Datetime(string='End Datetime', required=True)
     room_id = fields.Many2one('campus.room', string='Room', check_company=True)
     lecturer_id = fields.Many2one('hr.employee', string='Lecturer')
+    # Carried for the dynamic domain campus_employees puts on lecturer_id, the
+    # same way academic.class.schedule carries them. A dynamic domain is
+    # evaluated by the client against the form, so a field it reads has to be
+    # present there - which is why both appear, invisible, in the session form.
+    class_program_id = fields.Many2one('academic.program', related='class_id.subject_id.program_id')
+    class_faculty_id = fields.Many2one('academic.faculty', related='class_id.subject_id.faculty_id')
     # Every model around this one carries a company, so sessions could not be
     # filtered or grouped by company anywhere and _check_company_auto had
     # nothing to work with. Related and stored, the way academic.class.schedule
