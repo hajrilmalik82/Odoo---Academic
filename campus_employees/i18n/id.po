@@ -559,3 +559,51 @@ msgstr ""
 "%(items)s\n"
 "\n"
 "Alihkan atau kosongkan dulu, baru lakukan perubahan ini."
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__advisee_count:0
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Students Advised"
+msgstr "Mahasiswa Bimbingan"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__schedule_count:0
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Weekly Schedules"
+msgstr "Jadwal Mingguan"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__session_count:0
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Class Sessions"
+msgstr "Sesi Kuliah"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__dean_of_faculty_id:0
+msgid "Dean of"
+msgstr "Dekan"
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__head_of_program_id:0
+msgid "Head of Programme"
+msgstr "Kepala Program Studi"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic:0
+msgid "Advisees"
+msgstr "Bimbingan"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic:0
+msgid "Schedules"
+msgstr "Jadwal"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic:0
+msgid "Sessions"
+msgstr "Sesi"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic:0
+msgid "Posts Held"
+msgstr "Jabatan yang Dipegang"

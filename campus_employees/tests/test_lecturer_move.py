@@ -117,6 +117,52 @@ class TestLecturerMove(CampusCommon):
         self.mover.nidn = '0011223344'
         self.assertEqual(self.mover.nidn, '0011223344')
 
+    # --- the same links, shown as counts on the employee form -------------
+
+    def test_the_counts_report_what_is_attached(self):
+        """invalidate_recordset() because these carry no @api.depends: they are
+        computed fresh on each read, not kept reactive. The form reloads, a test
+        holding the record in cache does not."""
+        self.program.head_id = self.mover
+        self._teaches()
+        student = self._advises()
+        self.mover.invalidate_recordset()
+
+        self.assertEqual(self.mover.advisee_count, 1)
+        self.assertEqual(self.mover.schedule_count, 1)
+        self.assertEqual(self.mover.head_of_program_id, self.program)
+        self.assertEqual(student.academic_advisor_id, self.mover, "fixture sanity")
+
+    def test_the_counts_are_zero_for_somebody_unattached(self):
+        self.assertEqual(self.mover.advisee_count, 0)
+        self.assertEqual(self.mover.schedule_count, 0)
+        self.assertEqual(self.mover.session_count, 0)
+        self.assertFalse(self.mover.dean_of_faculty_id)
+        self.assertFalse(self.mover.head_of_program_id)
+
+    def test_the_counts_survive_a_record_that_has_no_id_yet(self):
+        """A record being created carries a NewId rather than an integer.
+        Feeding that to a domain breaks the query for the whole batch, so the
+        compute has to leave unsaved records out."""
+        draft = self.env['hr.employee'].new({'name': '%s Draf' % TAG})
+        self.assertEqual(draft.advisee_count, 0)
+        self.assertFalse(draft.head_of_program_id)
+
+    def test_each_button_opens_exactly_what_it_counted(self):
+        """A count that does not match the list it opens is worse than no
+        count at all."""
+        self._teaches()
+        student = self._advises()
+
+        action = self.mover.action_open_schedules()
+        self.assertEqual(action['res_model'], 'academic.class.schedule')
+        self.assertEqual(
+            self.env['academic.class.schedule'].search(action['domain']), self.schedule)
+
+        action = self.mover.action_open_advisees()
+        self.assertEqual(action['res_model'], 'res.partner')
+        self.assertEqual(self.env['res.partner'].search(action['domain']), student)
+
     def test_reassigning_first_lets_the_move_through(self):
         """What the refusal tells the user to do has to actually work."""
         self._teaches()

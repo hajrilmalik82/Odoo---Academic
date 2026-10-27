@@ -55,6 +55,106 @@ class HrEmployee(models.Model):
         help="Which faculties and programmes this employee may reach, per purpose.",
     )
 
+    # --- what is attached to this person ----------------------------------
+    #
+    # The same five links the move guard refuses a move over, shown as numbers
+    # on the employee form. A refusal that names six schedules is only half an
+    # answer; these are the other half - the way to go and look at them.
+    #
+    # compute_sudo: an HR officer may read a personnel record without any campus
+    # group at all, and a count that silently dropped to zero for them would be
+    # worse than no count. Opening the button still applies their own rights.
+    #
+    # No @api.depends, deliberately. The records that point here live on four
+    # unrelated models with no inverse relation to depend ON, and declaring
+    # One2many fields purely to have something to depend on would put four
+    # loaded relations on every employee read. The cost is that the numbers are
+    # fresh per read rather than reactive: a form already open does not update
+    # them until it is reloaded, which is also when anyone would look.
+
+    advisee_count = fields.Integer(
+        string="Students Advised", compute='_compute_campus_links', compute_sudo=True)
+    schedule_count = fields.Integer(
+        string="Weekly Schedules", compute='_compute_campus_links', compute_sudo=True)
+    session_count = fields.Integer(
+        string="Class Sessions", compute='_compute_campus_links', compute_sudo=True)
+    dean_of_faculty_id = fields.Many2one(
+        'academic.faculty', string="Dean of",
+        compute='_compute_campus_links', compute_sudo=True)
+    head_of_program_id = fields.Many2one(
+        'academic.program', string="Head of Programme",
+        compute='_compute_campus_links', compute_sudo=True)
+
+    def _count_pointing_here(self, model, field_name, employees):
+        """How many records of `model` point at each employee, in one query."""
+        groups = self.env[model].sudo()._read_group(
+            [(field_name, 'in', employees.ids)],
+            groupby=[field_name],
+            aggregates=['__count'],
+        )
+        return {employee.id: count for employee, count in groups}
+
+    def _compute_campus_links(self):
+        # Defaults first. A record being created carries a NewId rather than an
+        # integer, nothing can point at it yet, and feeding that id to a domain
+        # would break the query for the whole batch.
+        for employee in self:
+            employee.advisee_count = 0
+            employee.schedule_count = 0
+            employee.session_count = 0
+            employee.dean_of_faculty_id = False
+            employee.head_of_program_id = False
+
+        saved = self.browse([eid for eid in self.ids if isinstance(eid, int)])
+        if not saved:
+            return
+
+        advisees = self._count_pointing_here('res.partner', 'academic_advisor_id', saved)
+        schedules = self._count_pointing_here('academic.class.schedule', 'lecturer_id', saved)
+        sessions = self._count_pointing_here('academic.class.session', 'lecturer_id', saved)
+        deans = {
+            faculty.dean_id.id: faculty.id
+            for faculty in self.env['academic.faculty'].sudo().search([('dean_id', 'in', saved.ids)])
+        }
+        heads = {
+            program.head_id.id: program.id
+            for program in self.env['academic.program'].sudo().search([('head_id', 'in', saved.ids)])
+        }
+
+        for employee in saved:
+            employee.advisee_count = advisees.get(employee.id, 0)
+            employee.schedule_count = schedules.get(employee.id, 0)
+            employee.session_count = sessions.get(employee.id, 0)
+            employee.dean_of_faculty_id = deans.get(employee.id, False)
+            employee.head_of_program_id = heads.get(employee.id, False)
+
+    def _action_pointing_here(self, name, model, field_name, context=None):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': name,
+            'res_model': model,
+            'view_mode': 'list,form',
+            'domain': [(field_name, '=', self.id)],
+            'context': dict(self.env.context, **(context or {})),
+        }
+
+    def action_open_advisees(self):
+        return self._action_pointing_here(
+            _("Students Advised"), 'res.partner', 'academic_advisor_id',
+            {'default_academic_advisor_id': self.id, 'default_is_student': True},
+        )
+
+    def action_open_schedules(self):
+        return self._action_pointing_here(
+            _("Weekly Schedules"), 'academic.class.schedule', 'lecturer_id',
+        )
+
+    def action_open_sessions(self):
+        return self._action_pointing_here(
+            _("Class Sessions"), 'academic.class.session', 'lecturer_id',
+        )
+
     # --- onchange ---------------------------------------------------------
     # Odoo's own ordering convention: every field declaration first, then the
     # onchange methods. These two used to sit in the middle of the field list.

@@ -5,14 +5,63 @@
         <field name="model">hr.employee</field>
         <field name="inherit_id" ref="hr.view_employee_form"/>
         <field name="arch" type="xml">
+            <!-- What is attached to this person, as counts beside Contacts and
+                 History. These are the five links the move guard refuses a move
+                 over, so a refusal that names six schedules now has somewhere to
+                 send the reader.
+
+                 groups= names the lecturer and the academic staff groups, not
+                 one of them: campus_core/security/campus_security.xml makes the
+                 three campus groups siblings, each implying only base.group_user,
+                 and only Administrator implies the other two. Naming the lecturer
+                 group alone would have hidden the buttons from the academic staff
+                 who do most of this work.
+
+                 Shown whenever the person is a lecturer, including at zero.
+                 Hiding an empty counter reads as a broken button rather than
+                 as an answer, and "0 Advisees" is an answer. Nobody who is
+                 not a lecturer gets them at all. -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_advisees" type="object"
+                        class="oe_stat_button" icon="fa-graduation-cap"
+                        invisible="academic_role != 'lecturer'"
+                        groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
+                    <field name="advisee_count" widget="statinfo" string="Advisees"/>
+                </button>
+                <button name="action_open_schedules" type="object"
+                        class="oe_stat_button" icon="fa-calendar"
+                        invisible="academic_role != 'lecturer'"
+                        groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
+                    <field name="schedule_count" widget="statinfo" string="Schedules"/>
+                </button>
+                <button name="action_open_sessions" type="object"
+                        class="oe_stat_button" icon="fa-clock-o"
+                        invisible="academic_role != 'lecturer'"
+                        groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
+                    <field name="session_count" widget="statinfo" string="Sessions"/>
+                </button>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Lecturer Profile" invisible="academic_role != 'lecturer'">
                     <group>
-                        <field name="academic_role" invisible="1"/>
-                        <field name="nidn"/>
-                        <field name="academic_rank"/>
-                        <field name="faculty_id"/>
-                        <field name="program_id"/>
+                        <group>
+                            <field name="academic_role" invisible="1"/>
+                            <field name="nidn"/>
+                            <field name="academic_rank"/>
+                            <field name="faculty_id"/>
+                            <field name="program_id"/>
+                        </group>
+                        <!-- Posts are at most one each, so a counter would read
+                             "1" and say nothing. The record itself is the useful
+                             answer, and the field is hidden when there is none
+                             rather than showing an empty row. -->
+                        <group string="Posts Held"
+                               invisible="not dean_of_faculty_id and not head_of_program_id">
+                            <field name="dean_of_faculty_id" readonly="1"
+                                   invisible="not dean_of_faculty_id"/>
+                            <field name="head_of_program_id" readonly="1"
+                                   invisible="not head_of_program_id"/>
+                        </group>
                     </group>
                 </page>
                 <!-- One page for every purpose, not one per module. This used
