@@ -43,6 +43,18 @@
             </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Lecturer Profile" invisible="academic_role != 'lecturer'">
+                    <!-- The way to gain an advisee. Creation is off on the
+                         Advisees list because a student is born in the
+                         admissions flow, not here; this is what takes its
+                         place. Shown to the people who may write to a student
+                         record at all - the ACL grants res.partner write to the
+                         academic staff and the administrator, not to lecturers. -->
+                    <div class="mb-3">
+                        <button name="action_assign_advisees" type="object"
+                                string="Assign Students" icon="fa-user-plus"
+                                class="btn-secondary"
+                                groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
+                    </div>
                     <group>
                         <group>
                             <field name="academic_role" invisible="1"/>

@@ -95,10 +95,14 @@ class TestLecturerMove(CampusCommon):
         afterwards says which faculty and programme those lecturers belong to.
         Counting an empty-to-set write as a move would refuse the demo data this
         suite ships with."""
-        self.schedule.lecturer_id = self.advisor
-        self.assertFalse(self.advisor.faculty_id, "fixture precondition")
-        self.advisor.faculty_id = self.faculty
-        self.assertEqual(self.advisor.faculty_id, self.faculty)
+        fresh = self.env['hr.employee'].create({
+            'name': '%s Dosen Baru' % TAG,
+            'academic_role': 'lecturer',
+        })
+        self.schedule.lecturer_id = fresh
+        self.assertFalse(fresh.faculty_id, "precondition")
+        fresh.faculty_id = self.faculty
+        self.assertEqual(fresh.faculty_id, self.faculty)
 
     def test_writing_the_same_value_again_is_not_a_move(self):
         """A constraint cannot see the previous value, so it would refuse a

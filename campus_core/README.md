@@ -108,6 +108,14 @@ code, and plausible-looking test names collided with real ones.
   invisible. Leaving them out raises nothing - the domain quietly stops
   narrowing - so a test asserts their presence.
 
+- **An academic advisor belongs to the student's own programme.**
+  `res.partner.academic_advisor_id` offers only lecturers of that programme,
+  and a constraint watches the student's `program_id` as well as the advisor
+  field: moving a student to another programme is the quiet half of the rule,
+  since the advisor field is never touched and a constraint on it alone would
+  not fire. The narrowing used to be two `<field position="attributes">`
+  overrides in views; on the field it holds in every view, and in an import.
+
 - **Nobody moves while they are still wired up.** Changing an employee's
   faculty, programme or academic role is refused while anything still points at
   them - a deanship, a programme head post, a weekly schedule, a session, a

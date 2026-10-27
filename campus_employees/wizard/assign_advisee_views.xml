@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_advisee_assign_form" model="ir.ui.view">
+        <field name="name">campus.advisee.assign.form</field>
+        <field name="model">campus.advisee.assign</field>
+        <field name="arch" type="xml">
+            <form string="Assign Students">
+                <group>
+                    <field name="advisor_id"/>
+                    <field name="advisor_program_id"/>
+                    <field name="advisor_faculty_id"/>
+                </group>
+                <!-- no_create: the point of this wizard is that students are
+                     not made here. Without it the Add-a-line autocomplete
+                     still offers "Create", which is the very shortcut the New
+                     button on the Advisees list was removed for. -->
+                <field name="student_ids" options="{'no_create': True}">
+                    <list>
+                        <field name="nim"/>
+                        <field name="name"/>
+                        <field name="program_id"/>
+                        <field name="academic_advisor_id"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_assign" type="object" string="Assign"
+                            class="btn-primary" data-hotkey="q"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"
+                            data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

@@ -38,10 +38,18 @@ class TestAcademicJurisdiction(CampusCommon):
             'name': '%s Prodi Lain' % TAG, 'code': 'ZPL',
             'faculty_id': cls.other_faculty.id,
         })
+        # An advisor of the OTHER programme: cls.advisor belongs to cls.program,
+        # and an academic advisor shares their advisee's programme.
+        cls.other_advisor = cls.env['hr.employee'].create({
+            'name': '%s Dosen PA Lain' % TAG,
+            'academic_role': 'lecturer',
+            'faculty_id': cls.other_faculty.id,
+            'program_id': cls.other_program.id,
+        })
         cls.other_student = cls.env['res.partner'].create({
             'name': '%s Mahasiswa Lain' % TAG, 'is_student': True,
             'student_status': 'active', 'program_id': cls.other_program.id,
-            'academic_advisor_id': cls.advisor.id,
+            'academic_advisor_id': cls.other_advisor.id,
         })
 
     def _visible_krs(self):

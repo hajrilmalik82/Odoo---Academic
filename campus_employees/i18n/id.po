@@ -607,3 +607,64 @@ msgstr "Sesi"
 #: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic:0
 msgid "Posts Held"
 msgstr "Jabatan yang Dipegang"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Pick at least one student to assign."
+msgstr "Pilih setidaknya satu mahasiswa."
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Assign Students"
+msgstr "Tetapkan Mahasiswa"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Assign"
+msgstr "Tetapkan"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Cancel"
+msgstr "Batal"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Students"
+msgstr "Mahasiswa"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Academic Advisor"
+msgstr "Dosen Pembimbing Akademik"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Advisor's Programme"
+msgstr "Program Studi Pembimbing"
+
+#. module: campus_employees
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Advisor's Faculty"
+msgstr "Fakultas Pembimbing"
+
+#. module: campus_employees
+#: code:addons/campus_employees/models/res_partner.py:0
+msgid ""
+"%(person)s is not a lecturer, so they cannot be the academic advisor of "
+"%(student)s."
+msgstr ""
+"%(person)s bukan dosen, jadi tidak bisa menjadi pembimbing akademik "
+"%(student)s."
+
+#. module: campus_employees
+#: code:addons/campus_employees/models/res_partner.py:0
+msgid ""
+"%(person)s teaches on %(advisor_program)s while %(student)s is enrolled on "
+"%(student_program)s. An academic advisor belongs to the student's own "
+"programme: pick a different advisor, or move the student first."
+msgstr ""
+"%(person)s mengajar di %(advisor_program)s sementara %(student)s terdaftar "
+"di %(student_program)s. Pembimbing akademik berasal dari program studi "
+"mahasiswanya sendiri: pilih pembimbing lain, atau pindahkan mahasiswanya "
+"dulu."

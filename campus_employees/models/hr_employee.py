@@ -128,7 +128,16 @@ class HrEmployee(models.Model):
             employee.dean_of_faculty_id = deans.get(employee.id, False)
             employee.head_of_program_id = heads.get(employee.id, False)
 
-    def _action_pointing_here(self, name, model, field_name, context=None):
+    def _action_pointing_here(self, name, model, field_name):
+        """Open the records behind a counter, read-and-edit but never create.
+
+        'create': False on all three, deliberately. None of these records is
+        born here. A student arrives through the admissions flow in campus_pmb,
+        which is what issues their NIM; a weekly schedule belongs to a class and
+        is meaningless without one; a session is generated from a schedule. New
+        on these lists offered a shortcut past all of that, and the record it
+        made would have been missing the thing that gives it meaning.
+        """
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
@@ -136,14 +145,25 @@ class HrEmployee(models.Model):
             'res_model': model,
             'view_mode': 'list,form',
             'domain': [(field_name, '=', self.id)],
-            'context': dict(self.env.context, **(context or {})),
+            'context': dict(self.env.context, create=False),
         }
 
     def action_open_advisees(self):
         return self._action_pointing_here(
-            _("Students Advised"), 'res.partner', 'academic_advisor_id',
-            {'default_academic_advisor_id': self.id, 'default_is_student': True},
-        )
+            _("Students Advised"), 'res.partner', 'academic_advisor_id')
+
+    def action_assign_advisees(self):
+        """Choosing among the students who already exist - what New used to
+        pretend to offer."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _("Assign Students"),
+            'res_model': 'campus.advisee.assign',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_advisor_id': self.id},
+        }
 
     def action_open_schedules(self):
         return self._action_pointing_here(

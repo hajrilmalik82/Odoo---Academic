@@ -2,3 +2,5 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_hr_employee_campus_admin,hr.employee campus admin,hr.model_hr_employee,campus_core.group_campus_administrator,1,1,1,1
 access_hr_employee_campus_lecturer,hr.employee campus lecturer,hr.model_hr_employee,campus_core.group_campus_lecturer,1,0,0,0
 access_campus_jurisdiction_admin,campus.jurisdiction admin,model_campus_jurisdiction,campus_core.group_campus_administrator,1,1,1,1
+access_campus_advisee_assign_admin,campus.advisee.assign admin,model_campus_advisee_assign,campus_core.group_campus_administrator,1,1,1,1
+access_campus_advisee_assign_staff,campus.advisee.assign staff,model_campus_advisee_assign,campus_core.group_campus_academic_staff,1,1,1,1

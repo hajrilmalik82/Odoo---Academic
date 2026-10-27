@@ -65,7 +65,11 @@ class TestInstitutionHeads(CampusCommon):
         self.assertIn(self.own_lecturer, candidates)
         self.assertNotIn(self.outside_lecturer, candidates)
         self.assertNotIn(self.staff, candidates, "academic staff are not lecturers")
-        self.assertNotIn(self.advisor, candidates, "a lecturer with no faculty is not a member")
+        homeless = self.env['hr.employee'].create({
+            'name': '%s Dosen Tanpa Fakultas' % TAG,
+            'academic_role': 'lecturer',
+        })
+        self.assertNotIn(homeless, candidates, "a lecturer with no faculty is not a member")
 
     def test_the_head_list_holds_only_lecturers_of_that_programme(self):
         candidates = self._candidates('academic.program', 'head_id', self.program.id)

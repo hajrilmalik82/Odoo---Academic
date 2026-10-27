@@ -111,9 +111,15 @@ class CampusFixture:
             'room_id': cls.room.id,
         })
 
+        # Faculty and programme spelled out: an academic advisor belongs to
+        # the student's own programme, and cls.student below is enrolled on
+        # cls.program. A faculty-less advisor used to be fine here and is now a
+        # constraint violation in every test that touches a student.
         cls.advisor = cls.env['hr.employee'].create({
             'name': '%s Dosen PA' % TAG,
             'academic_role': 'lecturer',
+            'faculty_id': cls.faculty.id,
+            'program_id': cls.program.id,
         })
         cls.student = cls.env['res.partner'].create({
             'name': '%s Budi Santoso' % TAG,

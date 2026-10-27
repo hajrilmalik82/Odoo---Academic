@@ -15,7 +15,7 @@
         'security/campus_security.xml',
         'security/ir.model.access.csv',
         'report/report_krs_templates.xml',
-        'views/res_partner_views.xml',
+        'wizard/assign_advisee_views.xml',
         'views/hr_employee_views.xml',
         'views/hr_job_views.xml',
         'views/website_homepage_employees.xml',
