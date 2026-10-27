@@ -27,6 +27,7 @@
         'views/hr_employee_views.xml',
         'views/website_admission_templates.xml',
         'views/website_homepage_pmb.xml',
+        'views/res_partner_views.xml',
         'views/admission_views.xml',
         'views/admission_requirement_views.xml',
     ],

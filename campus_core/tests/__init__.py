@@ -7,3 +7,4 @@ from . import test_bands
 from . import test_reports
 from . import test_wizards
 from . import test_language
+from . import test_student_links

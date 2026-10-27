@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The admission counter, grafted onto both student forms campus_core
+         owns. groups= is the two that may read campus.admission at all, per
+         security/ir.model.access.csv: a button whose list the viewer cannot
+         open is worse than no button. -->
+
+    <record id="view_campus_student_form_standalone_pmb" model="ir.ui.view">
+        <field name="name">res.partner.form.student.standalone.pmb</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="campus_core.view_campus_student_form_standalone"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_admissions" type="object"
+                        class="oe_stat_button" icon="fa-folder-open"
+                        groups="campus_pmb.group_pmb,campus_core.group_campus_administrator">
+                    <field name="admission_count" widget="statinfo" string="Admissions"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_partner_form_inherit_campus_pmb" model="ir.ui.view">
+        <field name="name">res.partner.form.inherit.campus.pmb</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="campus_core.view_partner_form_inherit_campus"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_admissions" type="object"
+                        class="oe_stat_button" icon="fa-folder-open"
+                        invisible="not is_student"
+                        groups="campus_pmb.group_pmb,campus_core.group_campus_administrator">
+                    <field name="admission_count" widget="statinfo" string="Admissions"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

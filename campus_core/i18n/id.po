@@ -2795,3 +2795,23 @@ msgid ""
 " Academic System > Configuration instead; editing it here would leave the "
 "two disagreeing with nothing to notice."
 msgstr ""
+
+#. module: campus_core
+#: code:addons/campus_core/models/res_partner.py:0
+msgid "Study Plans (KRS)"
+msgstr "Rencana Studi (KRS)"
+
+#. module: campus_core
+#: code:addons/campus_core/models/res_partner.py:0
+msgid "Transcripts (KHS)"
+msgstr "Transkrip (KHS)"
+
+#. module: campus_core
+#: code:addons/campus_core/models/res_partner.py:0
+msgid "Study Plans"
+msgstr "Rencana Studi"
+
+#. module: campus_core
+#: code:addons/campus_core/models/res_partner.py:0
+msgid "Transcripts"
+msgstr "Transkrip"

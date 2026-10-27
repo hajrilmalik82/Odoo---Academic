@@ -5,6 +5,22 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <!-- Same two counters on the ordinary contact form, for anyone who
+                 reaches a student from Contacts rather than from the Students
+                 menu. Hidden on every contact who is not a student, which is
+                 most of res.partner. -->
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_krs" type="object"
+                        class="oe_stat_button" icon="fa-list-alt"
+                        invisible="not is_student">
+                    <field name="krs_count" widget="statinfo" string="Study Plans"/>
+                </button>
+                <button name="action_open_khs" type="object"
+                        class="oe_stat_button" icon="fa-trophy"
+                        invisible="not is_student">
+                    <field name="khs_count" widget="statinfo" string="Transcripts"/>
+                </button>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Academic Info">
                     <group>
@@ -74,6 +90,20 @@
                     <field name="student_status" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
+                    <!-- This form had no button box of its own: it is written
+                         from scratch rather than inherited from
+                         base.view_partner_form, so the div that Odoo forms
+                         normally carry had to be added here. -->
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_open_krs" type="object"
+                                class="oe_stat_button" icon="fa-list-alt">
+                            <field name="krs_count" widget="statinfo" string="Study Plans"/>
+                        </button>
+                        <button name="action_open_khs" type="object"
+                                class="oe_stat_button" icon="fa-trophy">
+                            <field name="khs_count" widget="statinfo" string="Transcripts"/>
+                        </button>
+                    </div>
                     <field name="image_1920" widget="image" class="oe_avatar" options="{'preview_image': 'image_128'}"/>
                     <div class="oe_title">
                         <h1>

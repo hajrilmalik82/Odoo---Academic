@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.fields import Domain
 
 class ResPartner(models.Model):
@@ -49,6 +49,25 @@ class ResPartner(models.Model):
     khs_ids = fields.One2many(
         'academic.khs', 'student_id', string='KHS Records'
     )
+    krs_ids = fields.One2many(
+        'academic.krs', 'student_id', string='KRS Records'
+    )
+
+    # Counts for the stat buttons on the student form.
+    #
+    # No sudo here, unlike the counters on hr.employee. Those answer "what still
+    # points at this person" for a guard that refuses a move, so they have to be
+    # true whoever is looking. These are navigation: the number is a label on
+    # the button that opens the list, and it would be worse for the two to
+    # disagree. Both go through the same record rules, so they cannot.
+    krs_count = fields.Integer(string="Study Plans", compute='_compute_academic_counts')
+    khs_count = fields.Integer(string="Transcripts", compute='_compute_academic_counts')
+
+    @api.depends('krs_ids', 'khs_ids')
+    def _compute_academic_counts(self):
+        for partner in self:
+            partner.krs_count = len(partner.krs_ids)
+            partner.khs_count = len(partner.khs_ids)
     cgpa = fields.Float(
         string='CGPA', compute='_compute_cgpa', store=True,
         digits=(5, 2), readonly=True
@@ -151,3 +170,30 @@ class ResPartner(models.Model):
             return domain & nim_domain
         # Positive search: match on the usual fields or on the student number.
         return domain | nim_domain
+
+    def action_open_krs(self):
+        """Creation allowed, with the student filled in. A study plan belongs to
+        a student, and this is the one screen where that is already known."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _("Study Plans (KRS)"),
+            'res_model': 'academic.krs',
+            'view_mode': 'list,form',
+            'domain': [('student_id', '=', self.id)],
+            'context': dict(self.env.context, default_student_id=self.id),
+        }
+
+    def action_open_khs(self):
+        """No creation: a transcript is generated from a locked study plan in
+        academic_krs.py, never typed in. New here would make an empty one that
+        no plan accounts for."""
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': _("Transcripts (KHS)"),
+            'res_model': 'academic.khs',
+            'view_mode': 'list,form',
+            'domain': [('student_id', '=', self.id)],
+            'context': dict(self.env.context, create=False),
+        }
