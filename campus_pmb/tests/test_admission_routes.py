@@ -121,3 +121,25 @@ class TestPublicAdmissionForm(CampusHttpCommon):
         location = response.headers.get('Location', '')
         self.assertIn('error=', location)
         self.assertNotIn('system', location.lower())
+
+
+@tagged('post_install', '-at_install')
+class TestPmbMenu(CampusHttpCommon):
+    """The Admissions app tile.
+
+    campus_core.menu_academic_root is group-gated for a stated reason: without
+    it the tile shows for every internal user, including someone who only has
+    Inventory, and clicking through produces an access error instead of simply
+    not being there. This root carried no gate at all while campus.admission is
+    readable by PMB staff and administrators only.
+    """
+
+    def test_the_admissions_tile_is_gated(self):
+        menu = self.env.ref('campus_pmb.menu_campus_pmb_root')
+        self.assertTrue(menu.group_ids, "the Admissions root menu must be gated")
+
+    def test_it_is_open_to_exactly_who_may_read_an_admission(self):
+        groups = self.env.ref('campus_pmb.menu_campus_pmb_root').group_ids
+        self.assertIn(self.env.ref('campus_pmb.group_pmb'), groups)
+        self.assertIn(self.env.ref('campus_core.group_campus_administrator'), groups)
+        self.assertNotIn(self.env.ref('base.group_user'), groups)

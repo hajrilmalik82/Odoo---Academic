@@ -1,4 +1,4 @@
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, ValidationError
 from odoo.tests.common import tagged
 
 from odoo.addons.campus_core.tests.common import TAG, CampusCommon
@@ -191,3 +191,82 @@ class TestCampusRoles(CampusCommon):
         groups = menu.group_ids
         self.assertIn(self.env.ref('campus_core.group_campus_academic_staff'), groups)
         self.assertNotIn(self.env.ref('campus_core.group_campus_lecturer'), groups)
+
+
+@tagged('post_install', '-at_install')
+class TestJurisdictionConsistency(CampusCommon):
+    """A jurisdiction row that reaches nothing at all.
+
+    _domain_for AND's the two dimensions, so an assignment naming a faculty
+    plus a programme outside it matches no record anywhere. The officer sees an
+    empty screen that reads as a permissions bug, with nothing to say the
+    assignment itself is the problem.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.other_faculty = cls.env['academic.faculty'].create({
+            'name': '%s Fakultas Seberang' % TAG, 'code': 'ZFS',
+        })
+        cls.other_program = cls.env['academic.program'].create({
+            'name': '%s Prodi Seberang' % TAG, 'code': 'ZPS',
+            'faculty_id': cls.other_faculty.id,
+        })
+        cls.officer = cls.env['hr.employee'].create({
+            'name': '%s Staf Yurisdiksi' % TAG, 'academic_role': 'academic',
+        })
+
+    def _jurisdiction(self, **vals):
+        base = {'employee_id': self.officer.id, 'scope': 'academic'}
+        base.update(vals)
+        return self.env['campus.jurisdiction'].create(base)
+
+    def test_a_programme_outside_the_assigned_faculties_is_refused(self):
+        with self.assertRaises(ValidationError):
+            self._jurisdiction(
+                faculty_ids=[(6, 0, self.faculty.ids)],
+                program_ids=[(6, 0, self.other_program.ids)],
+            )
+
+    def test_the_refusal_names_the_programme_and_the_faculties(self):
+        """Fixing this means widening the faculty list or dropping the
+        programme, so the message has to say which is which."""
+        with self.assertRaises(ValidationError) as caught:
+            self._jurisdiction(
+                faculty_ids=[(6, 0, self.faculty.ids)],
+                program_ids=[(6, 0, self.other_program.ids)],
+            )
+        message = str(caught.exception)
+        self.assertIn(self.other_program.name, message)
+        self.assertIn(self.faculty.name, message)
+
+    def test_a_programme_of_an_assigned_faculty_is_accepted(self):
+        row = self._jurisdiction(
+            faculty_ids=[(6, 0, self.faculty.ids)],
+            program_ids=[(6, 0, self.program.ids)],
+        )
+        self.assertTrue(row.program_ids)
+
+    def test_a_programme_only_assignment_is_left_alone(self):
+        """No faculty named means no restriction on that dimension, so any
+        programme is legitimate - including one this test's faculty does not
+        own."""
+        row = self._jurisdiction(program_ids=[(6, 0, self.other_program.ids)])
+        self.assertTrue(row.program_ids)
+
+    def test_all_faculties_lifts_the_check(self):
+        row = self._jurisdiction(
+            all_faculties=True,
+            faculty_ids=[(6, 0, self.faculty.ids)],
+            program_ids=[(6, 0, self.other_program.ids)],
+        )
+        self.assertTrue(row.program_ids)
+
+    def test_the_picker_narrows_by_the_chosen_faculties(self):
+        """The domain was ['|', ('faculty_id','in',faculty_ids), ('id','!=',0)].
+        The second leaf is true of every row, so the OR made the whole thing
+        true: it read as a filter and was not one."""
+        domain = self.env['campus.jurisdiction']._fields['program_ids'].domain
+        self.assertIn('faculty_ids', domain)
+        self.assertNotIn("('id', '!=', 0)", domain)

@@ -213,7 +213,16 @@ if records:
     </record>
 
     <!-- Menus -->
-    <menuitem id="menu_campus_pmb_root" name="Admissions" sequence="10" web_icon="campus_pmb,static/description/icon.png"/>
+    <!-- Group-gated, the same way campus_core.menu_academic_root is. Without
+         groups= the Admissions app tile appeared for every internal user -
+         someone who only has Inventory or Accounting included - and clicking
+         Applicants produced an access error instead of simply not being there:
+         campus.admission is readable by PMB staff and administrators only, per
+         security/ir.model.access.csv. An invisible parent hides its whole
+         subtree, so this one attribute covers the menus below it. -->
+    <menuitem id="menu_campus_pmb_root" name="Admissions" sequence="10"
+              web_icon="campus_pmb,static/description/icon.png"
+              groups="campus_pmb.group_pmb,campus_core.group_campus_administrator"/>
     
     <menuitem id="menu_campus_admission" name="Applicants" parent="menu_campus_pmb_root" action="action_campus_admission" sequence="10"/>
 

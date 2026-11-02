@@ -6,6 +6,27 @@
          genuine correction to a rule ships as a migrations/<version>/
          post-migrate.py that writes the new domain_force deliberately. -->
     <data noupdate="1">
+        <!-- The teaching timetable is deliberately NOT scoped by jurisdiction.
+             academic.class, academic.class.schedule and academic.class.session
+             carry full CRUD for academic staff with no rule below, while every
+             student record - academic.krs, academic.khs and both line models -
+             is narrowed to the officer's faculties and programmes.
+
+             That asymmetry is the decision, not an oversight. A study plan and
+             a transcript belong to one student in one programme, so restricting
+             them by programme is restricting them by whose records they are. A
+             timetable is shared infrastructure: rooms are booked across
+             faculties, a lecturer of one faculty teaches a service subject for
+             another, and clash detection in academic_class_schedule.py only
+             works if it can see every booking in the slot. Scoping it would
+             split one timetable into several that cannot see each other, and
+             the overlap constraints would stop catching the conflicts they
+             exist for.
+
+             If an institution does want it scoped, all three models have to
+             move together - a rule on sessions alone leaves the schedules they
+             are generated from wide open - and the clash checks need sudo()
+             first so they keep seeing the whole room. -->
         <record id="rule_academic_staff_krs_access" model="ir.rule">
             <field name="name">Academic Staff: Faculty and Program Access for KRS</field>
             <field name="model_id" ref="campus_core.model_academic_krs"/>

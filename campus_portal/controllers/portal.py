@@ -93,6 +93,29 @@ class CampusPortal(CustomerPortal):
             return Khs.sudo().browse()
         return khs
 
+    def _offerable_schedule_domain(self, krs):
+        """The classes this study plan may actually take.
+
+        One definition, shared by the page that lists them and the route that
+        accepts one. The page filtered and the route did not, so a hand-made
+        POST could add a section from another programme; it was only refused
+        later, by _check_subjects_valid at submission time.
+
+        Mirrors that rule exactly: a subject with no programme is
+        university-wide and stays, and a KRS with no programme is not filtered
+        at all, because the rule lets those through too. The academic-year
+        clause is part of the same definition - a plan may only hold classes
+        offered in its own term.
+        """
+        domain = [('class_id.academic_year_id', '=', krs.academic_year_id.id)]
+        if krs.program_id:
+            domain += [
+                '|',
+                ('class_id.subject_id.program_id', '=', False),
+                ('class_id.subject_id.program_id', '=', krs.program_id.id),
+            ]
+        return domain
+
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
         partner = request.env.user.partner_id
@@ -218,15 +241,8 @@ class CampusPortal(CustomerPortal):
         # where the old one grew with the whole catalogue. No hard limit: a
         # truncated list would silently hide a class the student must take.
         # sudo() so the template can read the advisor from hr.employee without a 403
-        schedule_domain = [('class_id.academic_year_id', '=', krs.academic_year_id.id)]
-        if krs.program_id:
-            schedule_domain += [
-                '|',
-                ('class_id.subject_id.program_id', '=', False),
-                ('class_id.subject_id.program_id', '=', krs.program_id.id),
-            ]
         available_schedules = request.env['academic.class.schedule'].sudo().search(
-            schedule_domain, order='class_id, class_code, id',
+            self._offerable_schedule_domain(krs), order='class_id, class_code, id',
         )
         values = self._prepare_portal_layout_values()
         values.update({
@@ -274,11 +290,22 @@ class CampusPortal(CustomerPortal):
             schedule_id = int(post.get('schedule_id') or 0)
         except (TypeError, ValueError):
             schedule_id = 0
-        schedule = request.env['academic.class.schedule'].sudo().browse(schedule_id).exists()
+        Schedule = request.env['academic.class.schedule'].sudo()
+        schedule = Schedule.browse(schedule_id).exists()
         if not schedule:
             raise UserError(_("Please choose a valid schedule."))
-        if schedule.class_id.academic_year_id != krs.academic_year_id:
-            raise UserError(_("That schedule belongs to a different academic year."))
+        # Held to the same list the page itself offers, instead of to the
+        # academic year alone. The year check used to be the only one here, so
+        # a POST naming a section from another programme was accepted and only
+        # refused at submission - after the student had built a whole plan on
+        # it. The domain carries the year clause too, so nothing is lost.
+        if not Schedule.search_count(
+            self._offerable_schedule_domain(krs) + [('id', '=', schedule.id)]
+        ):
+            raise UserError(_(
+                "That class is not offered for your study programme in this "
+                "academic year."
+            ))
 
         request.env['academic.krs.line'].sudo().create({
             'krs_id': krs.id,

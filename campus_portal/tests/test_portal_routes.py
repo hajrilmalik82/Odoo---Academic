@@ -129,6 +129,53 @@ class TestPortalRoutes(CampusHttpCommon):
         self.assertIn(response.status_code, (302, 303))
         self.assertIn('error=', response.headers.get('Location', ''))
 
+    def test_a_class_from_another_programme_is_refused_at_add_time(self):
+        """The page filters the list by programme; the route used to check the
+        academic year alone, so a hand-made POST naming another programme's
+        section was accepted and only refused at submission - after the student
+        had built a plan on it. Both now read the same definition.
+        """
+        other_faculty = self.env['academic.faculty'].create({
+            'name': 'ZZTEST Fakultas Luar', 'code': 'ZFL',
+        })
+        other_program = self.env['academic.program'].create({
+            'name': 'ZZTEST Prodi Luar', 'code': 'ZPL',
+            'faculty_id': other_faculty.id,
+        })
+        other_subject = self.env['academic.subject'].create({
+            'name': 'ZZTEST Mata Kuliah Luar', 'code': 'ZZ-LUAR',
+            'credits': 3, 'term_type': 'both', 'program_id': other_program.id,
+        })
+        other_class = self.env['academic.class'].create({
+            'subject_id': other_subject.id,
+            'academic_year_id': self.krs.academic_year_id.id,
+            'start_date': self.krs.academic_year_id.krs_start_date,
+        })
+        outside = self.env['academic.class.schedule'].create({
+            'class_id': other_class.id, 'class_code': 'A',
+            'day_of_week': '3', 'start_time': 13.0, 'end_time': 15.0,
+            'room_id': self.room.id,
+        })
+
+        self.sign_in_as_student()
+        token = self._csrf_token(self._get('/my/krs/%s' % self.krs.id).text)
+        before = len(self.krs.line_ids)
+        response = self.url_open(
+            '/my/krs/%s/add_line' % self.krs.id,
+            data={'csrf_token': token, 'schedule_id': str(outside.id)},
+            allow_redirects=False,
+        )
+        self.assertIn(response.status_code, (302, 303))
+        self.assertIn('error=', response.headers.get('Location', ''))
+        self.krs.invalidate_recordset()
+        self.assertEqual(len(self.krs.line_ids), before)
+
+    def test_the_page_and_the_route_read_one_definition(self):
+        """Spelled out twice, the filter and the check would drift - which is
+        exactly how they came apart the first time."""
+        from odoo.addons.campus_portal.controllers.portal import CampusPortal
+        self.assertTrue(hasattr(CampusPortal, '_offerable_schedule_domain'))
+
     def test_someone_elses_krs_is_not_reachable(self):
         """sudo() runs every mutation below, so the ownership check is the only
         thing between a student and another student's plan."""

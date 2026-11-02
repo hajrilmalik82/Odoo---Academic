@@ -1,4 +1,5 @@
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 
 
 class CampusJurisdiction(models.Model):
@@ -51,12 +52,47 @@ class CampusJurisdiction(models.Model):
         string='All Programs',
         help="Reaches every programme, whatever the list below says.",
     )
+    # The previous domain was ['|', ('faculty_id', 'in', faculty_ids),
+    # ('id', '!=', 0)]. The second leaf is true of every row, so the OR made
+    # the whole domain true: it narrowed nothing while reading as though it
+    # did. Conditional, because the two dimensions are AND'ed in _domain_for -
+    # see the constraint below for what that costs - and because narrowing
+    # unconditionally would leave the list empty whenever no faculty has been
+    # assigned, which is a legitimate programme-only jurisdiction.
     program_ids = fields.Many2many(
         'academic.program', 'campus_jurisdiction_program_rel',
         'jurisdiction_id', 'program_id', string='Assigned Programs',
-        domain="['|', ('faculty_id', 'in', faculty_ids), ('id', '!=', 0)]",
+        domain="[('faculty_id', 'in', faculty_ids)]"
+               " if faculty_ids and not all_faculties else []",
         help="If empty, there is no restriction by programme.",
     )
+
+    @api.constrains('all_faculties', 'faculty_ids', 'program_ids')
+    def _check_programs_lie_inside_the_faculties(self):
+        """A programme outside the assigned faculties makes the row useless.
+
+        _domain_for AND's the two dimensions, so an officer given Faculty of
+        Engineering plus a Management programme matches nothing at all - no
+        faculty error, no warning, simply an empty screen that looks like a
+        permissions bug. The domain above steers the dropdown; this holds for
+        an import, a server action or a paste into the list view, which is the
+        same split as dean_id and head_id in academic_institution.py.
+        """
+        for record in self:
+            if record.all_faculties or not record.faculty_ids:
+                continue
+            stray = record.program_ids.filtered(
+                lambda program: program.faculty_id not in record.faculty_ids
+            )
+            if stray:
+                raise ValidationError(_(
+                    "%(programs)s do not belong to the assigned faculties"
+                    " (%(faculties)s). An assignment that names both a faculty and"
+                    " a programme outside it reaches no records at all: widen the"
+                    " faculty list, or drop the programme.",
+                    programs=", ".join(stray.mapped('display_name')),
+                    faculties=", ".join(record.faculty_ids.mapped('name')),
+                ))
 
     _unique_scope_per_employee = models.UniqueIndex(
         "(employee_id, scope)",

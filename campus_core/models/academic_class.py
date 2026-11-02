@@ -158,3 +158,48 @@ class AcademicClassSession(models.Model):
                 and record.end_datetime <= record.start_datetime
             ):
                 raise ValidationError(_("Session end datetime must be after start datetime."))
+
+    @api.constrains('start_datetime', 'end_datetime', 'room_id', 'lecturer_id')
+    def _check_session_overlap(self):
+        """Room and lecturer double-booking on a single session.
+
+        academic.class.schedule already refuses this for the weekly pattern, so
+        generated sessions start out sound. But the session form is editable -
+        a stand-in lecturer for one week and a room change are both real needs -
+        and nothing re-checked an edited session. Moving one meeting into a room
+        that another class occupies went through silently, and the clash only
+        showed up when two groups arrived at the same door.
+
+        Batched the same way _check_schedule_overlap is: the candidates for the
+        whole window are read once and compared in Python, so importing or
+        regenerating a term does not cost two queries per session. Comparing in
+        Python also catches two sessions created in the SAME batch, which a
+        per-record search against the table never would.
+        """
+        relevant = self.filtered(lambda s: s.start_datetime and s.end_datetime)
+        if not relevant:
+            return
+        # One window covering the batch. Narrower than "every session", and it
+        # cannot miss a clash: anything overlapping a record in self must start
+        # before the latest end and end after the earliest start.
+        candidates = self.search([
+            ('start_datetime', '<', max(relevant.mapped('end_datetime'))),
+            ('end_datetime', '>', min(relevant.mapped('start_datetime'))),
+            '|', ('room_id', 'in', relevant.room_id.ids),
+            ('lecturer_id', 'in', relevant.lecturer_id.ids),
+        ])
+        for record in relevant:
+            for other in candidates:
+                if other.id == record.id:
+                    continue
+                if not (record.start_datetime < other.end_datetime
+                        and record.end_datetime > other.start_datetime):
+                    continue
+                if record.room_id and other.room_id == record.room_id:
+                    raise ValidationError(_(
+                        "Room %(room)s is already taken by %(other)s at that time."
+                    ) % {'room': record.room_id.display_name, 'other': other.name})
+                if record.lecturer_id and other.lecturer_id == record.lecturer_id:
+                    raise ValidationError(_(
+                        "%(lecturer)s is already teaching %(other)s at that time."
+                    ) % {'lecturer': record.lecturer_id.name, 'other': other.name})
