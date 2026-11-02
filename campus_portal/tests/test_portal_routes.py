@@ -74,6 +74,26 @@ class TestPortalRoutes(CampusHttpCommon):
         self.sign_in_as_outsider()
         self.assertEqual(self._get('/my/home').status_code, 200)
 
+    def test_the_list_pages_open_for_an_internal_user(self):
+        """Both routes are auth="user", not portal-only, so an accountant or a
+        warehouse operator reaches them from /my like anyone else. Read ACL on
+        academic.krs and academic.khs is granted to portal, campus staff and
+        lecturers only, so an unsudoed search_count made these a 500 page for
+        everybody else. The counters were fixed for this; these two were not.
+        """
+        self.sign_in_as_outsider()
+        for url in ('/my/krs', '/my/khs'):
+            with self.subTest(url=url):
+                self.assertEqual(self._get(url).status_code, 200)
+
+    def test_an_internal_user_sees_no_study_plans_of_their_own(self):
+        """sudo() on those routes must not widen what comes back: the domain is
+        pinned to the logged-in partner, so the page is empty rather than
+        showing somebody else's plan."""
+        self.sign_in_as_outsider()
+        body = self._get('/my/krs').text
+        self.assertNotIn(self.krs.name, body)
+
     # --- the register route -------------------------------------------------
 
     def test_register_refuses_a_get(self):

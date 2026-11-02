@@ -122,6 +122,63 @@ class TestAdmission(CampusCommon):
         self.assertEqual(vendor.name, '%s PT Vendor' % TAG)
         self.assertNotEqual(admission.partner_id, vendor)
 
+    def _account_for(self, partner, login):
+        """A login that already exists in the system, pointing at this contact."""
+        return self.env['res.users'].sudo().create({
+            'name': partner.name,
+            'login': login,
+            'partner_id': partner.id,
+            'group_ids': [(6, 0, [self.env.ref('base.group_portal').id])],
+        })
+
+    def test_an_account_belonging_to_someone_who_is_not_a_student_is_refused(self):
+        """The branch above the partner search, which runs first and wins.
+
+        A lecturer enrolling on a postgraduate programme with their work
+        address is ordinary here, and it used to turn their personnel contact
+        into a student - listed under Students, writable by academic staff
+        through rule_academic_staff_partner_write, with a NIM. res.users.login
+        is unique, so there is no second account to create instead, and only
+        the admissions desk can say whether this is the same person.
+        """
+        lecturer = self.env['res.partner'].create({
+            'name': '%s Pak Dosen' % TAG, 'email': 'zz.dosen.pmb@contoh.test',
+        })
+        self._account_for(lecturer, 'zz.dosen.pmb@contoh.test')
+        admission = self._applicant(email='zz.dosen.pmb@contoh.test')
+        with self.assertRaises(UserError) as caught:
+            self._register(admission)
+        self.assertIn('zz.dosen.pmb@contoh.test', str(caught.exception))
+
+    def test_the_refused_contact_is_left_exactly_as_it_was(self):
+        """Refusing is only worth anything if nothing was written on the way."""
+        lecturer = self.env['res.partner'].create({
+            'name': '%s Bu Dosen' % TAG, 'email': 'zz.dosen2.pmb@contoh.test',
+        })
+        self._account_for(lecturer, 'zz.dosen2.pmb@contoh.test')
+        with self.assertRaises(UserError):
+            self._register(self._applicant(email='zz.dosen2.pmb@contoh.test'))
+        self.assertFalse(lecturer.is_student)
+        self.assertFalse(lecturer.nim)
+        # Empty on purpose: the old branch wrote the admission's programme here.
+        self.assertFalse(lecturer.program_id)
+
+    def test_a_student_who_already_has_an_account_is_still_reused(self):
+        """The guard must refuse the collision, not everybody. A student
+        re-registering keeps their account, their contact and their NIM."""
+        student = self.env['res.partner'].create({
+            'name': '%s Mahasiswa Berakun' % TAG,
+            'email': 'zz.berakun@contoh.test',
+            'is_student': True,
+            'nim': '%s-AKUN-0001' % TAG,
+            'program_id': self.program.id,
+        })
+        user = self._account_for(student, 'zz.berakun@contoh.test')
+        admission = self._register(self._applicant(email='zz.berakun@contoh.test'))
+        self.assertEqual(admission.user_id, user)
+        self.assertEqual(admission.partner_id, student)
+        self.assertEqual(student.nim, '%s-AKUN-0001' % TAG)
+
     # --- the public form ---------------------------------------------------
 
     def test_the_public_form_refuses_a_programme_that_does_not_exist(self):

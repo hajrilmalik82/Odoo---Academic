@@ -120,7 +120,14 @@ class CampusPortal(CustomerPortal):
         partner = request.env.user.partner_id
         domain = [('student_id', '=', partner.id)]
 
-        KrsObj = request.env['academic.krs']
+        # sudo() with the domain pinned to the logged-in partner, the same
+        # contract as _get_own_krs and _prepare_home_portal_values. Read ACL on
+        # academic.krs is granted to portal, campus staff and lecturers only,
+        # so without it this route raised AccessError - a 500 page - for every
+        # other internal user. The route is auth="user", not portal-only, so an
+        # accountant or a warehouse operator reaches it from /my like anyone
+        # else. The counters were fixed for this; the two list pages were not.
+        KrsObj = request.env['academic.krs'].sudo()
         total = KrsObj.search_count(domain)
         pager = request.website.pager(
             url='/my/krs',
@@ -316,7 +323,10 @@ class CampusPortal(CustomerPortal):
         partner = request.env.user.partner_id
         domain = [('student_id', '=', partner.id)]
 
-        KhsObj = request.env['academic.khs']
+        # sudo() for the same reason as /my/krs above: the domain is pinned to
+        # the logged-in partner, so this widens nothing, and without it the
+        # page is a 500 for any internal user with no campus group.
+        KhsObj = request.env['academic.khs'].sudo()
         total = KhsObj.search_count(domain)
         pager = request.website.pager(
             url='/my/khs',

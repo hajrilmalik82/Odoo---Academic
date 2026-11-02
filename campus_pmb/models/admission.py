@@ -330,10 +330,37 @@ class CampusAdmission(models.Model):
             # Check if user with this email already exists in the system
             existing_user = self.env['res.users'].sudo().search([('login', '=', record.email)], limit=1)
             if existing_user:
-                # If exists, just link it to avoid duplicate constraint error
+                # Only a contact that is ALREADY a student may be reused. The
+                # partner search below carries this guard and explains why; this
+                # branch runs first and wins, and did not carry it, so it wrote
+                # is_student and a NIM onto whoever happened to own that login.
+                #
+                # A lecturer enrolling on a postgraduate programme with their
+                # work address is ordinary at an Indonesian campus, and it
+                # turned their personnel contact into a student: listed under
+                # Students, writable by academic staff through
+                # rule_academic_staff_partner_write (whose domain is exactly
+                # is_student = True), with the programme they teach on
+                # overwritten by the one they applied to, and no error anywhere.
+                #
+                # Refused rather than worked around. res.users.login is unique,
+                # so there is no second account to create instead, and whether
+                # this is the same person or a mistyped address is a decision
+                # only the admissions desk can make.
+                if not existing_user.partner_id.is_student:
+                    raise UserError(_(
+                        "The email %(email)s already belongs to another account in "
+                        "the system (%(name)s), which is not a student. Register "
+                        "this applicant with a different email address, or ask an "
+                        "administrator to resolve the two accounts first."
+                    ) % {
+                        'email': record.email,
+                        'name': existing_user.partner_id.display_name,
+                    })
+                # Linked rather than created, to avoid the unique-login error.
                 record.user_id = existing_user.id
                 record.partner_id = existing_user.partner_id.id
-                
+
                 # Update existing partner if they don't have student info yet
                 update_vals = {'is_student': True}
                 if not existing_user.partner_id.nim:
