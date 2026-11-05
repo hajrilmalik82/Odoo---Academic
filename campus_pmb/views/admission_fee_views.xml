@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_admission_fee_list" model="ir.ui.view">
+        <field name="name">campus.admission.fee.list</field>
+        <field name="model">campus.admission.fee</field>
+        <field name="arch" type="xml">
+            <list string="Admission Fees" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="fee_type"/>
+                <field name="admission_path"/>
+                <field name="program_id" placeholder="All Programs" options="{'no_create': True}"/>
+                <field name="amount" widget="monetary"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_campus_admission_fee_search" model="ir.ui.view">
+        <field name="name">campus.admission.fee.search</field>
+        <field name="model">campus.admission.fee</field>
+        <field name="arch" type="xml">
+            <search string="Search Admission Fees">
+                <field name="fee_type"/>
+                <field name="admission_path"/>
+                <field name="program_id"/>
+                <filter string="Registration Fee" name="filter_registration" domain="[('fee_type', '=', 'registration')]"/>
+                <filter string="Re-registration Fee" name="filter_reregistration" domain="[('fee_type', '=', 'reregistration')]"/>
+                <group>
+                    <filter name="group_fee_type" string="Fee Type" domain="[]" context="{'group_by': 'fee_type'}"/>
+                    <filter name="group_path" string="Admission Path" domain="[]" context="{'group_by': 'admission_path'}"/>
+                    <filter name="group_program" string="Program" domain="[]" context="{'group_by': 'program_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_campus_admission_fee" model="ir.actions.act_window">
+        <field name="name">Admission Fees</field>
+        <field name="res_model">campus.admission.fee</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure Registration and Re-registration Fees
+            </p>
+            <p>
+                Set registration fees by admission path and re-registration
+                (daftar ulang) fees by study program or admission path. Leave
+                Program empty to apply a rule across all study programs.
+            </p>
+        </field>
+    </record>
+
+    <menuitem id="menu_campus_admission_fee"
+              name="Admission Fees"
+              parent="menu_pmb_configuration"
+              action="action_campus_admission_fee"
+              sequence="20"/>
+</odoo>
+

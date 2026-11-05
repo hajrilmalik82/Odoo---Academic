@@ -51,11 +51,18 @@
                             <field name="company_id" invisible="1"/>
                         </group>
                     </group>
-                    <group string="Verification">
-                        <group>
+                    <group string="Verification &amp; Payment">
+                        <group string="Documents">
                             <field name="required_document_count" readonly="1"/>
                             <field name="received_document_count" readonly="1"/>
                             <field name="documents_complete" readonly="1"/>
+                        </group>
+                        <group string="Fees &amp; Payment">
+                            <field name="currency_id" invisible="1"/>
+                            <field name="registration_fee" widget="monetary"/>
+                            <field name="registration_fee_paid"/>
+                            <field name="reregistration_fee" widget="monetary"/>
+                            <field name="reregistration_fee_paid"/>
                         </group>
                     </group>
                     <notebook>
@@ -127,6 +134,8 @@
                 <field name="program_id"/>
                 <field name="academic_year_id"/>
                 <field name="registration_date"/>
+                <field name="registration_fee_paid" optional="show"/>
+                <field name="reregistration_fee_paid" optional="show"/>
                 <field name="company_id" column_invisible="1"/>
                 <field name="state" widget="badge" 
                        decoration-info="state in ('submitted', 'document_review')"

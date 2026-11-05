@@ -90,6 +90,23 @@ class CampusAdmission(models.Model):
         string='Documents Complete', compute='_compute_document_progress',
         store=True, tracking=True,
     )
+    currency_id = fields.Many2one(
+        'res.currency', related='company_id.currency_id', readonly=True,
+    )
+    registration_fee = fields.Monetary(
+        string='Registration Fee', compute='_compute_fees', store=True,
+        readonly=False, currency_field='currency_id', tracking=True,
+    )
+    registration_fee_paid = fields.Boolean(
+        string='Registration Fee Paid', tracking=True, copy=False,
+    )
+    reregistration_fee = fields.Monetary(
+        string='Re-registration Fee', compute='_compute_fees', store=True,
+        readonly=False, currency_field='currency_id', tracking=True,
+    )
+    reregistration_fee_paid = fields.Boolean(
+        string='Re-registration Fee Paid', tracking=True, copy=False,
+    )
 
     state = fields.Selection([
         ('draft', 'Draft'),
@@ -156,6 +173,23 @@ class CampusAdmission(models.Model):
             record.required_document_count = len(required_lines)
             record.received_document_count = len(received_lines)
             record.documents_complete = bool(required_lines) and len(required_lines) == len(received_lines)
+
+    @api.depends('admission_path', 'program_id', 'company_id')
+    def _compute_fees(self):
+        Fee = self.env['campus.admission.fee']
+        for record in self:
+            record.registration_fee = Fee._get_fee_amount(
+                'registration',
+                admission_path=record.admission_path,
+                program=record.program_id,
+                company=record.company_id,
+            )
+            record.reregistration_fee = Fee._get_fee_amount(
+                'reregistration',
+                admission_path=record.admission_path,
+                program=record.program_id,
+                company=record.company_id,
+            )
 
     def _ensure_default_documents(self):
         Document = self.env['campus.admission.document']
@@ -264,10 +298,25 @@ class CampusAdmission(models.Model):
         incomplete = self.filtered(lambda record: not record.documents_complete)
         if incomplete:
             raise UserError(_("All required documents must be received first."))
+        unpaid_reg = self.filtered(
+            lambda record: record.registration_fee > 0 and not record.registration_fee_paid
+        )
+        if unpaid_reg:
+            raise UserError(_("Registration fee must be paid before accepting an applicant."))
         self.write({'state': 'accepted'})
 
     def action_register(self):
         self._require_state({'accepted'})
+        unpaid_reg = self.filtered(
+            lambda record: record.registration_fee > 0 and not record.registration_fee_paid
+        )
+        if unpaid_reg:
+            raise UserError(_("Registration fee must be paid before registering a student."))
+        unpaid_rereg = self.filtered(
+            lambda record: record.reregistration_fee > 0 and not record.reregistration_fee_paid
+        )
+        if unpaid_rereg:
+            raise UserError(_("Re-registration fee must be paid before registering a student."))
         for record in self:
             record._create_account()
             record.state = 'registered'
@@ -666,3 +715,108 @@ class CampusAdmissionDocument(models.Model):
         'UNIQUE (admission_id, document_type)',
         "Each document type can only appear once per admission.",
     )
+
+
+class CampusAdmissionFee(models.Model):
+    """Fee configuration for registration and re-registration (daftar ulang).
+
+    Both fees live in one table under Admissions > Configuration > Admission Fees:
+    - Registration Fee ('registration'): usually varies by Admission Path
+      (e.g. Regular, Transfer, Scholarship). Checked before an applicant can be
+      accepted.
+    - Re-registration Fee ('reregistration'): usually varies by Study Program
+      (program_id) and/or Admission Path. Checked before an accepted applicant
+      can be registered as an active student.
+    """
+
+    _name = 'campus.admission.fee'
+    _description = 'Admission Fee'
+    _order = 'sequence, fee_type, id'
+    _check_company_auto = True
+
+    @api.model
+    def _fee_type_selection(self):
+        return [
+            ('registration', _('Registration Fee')),
+            ('reregistration', _('Re-registration Fee')),
+        ]
+
+    name = fields.Char(string='Label', compute='_compute_name')
+    sequence = fields.Integer(default=10)
+    fee_type = fields.Selection(
+        selection=lambda self: self._fee_type_selection(),
+        string='Fee Type', required=True, default='registration',
+    )
+    admission_path = fields.Selection(
+        selection=lambda self: [('all', 'All Paths')] + self.env['campus.admission']._admission_path_selection(),
+        string='Admission Path', default='all', required=True,
+        help="Which applicants this fee applies to. 'All Paths' covers every path unless overridden.",
+    )
+    program_id = fields.Many2one(
+        'academic.program', string='Program', check_company=True,
+        help="Leave empty to apply to all study programs.",
+    )
+    amount = fields.Monetary(
+        string='Amount', required=True, default=0.0, currency_field='currency_id',
+    )
+    currency_id = fields.Many2one(
+        'res.currency', related='company_id.currency_id', readonly=True,
+    )
+    company_id = fields.Many2one(
+        'res.company', string='Company', default=lambda self: self.env.company,
+    )
+
+    _unique_fee_rule = models.UniqueIndex(
+        "(fee_type, admission_path, COALESCE(program_id, 0), COALESCE(company_id, 0))",
+        "A fee rule for this fee type, admission path, and study program already exists.",
+    )
+
+    @api.constrains('amount')
+    def _check_amount(self):
+        for record in self:
+            if record.amount < 0:
+                raise ValidationError(_("Fee amount cannot be negative."))
+
+    @api.depends('fee_type', 'admission_path', 'program_id')
+    def _compute_name(self):
+        fee_types = dict(self._fee_type_selection())
+        paths = dict([('all', _('All Paths'))] + self.env['campus.admission']._admission_path_selection())
+        for record in self:
+            parts = [
+                fee_types.get(record.fee_type, ''),
+                paths.get(record.admission_path, ''),
+            ]
+            if record.program_id:
+                parts.append(record.program_id.name)
+            record.name = ' - '.join(filter(None, parts))
+
+    @api.model
+    def _get_fee_amount(self, fee_type, admission_path=None, program=None, company=None):
+        """Return the configured fee amount for the given type, path, and program.
+
+        Specificity precedence:
+        1. Path-specific + Program-specific
+        2. Path-specific + All Programs (e.g. Scholarship exemption across programs)
+        3. All Paths + Program-specific (e.g. per-Prodi re-registration / UKT fee)
+        4. All Paths + All Programs (general campus fallback)
+        Within the same specificity, a company-specific rule outranks a shared rule.
+        """
+        company = company or self.env.company
+        domain = [
+            ('fee_type', '=', fee_type),
+            ('admission_path', 'in', ['all', admission_path] if admission_path else ['all']),
+            ('program_id', 'in', [program.id, False] if program else [False]),
+            ('company_id', 'in', [company.id, False]),
+        ]
+        rules = self.sudo().search(domain)
+        if not rules:
+            return 0.0
+        best_rule = max(
+            rules,
+            key=lambda r: (
+                r.admission_path != 'all',
+                bool(r.program_id),
+                bool(r.company_id),
+            ),
+        )
+        return best_rule.amount

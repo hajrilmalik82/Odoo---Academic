@@ -28,7 +28,9 @@ class TestAdmission(CampusCommon):
         admission.action_submit()
         admission.action_start_document_review()
         admission.document_line_ids.write({'received': True})
+        admission.write({'registration_fee_paid': True})
         admission.action_accept()
+        admission.write({'reregistration_fee_paid': True})
         admission.action_register()
         return admission
 
@@ -263,3 +265,59 @@ class TestAdmission(CampusCommon):
         other_line = admission.document_line_ids.filtered(lambda l: l.document_type == 'other')
         self.assertTrue(other_line)
         self.assertFalse(other_line.required)
+
+    # --- admission fees (pendaftaran & daftar ulang) -----------------------
+
+    def test_fees_are_computed_from_configuration(self):
+        regular = self._applicant(email='zz.fee.reg@contoh.test', admission_path='regular')
+        transfer = self._applicant(email='zz.fee.trf@contoh.test', admission_path='transfer')
+        scholarship = self._applicant(email='zz.fee.sch@contoh.test', admission_path='scholarship')
+
+        self.assertGreater(regular.registration_fee, 0)
+        self.assertGreater(regular.reregistration_fee, 0)
+        self.assertGreater(transfer.registration_fee, regular.registration_fee)
+        self.assertEqual(scholarship.registration_fee, 0.0)
+        self.assertEqual(scholarship.reregistration_fee, 0.0)
+
+    def test_program_specific_reregistration_fee_overrides_default(self):
+        self.env['campus.admission.fee'].create({
+            'fee_type': 'reregistration',
+            'admission_path': 'all',
+            'program_id': self.program.id,
+            'amount': 6750000.0,
+        })
+        admission = self._applicant(email='zz.fee.prodi@contoh.test', admission_path='regular')
+        self.assertEqual(admission.reregistration_fee, 6750000.0)
+
+    def test_accept_requires_registration_fee_paid(self):
+        admission = self._applicant(email='zz.belum.bayar.reg@contoh.test', admission_path='regular')
+        admission.action_submit()
+        admission.action_start_document_review()
+        admission.document_line_ids.write({'received': True})
+        with self.assertRaises(UserError):
+            admission.action_accept()
+        admission.registration_fee_paid = True
+        admission.action_accept()
+        self.assertEqual(admission.state, 'accepted')
+
+    def test_register_requires_reregistration_fee_paid(self):
+        admission = self._applicant(email='zz.belum.bayar.du@contoh.test', admission_path='regular')
+        admission.action_submit()
+        admission.action_start_document_review()
+        admission.document_line_ids.write({'received': True})
+        admission.registration_fee_paid = True
+        admission.action_accept()
+        with self.assertRaises(UserError):
+            admission.action_register()
+        admission.reregistration_fee_paid = True
+        admission.action_register()
+        self.assertEqual(admission.state, 'registered')
+
+    def test_zero_fee_scholarship_does_not_require_payment_checkbox(self):
+        admission = self._applicant(email='zz.gratis.beasiswa@contoh.test', admission_path='scholarship')
+        admission.action_submit()
+        admission.action_start_document_review()
+        admission.document_line_ids.write({'received': True})
+        admission.action_accept()
+        admission.action_register()
+        self.assertEqual(admission.state, 'registered')
