@@ -1305,3 +1305,88 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "✓ (only their program jurisdictions)"
 msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model,name:campus_pmb.model_campus_admission_fee
+msgid "Admission Fee"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.actions.act_window,name:campus_pmb.action_campus_admission_fee
+#: model:ir.ui.menu,name:campus_pmb.menu_campus_admission_fee
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_list
+msgid "Admission Fees"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_fee__fee_type
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
+msgid "Fee Type"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_fee__amount
+msgid "Amount"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_fee
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission_fee__fee_type__registration
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
+msgid "Registration Fee"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_fee_paid
+msgid "Registration Fee Paid"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__reregistration_fee
+#: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission_fee__fee_type__reregistration
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
+msgid "Re-registration Fee"
+msgstr ""
+
+#. module: campus_pmb
+#: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__reregistration_fee_paid
+msgid "Re-registration Fee Paid"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Verification & Payment"
+msgstr ""
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_form
+msgid "Fees & Payment"
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Registration fee must be paid before accepting an applicant."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Registration fee must be paid before registering a student."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Re-registration fee must be paid before registering a student."
+msgstr ""
+
+#. module: campus_pmb
+#. odoo-python
+#: code:addons/campus_pmb/models/admission.py:0
+msgid "Fee amount cannot be negative."
+msgstr ""
