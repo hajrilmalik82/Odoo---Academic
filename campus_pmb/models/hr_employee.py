@@ -58,3 +58,11 @@ class CampusJurisdiction(models.Model):
     scope = fields.Selection(
         selection_add=[('pmb', 'Admissions (PMB)')], ondelete={'pmb': 'cascade'},
     )
+
+
+class HrJob(models.Model):
+    _inherit = 'hr.job'
+
+    academic_role = fields.Selection(
+        selection_add=[('pmb', 'PMB Staff')], ondelete={'pmb': 'set null'},
+    )

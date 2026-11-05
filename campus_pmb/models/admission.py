@@ -131,10 +131,15 @@ class CampusAdmission(models.Model):
         Document = self.env['campus.admission.document']
         for vals in vals_list:
             if not vals.get('document_line_ids'):
+                company = (
+                    self.env['res.company'].browse(vals['company_id'])
+                    if vals.get('company_id')
+                    else self.env.company
+                )
                 vals['document_line_ids'] = [
-                    Command.create({'document_type': document_type, 'required': True})
-                    for document_type in Document._default_document_types(
-                        vals.get('admission_path', 'regular'),
+                    Command.create({'document_type': document_type, 'required': required})
+                    for document_type, required in Document._default_document_specs(
+                        vals.get('admission_path', 'regular'), company=company,
                     )
                 ]
         records = super().create(vals_list)
@@ -155,14 +160,16 @@ class CampusAdmission(models.Model):
     def _ensure_default_documents(self):
         Document = self.env['campus.admission.document']
         for record in self:
-            default_documents = Document._default_document_types(record.admission_path)
+            default_specs = Document._default_document_specs(
+                record.admission_path, company=record.company_id,
+            )
             existing_types = set(record.document_line_ids.mapped('document_type'))
             lines = [
                 Command.create({
                     'document_type': document_type,
-                    'required': True,
+                    'required': required,
                 })
-                for document_type in default_documents
+                for document_type, required in default_specs
                 if document_type not in existing_types
             ]
             if lines:
@@ -607,6 +614,33 @@ class CampusAdmissionDocument(models.Model):
         ]
 
     @api.model
+    def _default_document_specs(self, admission_path=None, company=None):
+        """Return ``[(document_type, required), ...]`` for the given admission path.
+
+        Reads ``campus.admission.requirement`` scoped to the current company
+        (or company-less shared rules) and preserves each requirement's
+        ``required`` flag. When both an ``all`` rule and a path-specific or
+        company-specific rule name the same document type, the more specific
+        rule decides ``required`` while keeping the first-seen sequence order.
+        """
+        company = company or self.env.company
+        domain = [
+            ('admission_path', 'in', ['all', admission_path] if admission_path else ['all']),
+            ('company_id', 'in', [company.id, False]),
+        ]
+        requirements = self.env['campus.admission.requirement'].sudo().search(domain)
+        if not requirements:
+            return [(doc_type, True) for doc_type in ('identity_card', 'family_card', 'diploma', 'photo')]
+        specs = {}
+        ranks = {}
+        for req in requirements:
+            rank = (req.admission_path != 'all', bool(req.company_id))
+            if req.document_type not in specs or rank >= ranks[req.document_type]:
+                specs[req.document_type] = req.required
+                ranks[req.document_type] = rank
+        return list(specs.items())
+
+    @api.model
     def _default_document_types(self, admission_path=None):
         """The checklist an applicant on this path is asked for.
 
@@ -615,11 +649,7 @@ class CampusAdmissionDocument(models.Model):
         the module ships only when nothing at all is configured, so a
         half-set-up campus still produces a usable checklist.
         """
-        domain = [('admission_path', 'in', ['all', admission_path] if admission_path else ['all'])]
-        requirements = self.env['campus.admission.requirement'].sudo().search(domain)
-        if requirements:
-            return list(dict.fromkeys(requirements.mapped('document_type')))
-        return ['identity_card', 'family_card', 'diploma', 'photo']
+        return [doc_type for doc_type, _required in self._default_document_specs(admission_path)]
 
     admission_id = fields.Many2one(
         'campus.admission', string='Admission', required=True, ondelete='cascade'

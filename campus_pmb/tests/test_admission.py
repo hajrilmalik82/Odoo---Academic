@@ -251,3 +251,15 @@ class TestAdmission(CampusCommon):
         })
         admission = self._applicant(email='zz.beasiswa@contoh.test', admission_path='scholarship')
         self.assertIn('other', admission.document_line_ids.mapped('document_type'))
+
+    def test_an_optional_requirement_is_created_as_not_required(self):
+        """Unchecking Required on a requirement must carry over to new applicants."""
+        self.env['campus.admission.requirement'].create({
+            'document_type': 'other',
+            'admission_path': 'scholarship',
+            'required': False,
+        })
+        admission = self._applicant(email='zz.opsional@contoh.test', admission_path='scholarship')
+        other_line = admission.document_line_ids.filtered(lambda l: l.document_type == 'other')
+        self.assertTrue(other_line)
+        self.assertFalse(other_line.required)

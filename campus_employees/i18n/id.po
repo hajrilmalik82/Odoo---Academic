@@ -409,11 +409,6 @@ msgstr ""
 "atau Program Studi tertentu langsung dari profil pegawai (Yurisdiksi)."
 
 #. module: campus_employees
-#: model:ir.model.fields.selection,name:campus_employees.selection__hr_job__academic_role__pmb
-msgid "PMB Staff"
-msgstr "Staf PMB"
-
-#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__program_id
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee_public__program_id
 msgid "Program"

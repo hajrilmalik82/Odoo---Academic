@@ -71,7 +71,7 @@
                 <xpath expr="//group[@name='other_preferences']" position="inside">
                 <field name="is_redirect_home" invisible="action_id" />
             </xpath>
-]            </data>
+            </data>
         </field>
     </record>
 </odoo>

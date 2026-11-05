@@ -205,7 +205,7 @@ class CampusPortal(CustomerPortal):
             ))
 
         # 2. One study plan per term, whatever state it is in.
-        existing_krs = request.env['academic.krs'].search([
+        existing_krs = request.env['academic.krs'].sudo().search([
             ('student_id', '=', partner.id),
             ('academic_year_id', '=', active_year.id),
         ], limit=1)

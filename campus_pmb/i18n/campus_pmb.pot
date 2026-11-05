@@ -101,7 +101,7 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid ""
 "<i class=\"fa fa-globe text-primary me-2\"/> <strong>URL Access:</strong> "
-"Prospective students simply open the page <strong>/admission/apply</strong> "
+"Prospective students simply open the page <strong>/admission</strong> "
 "(or click PMB Admission on the menu), fill out the online form, and click "
 "<strong>Submit Application</strong>. The system automatically creates a new "
 "record in Admissions with <em>Draft</em> status."
@@ -871,6 +871,7 @@ msgstr ""
 #. module: campus_pmb
 #: model:ir.actions.act_window,name:campus_pmb.action_hr_employee_pmb_staff
 #: model:ir.model.fields.selection,name:campus_pmb.selection__hr_employee__academic_role__pmb
+#: model:ir.model.fields.selection,name:campus_pmb.selection__hr_job__academic_role__pmb
 #: model:ir.ui.menu,name:campus_pmb.menu_academic_pmb_staff
 #: model:res.groups,name:campus_pmb.group_pmb
 msgid "PMB Staff"

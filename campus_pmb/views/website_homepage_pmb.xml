@@ -123,7 +123,7 @@
                     <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Self-Registration via Website (Online)</h4>
                     <p class="text-muted mb-3">The PMB module also provides a public application page that prospective students can access directly from the campus website without needing to log in first.</p>
                     <div class="bg-light p-3 rounded mb-2">
-                        <i class="fa fa-globe text-primary me-2"/> <strong>URL Access:</strong> Prospective students simply open the page <strong>/admission/apply</strong> (or click PMB Admission on the menu), fill out the online form, and click <strong>Submit Application</strong>. The system automatically creates a new record in Admissions with <em>Draft</em> status.
+                        <i class="fa fa-globe text-primary me-2"/> <strong>URL Access:</strong> Prospective students simply open the page <strong>/admission</strong> (or click PMB Admission on the menu), fill out the online form, and click <strong>Submit Application</strong>. The system automatically creates a new record in Admissions with <em>Draft</em> status.
                     </div>
                     <div class="bg-light p-3 rounded mb-2">
                         <i class="fa fa-filter text-info me-2"/> <strong>Dynamic Form Filtering:</strong> The online registration form is equipped with smart JavaScript that automatically filters the available Study Programs based on the selected Faculty. This guarantees error-free data entry from candidates.

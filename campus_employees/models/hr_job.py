@@ -7,7 +7,6 @@ class HrJob(models.Model):
 
     academic_role = fields.Selection([
         ('lecturer', 'Lecturer'),
-        ('pmb', 'PMB Staff'),
         ('academic', 'Academic Staff (TU)')
     ], string="Academic Role")
 
