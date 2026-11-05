@@ -30,6 +30,44 @@
         <field name="faculty_ids" eval="[(6, 0, [ref('campus_core.demo_faculty_fti')])]"/>
     </record>
 
+    <!-- Per-programme re-registration fees (daftar ulang), so each study
+         programme shows its own tuition/re-registration rate out of the box. -->
+    <record id="demo_fee_rereg_if" model="campus.admission.fee">
+        <field name="sequence">41</field>
+        <field name="fee_type">reregistration</field>
+        <field name="admission_path">all</field>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+        <field name="amount">6500000</field>
+    </record>
+    <record id="demo_fee_rereg_si" model="campus.admission.fee">
+        <field name="sequence">42</field>
+        <field name="fee_type">reregistration</field>
+        <field name="admission_path">all</field>
+        <field name="program_id" ref="campus_core.demo_program_si"/>
+        <field name="amount">6000000</field>
+    </record>
+    <record id="demo_fee_rereg_ti" model="campus.admission.fee">
+        <field name="sequence">43</field>
+        <field name="fee_type">reregistration</field>
+        <field name="admission_path">all</field>
+        <field name="program_id" ref="campus_core.demo_program_ti"/>
+        <field name="amount">5500000</field>
+    </record>
+    <record id="demo_fee_rereg_mn" model="campus.admission.fee">
+        <field name="sequence">44</field>
+        <field name="fee_type">reregistration</field>
+        <field name="admission_path">all</field>
+        <field name="program_id" ref="campus_core.demo_program_mn"/>
+        <field name="amount">4500000</field>
+    </record>
+    <record id="demo_fee_rereg_ak" model="campus.admission.fee">
+        <field name="sequence">45</field>
+        <field name="fee_type">reregistration</field>
+        <field name="admission_path">all</field>
+        <field name="program_id" ref="campus_core.demo_program_ak"/>
+        <field name="amount">4750000</field>
+    </record>
+
     <record id="demo_admission_draft" model="campus.admission">
         <field name="name">Putri Anggraini</field>
         <field name="email">putri.anggraini@calon.test</field>
@@ -94,6 +132,14 @@
     </record>
 
     <!-- Submitted: four of them move out of draft. -->
+    <function model="campus.admission" name="_compute_fees" eval="[[
+        ref('demo_admission_draft'),
+        ref('demo_admission_submitted'),
+        ref('demo_admission_review'),
+        ref('demo_admission_transfer'),
+        ref('demo_admission_rejected'),
+        ref('demo_admission_registered'),
+    ]]"/>
     <function model="campus.admission" name="action_submit" eval="[[
         ref('demo_admission_submitted'),
         ref('demo_admission_review'),

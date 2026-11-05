@@ -1367,6 +1367,7 @@ msgstr "Nominal"
 #: code:addons/campus_pmb/models/admission.py:0
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_fee
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission_fee__fee_type__registration
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
 msgid "Registration Fee"
 msgstr "Biaya Pendaftaran"
@@ -1381,6 +1382,7 @@ msgstr "Biaya Pendaftaran Lunas"
 #: code:addons/campus_pmb/models/admission.py:0
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__reregistration_fee
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission_fee__fee_type__reregistration
+#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
 msgid "Re-registration Fee"
 msgstr "Biaya Daftar Ulang"

@@ -48,6 +48,8 @@ class TestPublicAdmissionForm(CampusHttpCommon):
         html = self._form()
         self.assertIn('csrf_token', html)
         self.assertIn(self.faculty.name, html)
+        self.assertIn('display_registration_fee', html)
+        self.assertIn('display_reregistration_fee', html)
 
     def test_the_thank_you_page_renders(self):
         self.assertEqual(self.url_open('/admission/thanks').status_code, 200)

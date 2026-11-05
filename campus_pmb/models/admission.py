@@ -732,7 +732,6 @@ class CampusAdmissionFee(models.Model):
     _name = 'campus.admission.fee'
     _description = 'Admission Fee'
     _order = 'sequence, fee_type, id'
-    _check_company_auto = True
 
     @api.model
     def _fee_type_selection(self):
@@ -752,19 +751,31 @@ class CampusAdmissionFee(models.Model):
         string='Admission Path', default='all', required=True,
         help="Which applicants this fee applies to. 'All Paths' covers every path unless overridden.",
     )
+    # Deliberately no check_company=True here: seeded fee rows carry
+    # company_id=False (shared across companies), and in single-company mode the
+    # company_id column is hidden from the list view. With check_company=True,
+    # Odoo narrows the dropdown domain to [('company_id', '=', False)], which
+    # hides every academic.program that belongs to the active company and shows
+    # "No records".
     program_id = fields.Many2one(
-        'academic.program', string='Program', check_company=True,
+        'academic.program', string='Program',
         help="Leave empty to apply to all study programs.",
     )
     amount = fields.Monetary(
         string='Amount', required=True, default=0.0, currency_field='currency_id',
     )
     currency_id = fields.Many2one(
-        'res.currency', related='company_id.currency_id', readonly=True,
+        'res.currency', compute='_compute_currency_id',
     )
     company_id = fields.Many2one(
         'res.company', string='Company', default=lambda self: self.env.company,
     )
+
+    @api.depends('company_id')
+    def _compute_currency_id(self):
+        default_currency = self.env.company.currency_id
+        for record in self:
+            record.currency_id = record.company_id.currency_id or default_currency
 
     _unique_fee_rule = models.UniqueIndex(
         "(fee_type, admission_path, COALESCE(program_id, 0), COALESCE(company_id, 0))",

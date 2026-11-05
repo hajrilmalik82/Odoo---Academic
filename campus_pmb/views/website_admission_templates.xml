@@ -65,13 +65,24 @@
                                             </div>
                                         </div>
 
-                                        <div class="mb-4">
+                                        <div class="mb-3">
                                             <label class="form-label" for="admission_path">Admission Path <span class="text-danger">*</span></label>
-                                            <select class="form-select" name="admission_path" required="required">
+                                            <select class="form-select" name="admission_path" id="admission_path" required="required">
                                                 <option value="regular">Regular</option>
                                                 <option value="scholarship">Scholarship</option>
                                                 <option value="transfer">Transfer</option>
                                             </select>
+                                        </div>
+
+                                        <div class="row mb-4" id="admission_fee_summary" t-att-data-fee-matrix="fee_matrix_json">
+                                            <div class="col-md-6 mb-2 mb-md-0">
+                                                <label class="form-label" for="display_registration_fee">Registration Fee</label>
+                                                <input type="text" class="form-control bg-light fw-semibold" id="display_registration_fee" t-att-value="default_registration_fee" readonly="readonly"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="form-label" for="display_reregistration_fee">Re-registration Fee</label>
+                                                <input type="text" class="form-control bg-light fw-semibold" id="display_reregistration_fee" t-att-value="default_reregistration_fee" readonly="readonly"/>
+                                            </div>
                                         </div>
 
                                         <div class="d-grid">
@@ -89,7 +100,35 @@
                 document.addEventListener('DOMContentLoaded', function() {
                     var facultySelect = document.getElementById('faculty_id');
                     var programSelect = document.getElementById('program_id');
-                    if(facultySelect &amp;&amp; programSelect) {
+                    var pathSelect = document.getElementById('admission_path');
+                    var feeSummary = document.getElementById('admission_fee_summary');
+                    var regFeeInput = document.getElementById('display_registration_fee');
+                    var reregFeeInput = document.getElementById('display_reregistration_fee');
+                    var feeMatrix = {};
+
+                    if (feeSummary &amp;&amp; feeSummary.dataset.feeMatrix) {
+                        try {
+                            feeMatrix = JSON.parse(feeSummary.dataset.feeMatrix);
+                        } catch (e) {
+                            feeMatrix = {};
+                        }
+                    }
+
+                    function updateFees() {
+                        if (!regFeeInput || !reregFeeInput) {
+                            return;
+                        }
+                        var path = pathSelect ? pathSelect.value : 'regular';
+                        var progId = programSelect ? (programSelect.value || '') : '';
+                        var pathFees = feeMatrix[path] || {};
+                        var fees = pathFees[progId] || pathFees[''] || null;
+                        if (fees) {
+                            regFeeInput.value = fees.registration;
+                            reregFeeInput.value = fees.reregistration;
+                        }
+                    }
+
+                    if (facultySelect &amp;&amp; programSelect) {
                         var allPrograms = Array.from(programSelect.options).slice(1);
                         
                         facultySelect.addEventListener('change', function() {
@@ -107,8 +146,15 @@
                             } else {
                                 programSelect.setAttribute('disabled', 'disabled');
                             }
+                            updateFees();
                         });
+
+                        programSelect.addEventListener('change', updateFees);
                     }
+                    if (pathSelect) {
+                        pathSelect.addEventListener('change', updateFees);
+                    }
+                    updateFees();
                 });
             </script>
         </t>

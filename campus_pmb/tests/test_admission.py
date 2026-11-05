@@ -280,11 +280,14 @@ class TestAdmission(CampusCommon):
         self.assertEqual(scholarship.reregistration_fee, 0.0)
 
     def test_program_specific_reregistration_fee_overrides_default(self):
+        # Including company_id=False (like the seeded rows) must still allow
+        # pointing at a study program that belongs to the active company.
         self.env['campus.admission.fee'].create({
             'fee_type': 'reregistration',
             'admission_path': 'all',
             'program_id': self.program.id,
             'amount': 6750000.0,
+            'company_id': False,
         })
         admission = self._applicant(email='zz.fee.prodi@contoh.test', admission_path='regular')
         self.assertEqual(admission.reregistration_fee, 6750000.0)

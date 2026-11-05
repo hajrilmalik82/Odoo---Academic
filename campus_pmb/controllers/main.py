@@ -1,9 +1,11 @@
+import json
 import logging
 from urllib.parse import urlencode
 
 from odoo import http, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.http import request
+from odoo.tools.misc import format_amount
 
 _logger = logging.getLogger(__name__)
 
@@ -17,14 +19,34 @@ class CampusPMBWebsite(http.Controller):
         # database offered an anonymous visitor every institution's faculties
         # and programmes in one dropdown. _create_admission_from_portal applies
         # the same domain, so a hand-crafted POST cannot pick another one.
+        company = request.env.company
         company_domain = ['|', ('company_id', '=', False),
-                          ('company_id', '=', request.env.company.id)]
+                          ('company_id', '=', company.id)]
         faculties = request.env['academic.faculty'].sudo().search(company_domain)
         programs = request.env['academic.program'].sudo().search(company_domain)
-        
+
+        Fee = request.env['campus.admission.fee'].sudo()
+        paths = [key for key, _label in request.env['campus.admission']._admission_path_selection()]
+        currency = company.currency_id
+        fee_matrix = {}
+        for path in paths:
+            fee_matrix[path] = {}
+            for prog in [None] + list(programs):
+                prog_key = str(prog.id) if prog else ''
+                reg_amount = Fee._get_fee_amount('registration', admission_path=path, program=prog, company=company)
+                rereg_amount = Fee._get_fee_amount('reregistration', admission_path=path, program=prog, company=company)
+                fee_matrix[path][prog_key] = {
+                    'registration': format_amount(request.env, reg_amount, currency),
+                    'reregistration': format_amount(request.env, rereg_amount, currency),
+                }
+
+        default_fees = fee_matrix.get('regular', {}).get('', {'registration': '-', 'reregistration': '-'})
         values = {
             'faculties': faculties,
             'programs': programs,
+            'fee_matrix_json': json.dumps(fee_matrix),
+            'default_registration_fee': default_fees['registration'],
+            'default_reregistration_fee': default_fees['reregistration'],
             'page_name': 'admission_form',
             'error': kw.get('error'),
         }
