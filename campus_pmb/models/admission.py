@@ -177,18 +177,22 @@ class CampusAdmission(models.Model):
     @api.depends('admission_path', 'program_id', 'company_id')
     def _compute_fees(self):
         Fee = self.env['campus.admission.fee']
+        company_ids = self.company_id.ids + [False]
+        all_rules = Fee.sudo().search([('company_id', 'in', company_ids)])
         for record in self:
             record.registration_fee = Fee._get_fee_amount(
                 'registration',
                 admission_path=record.admission_path,
                 program=record.program_id,
                 company=record.company_id,
+                rules=all_rules,
             )
             record.reregistration_fee = Fee._get_fee_amount(
                 'reregistration',
                 admission_path=record.admission_path,
                 program=record.program_id,
                 company=record.company_id,
+                rules=all_rules,
             )
 
     def _ensure_default_documents(self):
@@ -529,21 +533,23 @@ class CampusAdmission(models.Model):
         except (ValueError, TypeError):
             raise ValidationError(_("Invalid faculty or program selection."))
 
+        if not program_id:
+            raise ValidationError(_("Invalid study programme selection."))
+
         # exists() before reading. browse() on an id that is not there raises
         # MissingError, whose message names the model, the record id and the
         # internal uid - handed straight to an anonymous visitor by the
         # controller. The faculty was never checked at all.
         company_domain = ['|', ('company_id', '=', False), ('company_id', '=', self.env.company.id)]
-        if program_id:
-            program = self.env['academic.program'].sudo().search(
-                [('id', '=', program_id)] + company_domain, limit=1,
-            )
-            if not program:
-                raise ValidationError(_("Invalid study programme selection."))
-            if faculty_id and program.faculty_id.id != faculty_id:
-                raise ValidationError(_("Program does not belong to the selected faculty."))
-            if not faculty_id:
-                faculty_id = program.faculty_id.id
+        program = self.env['academic.program'].sudo().search(
+            [('id', '=', program_id)] + company_domain, limit=1,
+        )
+        if not program:
+            raise ValidationError(_("Invalid study programme selection."))
+        if faculty_id and program.faculty_id.id != faculty_id:
+            raise ValidationError(_("Program does not belong to the selected faculty."))
+        if not faculty_id:
+            faculty_id = program.faculty_id.id
         if faculty_id and not self.env['academic.faculty'].sudo().search_count(
             [('id', '=', faculty_id)] + company_domain,
         ):
@@ -561,6 +567,8 @@ class CampusAdmission(models.Model):
             for field in self._PORTAL_WRITABLE_FIELDS
             if post_data.get(field)
         }
+        if not vals.get('name') or not vals.get('email'):
+            raise ValidationError(_("Applicant name and email address are required."))
 
         # A selection value straight off the wire is still untrusted input.
         # Read through the helper, not off the field: the selection is a
@@ -802,7 +810,9 @@ class CampusAdmissionFee(models.Model):
             record.name = ' - '.join(filter(None, parts))
 
     @api.model
-    def _get_fee_amount(self, fee_type, admission_path=None, program=None, company=None):
+    def _get_fee_amount(
+        self, fee_type, admission_path=None, program=None, company=None, rules=None,
+    ):
         """Return the configured fee amount for the given type, path, and program.
 
         Specificity precedence:
@@ -811,19 +821,33 @@ class CampusAdmissionFee(models.Model):
         3. All Paths + Program-specific (e.g. per-Prodi re-registration / UKT fee)
         4. All Paths + All Programs (general campus fallback)
         Within the same specificity, a company-specific rule outranks a shared rule.
+        Pass a pre-fetched ``rules`` recordset to evaluate in memory without
+        issuing a query per call.
         """
         company = company or self.env.company
-        domain = [
-            ('fee_type', '=', fee_type),
-            ('admission_path', 'in', ['all', admission_path] if admission_path else ['all']),
-            ('program_id', 'in', [program.id, False] if program else [False]),
-            ('company_id', 'in', [company.id, False]),
-        ]
-        rules = self.sudo().search(domain)
-        if not rules:
+        allowed_paths = {'all', admission_path} if admission_path else {'all'}
+        allowed_programs = {program.id, False} if program else {False}
+        allowed_companies = {company.id, False}
+
+        if rules is None:
+            domain = [
+                ('fee_type', '=', fee_type),
+                ('admission_path', 'in', list(allowed_paths)),
+                ('program_id', 'in', list(allowed_programs)),
+                ('company_id', 'in', list(allowed_companies)),
+            ]
+            matching_rules = self.sudo().search(domain)
+        else:
+            matching_rules = rules.filtered(
+                lambda r: r.fee_type == fee_type
+                and r.admission_path in allowed_paths
+                and (r.program_id.id or False) in allowed_programs
+                and (r.company_id.id or False) in allowed_companies
+            )
+        if not matching_rules:
             return 0.0
         best_rule = max(
-            rules,
+            matching_rules,
             key=lambda r: (
                 r.admission_path != 'all',
                 bool(r.program_id),

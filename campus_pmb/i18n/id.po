@@ -102,8 +102,8 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid ""
 "<i class=\"fa fa-globe text-primary me-2\"/> <strong>URL Access:</strong> "
-"Prospective students simply open the page <strong>/admission</strong> "
-"(or click PMB Admission on the menu), fill out the online form, and click "
+"Prospective students simply open the page <strong>/admission</strong> (or "
+"click PMB Admission on the menu), fill out the online form, and click "
 "<strong>Submit Application</strong>. The system automatically creates a new "
 "record in Admissions with <em>Draft</em> status."
 msgstr ""
@@ -161,31 +161,6 @@ msgid ""
 "menu. The status changes to <em>Rejected</em> and cannot be processed "
 "further."
 msgstr ""
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "<option value=\"\">-- Choose Faculty --</option>"
-msgstr "<option value=\"\">-- Pilih Fakultas --</option>"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "<option value=\"\">-- Choose Study Program --</option>"
-msgstr "<option value=\"\">-- Pilih Program Studi --</option>"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid ""
-"<select class=\"form-select\" name=\"admission_path\" required=\"required\">\n"
-"                                                <option value=\"regular\">Regular</option>\n"
-"                                                <option value=\"scholarship\">Scholarship</option>\n"
-"                                                <option value=\"transfer\">Transfer</option>\n"
-"                                            </select>"
-msgstr ""
-"<select class=\"form-select\" name=\"admission_path\" required=\"required\">\n"
-"                                                <option value=\"regular\">Reguler</option>\n"
-"                                                <option value=\"scholarship\">Beasiswa</option>\n"
-"                                                <option value=\"transfer\">Pindahan</option>\n"
-"                                            </select>"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -351,11 +326,6 @@ msgid "Admission Path"
 msgstr "Jalur Pendaftaran"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Admission Path <span class=\"text-danger\">*</span>"
-msgstr "Jalur Masuk <span class=\"text-danger\">*</span>"
-
-#. module: campus_pmb
 #: model:ir.actions.act_window,name:campus_pmb.action_campus_admission
 #: model:ir.ui.menu,name:campus_pmb.menu_campus_pmb_root
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_tree
@@ -417,19 +387,9 @@ msgid "Application Rejection (Reject)"
 msgstr "Penolakan Lamaran (Tolak)"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
-msgid "Application Successful!"
-msgstr "Pendaftaran Berhasil!"
-
-#. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__message_attachment_count
 msgid "Attachment Count"
 msgstr "Jumlah Lampiran"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
-msgid "Back to Homepage"
-msgstr "Kembali ke Beranda"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -561,11 +521,6 @@ msgid "Email"
 msgstr "Email"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Email Address <span class=\"text-danger\">*</span>"
-msgstr "Alamat Email <span class=\"text-danger\">*</span>"
-
-#. module: campus_pmb
 #. odoo-python
 #: code:addons/campus_pmb/models/admission.py:0
 msgid "Email is required to create a Portal account."
@@ -593,35 +548,10 @@ msgstr ""
 "Fakultas, Program, atau Status Lamaran."
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Example: 08123456789"
-msgstr "Contoh: 08123456789"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Example: High School 1"
-msgstr "Contoh: SMA 1"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Example: John Doe"
-msgstr "Contoh: John Doe"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Example: john@example.com"
-msgstr "Contoh: john@example.com"
-
-#. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__faculty_id
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
 msgid "Faculty"
 msgstr "Fakultas"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Faculty <span class=\"text-danger\">*</span>"
-msgstr "Fakultas <span class=\"text-danger\">*</span>"
 
 #. module: campus_pmb
 #. odoo-python
@@ -648,11 +578,6 @@ msgstr "Pengikut (Mitra)"
 #: model:ir.model.fields,help:campus_pmb.field_campus_admission__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
 msgstr "Ikon font yang mengagumkan, mis. tugas fa"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Full Name <span class=\"text-danger\">*</span>"
-msgstr "Nama Lengkap <span class=\"text-danger\">*</span>"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -788,11 +713,6 @@ msgid "New Student Admission"
 msgstr "Pendaftaran Mahasiswa Baru"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "New Student Registration"
-msgstr "Pendaftaran Mahasiswa Baru"
-
-#. module: campus_pmb
 #. odoo-python
 #: code:addons/campus_pmb/models/admission.py:0
 msgid "New admissions must start in draft status."
@@ -863,20 +783,6 @@ msgid "Other"
 msgstr "Lainnya"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
-msgid ""
-"Our admissions team will process your data shortly and contact you via Email"
-" or Phone for the next steps."
-msgstr ""
-"Tim penerimaan kami akan segera memproses data Anda dan menghubungi Anda "
-"melalui Email atau Telepon untuk langkah selanjutnya."
-
-#. module: campus_pmb
-#: model:website.menu,name:campus_pmb.menu_admission
-msgid "PMB Admission"
-msgstr "Penerimaan Mahasiswa Baru"
-
-#. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "PMB Committee"
 msgstr "Panitia PMB"
@@ -906,20 +812,10 @@ msgid "Phone"
 msgstr "Telepon"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Phone Number/WhatsApp <span class=\"text-danger\">*</span>"
-msgstr "Nomor HP/WhatsApp <span class=\"text-danger\">*</span>"
-
-#. module: campus_pmb
 #. odoo-python
 #: code:addons/campus_pmb/models/admission.py:0
 msgid "Photo"
 msgstr "Pasfoto"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Please fill out the form below with correct information."
-msgstr "Silakan isi formulir di bawah ini dengan informasi yang benar."
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__user_id
@@ -928,7 +824,6 @@ msgstr "Pengguna Portal"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__previous_school
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 msgid "Previous School"
 msgstr "Asal Sekolah"
 
@@ -1111,11 +1006,6 @@ msgid "Student Profile"
 msgstr "Profil Mahasiswa"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Study Program <span class=\"text-danger\">*</span>"
-msgstr "Program Studi <span class=\"text-danger\">*</span>"
-
-#. module: campus_pmb
 #. odoo-python
 #: code:addons/campus_pmb/controllers/main.py:0
 msgid "Submission failed because of a system error. Please try again later."
@@ -1134,20 +1024,10 @@ msgid "Submit"
 msgstr "Ajukan"
 
 #. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
-msgid "Submit Application"
-msgstr "Kirim Pendaftaran"
-
-#. module: campus_pmb
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__submitted
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
 msgid "Submitted"
 msgstr "Diajukan"
-
-#. module: campus_pmb
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_thanks
-msgid "Thank you, your application has been received."
-msgstr "Terima kasih, lamaran Anda telah diterima."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1367,7 +1247,6 @@ msgstr "Nominal"
 #: code:addons/campus_pmb/models/admission.py:0
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__registration_fee
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission_fee__fee_type__registration
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
 msgid "Registration Fee"
 msgstr "Biaya Pendaftaran"
@@ -1382,7 +1261,6 @@ msgstr "Biaya Pendaftaran Lunas"
 #: code:addons/campus_pmb/models/admission.py:0
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__reregistration_fee
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission_fee__fee_type__reregistration
-#: model_terms:ir.ui.view,arch_db:campus_pmb.admission_form
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_fee_search
 msgid "Re-registration Fee"
 msgstr "Biaya Daftar Ulang"
