@@ -112,21 +112,6 @@ class AcademicFaculty(models.Model):
             ('program_id.faculty_id', '=', self.id),
         ])
 
-    @api.constrains('code')
-    def _check_code_not_reused(self):
-        """A code may be corrected right up until it has issued a NIM.
-
-        After that it is baked into student numbers printed on transcripts,
-        cards and every KHS already issued, so changing it would leave those
-        documents carrying a prefix the system no longer produces.
-        """
-        for record in self:
-            if record._issued_nim_count():
-                raise ValidationError(_(
-                    "The code of '%(name)s' can no longer be changed: student "
-                    "numbers have already been issued from it."
-                ) % {'name': record.display_name})
-
     @api.model_create_multi
     def create(self, vals_list):
         # Checked up front: the loop below creates an hr.department before
@@ -150,6 +135,13 @@ class AcademicFaculty(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
+        if 'code' in vals:
+            for record in self:
+                if vals['code'] != record.code and record._issued_nim_count():
+                    raise ValidationError(_(
+                        "The code of '%(name)s' can no longer be changed: student "
+                        "numbers have already been issued from it."
+                    ) % {'name': record.display_name})
         # Captured before the write, so the programme heads below can tell
         # whether they were reporting to the dean who is now leaving.
         outgoing_deans = {faculty.id: faculty.dean_id for faculty in self} if 'dean_id' in vals else {}
@@ -252,21 +244,6 @@ class AcademicProgram(models.Model):
             ('program_id', '=', self.id),
         ])
 
-    @api.constrains('code')
-    def _check_code_not_reused(self):
-        """A code may be corrected right up until it has issued a NIM.
-
-        After that it is baked into student numbers printed on transcripts,
-        cards and every KHS already issued, so changing it would leave those
-        documents carrying a prefix the system no longer produces.
-        """
-        for record in self:
-            if record._issued_nim_count():
-                raise ValidationError(_(
-                    "The code of '%(name)s' can no longer be changed: student "
-                    "numbers have already been issued from it."
-                ) % {'name': record.display_name})
-
     @api.model_create_multi
     def create(self, vals_list):
         # Same reason as on the faculty above.
@@ -316,6 +293,13 @@ class AcademicProgram(models.Model):
             self.head_id.parent_id = False
 
     def write(self, vals):
+        if 'code' in vals:
+            for record in self:
+                if vals['code'] != record.code and record._issued_nim_count():
+                    raise ValidationError(_(
+                        "The code of '%(name)s' can no longer be changed: student "
+                        "numbers have already been issued from it."
+                    ) % {'name': record.display_name})
         res = super().write(vals)
         for program in self:
             if not program.department_id:

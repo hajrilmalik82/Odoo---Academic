@@ -69,6 +69,9 @@ class TestInstitutionCode(CampusCommon):
         })
         with self.assertRaises(ValidationError):
             self.program.code = 'ZZ'
+        # Writing the same code or resaving must not raise a false-positive ValidationError
+        self.program.code = self.program.code
+        self.faculty.code = self.faculty.code
 
     def test_code_may_still_be_corrected_before_any_nim(self):
         program = self.env['academic.program'].create({

@@ -35,6 +35,12 @@ class CampusPMBWebsite(http.Controller):
         csrf=False, cors='*', readonly=True,
     )
     def api_admission_options(self, **kw):
+        if request.httprequest.method == 'OPTIONS':
+            return request.make_response('', headers={
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+            })
         company = request.env.company
         company_domain = [
             '|', ('company_id', '=', False), ('company_id', '=', company.id),
@@ -129,6 +135,12 @@ class CampusPMBWebsite(http.Controller):
         csrf=False, cors='*',
     )
     def api_admission_submit(self, **post):
+        if request.httprequest.method == 'OPTIONS':
+            return request.make_response('', headers={
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'POST, OPTIONS',
+                'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
+            })
         try:
             payload = self._extract_payload()
             normalized = {

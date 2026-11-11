@@ -50,7 +50,19 @@ class TestPublicAdmissionApi(CampusHttpCommon):
         self.assertIn('transfer', track_ids)
         self.assertIn('regular', data['feeMatrix'])
 
+    def test_options_preflight_on_options_endpoint_succeeds(self):
+        response = self.url_open('/api/admission/options', method='OPTIONS')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
+        self.assertIn('OPTIONS', response.headers.get('Access-Control-Allow-Methods', ''))
+
     # --- POST /api/admission/submit -----------------------------------------
+
+    def test_options_preflight_on_submit_endpoint_succeeds(self):
+        response = self.url_open('/api/admission/submit', method='OPTIONS')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
+        self.assertIn('OPTIONS', response.headers.get('Access-Control-Allow-Methods', ''))
 
     def test_a_valid_application_is_created_and_lands_in_draft(self):
         response = self._submit()

@@ -324,3 +324,10 @@ class TestAdmission(CampusCommon):
         admission.action_accept()
         admission.action_register()
         self.assertEqual(admission.state, 'registered')
+
+    def test_phone_validation_accepts_valid_and_rejects_invalid(self):
+        admission = self._applicant(email='zz.telepon.valid@contoh.test')
+        admission.phone = '+62 812-3456-7890'
+        self.assertEqual(admission.phone, '+62 812-3456-7890')
+        with self.assertRaises(ValidationError):
+            admission.phone = 'bukan-nomor-telepon'

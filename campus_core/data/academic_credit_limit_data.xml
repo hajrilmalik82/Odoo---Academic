@@ -24,10 +24,12 @@
         </record>
 
         <!-- Floor: applies to everyone below 2.00, new students included, since
-             a student with no grades yet has a CGPA of 0.00. -->
+             a student with no grades yet has a CGPA of 0.00. Set to 24 SKS so freshmen
+             can take full first-year course packages without hitting a 15 SKS ceiling.
+             Registrars can adjust this band anytime under Configuration > Credit Limits. -->
         <record id="credit_limit_band_000" model="academic.credit.limit">
             <field name="min_cgpa">0.00</field>
-            <field name="max_credits">15</field>
+            <field name="max_credits">24</field>
             <field name="company_id" eval="False"/>
         </record>
     </data>

@@ -68,6 +68,16 @@ class CampusAdmission(models.Model):
     user_id = fields.Many2one(
         'res.users', string='Portal User', readonly=True, tracking=True, copy=False
     )
+
+    @api.constrains('phone')
+    def _check_phone(self):
+        for record in self:
+            if not record.phone:
+                continue
+            cleaned = re.sub(r'[\s\-\(\)\.]', '', record.phone)
+            if not re.match(r'^\+?[0-9]{8,15}$', cleaned):
+                raise ValidationError(_("Invalid phone number format: %(phone)s") % {'phone': record.phone})
+
     document_line_ids = fields.One2many(
         'campus.admission.document', 'admission_id', string='Document Checklist'
     )
