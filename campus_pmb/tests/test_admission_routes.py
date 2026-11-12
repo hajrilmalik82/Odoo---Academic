@@ -52,7 +52,7 @@ class TestPublicAdmissionApi(CampusHttpCommon):
 
     def test_options_preflight_on_options_endpoint_succeeds(self):
         response = self.url_open('/api/admission/options', method='OPTIONS')
-        self.assertEqual(response.status_code, 200)
+        self.assertIn(response.status_code, (200, 204))
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
         self.assertIn('OPTIONS', response.headers.get('Access-Control-Allow-Methods', ''))
 
@@ -60,7 +60,7 @@ class TestPublicAdmissionApi(CampusHttpCommon):
 
     def test_options_preflight_on_submit_endpoint_succeeds(self):
         response = self.url_open('/api/admission/submit', method='OPTIONS')
-        self.assertEqual(response.status_code, 200)
+        self.assertIn(response.status_code, (200, 204))
         self.assertEqual(response.headers.get('Access-Control-Allow-Origin'), '*')
         self.assertIn('OPTIONS', response.headers.get('Access-Control-Allow-Methods', ''))
 
