@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-16 09:14+0000\n"
-"PO-Revision-Date: 2026-11-16 09:14+0000\n"
+"POT-Creation-Date: 2026-11-17 08:46+0000\n"
+"PO-Revision-Date: 2026-11-17 08:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -77,7 +77,21 @@ msgstr ""
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid "<i class=\"fa fa-graduation-cap me-2\"/> Campus Thesis Module"
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations (What to check if blocked):</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "<i class=\"fa fa-graduation-cap me-2\"/> Thesis, Yudisium &amp; Graduation"
 msgstr ""
 
 #. module: campus_thesis
@@ -123,13 +137,6 @@ msgid "<i class=\"fa fa-save me-1\"/> Create Thesis Draft"
 msgstr ""
 
 #. module: campus_thesis
-#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<i class=\"fa fa-sitemap text-info me-2\"/> End-to-End Thesis &amp; Yudisium"
-" Workflow"
-msgstr ""
-
-#. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "<i class=\"fa fa-times-circle me-1\"/> Supervision / Proposal Rejected"
 msgstr ""
@@ -143,6 +150,48 @@ msgstr ""
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
 msgid "<option value=\"\">-- Select Primary Supervisor --</option>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<span class=\"badge bg-dark position-absolute\" style=\"left: -15px; top: "
+"0px; font-size: 1rem;\">6</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<span class=\"badge bg-info text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">4</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">3</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
+"top: 0px; font-size: 1rem;\">1</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<span class=\"badge bg-success position-absolute\" style=\"left: -15px; top:"
+" 0px; font-size: 1rem;\">5</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: "
+"-15px; top: 0px; font-size: 1rem;\">2</span>"
 msgstr ""
 
 #. module: campus_thesis
@@ -181,6 +230,38 @@ msgid "<strong>Academic Advisor (PA):</strong>"
 msgstr ""
 
 #. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Academic Advisor Required:</strong> If the student has no Academic "
+"Advisor assigned on their profile, Step 2 will be blocked until Academic "
+"Admin assigns one."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Access Check:</strong> Only the assigned Primary Supervisor (or "
+"Admin) can approve or reject the request."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Active Student Only:</strong> Only students with <em>Active</em> "
+"status can register a thesis."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Before Moving to Thesis Stage:</strong> To advance from Proposal to "
+"Thesis Writing, the student <strong>must already be enrolled in a Thesis "
+"subject</strong> inside an <strong>Approved</strong> or "
+"<strong>Locked</strong> KRS. If blocked here, make sure the student's KRS "
+"containing the Thesis subject has been approved by their Academic Advisor."
+msgstr ""
+
+#. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "<strong>Ceremony Batch:</strong>"
 msgstr ""
@@ -193,9 +274,8 @@ msgstr ""
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
 msgid ""
-"<strong>Curriculum Prerequisite (Research Methodology):</strong> Only "
-"students who have passed a Research Methodology subject in their KHS may "
-"register a thesis."
+"<strong>Complete Documents Required:</strong> You cannot submit Yudisium if "
+"any mandatory document is still unuploaded or unverified."
 msgstr ""
 
 #. module: campus_thesis
@@ -204,8 +284,31 @@ msgid "<strong>Dean of Faculty:</strong>"
 msgstr ""
 
 #. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Document Filing:</strong> Upload all required Yudisium clearance "
+"documents (via Portal or Backend) and verify them, then submit for Yudisium "
+"approval."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>File Upload Rules:</strong> Uploaded files must not be empty and "
+"cannot exceed <strong>10 MB</strong>."
+msgstr ""
+
+#. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "<strong>Graduation Date:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>If Rejected:</strong> The student or Admin can click <strong>Reset "
+"to Draft</strong>, revise the title or choose a different supervisor, and "
+"submit again."
 msgstr ""
 
 #. module: campus_thesis
@@ -216,9 +319,10 @@ msgstr ""
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
 msgid ""
-"<strong>Nearest Graduation Schedule:</strong> Final Dean approval marks the "
-"student as Graduated and automatically assigns the nearest open Wisuda "
-"batch."
+"<strong>Must Pass Research Methodology First:</strong> The student must have"
+" already passed a subject marked as <em>Research Methodology</em> in their "
+"graded KHS. If blocked, verify that the Research Methodology grade has been "
+"entered and is passing."
 msgstr ""
 
 #. module: campus_thesis
@@ -234,13 +338,6 @@ msgid ""
 msgstr ""
 
 #. module: campus_thesis
-#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Proposal Stage:</strong> Students log consultation progress until "
-"the Primary Supervisor approves the proposal."
-msgstr ""
-
-#. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
 msgid "<strong>Rejected:</strong>"
 msgstr ""
@@ -248,30 +345,80 @@ msgstr ""
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
 msgid ""
-"<strong>Supervisor Selection &amp; Approval:</strong> Students pick a "
-"Primary Supervisor (and optional Co-Supervisor). Assigned lecturers approve "
-"or reject with feedback."
+"<strong>Step 1 — Thesis Supervisor Approval:</strong> Primary Supervisor "
+"confirms thesis clearance."
 msgstr ""
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
 msgid ""
-"<strong>Thesis Course Gate:</strong> Proceeding to the Thesis Stage requires"
-" enrolling in a Thesis subject in an Approved or Locked KRS."
+"<strong>Step 2 — Academic Advisor (PA) Approval:</strong> The student's "
+"Academic Advisor confirms academic clearance."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Step 3 — Faculty Dean Approval:</strong> The Faculty Dean gives the "
+"final Yudisium sign-off."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Strict Order:</strong> Approvals cannot skip steps—Supervisor must "
+"approve before PA, and PA must approve before the Dean."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Valid Supervisors Only:</strong> Supervisors must be active "
+"Lecturers, and the Primary Supervisor and Co-Supervisor cannot be the same "
+"person."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Automatic upon Dean's final approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Primary Thesis Supervisor (Lecturer)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "<strong>Who performs this:</strong> Student &amp; Primary Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Student (logs progress) &amp; Primary "
+"Supervisor (reviews &amp; approves proposal)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Student (via Portal "
+"<code>/my/thesis</code>) or Academic Admin"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Student / Admin (uploads documents), "
+"then Supervisor → Academic Advisor (PA) → Faculty Dean"
 msgstr ""
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
 msgid "<strong>Yudisium Approved:</strong> Assigned to Graduation Schedule"
-msgstr ""
-
-#. module: campus_thesis
-#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Yudisium Filing &amp; Sequential Approval:</strong> Once the thesis "
-"is approved and required documents are verified, clearance runs "
-"sequentially: <em>Thesis Supervisor → Academic Advisor (PA) → Dean of "
-"Faculty</em>."
 msgstr ""
 
 #. module: campus_thesis
@@ -439,6 +586,16 @@ msgid "Approved"
 msgstr ""
 
 #. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"As soon as the Faculty Dean approves, the student's status automatically "
+"changes to <strong>Graduated</strong> and the system assigns them to the "
+"<strong>nearest open Graduation (Wisuda) batch</strong> that still has "
+"available seats. Students and staff can then print the official "
+"<strong>Graduation Clearance Sheet (PDF)</strong>."
+msgstr ""
+
+#. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
 msgid "Assign Nearest Graduation"
 msgstr ""
@@ -467,7 +624,7 @@ msgstr ""
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid "Campus Thesis &amp; Graduation Module"
+msgid "Campus Thesis, Yudisium &amp; Graduation Module"
 msgstr ""
 
 #. module: campus_thesis
@@ -659,6 +816,15 @@ msgid "Draft File (Optional)"
 msgstr ""
 
 #. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"During the Proposal stage, the student records consultation milestones, "
+"notes, completion percentage, and optional file attachments. The supervisor "
+"reviews each log (<em>Approved</em> or <em>Needs Revision</em>) and clicks "
+"<strong>Approve Proposal</strong> when ready."
+msgstr ""
+
+#. module: campus_thesis
 #: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_document_unique_document_type_per_thesis
 msgid "Each Yudisium document type can only appear once per thesis."
 msgstr ""
@@ -691,6 +857,14 @@ msgstr ""
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
 msgid "Enter clear feedback or reason for rejection / revision..."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"Enter the proposed <strong>Thesis Title</strong>, select a <strong>Primary "
+"Supervisor</strong> (required) and an optional Co-Supervisor, then click "
+"<strong>Submit to Supervisor</strong>."
 msgstr ""
 
 #. module: campus_thesis
@@ -943,9 +1117,9 @@ msgstr ""
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
 msgid ""
-"Manages the full academic lifecycle from Research Methodology prerequisite "
-"verification, supervisor approval, proposal &amp; thesis progress logs, "
-"sequential Yudisium clearance, to nearest Graduation (Wisuda) assignment."
+"Make sure at least one upcoming <strong>Graduation Schedule</strong> is "
+"created, marked <em>Open</em>, and has available quota before the Dean "
+"approves Yudisium."
 msgstr ""
 
 #. module: campus_thesis
@@ -1611,6 +1785,36 @@ msgid "Stage"
 msgstr ""
 
 #. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Stage 1: Thesis Registration &amp; Choosing a Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Stage 2: Supervisor Review (Approve or Reject)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Stage 3: Proposal Stage &amp; Progress Logs"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Stage 4: Thesis Writing &amp; Supervisor Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Stage 5: Yudisium Documents &amp; 3-Step Sequential Clearance"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Stage 6: Graduation &amp; Nearest Wisuda Schedule"
+msgstr ""
+
+#. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
 msgid "Start Thesis Stage"
 msgstr ""
@@ -1633,6 +1837,11 @@ msgid ""
 "Overdue: Due date is already passed\n"
 "Today: Activity date is today\n"
 "Planned: Future activities."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Step-by-Step Thesis &amp; Graduation Workflow"
 msgstr ""
 
 #. module: campus_thesis
@@ -1819,6 +2028,22 @@ msgstr ""
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "The action could not be completed."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"The assigned Primary Supervisor reviews the request and clicks "
+"<strong>Approve</strong> to open the Proposal stage, or "
+"<strong>Reject</strong> with a written reason."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"The student continues logging thesis consultations and drafts until "
+"completion. When finished, the Primary Supervisor clicks <strong>Approve "
+"Thesis</strong> to move the student into Yudisium Filing."
 msgstr ""
 
 #. module: campus_thesis
@@ -2047,6 +2272,16 @@ msgstr ""
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "This action is not allowed from the current thesis status."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"This module guides final-year students, supervisors, academic advisors, and "
+"faculty deans through the complete thesis journey—from eligibility checks "
+"and supervisor approval, proposal and thesis progress, 3-step Yudisium "
+"clearance, to automatic placement in the nearest Graduation (Wisuda) "
+"schedule."
 msgstr ""
 
 #. module: campus_thesis

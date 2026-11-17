@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="employees_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Employees ERP Documentation">
-        
+
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">
             <button class="nav-link fw-bold py-3 text-start mb-1 text-info" id="tab-employee" data-bs-toggle="pill" data-bs-target="#content-employee" type="button" role="tab" aria-controls="content-employee" aria-selected="false">
-                <i class="fa fa-users me-2"/> HR &amp; Staff Module
+                <i class="fa fa-users me-2"/> HR &amp; Staff (Employees &amp; Access)
             </button>
         </xpath>
 
         <!-- Inject into Content Area -->
         <xpath expr="//div[@id='docs-tabContent']" position="inside">
-            
+
             <!-- MODUL EMPLOYEES PANE -->
             <div class="tab-pane fade" id="content-employee" role="tabpanel" aria-labelledby="tab-employee">
                 <section class="mb-5">
@@ -19,10 +19,10 @@
                         <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
                             <i class="fa fa-users"/>
                         </div>
-                        <h2 class="fw-bold mb-0 text-info">HR &amp; Staff Module (HR)</h2>
+                        <h2 class="fw-bold mb-0 text-info">HR &amp; Staff Module (Employees &amp; Work Scope)</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        This module modifies the standard Odoo HR framework (<code>hr.employee</code>), injecting academic-specific capabilities into employee profiles. The system allows you to manage Lecturers, PMB Staff, and Academic Staff (TU) with a data hierarchy fully integrated into other academic modules.
+                        This module manages campus staff and lecturer profiles—including Lecturers, Admissions (PMB) Staff, Academic Staff (TU), and Deans—and controls which Faculty or Study Program data each staff member is allowed to manage.
                     </p>
 
                     <!-- HIGHLIGHT FITUR -->
@@ -30,67 +30,75 @@
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold text-dark"><i class="fa fa-vcard-o text-info me-2"/>Dynamic Employee Profile UI</h5>
-                                    <p class="text-muted small mb-0">The employee profile form interface changes automatically based on their job role. Lecturers get the NIDN field, while PMB Staff and Academic Staff get different jurisdiction fields.</p>
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-vcard-o text-info me-2"/>Role-Based Employee Form</h5>
+                                    <p class="text-muted small mb-0">The employee form automatically shows the right fields based on the selected job role—such as NIDN for Lecturers, or work-area limits for PMB and Academic Staff.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold text-dark"><i class="fa fa-sitemap text-primary me-2"/>Advisory Hierarchy</h5>
-                                    <p class="text-muted small mb-0">Employees with Lecturer status can be linked directly with students as Academic Advisors (PA). This relation triggers their authority to approve KRS.</p>
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-sitemap text-primary me-2"/>Lecturer &amp; Advisor Roles</h5>
+                                    <p class="text-muted small mb-0">Employees registered as Lecturers can be assigned as Academic Advisors (PA), Course Lecturers, or Thesis Supervisors.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
-                                    <h5 class="fw-bold text-dark"><i class="fa fa-lock text-success me-2"/>Security Jurisdictions</h5>
-                                    <p class="text-muted small mb-0">Operational access rights (PMB, KRS, KHS) are restricted only to specific Faculty or Study Program levels directly from the employee profile (Jurisdiction).</p>
+                                    <h5 class="fw-bold text-dark"><i class="fa fa-lock text-success me-2"/>Faculty &amp; Program Scope</h5>
+                                    <p class="text-muted small mb-0">Each PMB or Academic Staff member only sees applicants, students, KRS, and KHS belonging to their assigned Faculty or Study Program.</p>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <h4 class="fw-bold border-bottom pb-2 mb-4">HR Management Workflow</h4>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4">Step-by-Step HR &amp; Access Workflow</h4>
 
                     <!-- TAHAP 1 -->
                     <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
                         <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
-                        <h5 class="fw-bold text-dark pt-1">Job Positions Setup</h5>
-                        <p class="mb-2"><strong>Actor:</strong> HR Manager</p>
-                        <p class="mb-2">HR Admin creates the campus organizational structure.</p>
+                        <h5 class="fw-bold text-dark pt-1">Stage 1: Setting Up Job Positions</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> HR Manager / System Admin</p>
+                        <p class="mb-2">Before adding employees, open <strong>Employees → Configuration → Job Positions</strong> and set the <strong>Academic Role</strong> for each position (such as <em>Lecturer</em>, <em>PMB Staff</em>, <em>Academic Staff</em>, or <em>Dean</em>).</p>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Admin selects the role from the <code>Academic Role</code> dropdown (Lecturer / PMB Staff / Academic Staff) on the Job form. The system will use this parameter as a logic indicator in the next steps.
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li>If a Job Position does not have an <strong>Academic Role</strong> selected, the system will not show the Lecturer or Jurisdiction tabs on the employee profile, and the person will not appear in Lecturer/Advisor dropdowns.</li>
+                            </ul>
                         </div>
                     </div>
 
                     <!-- TAHAP 2 -->
                     <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
                         <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
-                        <h5 class="fw-bold text-dark pt-1">Employee Profile Creation</h5>
-                        <p class="mb-2"><strong>Actor:</strong> HR Staff</p>
-                        <p class="mb-2">Staff enters new employee data into the system.</p>
+                        <h5 class="fw-bold text-dark pt-1">Stage 2: Creating Employee &amp; Lecturer Profiles</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> HR Staff</p>
+                        <p class="mb-2">Create the employee record, fill in personal details, choose their Department/Faculty, link their <strong>Related User</strong> account, and select their Job Position.</p>
                         <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-magic text-dark me-2"/> <strong>UI Automation:</strong> When staff selects a job position that has the "Lecturer" role, the academic profile *Tab* will appear. If the job role is "PMB Staff" or "Academic Staff", the relevant jurisdiction *Tab* will appear. This form is highly dynamic!
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>What happens next:</strong> Choosing a <em>Lecturer</em> job reveals the academic profile fields (such as NIDN and Home Study Program). Choosing <em>PMB Staff</em> or <em>Academic Staff</em> reveals the Jurisdiction tab.
                         </div>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Staff fills in the biodata, uploads photos, and determines the department/faculty the employee belongs to.
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>Active User Link Required:</strong> To let a lecturer or staff member log in and approve KRS, input KHS grades, or review Theses, they must have a linked <strong>Related User</strong> on their employee profile.</li>
+                                <li><strong>Same Program for Advisors:</strong> A lecturer can only be assigned as a student's Academic Advisor (PA) if they are active and belong to the same Study Program.</li>
+                            </ul>
                         </div>
                     </div>
 
                     <!-- TAHAP 3 -->
                     <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
                         <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
-                        <h5 class="fw-bold text-dark pt-1">Assigning Security Jurisdictions</h5>
-                        <p class="mb-2"><strong>Actor:</strong> Campus Operations Manager / HR</p>
-                        <p class="mb-2">Defines the working territory limits of Registration Staff (PMB) or Academic Staff (TU).</p>
-                        <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-shield text-danger me-2"/> <strong>Strict Security:</strong> Without a clear jurisdiction, faculty-level staff risk viewing/modifying confidential data of other faculties.
-                        </div>
+                        <h5 class="fw-bold text-dark pt-1">Stage 3: Assigning Work Scope (Jurisdiction)</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> HR Manager / Campus Operations Manager</p>
+                        <p class="mb-2">Open the <strong>PMB / Academic Jurisdiction</strong> tab on the employee profile and select which <strong>Faculties</strong> or <strong>Study Programs</strong> that staff member is responsible for.</p>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Open the *tab* <strong>PMB/Academic Jurisdiction</strong> on the employee profile, then select the Faculty or Study Program that is within their work scope. Odoo will lock data access according to those territory limits.
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>Strict Area Limit:</strong> Staff can only view and process applicants, students, KRS, or KHS inside their assigned Faculty/Program.</li>
+                                <li><strong>If a staff member sees an empty list:</strong> Check their employee profile and make sure at least one Faculty or Study Program is listed under their Jurisdiction tab.</li>
+                            </ul>
                         </div>
                     </div>
                 </section>

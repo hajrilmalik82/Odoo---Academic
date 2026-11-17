@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <template id="portal_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Portal ERP Documentation">
-        
+
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">
             <button class="nav-link fw-bold py-3 text-start mb-1 text-success" id="tab-portal" data-bs-toggle="pill" data-bs-target="#content-portal" type="button" role="tab" aria-controls="content-portal" aria-selected="false">
-                <i class="fa fa-laptop me-2"/> Campus Portal Module
+                <i class="fa fa-laptop me-2"/> Student Portal (Self-Service)
             </button>
         </xpath>
 
         <!-- Inject into Content Area -->
         <xpath expr="//div[@id='docs-tabContent']" position="inside">
-            
+
             <!-- MODUL PORTAL PANE -->
             <div class="tab-pane fade" id="content-portal" role="tabpanel" aria-labelledby="tab-portal">
                 <section class="mb-5">
@@ -19,46 +19,72 @@
                         <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
                             <i class="fa fa-laptop"/>
                         </div>
-                        <h2 class="fw-bold mb-0 text-success">Campus Portal Module (Self-Service Frontend)</h2>
+                        <h2 class="fw-bold mb-0 text-success">Student Portal Module (Self-Service)</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        An architectural extension that acts as a Frontend bridge between the Core ERP system and the Student as an End-User. Built on Odoo web controllers, this module prioritizes a smooth User Experience (UX) while maintaining real-time data integrity to and from the main database.
+                        The Student Portal is the online self-service page where active students log in to manage their Study Plan (KRS), view Study Result Cards (KHS) and GPA, and track their Thesis and Yudisium progress.
                     </p>
 
-                    <!-- Fitur & Fungsi -->
-                    <div class="card border-0 shadow-sm rounded-4 mb-4 border-success border-top border-4">
-                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
-                            <h4 class="fw-bold"><i class="fa fa-star text-warning me-2"/> Self-Service Operational Steps</h4>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item px-0 border-0 mb-3">
-                                    <h6 class="fw-bold">Step 1: Accessing the Student Dashboard</h6>
-                                    <p class="mb-0 text-muted">Students log in and are redirected to the <code>/my/home</code> route (Portal My Account) by default. This interface is ergonomically designed to display main metric aggregations, such as current running KRS and grade transcripts.</p>
-                                </li>
-                                <li class="list-group-item px-0 border-0 mb-3">
-                                    <h6 class="fw-bold">Step 2: Automated KRS Compilation (One-Click Enrollment)</h6>
-                                    <p class="mb-0 text-muted">When a student opens a Draft KRS document, the bottom table dynamically renders all currently offered class schedules (*Available Schedules*). The student interacts via *Point-and-Click* (clicking the <strong>"Take"</strong> button) on the desired class. The HTTP request is sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind the data immediately without manual typing. If SKS limits are exceeded, the portal UI blocks it immediately with a *Flash Message*.</p>
-                                </li>
-                                <li class="list-group-item px-0 border-0">
-                                    <h6 class="fw-bold">Step 3: Real-Time KHS Transcript Monitoring</h6>
-                                    <p class="mb-0 text-muted">Through the KHS menu, students monitor grade movements in real-time. The <em>Single Source of Truth</em> principle ensures that the second a Lecturer publishes grades in the backend, the grades propagate and display on the student portal screen, minimizing information latency.</p>
-                                </li>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4">Step-by-Step Guide for Students</h4>
+
+                    <!-- Step 1 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
+                        <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 1: Logging In &amp; Opening Your Dashboard</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student</p>
+                        <p class="mb-2">Log in using your campus email and password, then open <strong>My Account</strong> (<code>/my/home</code>). From the dashboard you can jump directly to your <strong>KRS</strong>, <strong>KHS</strong>, or <strong>Thesis</strong> pages.</p>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li>You must be logged in to access any portal page; visitors who are not logged in are redirected to the login screen.</li>
                             </ul>
                         </div>
                     </div>
 
-                    <!-- Security -->
-                    <div class="card border-0 shadow-sm rounded-4">
+                    <!-- Step 2 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
+                        <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 2: Filling Out &amp; Submitting KRS Online</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student</p>
+                        <ol class="text-muted mb-2">
+                            <li>Open your active KRS in <em>Draft</em> or <em>Needs Revision</em> status.</li>
+                            <li>Review the list of <strong>Available Schedules</strong> at the bottom and click <strong>Take</strong> to add a class (or <strong>Remove</strong> to drop a selected class).</li>
+                            <li>Once your subjects and total SKS are ready, click <strong>Submit KRS</strong> to send it to your Academic Advisor (PA).</li>
+                        </ol>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations (What to do if blocked):</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>Only Editable in Draft / Revision:</strong> You cannot add or remove subjects once the KRS is <em>Submitted</em>, <em>Approved</em>, or <em>Locked</em>. If you need changes after submitting, ask your Academic Advisor to return it for revision.</li>
+                                <li><strong>KRS Period Must Be Open:</strong> Students can only edit KRS within the active KRS dates. Outside this period, contact Academic Admin.</li>
+                                <li><strong>Automatic Checks on "Take":</strong> The portal immediately blocks and shows an alert banner if adding a class exceeds your GPA SKS limit, overlaps with another chosen schedule, has a full classroom, or misses a prerequisite subject.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
+                        <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 3: Viewing KHS &amp; GPA</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student</p>
+                        <p class="mb-2">Open the <strong>KHS</strong> menu to see your subjects, letter grades, semester GPA (IP), and cumulative GPA (IPK). Grades appear automatically as soon as your lecturer enters them.</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
+                        <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 4: Tracking Thesis &amp; Uploading Yudisium Documents</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Final-Year Student</p>
+                        <p class="mb-2">Open <strong>My Thesis</strong> (<code>/my/thesis</code>) to register your thesis, add consultation progress notes, upload Yudisium clearance documents, and download your Graduation Clearance Sheet PDF once approved.</p>
+                    </div>
+
+                    <!-- Privacy & Data Protection -->
+                    <div class="card border-0 shadow-sm rounded-4 mt-4">
                         <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
-                            <h4 class="fw-bold"><i class="fa fa-lock text-dark me-2"/> Cyber Security &amp; Data Isolation</h4>
+                            <h4 class="fw-bold"><i class="fa fa-lock text-dark me-2"/> Student Data Privacy</h4>
                         </div>
                         <div class="card-body">
-                            <p class="mb-3 text-muted">
-                                <i class="fa fa-shield text-danger me-2"></i> <strong>Encrypted Sessions &amp; Authorization Middleware:</strong> Every URL route (Controller) in this module is fortified by the <code>@http.route(auth='user')</code> decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF) threats.
-                            </p>
                             <p class="mb-0 text-muted">
-                                <i class="fa fa-eye-slash text-dark me-2"></i> <strong>Horizontal Data Isolation (Data Leakage Prevention):</strong> Absolute <em>Domain Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1 to /krs/2) to view Student B's data. Odoo automatically returns an *Error 403 Forbidden* if the document ownership (Partner ID) does not intersect with the current logged-in session.
+                                Each student account can only view and edit its own KRS, KHS, and Thesis records. If someone tries to open another student's document link directly, the system automatically blocks access so personal academic records stay private.
                             </p>
                         </div>
                     </div>

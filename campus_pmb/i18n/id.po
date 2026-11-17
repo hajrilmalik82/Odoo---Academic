@@ -1303,3 +1303,369 @@ msgstr "Biaya daftar ulang harus dilunasi sebelum mendaftarkan mahasiswa."
 #: code:addons/campus_pmb/models/admission.py:0
 msgid "Fee amount cannot be negative."
 msgstr "Nominal biaya tidak boleh negatif."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<i class=\"fa fa-graduation-cap me-2\"/> PMB Admission (New Students)"
+msgstr "<i class=\"fa fa-graduation-cap me-2\"/> PMB (Penerimaan Mahasiswa Baru)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"This module handles the entire new student admissions process—from online or"
+" office registration, document verification, acceptance decisions, up to "
+"creating the official Student ID (NIM) and Portal login account."
+msgstr ""
+"Modul ini mengelola seluruh proses penerimaan mahasiswa baru—mulai dari "
+"pendaftaran online maupun di loket, verifikasi berkas, keputusan kelulusan, "
+"hingga pembuatan NIM resmi dan akun login Portal Mahasiswa."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<i class=\"fa fa-shield text-danger me-2\"/>Faculty-Scoped Access"
+msgstr "<i class=\"fa fa-shield text-danger me-2\"/>Akses Sesuai Fakultas/Prodi"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"PMB Committee members only see and process applicants applying to the "
+"Faculty or Study Program within their assigned work area."
+msgstr ""
+"Panitia PMB hanya melihat dan memproses calon mahasiswa yang mendaftar ke "
+"Fakultas atau Program Studi di wilayah tugasnya."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<i class=\"fa fa-filter text-primary me-2\"/>Quick Filtering"
+msgstr "<i class=\"fa fa-filter text-primary me-2\"/>Penyaringan Data Cepat"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Use the left-hand Search Panel in the Admissions list to filter applicants "
+"with one click by Faculty, Study Program, or Status."
+msgstr ""
+"Gunakan panel filter di sebelah kiri daftar Pendaftaran untuk menyaring "
+"calon mahasiswa dengan satu klik berdasarkan Fakultas, Program Studi, atau "
+"Status."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<i class=\"fa fa-cogs text-success me-2\"/>Document &amp; Status Checks"
+msgstr ""
+"<i class=\"fa fa-cogs text-success me-2\"/>Pemeriksaan Berkas &amp; Status"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The system prevents accepting an applicant if required documents are still "
+"missing, and protects already-registered students from accidental rejection."
+msgstr ""
+"Sistem mencegah panitia meluluskan pendaftar jika berkas wajib belum "
+"lengkap, serta melindungi pendaftar yang sudah resmi menjadi mahasiswa agar "
+"tidak tertolak secara tidak sengaja."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Step-by-Step Admissions Workflow"
+msgstr "Alur Penerimaan Mahasiswa Baru Langkah demi Langkah"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Stage 1: Applicant Registration (Draft)"
+msgstr "Tahap 1: Pendaftaran Calon Mahasiswa (Draf)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Prospective Student (Online) or PMB "
+"Committee (Office)"
+msgstr ""
+"<strong>Pelaksana:</strong> Calon Mahasiswa (Online) atau Panitia PMB "
+"(Loket)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"The applicant fills in personal data, email, phone, and desired Study "
+"Program. The system automatically assigns a unique Registration Number (e.g."
+" <code>PMB/2026/0001</code>) and sets the status to <em>Draft</em>."
+msgstr ""
+"Calon mahasiswa mengisi data diri, email, nomor telepon, dan Program Studi "
+"pilihan. Sistem otomatis memberikan Nomor Pendaftaran unik (contoh: "
+"<code>PMB/2026/0001</code>) dengan status <em>Draf</em>."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations:</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
+"&amp; Validasi Sistem:</strong>"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Full name, valid email, chosen Faculty, and Study Program must be filled in "
+"before the application can be submitted."
+msgstr ""
+"Nama lengkap, email yang valid, Fakultas, dan Program Studi wajib diisi "
+"sebelum pendaftaran dapat diajukan."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Click <strong>Submit</strong> when the initial data is ready to move to "
+"Document Review."
+msgstr ""
+"Klik <strong>Ajukan (Submit)</strong> jika data awal sudah lengkap untuk "
+"masuk ke tahap Verifikasi Berkas."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Stage 2: Document Review &amp; Checklist"
+msgstr "Tahap 2: Verifikasi &amp; Daftar Periksa Berkas"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<strong>Who performs this:</strong> PMB Committee"
+msgstr "<strong>Pelaksana:</strong> Panitia PMB"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"When submitted, the system automatically creates a <strong>Document "
+"Checklist</strong> (e.g., Diploma, ID Card, Photo) based on the applicant's "
+"admission path. Check and mark each submitted document as verified."
+msgstr ""
+"Saat diajukan, sistem otomatis membuat <strong>Daftar Periksa "
+"Berkas</strong> (misalnya Ijazah, KTP, Pas Foto) sesuai jalur masuk "
+"pendaftar. Periksa dan tandai setiap berkas yang sudah diterima."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>100% Mandatory Documents Required:</strong> You "
+"<strong>cannot</strong> click <em>Accept</em> if any mandatory document in "
+"the checklist is still marked missing or unverified. Complete and verify all"
+" required items first."
+msgstr ""
+"<strong>Berkas Wajib Harus 100% Lengkap:</strong> Anda <strong>tidak "
+"dapat</strong> menekan tombol <em>Terima (Accept)</em> jika masih ada berkas"
+" wajib yang belum diterima atau belum diverifikasi. Lengkapi dan verifikasi "
+"seluruh berkas wajib terlebih dahulu."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Stage 3: Acceptance Decision"
+msgstr "Tahap 3: Keputusan Kelulusan / Penerimaan"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "<strong>Who performs this:</strong> PMB Committee / Administrator"
+msgstr "<strong>Pelaksana:</strong> Panitia PMB / Administrator"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Once all required documents are verified and the applicant passes selection,"
+" click <strong>Accept</strong>. The status changes to <em>Accepted</em>."
+msgstr ""
+"Jika seluruh berkas wajib sudah terverifikasi dan pendaftar dinyatakan lolos"
+" seleksi, klik <strong>Terima (Accept)</strong>. Status berubah menjadi "
+"<em>Diterima</em>."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Stage 4: Final Enrollment (Create NIM &amp; Student Account)"
+msgstr "Tahap 4: Daftar Ulang Final (Buat NIM &amp; Akun Mahasiswa)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Click <strong>Register Student</strong> on an <em>Accepted</em> application."
+" The system automatically completes four tasks at once:"
+msgstr ""
+"Klik <strong>Daftarkan Mahasiswa (Register Student)</strong> pada "
+"pendaftaran berstatus <em>Diterima</em>. Sistem otomatis menyelesaikan empat"
+" hal sekaligus:"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>Generates Official NIM:</strong> Creates the Student Registration "
+"Number (NIM) based on Faculty, Study Program, and Enrollment Year."
+msgstr ""
+"<strong>Membuat NIM Resmi:</strong> Menghasilkan Nomor Induk Mahasiswa (NIM)"
+" berdasarkan Fakultas, Program Studi, dan Tahun Masuk."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>Creates Student Profile:</strong> Adds the applicant to the official"
+" Student directory linked to their Faculty and Study Program."
+msgstr ""
+"<strong>Membuat Profil Mahasiswa:</strong> Memasukkan pendaftar ke daftar "
+"Mahasiswa resmi beserta Fakultas dan Program Studinya."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>Creates Portal Account:</strong> Sets up a Student Portal login "
+"account using the applicant's email address as their username."
+msgstr ""
+"<strong>Membuat Akun Portal:</strong> Membuatkan akun login Portal Mahasiswa"
+" menggunakan alamat email pendaftar sebagai username."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>Grants Portal Access:</strong> Enables the student to log in "
+"immediately to view schedules and fill out KRS."
+msgstr ""
+"<strong>Memberikan Akses Portal:</strong> Mahasiswa dapat langsung login "
+"untuk melihat jadwal kuliah dan mengisi KRS."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"An applicant can only be registered once. Make sure the applicant's email is"
+" unique and not already used by another portal account."
+msgstr ""
+"Satu pendaftar hanya dapat didaftarkan menjadi mahasiswa satu kali. Pastikan"
+" email pendaftar unik dan belum dipakai akun portal lain."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Stage 5: Rejecting an Application"
+msgstr "Tahap 5: Menolak Pendaftaran"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"If an applicant does not meet requirements (for example, invalid documents "
+"or failed selection), click <strong>Reject</strong> from the form or the "
+"<em>Actions</em> menu."
+msgstr ""
+"Jika pendaftar tidak memenuhi syarat (misalnya berkas tidak sah atau tidak "
+"lolos seleksi), klik <strong>Tolak (Reject)</strong> dari formulir atau menu"
+" <em>Aksi</em>."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<strong>Protected Final Statuses:</strong> Applications that are already "
+"<em>Accepted</em> or <em>Registered</em> <strong>cannot</strong> be "
+"rejected, preventing accidental cancellation after a Student ID and account "
+"have been issued."
+msgstr ""
+"<strong>Status Final Dilindungi:</strong> Pendaftaran yang sudah berstatus "
+"<em>Diterima</em> atau <em>Terdaftar (Registered)</em> <strong>tidak "
+"dapat</strong> ditolak lagi untuk mencegah pembatalan tidak sengaja setelah "
+"NIM dan akun dibuat."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Online Self-Registration (Public Website)"
+msgstr "Pendaftaran Mandiri Online (Website Publik)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"Prospective students can apply directly from the campus website without "
+"logging in first:"
+msgstr ""
+"Calon mahasiswa dapat mendaftar langsung melalui website kampus tanpa perlu "
+"login terlebih dahulu:"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-globe text-primary me-2\"/> <strong>Step 1 — Open "
+"Registration Form:</strong> Go to <strong>/admission</strong> (or click "
+"<em>PMB Admission</em> in the top menu), fill in personal details, and click"
+" <strong>Submit Application</strong>. A new <em>Draft</em> application is "
+"created automatically."
+msgstr ""
+"<i class=\"fa fa-globe text-primary me-2\"/> <strong>Langkah 1 — Buka "
+"Formulir Pendaftaran:</strong> Buka halaman <strong>/admission</strong> "
+"(atau klik menu <em>Pendaftaran PMB</em>), isi data diri, lalu klik "
+"<strong>Kirim Pendaftaran</strong>. Data pendaftaran berstatus <em>Draf</em>"
+" akan langsung tersimpan."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-filter text-info me-2\"/> <strong>Step 2 — Choosing Faculty"
+" &amp; Program:</strong> After choosing a Faculty, the Study Program list "
+"automatically narrows down to only programs inside that Faculty so "
+"applicants cannot pick a mismatched combination."
+msgstr ""
+"<i class=\"fa fa-filter text-info me-2\"/> <strong>Langkah 2 — Memilih "
+"Fakultas &amp; Prodi:</strong> Setelah memilih Fakultas, daftar Program "
+"Studi otomatis menyaring prodi yang ada di Fakultas tersebut saja agar tidak"
+" salah pilih kombinasi."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Step 3 — "
+"Active Academic Year:</strong> Applicants do not need to pick the Academic "
+"Year—the system automatically links the application to the currently active "
+"Academic Year, and the PMB Committee reviews it from the backend."
+msgstr ""
+"<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Langkah 3 — "
+"Tahun Akademik Otomatis:</strong> Pendaftar tidak perlu memilih Tahun "
+"Akademik—sistem otomatis mengaitkan pendaftaran ke Tahun Akademik yang "
+"sedang aktif, lalu Panitia PMB melanjutkan proses verifikasi."
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Who Can Do What (PMB Roles)"
+msgstr "Pembagian Tugas &amp; Hak Akses PMB"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Task"
+msgstr "Tugas / Aksi"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Applicant (Public)"
+msgstr "Calon Mahasiswa (Publik)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Submit online application (/admission)"
+msgstr "Daftar mandiri via website (/admission)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "✓"
+msgstr "✓"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Verify documents"
+msgstr "Verifikasi berkas pendaftaran"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "✗"
+msgstr "✗"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "✓ (assigned programs only)"
+msgstr "✓ (khusus prodi wilayah tugasnya)"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Accept / Reject applicant"
+msgstr "Terima / Tolak pendaftar"
+
+#. module: campus_pmb
+#: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
+msgid "Register Student (Create NIM &amp; Account)"
+msgstr "Daftarkan Mahasiswa (Buat NIM &amp; Akun)"

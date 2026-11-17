@@ -684,3 +684,617 @@ msgstr "✓ (kapan saja)"
 #: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
 msgid "✓ (only their advised students)"
 msgstr "✓ (hanya siswa yang dinasehati)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Information System (SIAKAD) User Guide"
+msgstr "Panduan Pengguna Sistem Informasi Akademik (SIAKAD)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Welcome to the step-by-step user guide for every module in the Campus Academic System.\n"
+"                            Here you can find who performs each task, the exact steps to follow at every stage, and the built-in checks the system enforces so data stays accurate."
+msgstr ""
+"Selamat datang di panduan langkah demi langkah untuk setiap modul di Sistem Akademik Kampus.\n"
+"                            Di sini Anda dapat melihat siapa yang menjalankan setiap tugas, urutan langkah di tiap tahap, serta aturan dan validasi sistem agar data tetap akurat."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-cogs me-2\"/> Campus Core (Academic &amp; KRS/KHS)"
+msgstr "<i class=\"fa fa-cogs me-2\"/> Modul Inti Akademik (KRS &amp; KHS)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Campus Core Module (Academic, KRS &amp; KHS)"
+msgstr "Modul Inti Akademik (Kurikulum, KRS &amp; KHS)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"This module is the main workspace for campus academic operations—from "
+"setting up the curriculum and class schedules, managing Study Plans (KRS), "
+"to publishing Study Result Cards (KHS) and student GPA."
+msgstr ""
+"Modul ini adalah pusat operasional akademik kampus—mulai dari pengaturan "
+"kurikulum dan jadwal kuliah, pengisian Kartu Rencana Studi (KRS), hingga "
+"penerbitan Kartu Hasil Studi (KHS) dan IPK mahasiswa."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-shield text-danger me-2\"/>Credit &amp; Quota Limits"
+msgstr "<i class=\"fa fa-shield text-danger me-2\"/>Batas SKS &amp; Kuota Kelas"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"The system automatically checks each student's GPA credit limit, class seat "
+"quota, and prerequisite subjects before a KRS can be submitted."
+msgstr ""
+"Sistem otomatis memeriksa batas SKS sesuai IPK, kuota kursi kelas, dan mata "
+"kuliah prasyarat sebelum KRS dapat diajukan."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-calendar-check-o text-primary me-2\"/>Conflict Prevention"
+msgstr ""
+"<i class=\"fa fa-calendar-check-o text-primary me-2\"/>Pencegahan Jadwal "
+"Bentrok"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Prevents double-booking of classrooms or lecturers when building schedules, "
+"and stops students from choosing overlapping class times."
+msgstr ""
+"Mencegah ruangan atau dosen terjadwal ganda saat penyusunan jadwal, dan "
+"mencegah mahasiswa memilih jam kuliah yang bentrok."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-calculator text-success me-2\"/>Automatic KHS &amp; GPA"
+msgstr ""
+"<i class=\"fa fa-calculator text-success me-2\"/>Otomatisasi KHS &amp; IPK"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Lecturers only enter numeric scores (0–100). The system converts them to "
+"letter grades and calculates semester IP and cumulative IPK automatically."
+msgstr ""
+"Dosen cukup memasukkan nilai angka (0–100). Sistem otomatis mengubahnya "
+"menjadi nilai huruf serta menghitung IP semester dan IPK."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<i class=\"fa fa-user-md text-info me-2\"/>Matched Advisors"
+msgstr "<i class=\"fa fa-user-md text-info me-2\"/>Dosen PA Sesuai Prodi"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"When assigning an Academic Advisor (PA), only active lecturers from the "
+"student's own Study Program can be selected."
+msgstr ""
+"Saat menetapkan Dosen Pembimbing Akademik (PA), hanya dosen aktif dari "
+"Program Studi yang sama dengan mahasiswa yang dapat dipilih."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Step-by-Step Academic Workflow"
+msgstr "Alur Kerja Akademik Langkah demi Langkah"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Stage 1: Preparing Master Data (Before Semester Starts)"
+msgstr "Tahap 1: Persiapan Data Master (Sebelum Semester Dimulai)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Who performs this:</strong> Academic Admin (Academic Office)"
+msgstr "<strong>Pelaksana:</strong> Admin Akademik (Bagian Akademik)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Set up the core academic structure before opening classes or KRS:"
+msgstr "Siapkan data dasar akademik sebelum membuka kelas dan periode KRS:"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Create and activate the current <strong>Academic Year</strong> (e.g. "
+"2026/2027 Odd) under <strong>Configuration → Academic Years</strong>."
+msgstr ""
+"Buat dan aktifkan <strong>Tahun Akademik</strong> berjalan (misalnya "
+"2026/2027 Ganjil) di menu <strong>Konfigurasi → Tahun Akademik</strong>."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Register <strong>Faculties</strong> and <strong>Study Programs</strong>, "
+"plus <strong>Grade Scales</strong> and <strong>Credit Limits (SKS)</strong> "
+"per GPA range."
+msgstr ""
+"Daftarkan <strong>Fakultas</strong> dan <strong>Program Studi</strong>, "
+"beserta <strong>Skala Nilai</strong> dan <strong>Batas SKS</strong> per "
+"rentang IPK."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Add <strong>Subjects</strong> with their SKS weight and any required "
+"<strong>Prerequisite Subjects</strong>."
+msgstr ""
+"Masukkan daftar <strong>Mata Kuliah</strong> beserta bobot SKS dan "
+"<strong>Mata Kuliah Prasyarat</strong> (jika ada)."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Register <strong>Classrooms</strong> with their <strong>Maximum "
+"Capacity</strong>."
+msgstr ""
+"Daftarkan <strong>Ruang Kelas</strong> beserta <strong>Kapasitas "
+"Maksimal</strong>."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations:</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
+"&amp; Validasi Sistem:</strong>"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Subject SKS and Classroom Capacity must be <strong>greater than 0</strong>."
+msgstr ""
+"Bobot SKS mata kuliah dan kapasitas ruang kelas harus <strong>lebih dari "
+"0</strong>."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Only <strong>one Academic Year</strong> should be active at a time so KRS "
+"and Thesis periods point to the right semester."
+msgstr ""
+"Hanya boleh ada <strong>satu Tahun Akademik</strong> yang aktif dalam satu "
+"waktu agar KRS dan Skripsi mengarah ke semester yang benar."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"When assigning a student's <strong>Academic Advisor (PA)</strong>, the "
+"system only allows active lecturers from the same Study Program."
+msgstr ""
+"Saat memilih <strong>Dosen Pembimbing Akademik (PA)</strong> untuk "
+"mahasiswa, sistem hanya mengizinkan dosen aktif dari Program Studi yang "
+"sama."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Stage 2: Opening Classes &amp; Arranging Schedules"
+msgstr "Tahap 2: Membuka Kelas &amp; Menyusun Jadwal Kuliah"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Who performs this:</strong> Academic Admin"
+msgstr "<strong>Pelaksana:</strong> Admin Akademik"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Open a <strong>Class</strong> for each subject offered this semester and add"
+" its weekly <strong>Class Schedules</strong> (Day, Start Time, End Time, "
+"Classroom, and Lecturer). One class can have multiple schedules (e.g. theory"
+" and lab)."
+msgstr ""
+"Buka <strong>Kelas</strong> untuk setiap mata kuliah yang ditawarkan "
+"semester ini, lalu tambahkan <strong>Jadwal Kuliah</strong> mingguan (Hari, "
+"Jam Mulai, Jam Selesai, Ruangan, dan Dosen). Satu kelas dapat memiliki lebih"
+" dari satu jadwal (misalnya teori dan praktikum)."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-users text-info me-2\"/> <strong>How Capacity "
+"Works:</strong> You do not need to type class capacity manually—the class "
+"seat quota automatically follows the capacity of the Classroom chosen on the"
+" schedule."
+msgstr ""
+"<i class=\"fa fa-users text-info me-2\"/> <strong>Cara Kerja Kuota "
+"Kelas:</strong> Anda tidak perlu mengetik kuota kelas secara manual—kuota "
+"kursi kelas otomatis mengikuti kapasitas Ruangan yang dipilih pada jadwal."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"End time must be <strong>after</strong> start time (and not past 24:00)."
+msgstr ""
+"Jam selesai harus <strong>lebih akhir</strong> dari jam mulai (dan tidak "
+"melewati pukul 24:00)."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>No Room Overlap:</strong> You cannot schedule two classes in the "
+"same room at the same day and overlapping time. Change the room or time slot"
+" if blocked."
+msgstr ""
+"<strong>Ruangan Tidak Boleh Bentrok:</strong> Anda tidak dapat menjadwalkan "
+"dua kelas di ruangan yang sama pada hari dan jam yang beririsan. Ganti "
+"ruangan atau geser jam jika tertahan validasi ini."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>No Lecturer Overlap:</strong> A lecturer cannot be assigned to two "
+"classes at the same time. Pick another lecturer or adjust the schedule."
+msgstr ""
+"<strong>Dosen Tidak Boleh Bentrok:</strong> Seorang dosen tidak dapat "
+"mengajar dua kelas pada waktu yang bersamaan. Pilih dosen lain atau ubah jam"
+" jadwal."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Stage 3: Compiling &amp; Submitting Study Plan (KRS)"
+msgstr "Tahap 3: Pengisian &amp; Pengajuan KRS"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Student (via Portal) or Academic Admin "
+"(via Backend)"
+msgstr ""
+"<strong>Pelaksana:</strong> Mahasiswa (lewat Portal) atau Admin Akademik "
+"(lewat Sistem)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Select the classes to take for the active semester, verify the total SKS, "
+"and click <strong>Submit</strong> to send the KRS to the Academic Advisor "
+"(PA)."
+msgstr ""
+"Pilih kelas yang akan diambil pada semester aktif, pastikan total SKS "
+"sesuai, lalu klik <strong>Ajukan (Submit)</strong> untuk mengirim KRS ke "
+"Dosen PA."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations (What to fix if blocked):</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
+"&amp; Validasi Sistem (Apa yang harus diperbaiki jika tertahan):</strong>"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>KRS Period Closed:</strong> Students can only edit or submit KRS "
+"between the <em>KRS Start Date</em> and <em>KRS End Date</em> set on the "
+"active Academic Year. Outside that window, contact Academic Admin."
+msgstr ""
+"<strong>Periode KRS Tutup:</strong> Mahasiswa hanya dapat mengubah atau "
+"mengajukan KRS di antara <em>Tanggal Mulai KRS</em> dan <em>Tanggal Selesai "
+"KRS</em> pada Tahun Akademik aktif. Di luar jadwal tersebut, hubungi Admin "
+"Akademik."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Exceeds SKS Limit:</strong> Total SKS exceeds the maximum allowed "
+"for the student's current GPA. Drop one or more subjects until within the "
+"limit."
+msgstr ""
+"<strong>Melebihi Batas SKS:</strong> Total SKS melebihi batas maksimal "
+"sesuai IPK mahasiswa saat ini. Hapus satu atau beberapa mata kuliah hingga "
+"masuk batas."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Schedule Conflict:</strong> Two chosen classes overlap in day and "
+"time. Replace one of them with a different schedule."
+msgstr ""
+"<strong>Jadwal Bentrok:</strong> Dua kelas yang dipilih memiliki hari dan "
+"jam yang beririsan. Ganti salah satunya dengan jadwal lain."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Class Quota Full:</strong> The classroom capacity is already full. "
+"Choose another parallel class or ask Admin to adjust the room/quota."
+msgstr ""
+"<strong>Kuota Kelas Penuh:</strong> Kapasitas ruangan kelas sudah penuh. "
+"Pilih kelas paralel lain atau minta Admin menyesuaikan ruangan/kuota."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Missing Prerequisite:</strong> A subject requires passing a "
+"prerequisite subject in KHS first. Remove the subject until the prerequisite"
+" is passed."
+msgstr ""
+"<strong>Belum Lulus Prasyarat:</strong> Mata kuliah tersebut mewajibkan "
+"kelulusan mata kuliah prasyarat di KHS terlebih dahulu. Hapus mata kuliah "
+"tersebut sampai prasyaratnya lulus."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Stage 4: Academic Advisor Approval"
+msgstr "Tahap 4: Persetujuan Dosen Pembimbing Akademik (PA)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Academic Advisor (PA) or Academic Admin"
+msgstr "<strong>Pelaksana:</strong> Dosen PA atau Admin Akademik"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"The Academic Advisor opens the submitted KRS, reviews the student's chosen "
+"subjects and SKS load, then clicks <strong>Approve</strong> (or "
+"<strong>Reject / Request Revision</strong> with a note so the student can "
+"revise and resubmit)."
+msgstr ""
+"Dosen PA membuka KRS yang masuk, memeriksa daftar mata kuliah dan beban SKS "
+"mahasiswa, lalu klik <strong>Setujui (Approve)</strong> (atau <strong>Tolak "
+"/ Minta Revisi</strong> disertai catatan agar mahasiswa bisa memperbaiki dan"
+" mengajukan ulang)."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-lock text-dark me-2\"/> <strong>Access Rule:</strong> Each "
+"Academic Advisor can only see and approve KRS for their own advised "
+"students. If a student's KRS does not appear, check that the student's "
+"<em>Academic Advisor</em> field is set to that lecturer."
+msgstr ""
+"<i class=\"fa fa-lock text-dark me-2\"/> <strong>Aturan Akses:</strong> "
+"Setiap Dosen PA hanya dapat melihat dan menyetujui KRS mahasiswa "
+"bimbingannya sendiri. Jika KRS mahasiswa tidak muncul, pastikan kolom "
+"<em>Dosen PA</em> pada profil mahasiswa sudah diisi dosen tersebut."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Stage 5: Locking KRS, Issuing KHS &amp; Grading"
+msgstr "Tahap 5: Kunci KRS, Penerbitan KHS &amp; Input Nilai"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> Academic Admin (locks KRS) &amp; Course "
+"Lecturer (inputs grades)"
+msgstr ""
+"<strong>Pelaksana:</strong> Admin Akademik (mengunci KRS) &amp; Dosen "
+"Pengampu (mengisi nilai)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Once approved, Academic Admin clicks <strong>Lock &amp; Generate "
+"KHS</strong> on the KRS. The system locks the KRS and automatically creates "
+"the matching Study Result Card (KHS) with all enrolled subjects."
+msgstr ""
+"Setelah KRS disetujui, Admin Akademik klik <strong>Kunci &amp; Buat "
+"KHS</strong>. Sistem akan mengunci KRS dan otomatis membuat Kartu Hasil "
+"Studi (KHS) berisi semua mata kuliah yang diambil."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"At the end of the semester, the Course Lecturer opens the KHS line and "
+"enters the student's <strong>numeric score (0–100)</strong>."
+msgstr ""
+"Di akhir semester, Dosen Pengampu membuka baris KHS dan memasukkan "
+"<strong>nilai angka mahasiswa (0–100)</strong>."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"The system immediately assigns the letter grade, grade point, pass/fail "
+"status, semester GPA (IP), and cumulative GPA (IPK)."
+msgstr ""
+"Sistem langsung menentukan nilai huruf, bobot nilai, status lulus/tidak "
+"lulus, IP semester, dan IPK kumulatif."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"KHS cannot be generated from a Draft or Submitted KRS—the KRS must be "
+"<strong>Approved</strong> first."
+msgstr ""
+"KHS tidak dapat dibuat dari KRS yang masih Draf atau Diajukan—KRS harus "
+"berstatus <strong>Disetujui (Approved)</strong> terlebih dahulu."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Numeric scores must be between <strong>0 and 100</strong>; values outside "
+"this range are rejected."
+msgstr ""
+"Nilai angka harus berada di antara <strong>0 sampai 100</strong>; nilai di "
+"luar rentang tersebut akan ditolak sistem."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Once locked, students cannot edit the KRS. If a correction is truly needed, "
+"only Academic Admin can unlock it back to Approved."
+msgstr ""
+"Setelah dikunci, mahasiswa tidak bisa mengubah KRS. Jika benar-benar perlu "
+"perbaikan, hanya Admin Akademik yang dapat membuka kunci kembali ke status "
+"Disetujui."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Stage 6: Bulk Tools (Course Packages, Mass Schedule &amp; Actions)"
+msgstr ""
+"Tahap 6: Fitur Massal (Paket Mata Kuliah, Jadwal Massal &amp; Aksi Daftar)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "<strong>Who performs this:</strong> Academic Admin / Academic Advisor"
+msgstr "<strong>Pelaksana:</strong> Admin Akademik / Dosen PA"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "To save time when handling dozens or hundreds of students at once:"
+msgstr ""
+"Untuk menghemat waktu saat memproses puluhan hingga ratusan mahasiswa "
+"sekaligus:"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Course Packages (Mass KRS):</strong> Group mandatory subjects per "
+"Study Program and Academic Year into a Package, then click <strong>Generate "
+"KRS</strong>. Select the students who do not have a KRS yet to create their "
+"Draft KRS in one click."
+msgstr ""
+"<strong>Paket Mata Kuliah (KRS Massal):</strong> Kelompokkan mata kuliah "
+"wajib per Program Studi dan Tahun Akademik ke dalam satu Paket, lalu klik "
+"<strong>Generate KRS</strong>. Pilih mahasiswa yang belum memiliki KRS untuk"
+" menerbitkan Draf KRS mereka sekaligus."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Schedule Assignment:</strong> Open a Class → go to the "
+"<strong>Students</strong> tab → click <strong>Assign Schedule "
+"(Massive)</strong> to assign a schedule to all enrolled students who do not "
+"have one yet."
+msgstr ""
+"<strong>Penugasan Jadwal Massal:</strong> Buka data Kelas → buka tab "
+"<strong>Mahasiswa</strong> → klik <strong>Tetapkan Jadwal (Massal)</strong> "
+"untuk memberi jadwal sekaligus ke seluruh mahasiswa di kelas tersebut yang "
+"belum punya jadwal."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<strong>Mass Status Actions:</strong> In the <strong>Study Plan "
+"(KRS)</strong> list view, check the KRS rows you want to process, click "
+"<strong>Actions</strong> at the top, and choose <em>Mass Submit</em>, "
+"<em>Mass Approve</em>, <em>Mass Lock</em>, <em>Mass Reject</em>, or <em>Mass"
+" Unlock</em>."
+msgstr ""
+"<strong>Ubah Status Massal:</strong> Pada tampilan daftar "
+"<strong>KRS</strong>, centang baris KRS yang ingin diproses, klik tombol "
+"<strong>Aksi (Actions)</strong> di bagian atas, lalu pilih <em>Ajukan "
+"Massal</em>, <em>Setujui Massal</em>, <em>Kunci Massal</em>, <em>Tolak "
+"Massal</em>, atau <em>Buka Kunci Massal</em>."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Safe Skipping "
+"Rule:</strong> If you select multiple KRS rows with mixed statuses (for "
+"example, some Draft and some Submitted) and click <em>Mass Approve</em>, the"
+" system only processes the Submitted ones and safely skips the rest."
+msgstr ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Aturan Lewati "
+"Aman:</strong> Jika Anda mencentang beberapa KRS dengan status berbeda "
+"(misalnya sebagian Draf dan sebagian Diajukan) lalu memilih <em>Setujui "
+"Massal</em>, sistem hanya memproses yang berstatus Diajukan dan melewati "
+"sisanya dengan aman."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Who Can Do What (User Roles)"
+msgstr "Pembagian Tugas &amp; Hak Akses Pengguna"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"Each user role only sees the menus and buttons needed for their "
+"responsibilities."
+msgstr ""
+"Setiap peran pengguna hanya melihat menu dan tombol yang sesuai dengan "
+"tugasnya."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Task"
+msgstr "Tugas / Aksi"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Academic Advisor / Lecturer"
+msgstr "Dosen PA / Pengampu"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Create &amp; Edit KRS"
+msgstr "Buat &amp; Ubah KRS"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✓ (during KRS period)"
+msgstr "✓ (selama periode KRS)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "—"
+msgstr "—"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✓"
+msgstr "✓"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✗"
+msgstr "✗"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "✓ (own advised students)"
+msgstr "✓ (khusus mahasiswa bimbingannya)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Manage Master Data (Programs, Rooms, etc.)"
+msgstr "Kelola Data Master (Prodi, Ruangan, dll.)"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid "Setting Up the KRS Period"
+msgstr "Mengatur Jadwal Periode KRS"
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"You can control when students are allowed to fill in or change their KRS."
+msgstr "Anda dapat membatasi kapan mahasiswa boleh mengisi atau mengubah KRS."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-calendar-check-o text-primary me-2\"/> <strong>How to "
+"Configure:</strong> Open <strong>Configuration → Academic Years</strong> → "
+"Open the active Academic Year → Fill in <strong>KRS Start Date</strong> and "
+"<strong>KRS End Date</strong>."
+msgstr ""
+"<i class=\"fa fa-calendar-check-o text-primary me-2\"/> <strong>Cara "
+"Mengatur:</strong> Buka menu <strong>Konfigurasi → Tahun Akademik</strong> →"
+" Buka Tahun Akademik yang aktif → Isi kolom <strong>Tanggal Mulai "
+"KRS</strong> dan <strong>Tanggal Selesai KRS</strong>."
+
+#. module: campus_website
+#: model_terms:ir.ui.view,arch_db:campus_website.core_homepage_docs
+msgid ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Note:</strong> Date "
+"limits only apply to Students on the Portal. Academic Admin can still create"
+" or adjust KRS anytime if a student needs special assistance."
+msgstr ""
+"<i class=\"fa fa-info-circle text-info me-2\"/> <strong>Catatan:</strong> "
+"Batas tanggal ini hanya berlaku bagi Mahasiswa di Portal. Admin Akademik "
+"tetap dapat membuat atau mengubah KRS kapan saja jika ada mahasiswa yang "
+"membutuhkan bantuan khusus."

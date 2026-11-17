@@ -11,10 +11,10 @@
              oe_structure bands are kept around it, so the owner can add or change
              content on / from the editor without touching code.
 
-             NOTE: #docs-tab and #docs-tabContent below are not private markup. Three
-             other modules (campus_employees, campus_pmb, campus_portal) xpath into
-             them by id to append their own documentation tab. Renaming or restructuring
-             those two divs breaks all three at load time. -->
+             NOTE: #docs-tab and #docs-tabContent below are not private markup. Four
+             other modules (campus_employees, campus_pmb, campus_portal, campus_thesis)
+             xpath into them by id to append their own documentation tab. Renaming or
+             restructuring those two divs breaks them at load time. -->
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="bg-light pb-5">
                 <!-- Editable band above the documentation. -->
@@ -23,10 +23,10 @@
                 <!-- Header -->
                 <section class="bg-white border-bottom pt-5 pb-4 mb-5 shadow-sm">
                     <div class="container text-center">
-                        <h1 class="display-5 fw-bold mb-3 text-primary">Academic Information System (SIAKAD) Technical Documentation</h1>
+                        <h1 class="display-5 fw-bold mb-3 text-primary">Academic Information System (SIAKAD) User Guide</h1>
                         <p class="lead text-muted mx-auto" style="max-width: 900px;">
-                            This document contains the technical specifications and Standard Operating Procedure (SOP) of the Educational Enterprise Resource Planning (ERP).
-                            The system is designed with Odoo's modular architecture, implementing Python ORM automation, comprehensive business validation, and layered security systems.
+                            Welcome to the step-by-step user guide for every module in the Campus Academic System.
+                            Here you can find who performs each task, the exact steps to follow at every stage, and the built-in checks the system enforces so data stays accurate.
                         </p>
                     </div>
                 </section>
@@ -38,7 +38,7 @@
                             <div class="sticky-top" style="top: 100px;">
                                 <div class="nav flex-column nav-pills shadow-sm border-0 rounded-4 bg-white p-2" id="docs-tab" role="tablist" aria-orientation="vertical">
                                     <button class="nav-link active fw-bold py-3 text-start mb-1" id="tab-core" data-bs-toggle="pill" data-bs-target="#content-core" type="button" role="tab" aria-controls="content-core" aria-selected="true">
-                                        <i class="fa fa-cogs me-2"/> Campus Core Module
+                                        <i class="fa fa-cogs me-2"/> Campus Core (Academic &amp; KRS/KHS)
                                     </button>
                                 </div>
                             </div>
@@ -47,7 +47,7 @@
                         <!-- Documentation Content -->
                         <div class="col-lg-9">
                             <div class="tab-content bg-white shadow-sm rounded-4 p-5" id="docs-tabContent">
-                                
+
                                 <!-- MODUL CAMPUS CORE -->
                                 <div class="tab-pane fade show active" id="content-core" role="tabpanel" aria-labelledby="tab-core">
                                     <section class="mb-5">
@@ -55,186 +55,174 @@
                                             <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
                                                 <i class="fa fa-cogs"/>
                                             </div>
-                                            <h2 class="fw-bold mb-0 text-primary">Campus Core Module (Core Academic Management)</h2>
+                                            <h2 class="fw-bold mb-0 text-primary">Campus Core Module (Academic, KRS &amp; KHS)</h2>
                                         </div>
                                         <p class="text-muted lead mb-4">
-                                            This module is the heart of your campus system. It manages all academic foundation data, starting from curriculum management, course scheduling, Study Plan (KRS) entry, to grade transcript (KHS) printing. Designed to keep academic processes running smoothly, automatically, and with minimal administrative errors.
+                                            This module is the main workspace for campus academic operations—from setting up the curriculum and class schedules, managing Study Plans (KRS), to publishing Study Result Cards (KHS) and student GPA.
                                         </p>
-                                        
+
                                         <!-- HIGHLIGHT FITUR -->
                                         <div class="row mb-5">
                                             <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
-                                                        <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Smart Constraints</h5>
-                                                        <p class="text-muted small mb-0">The system automatically blocks students from taking credits (SKS) exceeding their GPA limit, and prevents registration if the class capacity is full. No more manual administrative leniency.</p>
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-shield text-danger me-2"/>Credit &amp; Quota Limits</h5>
+                                                        <p class="text-muted small mb-0">The system automatically checks each student's GPA credit limit, class seat quota, and prerequisite subjects before a KRS can be submitted.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
-                                                        <h5 class="fw-bold text-dark"><i class="fa fa-calendar-check-o text-primary me-2"/>Dynamic Scheduling</h5>
-                                                        <p class="text-muted small mb-0">The system detects class schedule conflict (Time Overlap) in real-time when students compile their KRS, ensuring students do not choose two classes at the same time.</p>
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-calendar-check-o text-primary me-2"/>Conflict Prevention</h5>
+                                                        <p class="text-muted small mb-0">Prevents double-booking of classrooms or lecturers when building schedules, and stops students from choosing overlapping class times.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
-                                                        <h5 class="fw-bold text-dark"><i class="fa fa-calculator text-success me-2"/>KHS Transcript Automation</h5>
-                                                        <p class="text-muted small mb-0">Lecturers only need to enter the final numeric score (e.g. 85). The system automatically converts it to a letter grade (A), multiplies the points (4.0) by credits (SKS), and calculates the student's GPA without manual calculation.</p>
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-calculator text-success me-2"/>Automatic KHS &amp; GPA</h5>
+                                                        <p class="text-muted small mb-0">Lecturers only enter numeric scores (0–100). The system converts them to letter grades and calculates semester IP and cumulative IPK automatically.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
-                                                        <h5 class="fw-bold text-dark"><i class="fa fa-user-md text-info me-2"/>Smart Advisor Assignment</h5>
-                                                        <p class="text-muted small mb-0">When assigning an Academic Advisor, the system automatically filters the list to only show active Lecturers within the same Study Program as the student. No more misassigned roles.</p>
+                                                        <h5 class="fw-bold text-dark"><i class="fa fa-user-md text-info me-2"/>Matched Advisors</h5>
+                                                        <p class="text-muted small mb-0">When assigning an Academic Advisor (PA), only active lecturers from the student's own Study Program can be selected.</p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
 
-                                        <h4 class="fw-bold border-bottom pb-2 mb-4">Academic Workflow</h4>
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4">Step-by-Step Academic Workflow</h4>
 
                                         <!-- TAHAP 1 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
                                             <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
-                                            <h5 class="fw-bold text-dark pt-1">Master Data Preparation (Prerequisites)</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Academic Administrator (Academic Office)</p>
-                                            <p class="mb-2">Before the semester starts, the Admin must prepare the curriculum foundation:</p>
+                                            <h5 class="fw-bold text-dark pt-1">Stage 1: Preparing Master Data (Before Semester Starts)</h5>
+                                            <p class="mb-2"><strong>Who performs this:</strong> Academic Admin (Academic Office)</p>
+                                            <p class="mb-2">Set up the core academic structure before opening classes or KRS:</p>
                                             <ul class="text-muted mb-2">
-                                                <li>Create active <strong>Academic Year</strong> (Example: 2026/2027 Odd).</li>
-                                                <li>Enter the list of <strong>Subjects</strong> and assign credits (SKS) weights.</li>
-                                                <li>Register <strong>Classrooms</strong> along with <em>Maximum Capacity</em> (Max Capacity).</li>
+                                                <li>Create and activate the current <strong>Academic Year</strong> (e.g. 2026/2027 Odd) under <strong>Configuration → Academic Years</strong>.</li>
+                                                <li>Register <strong>Faculties</strong> and <strong>Study Programs</strong>, plus <strong>Grade Scales</strong> and <strong>Credit Limits (SKS)</strong> per GPA range.</li>
+                                                <li>Add <strong>Subjects</strong> with their SKS weight and any required <strong>Prerequisite Subjects</strong>.</li>
+                                                <li>Register <strong>Classrooms</strong> with their <strong>Maximum Capacity</strong>.</li>
                                             </ul>
+                                            <div class="bg-light p-3 rounded">
+                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                                                <ul class="mb-0 mt-1 text-muted small">
+                                                    <li>Subject SKS and Classroom Capacity must be <strong>greater than 0</strong>.</li>
+                                                    <li>Only <strong>one Academic Year</strong> should be active at a time so KRS and Thesis periods point to the right semester.</li>
+                                                    <li>When assigning a student's <strong>Academic Advisor (PA)</strong>, the system only allows active lecturers from the same Study Program.</li>
+                                                </ul>
+                                            </div>
                                         </div>
 
                                         <!-- TAHAP 2 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
-                                            <span class="badge bg-info position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
-                                            <h5 class="fw-bold text-dark pt-1">Scheduling &amp; Opening Classes</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Academic Administrator (Academic Office)</p>
-                                            <p class="mb-2">Admin creates a <strong>Class (Class)</strong> for the subject to be taught, then arranges the <strong>Class Schedule (Class Schedule)</strong>.</p>
+                                            <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
+                                            <h5 class="fw-bold text-dark pt-1">Stage 2: Opening Classes &amp; Arranging Schedules</h5>
+                                            <p class="mb-2"><strong>Who performs this:</strong> Academic Admin</p>
+                                            <p class="mb-2">Open a <strong>Class</strong> for each subject offered this semester and add its weekly <strong>Class Schedules</strong> (Day, Start Time, End Time, Classroom, and Lecturer). One class can have multiple schedules (e.g. theory and lab).</p>
                                             <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-calendar text-dark me-2"/> <strong>Scheduling System:</strong> Schedule determines Day, Start Time, End Time, Room, and Lecturer. You can create multiple schedules for one class (e.g., theory and lab).
+                                                <i class="fa fa-users text-info me-2"/> <strong>How Capacity Works:</strong> You do not need to type class capacity manually—the class seat quota automatically follows the capacity of the Classroom chosen on the schedule.
                                             </div>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-users text-info me-2"/> <strong>Automatic Capacity:</strong> Odoo automatically calculates the class maximum capacity based on the capacity of the selected Room in the schedule!
+                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                                                <ul class="mb-0 mt-1 text-muted small">
+                                                    <li>End time must be <strong>after</strong> start time (and not past 24:00).</li>
+                                                    <li><strong>No Room Overlap:</strong> You cannot schedule two classes in the same room at the same day and overlapping time. Change the room or time slot if blocked.</li>
+                                                    <li><strong>No Lecturer Overlap:</strong> A lecturer cannot be assigned to two classes at the same time. Pick another lecturer or adjust the schedule.</li>
+                                                </ul>
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 3 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
                                             <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
-                                            <h5 class="fw-bold text-dark pt-1">Study Plan (KRS) Filling</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Student / Academic Admin</p>
-                                            <p class="mb-2">Students compile their study plan for the current semester. It can be filled independently via the Portal or assisted by the Admin.</p>
-                                            <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>Strict Validation:</strong> The system <strong>rejects</strong> KRS submissions if: (1) SKS exceeds the GPA limit, (2) Schedule conflicts, (3) Class quota is full, or (4) Student has not passed the prerequisite subjects.
-                                            </div>
+                                            <h5 class="fw-bold text-dark pt-1">Stage 3: Compiling &amp; Submitting Study Plan (KRS)</h5>
+                                            <p class="mb-2"><strong>Who performs this:</strong> Student (via Portal) or Academic Admin (via Backend)</p>
+                                            <p class="mb-2">Select the classes to take for the active semester, verify the total SKS, and click <strong>Submit</strong> to send the KRS to the Academic Advisor (PA).</p>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Student clicks <strong>Submit</strong> to send KRS to the Academic Advisor (PA).
+                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations (What to fix if blocked):</strong>
+                                                <ul class="mb-0 mt-1 text-muted small">
+                                                    <li><strong>KRS Period Closed:</strong> Students can only edit or submit KRS between the <em>KRS Start Date</em> and <em>KRS End Date</em> set on the active Academic Year. Outside that window, contact Academic Admin.</li>
+                                                    <li><strong>Exceeds SKS Limit:</strong> Total SKS exceeds the maximum allowed for the student's current GPA. Drop one or more subjects until within the limit.</li>
+                                                    <li><strong>Schedule Conflict:</strong> Two chosen classes overlap in day and time. Replace one of them with a different schedule.</li>
+                                                    <li><strong>Class Quota Full:</strong> The classroom capacity is already full. Choose another parallel class or ask Admin to adjust the room/quota.</li>
+                                                    <li><strong>Missing Prerequisite:</strong> A subject requires passing a prerequisite subject in KHS first. Remove the subject until the prerequisite is passed.</li>
+                                                </ul>
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 4 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
                                             <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
-                                            <h5 class="fw-bold text-dark pt-1">Academic Advisor Approval (KRS Approval)</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Academic Advisor (PA)</p>
-                                            <p class="mb-2">The Advisor reviews the subjects submitted by their advised students.</p>
-                                            <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-lock text-dark me-2"/> <strong>Security (Row-Level Security):</strong> Advisor A <strong>cannot</strong> approve or view KRS from Advisor B's students. Access rights are absolutely restricted.
-                                            </div>
+                                            <h5 class="fw-bold text-dark pt-1">Stage 4: Academic Advisor Approval</h5>
+                                            <p class="mb-2"><strong>Who performs this:</strong> Academic Advisor (PA) or Academic Admin</p>
+                                            <p class="mb-2">The Academic Advisor opens the submitted KRS, reviews the student's chosen subjects and SKS load, then clicks <strong>Approve</strong> (or <strong>Reject / Request Revision</strong> with a note so the student can revise and resubmit).</p>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-check-circle text-success me-2"/> <strong>Action:</strong> Advisor clicks <strong>Approve</strong>. KRS is locked and the student is officially registered in the class.
+                                                <i class="fa fa-lock text-dark me-2"/> <strong>Access Rule:</strong> Each Academic Advisor can only see and approve KRS for their own advised students. If a student's KRS does not appear, check that the student's <em>Academic Advisor</em> field is set to that lecturer.
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 5 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
                                             <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
-                                            <h5 class="fw-bold text-dark pt-1">KHS Issuance &amp; Grading (End of Semester)</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Course Lecturer / Academic Admin</p>
-                                            <p class="mb-2">At the end of the lecture period, grades must be issued in the form of a Study Result Card (KHS).</p>
-                                            <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-magic text-dark me-2"/> <strong>Automatic Creation:</strong> Admin does not need to create KHS from scratch. Simply click <strong>Lock &amp; Generate KHS</strong> on the student's KRS, and the system automatically creates an exact copy in the KHS module!
-                                            </div>
+                                            <h5 class="fw-bold text-dark pt-1">Stage 5: Locking KRS, Issuing KHS &amp; Grading</h5>
+                                            <p class="mb-2"><strong>Who performs this:</strong> Academic Admin (locks KRS) &amp; Course Lecturer (inputs grades)</p>
+                                            <ol class="text-muted mb-2">
+                                                <li>Once approved, Academic Admin clicks <strong>Lock &amp; Generate KHS</strong> on the KRS. The system locks the KRS and automatically creates the matching Study Result Card (KHS) with all enrolled subjects.</li>
+                                                <li>At the end of the semester, the Course Lecturer opens the KHS line and enters the student's <strong>numeric score (0–100)</strong>.</li>
+                                                <li>The system immediately assigns the letter grade, grade point, pass/fail status, semester GPA (IP), and cumulative GPA (IPK).</li>
+                                            </ol>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-calculator text-success me-2"/> <strong>Action:</strong> Lecturer inputs final grade (e.g. 80). The system instantly calculates the grade points and GPA (Cumulative Grade Point Average) of the student.
+                                                <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                                                <ul class="mb-0 mt-1 text-muted small">
+                                                    <li>KHS cannot be generated from a Draft or Submitted KRS—the KRS must be <strong>Approved</strong> first.</li>
+                                                    <li>Numeric scores must be between <strong>0 and 100</strong>; values outside this range are rejected.</li>
+                                                    <li>Once locked, students cannot edit the KRS. If a correction is truly needed, only Academic Admin can unlock it back to Approved.</li>
+                                                </ul>
                                             </div>
                                         </div>
 
                                         <!-- TAHAP 6 -->
                                         <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
-                                            <span class="badge bg-info position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
-                                            <h5 class="fw-bold text-dark pt-1">Mass KRS Generator &amp; Course Packages (Advanced Automation)</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Academic Admin</p>
-                                            <p class="mb-2">No need to compile KRS one by one anymore! Now you can use our smart <em>Wizard</em>.</p>
-                                            <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-cubes text-dark me-2"/> <strong>Course Packages:</strong> Collect mandatory subjects for each Study Program into a Package per Academic Year.
-                                            </div>
+                                            <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
+                                            <h5 class="fw-bold text-dark pt-1">Stage 6: Bulk Tools (Course Packages, Mass Schedule &amp; Actions)</h5>
+                                            <p class="mb-2"><strong>Who performs this:</strong> Academic Admin / Academic Advisor</p>
+                                            <p class="mb-2">To save time when handling dozens or hundreds of students at once:</p>
+                                            <ul class="text-muted mb-2">
+                                                <li><strong>Course Packages (Mass KRS):</strong> Group mandatory subjects per Study Program and Academic Year into a Package, then click <strong>Generate KRS</strong>. Select the students who do not have a KRS yet to create their Draft KRS in one click.</li>
+                                                <li><strong>Mass Schedule Assignment:</strong> Open a Class → go to the <strong>Students</strong> tab → click <strong>Assign Schedule (Massive)</strong> to assign a schedule to all enrolled students who do not have one yet.</li>
+                                                <li><strong>Mass Status Actions:</strong> In the <strong>Study Plan (KRS)</strong> list view, check the KRS rows you want to process, click <strong>Actions</strong> at the top, and choose <em>Mass Submit</em>, <em>Mass Approve</em>, <em>Mass Lock</em>, <em>Mass Reject</em>, or <em>Mass Unlock</em>.</li>
+                                            </ul>
                                             <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-flash text-info me-2"/> <strong>Action (Generate KRS):</strong> Click "Generate KRS" on the Package, and the system will filter students of that program who have not created KRS. Check dozens of student names, and mass <em>Draft KRS</em> (with their subject lines) will be issued in the blink of an eye!
-                                            </div>
-                                        </div>
-
-                                        <!-- TAHAP 7 -->
-                                        <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
-                                            <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">7</span>
-                                            <h5 class="fw-bold text-dark pt-1">Mass Schedule Assignment</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Academic Admin</p>
-                                            <p class="mb-2">After KRS is generated, the Admin no need to set student schedules one by one manually!</p>
-                                            <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-magic text-primary me-2"/> <strong>Action (Assign Schedule):</strong> Open Class form, click <strong>Students</strong> tab, then click <strong>Assign Schedule (Massive)</strong>. The system will search for all students taking this class but have no schedule, and you can assign them to a schedule at once!
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- TAHAP 8 -->
-                                        <div class="mb-4 ps-4 border-start border-4 border-danger position-relative">
-                                            <span class="badge bg-danger position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">8</span>
-                                            <h5 class="fw-bold text-dark pt-1">Mass Status Transitions via Actions Menu</h5>
-                                            <p class="mb-2"><strong>Actor:</strong> Academic Admin / Academic Advisor</p>
-                                            <p class="mb-2">No need to open KRS documents one by one to change status! Simply use the <em>Actions</em> feature in list view.</p>
-                                            <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-list-ul text-dark me-2"/> <strong>How to Use:</strong> Open <strong>Study Plan (KRS)</strong> menu → Check one or more KRS lines to process → Click <strong>"⚙️ Actions"</strong> button at the top of the table.
-                                            </div>
-                                            <div class="bg-light p-3 rounded mb-2">
-                                                <i class="fa fa-bolt text-danger me-2"/> <strong>Available Options in Actions Menu:</strong>
-                                                <ul class="mt-2 mb-0 text-muted">
-                                                    <li><strong>Mass Submit</strong> — Send all checked Draft KRS at once to Academic Advisor.</li>
-                                                    <li><strong>Mass Approve</strong> — Approve all checked Submitted KRS at once (Advisor / Admin only).</li>
-                                                    <li><strong>Mass Lock</strong> — Lock all checked Approved KRS and automatically generate KHS (Admin only).</li>
-                                                    <li><strong>Mass Reject</strong> — Reject all checked Submitted KRS at once.</li>
-                                                    <li><strong>Mass Unlock</strong> — Reopen locked KRS back to Approved status if corrections are needed (Admin only).</li>
-                                                </ul>
-                                            </div>
-                                            <div class="bg-light p-3 rounded">
-                                                <i class="fa fa-info-circle text-info me-2"/> <strong>Smart Note:</strong> The system automatically skips lines with mismatching status. For example, if you check 10 KRS and select <em>Mass Approve</em>, only KRS in Submitted status will be processed; Draft KRS will remain untouched.
+                                                <i class="fa fa-info-circle text-info me-2"/> <strong>Safe Skipping Rule:</strong> If you select multiple KRS rows with mixed statuses (for example, some Draft and some Submitted) and click <em>Mass Approve</em>, the system only processes the Submitted ones and safely skips the rest.
                                             </div>
                                         </div>
 
                                         <!-- SECTION: PERAN & HAK AKSES -->
-                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">User Roles &amp; Permissions</h4>
-                                        <p class="text-muted mb-4">This system is designed with a layered security hierarchy. Each user can only see and perform actions appropriate to their role.</p>
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Who Can Do What (User Roles)</h4>
+                                        <p class="text-muted mb-4">Each user role only sees the menus and buttons needed for their responsibilities.</p>
 
                                         <div class="table-responsive">
                                             <table class="table table-bordered table-hover align-middle">
                                                 <thead class="table-dark">
                                                     <tr>
-                                                        <th>Action</th>
+                                                        <th>Task</th>
                                                         <th class="text-center">Student (Portal)</th>
-                                                        <th class="text-center">Academic Advisor</th>
+                                                        <th class="text-center">Academic Advisor / Lecturer</th>
                                                         <th class="text-center">Academic Admin</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
                                                     <tr>
-                                                        <td>Create &amp; Edit KRS (during open period)</td>
-                                                        <td class="text-center text-success fw-bold">✓</td>
+                                                        <td>Create &amp; Edit KRS</td>
+                                                        <td class="text-center text-success fw-bold">✓ (during KRS period)</td>
                                                         <td class="text-center text-muted">—</td>
                                                         <td class="text-center text-success fw-bold">✓ (anytime)</td>
                                                     </tr>
@@ -247,7 +235,7 @@
                                                     <tr>
                                                         <td>Approve / Reject KRS</td>
                                                         <td class="text-center text-danger">✗</td>
-                                                        <td class="text-center text-success fw-bold">✓ (only their advised students)</td>
+                                                        <td class="text-center text-success fw-bold">✓ (own advised students)</td>
                                                         <td class="text-center text-success fw-bold">✓ (all)</td>
                                                     </tr>
                                                     <tr>
@@ -263,7 +251,7 @@
                                                         <td class="text-center text-success fw-bold">✓</td>
                                                     </tr>
                                                     <tr>
-                                                        <td>Manage Master Data (Programs, Rooms, etc)</td>
+                                                        <td>Manage Master Data (Programs, Rooms, etc.)</td>
                                                         <td class="text-center text-danger">✗</td>
                                                         <td class="text-center text-danger">✗</td>
                                                         <td class="text-center text-success fw-bold">✓</td>
@@ -273,17 +261,17 @@
                                         </div>
 
                                         <!-- SECTION: PERIODE KRS -->
-                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">KRS Period Configuration</h4>
-                                        <p class="text-muted mb-3">The system supports limiting KRS entry time so students can only fill during the specified period.</p>
+                                        <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Setting Up the KRS Period</h4>
+                                        <p class="text-muted mb-3">You can control when students are allowed to fill in or change their KRS.</p>
                                         <div class="bg-light p-3 rounded mb-2">
-                                            <i class="fa fa-calendar-check-o text-primary me-2"/> <strong>Setup Guide:</strong> Open <strong>Configuration → Academic Years</strong> menu → Choose active Academic Year → Fill <strong>KRS Start Date</strong> and <strong>KRS End Date</strong> fields.
+                                            <i class="fa fa-calendar-check-o text-primary me-2"/> <strong>How to Configure:</strong> Open <strong>Configuration → Academic Years</strong> → Open the active Academic Year → Fill in <strong>KRS Start Date</strong> and <strong>KRS End Date</strong>.
                                         </div>
                                         <div class="bg-light p-3 rounded">
-                                            <i class="fa fa-info-circle text-info me-2"/> <strong>Note:</strong> This period restriction <strong>only applies to Students</strong> (Portal users). Academic Admin can create or edit KRS anytime without being bound by the period, assisting students who cannot fill it themselves.
+                                            <i class="fa fa-info-circle text-info me-2"/> <strong>Note:</strong> Date limits only apply to Students on the Portal. Academic Admin can still create or adjust KRS anytime if a student needs special assistance.
                                         </div>
                                     </section>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>

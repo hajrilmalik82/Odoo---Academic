@@ -467,3 +467,203 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
 msgid "credits"
 msgstr "SKS"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<i class=\"fa fa-laptop me-2\"/> Student Portal (Self-Service)"
+msgstr "<i class=\"fa fa-laptop me-2\"/> Portal Mahasiswa (Layanan Mandiri)"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Student Portal Module (Self-Service)"
+msgstr "Modul Portal Mahasiswa (Layanan Mandiri)"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"The Student Portal is the online self-service page where active students log"
+" in to manage their Study Plan (KRS), view Study Result Cards (KHS) and GPA,"
+" and track their Thesis and Yudisium progress."
+msgstr ""
+"Portal Mahasiswa adalah halaman layanan mandiri online bagi mahasiswa aktif "
+"untuk mengisi KRS, melihat KHS dan IPK, serta memantau proses Skripsi dan "
+"Yudisium."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Step-by-Step Guide for Students"
+msgstr "Panduan Langkah demi Langkah untuk Mahasiswa"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Stage 1: Logging In &amp; Opening Your Dashboard"
+msgstr "Tahap 1: Login &amp; Membuka Halaman Utama Portal"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<strong>Who performs this:</strong> Student"
+msgstr "<strong>Pelaksana:</strong> Mahasiswa"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Log in using your campus email and password, then open <strong>My "
+"Account</strong> (<code>/my/home</code>). From the dashboard you can jump "
+"directly to your <strong>KRS</strong>, <strong>KHS</strong>, or "
+"<strong>Thesis</strong> pages."
+msgstr ""
+"Login menggunakan email kampus dan kata sandi Anda, lalu buka <strong>Akun "
+"Saya</strong> (<code>/my/home</code>). Dari halaman ini Anda dapat langsung "
+"membuka menu <strong>KRS</strong>, <strong>KHS</strong>, atau "
+"<strong>Skripsi</strong>."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations:</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
+"&amp; Validasi Sistem:</strong>"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"You must be logged in to access any portal page; visitors who are not logged"
+" in are redirected to the login screen."
+msgstr ""
+"Anda wajib login untuk membuka seluruh halaman portal; pengunjung yang belum"
+" login akan diarahkan ke halaman masuk."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Stage 2: Filling Out &amp; Submitting KRS Online"
+msgstr "Tahap 2: Mengisi &amp; Mengajukan KRS Secara Online"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Open your active KRS in <em>Draft</em> or <em>Needs Revision</em> status."
+msgstr ""
+"Buka dokumen KRS aktif Anda yang berstatus <em>Draf</em> atau <em>Perlu "
+"Revisi</em>."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Review the list of <strong>Available Schedules</strong> at the bottom and "
+"click <strong>Take</strong> to add a class (or <strong>Remove</strong> to "
+"drop a selected class)."
+msgstr ""
+"Lihat daftar <strong>Jadwal Tersedia</strong> di bagian bawah lalu klik "
+"<strong>Ambil (Take)</strong> untuk menambahkan kelas (atau "
+"<strong>Hapus</strong> untuk membatalkan kelas)."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Once your subjects and total SKS are ready, click <strong>Submit "
+"KRS</strong> to send it to your Academic Advisor (PA)."
+msgstr ""
+"Jika daftar mata kuliah dan total SKS sudah sesuai, klik <strong>Ajukan "
+"KRS</strong> untuk mengirimnya ke Dosen PA."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations (What to do if blocked):</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
+"&amp; Validasi Sistem (Apa yang harus dilakukan jika tertahan):</strong>"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<strong>Only Editable in Draft / Revision:</strong> You cannot add or remove"
+" subjects once the KRS is <em>Submitted</em>, <em>Approved</em>, or "
+"<em>Locked</em>. If you need changes after submitting, ask your Academic "
+"Advisor to return it for revision."
+msgstr ""
+"<strong>Hanya Bisa Diubah Saat Draf / Revisi:</strong> Anda tidak bisa "
+"menambah atau menghapus mata kuliah jika KRS sudah berstatus "
+"<em>Diajukan</em>, <em>Disetujui</em>, atau <em>Dikunci</em>. Jika perlu "
+"perubahan setelah diajukan, minta Dosen PA mengembalikannya untuk direvisi."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<strong>KRS Period Must Be Open:</strong> Students can only edit KRS within "
+"the active KRS dates. Outside this period, contact Academic Admin."
+msgstr ""
+"<strong>Periode KRS Harus Sedang Buka:</strong> Mahasiswa hanya dapat "
+"mengubah KRS dalam rentang tanggal periode KRS aktif. Di luar jadwal "
+"tersebut, hubungi Admin Akademik."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"<strong>Automatic Checks on \"Take\":</strong> The portal immediately blocks"
+" and shows an alert banner if adding a class exceeds your GPA SKS limit, "
+"overlaps with another chosen schedule, has a full classroom, or misses a "
+"prerequisite subject."
+msgstr ""
+"<strong>Pemeriksaan Otomatis Saat Klik \"Ambil\":</strong> Portal langsung "
+"menahan dan menampilkan pesan peringatan jika kelas yang dipilih melebihi "
+"batas SKS IPK Anda, jadwalnya bentrok, kuota kelas sudah penuh, atau mata "
+"kuliah prasyaratnya belum lulus."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Stage 3: Viewing KHS &amp; GPA"
+msgstr "Tahap 3: Melihat KHS &amp; IPK"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Open the <strong>KHS</strong> menu to see your subjects, letter grades, "
+"semester GPA (IP), and cumulative GPA (IPK). Grades appear automatically as "
+"soon as your lecturer enters them."
+msgstr ""
+"Buka menu <strong>KHS</strong> untuk melihat daftar mata kuliah, nilai "
+"huruf, IP semester, dan IPK. Nilai akan langsung tampil segera setelah dosen"
+" pengampu menginputkannya."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "Stage 4: Tracking Thesis &amp; Uploading Yudisium Documents"
+msgstr "Tahap 4: Memantau Skripsi &amp; Unggah Berkas Yudisium"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<strong>Who performs this:</strong> Final-Year Student"
+msgstr "<strong>Pelaksana:</strong> Mahasiswa Tingkat Akhir"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Open <strong>My Thesis</strong> (<code>/my/thesis</code>) to register your "
+"thesis, add consultation progress notes, upload Yudisium clearance "
+"documents, and download your Graduation Clearance Sheet PDF once approved."
+msgstr ""
+"Buka menu <strong>Skripsi Saya</strong> (<code>/my/thesis</code>) untuk "
+"mendaftarkan skripsi, mencatat progres bimbingan, mengunggah berkas "
+"yudisium, dan mengunduh Surat Keterangan Lulus/Yudisium (PDF) setelah "
+"disetujui."
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid "<i class=\"fa fa-lock text-dark me-2\"/> Student Data Privacy"
+msgstr "<i class=\"fa fa-lock text-dark me-2\"/> Privasi Data Mahasiswa"
+
+#. module: campus_portal
+#: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
+msgid ""
+"Each student account can only view and edit its own KRS, KHS, and Thesis "
+"records. If someone tries to open another student's document link directly, "
+"the system automatically blocks access so personal academic records stay "
+"private."
+msgstr ""
+"Setiap akun mahasiswa hanya dapat melihat dan mengelola KRS, KHS, dan "
+"Skripsi miliknya sendiri. Jika ada yang mencoba membuka tautan dokumen milik"
+" mahasiswa lain, sistem otomatis memblokirnya agar data akademik tetap aman."

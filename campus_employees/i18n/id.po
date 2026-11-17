@@ -663,3 +663,221 @@ msgstr ""
 "di %(student_program)s. Pembimbing akademik berasal dari program studi "
 "mahasiswanya sendiri: pilih pembimbing lain, atau pindahkan mahasiswanya "
 "dulu."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-users me-2\"/> HR &amp; Staff (Employees &amp; Access)"
+msgstr "<i class=\"fa fa-users me-2\"/> Kepegawaian &amp; Hak Akses Staf"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "HR &amp; Staff Module (Employees &amp; Work Scope)"
+msgstr "Modul Kepegawaian (Dosen, Staf &amp; Wilayah Kerja)"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"This module manages campus staff and lecturer profiles—including Lecturers, "
+"Admissions (PMB) Staff, Academic Staff (TU), and Deans—and controls which "
+"Faculty or Study Program data each staff member is allowed to manage."
+msgstr ""
+"Modul ini mengelola data dosen dan tenaga kependidikan—termasuk Dosen, Staf "
+"PMB, Staf Akademik (TU), dan Dekan—serta mengatur Fakultas atau Program "
+"Studi mana saja yang boleh dikelola oleh masing-masing staf."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-vcard-o text-info me-2\"/>Role-Based Employee Form"
+msgstr ""
+"<i class=\"fa fa-vcard-o text-info me-2\"/>Formulir Pegawai Sesuai Jabatan"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"The employee form automatically shows the right fields based on the selected"
+" job role—such as NIDN for Lecturers, or work-area limits for PMB and "
+"Academic Staff."
+msgstr ""
+"Formulir pegawai otomatis menampilkan kolom sesuai jabatan yang "
+"dipilih—seperti NIDN untuk Dosen, atau batas wilayah kerja untuk Staf PMB "
+"dan Akademik."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-sitemap text-primary me-2\"/>Lecturer &amp; Advisor Roles"
+msgstr ""
+"<i class=\"fa fa-sitemap text-primary me-2\"/>Peran Dosen &amp; Pembimbing"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Employees registered as Lecturers can be assigned as Academic Advisors (PA),"
+" Course Lecturers, or Thesis Supervisors."
+msgstr ""
+"Pegawai yang terdaftar sebagai Dosen dapat ditunjuk sebagai Dosen PA, Dosen "
+"Pengampu Mata Kuliah, maupun Pembimbing Skripsi."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<i class=\"fa fa-lock text-success me-2\"/>Faculty &amp; Program Scope"
+msgstr ""
+"<i class=\"fa fa-lock text-success me-2\"/>Batas Wilayah Fakultas &amp; "
+"Prodi"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Each PMB or Academic Staff member only sees applicants, students, KRS, and "
+"KHS belonging to their assigned Faculty or Study Program."
+msgstr ""
+"Setiap Staf PMB atau Staf Akademik hanya dapat melihat data pendaftar, "
+"mahasiswa, KRS, dan KHS yang berada di bawah Fakultas atau Program Studi "
+"tugasnya."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Step-by-Step HR &amp; Access Workflow"
+msgstr "Alur Pengelolaan Pegawai &amp; Hak Akses Langkah demi Langkah"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Stage 1: Setting Up Job Positions"
+msgstr "Tahap 1: Mengatur Jabatan (Job Positions)"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Who performs this:</strong> HR Manager / System Admin"
+msgstr "<strong>Pelaksana:</strong> Manajer SDM / Admin Sistem"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Before adding employees, open <strong>Employees → Configuration → Job "
+"Positions</strong> and set the <strong>Academic Role</strong> for each "
+"position (such as <em>Lecturer</em>, <em>PMB Staff</em>, <em>Academic "
+"Staff</em>, or <em>Dean</em>)."
+msgstr ""
+"Sebelum menambah data pegawai, buka <strong>Karyawan → Konfigurasi → Jabatan"
+" (Job Positions)</strong> lalu pilih <strong>Peran Akademik</strong> pada "
+"setiap jabatan (seperti <em>Dosen</em>, <em>Staf PMB</em>, <em>Staf "
+"Akademik</em>, atau <em>Dekan</em>)."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations:</strong>"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
+"&amp; Validasi Sistem:</strong>"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"If a Job Position does not have an <strong>Academic Role</strong> selected, "
+"the system will not show the Lecturer or Jurisdiction tabs on the employee "
+"profile, and the person will not appear in Lecturer/Advisor dropdowns."
+msgstr ""
+"Jika Jabatan belum diisi <strong>Peran Akademik</strong>, tab profil Dosen "
+"atau Wilayah Kerja tidak akan muncul di data pegawai, dan orang tersebut "
+"tidak akan muncul di pilihan Dosen/Pembimbing."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Stage 2: Creating Employee &amp; Lecturer Profiles"
+msgstr "Tahap 2: Membuat Profil Pegawai &amp; Dosen"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Who performs this:</strong> HR Staff"
+msgstr "<strong>Pelaksana:</strong> Staf SDM"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Create the employee record, fill in personal details, choose their "
+"Department/Faculty, link their <strong>Related User</strong> account, and "
+"select their Job Position."
+msgstr ""
+"Buat data pegawai baru, lengkapi biodata, pilih Departemen/Fakultas, "
+"hubungkan akun login di kolom <strong>Pengguna Terkait (Related "
+"User)</strong>, lalu pilih Jabatannya."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>What happens "
+"next:</strong> Choosing a <em>Lecturer</em> job reveals the academic profile"
+" fields (such as NIDN and Home Study Program). Choosing <em>PMB Staff</em> "
+"or <em>Academic Staff</em> reveals the Jurisdiction tab."
+msgstr ""
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Yang terjadi "
+"selanjutnya:</strong> Memilih jabatan <em>Dosen</em> akan memunculkan kolom "
+"akademik (seperti NIDN dan Prodi Asal). Memilih <em>Staf PMB</em> atau "
+"<em>Staf Akademik</em> akan memunculkan tab Wilayah Kerja."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>Active User Link Required:</strong> To let a lecturer or staff "
+"member log in and approve KRS, input KHS grades, or review Theses, they must"
+" have a linked <strong>Related User</strong> on their employee profile."
+msgstr ""
+"<strong>Akun Login Wajib Dihubungkan:</strong> Agar dosen atau staf dapat "
+"login untuk menyetujui KRS, mengisi nilai KHS, atau memeriksa Skripsi, "
+"profil pegawainya harus dihubungkan ke akun <strong>Pengguna Terkait "
+"(Related User)</strong>."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>Same Program for Advisors:</strong> A lecturer can only be assigned "
+"as a student's Academic Advisor (PA) if they are active and belong to the "
+"same Study Program."
+msgstr ""
+"<strong>Prodi Harus Sama untuk Dosen PA:</strong> Seorang dosen hanya dapat "
+"ditunjuk sebagai Dosen PA mahasiswa jika statusnya aktif dan berasal dari "
+"Program Studi yang sama."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Stage 3: Assigning Work Scope (Jurisdiction)"
+msgstr "Tahap 3: Menentukan Wilayah Kerja (Jurisdiction)"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> HR Manager / Campus Operations Manager"
+msgstr "<strong>Pelaksana:</strong> Manajer SDM / Manajer Operasional Kampus"
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Open the <strong>PMB / Academic Jurisdiction</strong> tab on the employee "
+"profile and select which <strong>Faculties</strong> or <strong>Study "
+"Programs</strong> that staff member is responsible for."
+msgstr ""
+"Buka tab <strong>Wilayah Kerja PMB / Akademik</strong> pada profil pegawai, "
+"lalu pilih <strong>Fakultas</strong> atau <strong>Program Studi</strong> "
+"yang menjadi tanggung jawabnya."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>Strict Area Limit:</strong> Staff can only view and process "
+"applicants, students, KRS, or KHS inside their assigned Faculty/Program."
+msgstr ""
+"<strong>Batas Wilayah Ketat:</strong> Staf hanya dapat melihat dan memproses"
+" pendaftar, mahasiswa, KRS, maupun KHS di Fakultas/Prodi yang sudah "
+"ditetapkan untuknya."
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>If a staff member sees an empty list:</strong> Check their employee "
+"profile and make sure at least one Faculty or Study Program is listed under "
+"their Jurisdiction tab."
+msgstr ""
+"<strong>Jika daftar staf terlihat kosong:</strong> Periksa profil pegawainya"
+" dan pastikan minimal satu Fakultas atau Program Studi sudah dipilih pada "
+"tab Wilayah Kerja."

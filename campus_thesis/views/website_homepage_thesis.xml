@@ -5,7 +5,7 @@
             <button class="nav-link fw-bold py-3 text-start mb-1 text-info" id="tab-thesis"
                     data-bs-toggle="pill" data-bs-target="#content-thesis" type="button"
                     role="tab" aria-controls="content-thesis" aria-selected="false">
-                <i class="fa fa-graduation-cap me-2"/> Campus Thesis Module
+                <i class="fa fa-graduation-cap me-2"/> Thesis, Yudisium &amp; Graduation
             </button>
         </xpath>
 
@@ -17,25 +17,100 @@
                              style="width: 50px; height: 50px; font-size: 1.25rem;">
                             <i class="fa fa-graduation-cap"/>
                         </div>
-                        <h2 class="fw-bold mb-0 text-info">Campus Thesis &amp; Graduation Module</h2>
+                        <h2 class="fw-bold mb-0 text-info">Campus Thesis, Yudisium &amp; Graduation Module</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        Manages the full academic lifecycle from Research Methodology prerequisite verification, supervisor approval, proposal &amp; thesis progress logs, sequential Yudisium clearance, to nearest Graduation (Wisuda) assignment.
+                        This module guides final-year students, supervisors, academic advisors, and faculty deans through the complete thesis journey—from eligibility checks and supervisor approval, proposal and thesis progress, 3-step Yudisium clearance, to automatic placement in the nearest Graduation (Wisuda) schedule.
                     </p>
 
-                    <div class="card border-0 shadow-sm rounded-4 mb-4 border-info border-top border-4">
-                        <div class="card-header bg-white border-bottom-0 pt-4 pb-0">
-                            <h4 class="fw-bold"><i class="fa fa-sitemap text-info me-2"/> End-to-End Thesis &amp; Yudisium Workflow</h4>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4">Step-by-Step Thesis &amp; Graduation Workflow</h4>
+
+                    <!-- STAGE 1 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
+                        <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 1: Thesis Registration &amp; Choosing a Supervisor</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student (via Portal <code>/my/thesis</code>) or Academic Admin</p>
+                        <p class="mb-2">Enter the proposed <strong>Thesis Title</strong>, select a <strong>Primary Supervisor</strong> (required) and an optional Co-Supervisor, then click <strong>Submit to Supervisor</strong>.</p>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations (What to check if blocked):</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>Active Student Only:</strong> Only students with <em>Active</em> status can register a thesis.</li>
+                                <li><strong>Must Pass Research Methodology First:</strong> The student must have already passed a subject marked as <em>Research Methodology</em> in their graded KHS. If blocked, verify that the Research Methodology grade has been entered and is passing.</li>
+                                <li><strong>Valid Supervisors Only:</strong> Supervisors must be active Lecturers, and the Primary Supervisor and Co-Supervisor cannot be the same person.</li>
+                            </ul>
                         </div>
-                        <div class="card-body">
-                            <ol class="text-muted mb-0">
-                                <li class="mb-2"><strong>Curriculum Prerequisite (Research Methodology):</strong> Only students who have passed a Research Methodology subject in their KHS may register a thesis.</li>
-                                <li class="mb-2"><strong>Supervisor Selection &amp; Approval:</strong> Students pick a Primary Supervisor (and optional Co-Supervisor). Assigned lecturers approve or reject with feedback.</li>
-                                <li class="mb-2"><strong>Proposal Stage:</strong> Students log consultation progress until the Primary Supervisor approves the proposal.</li>
-                                <li class="mb-2"><strong>Thesis Course Gate:</strong> Proceeding to the Thesis Stage requires enrolling in a Thesis subject in an Approved or Locked KRS.</li>
-                                <li class="mb-2"><strong>Yudisium Filing &amp; Sequential Approval:</strong> Once the thesis is approved and required documents are verified, clearance runs sequentially: <em>Thesis Supervisor → Academic Advisor (PA) → Dean of Faculty</em>.</li>
-                                <li><strong>Nearest Graduation Schedule:</strong> Final Dean approval marks the student as Graduated and automatically assigns the nearest open Wisuda batch.</li>
-                            </ol>
+                    </div>
+
+                    <!-- STAGE 2 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
+                        <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 2: Supervisor Review (Approve or Reject)</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Primary Thesis Supervisor (Lecturer)</p>
+                        <p class="mb-2">The assigned Primary Supervisor reviews the request and clicks <strong>Approve</strong> to open the Proposal stage, or <strong>Reject</strong> with a written reason.</p>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>If Rejected:</strong> The student or Admin can click <strong>Reset to Draft</strong>, revise the title or choose a different supervisor, and submit again.</li>
+                                <li><strong>Access Check:</strong> Only the assigned Primary Supervisor (or Admin) can approve or reject the request.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- STAGE 3 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
+                        <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 3: Proposal Stage &amp; Progress Logs</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student (logs progress) &amp; Primary Supervisor (reviews &amp; approves proposal)</p>
+                        <p class="mb-2">During the Proposal stage, the student records consultation milestones, notes, completion percentage, and optional file attachments. The supervisor reviews each log (<em>Approved</em> or <em>Needs Revision</em>) and clicks <strong>Approve Proposal</strong> when ready.</p>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>File Upload Rules:</strong> Uploaded files must not be empty and cannot exceed <strong>10 MB</strong>.</li>
+                                <li><strong>Before Moving to Thesis Stage:</strong> To advance from Proposal to Thesis Writing, the student <strong>must already be enrolled in a Thesis subject</strong> inside an <strong>Approved</strong> or <strong>Locked</strong> KRS. If blocked here, make sure the student's KRS containing the Thesis subject has been approved by their Academic Advisor.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- STAGE 4 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
+                        <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 4: Thesis Writing &amp; Supervisor Approval</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student &amp; Primary Supervisor</p>
+                        <p class="mb-2">The student continues logging thesis consultations and drafts until completion. When finished, the Primary Supervisor clicks <strong>Approve Thesis</strong> to move the student into Yudisium Filing.</p>
+                    </div>
+
+                    <!-- STAGE 5 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
+                        <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 5: Yudisium Documents &amp; 3-Step Sequential Clearance</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student / Admin (uploads documents), then Supervisor → Academic Advisor (PA) → Faculty Dean</p>
+                        <ol class="text-muted mb-2">
+                            <li><strong>Document Filing:</strong> Upload all required Yudisium clearance documents (via Portal or Backend) and verify them, then submit for Yudisium approval.</li>
+                            <li><strong>Step 1 — Thesis Supervisor Approval:</strong> Primary Supervisor confirms thesis clearance.</li>
+                            <li><strong>Step 2 — Academic Advisor (PA) Approval:</strong> The student's Academic Advisor confirms academic clearance.</li>
+                            <li><strong>Step 3 — Faculty Dean Approval:</strong> The Faculty Dean gives the final Yudisium sign-off.</li>
+                        </ol>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li><strong>Complete Documents Required:</strong> You cannot submit Yudisium if any mandatory document is still unuploaded or unverified.</li>
+                                <li><strong>Strict Order:</strong> Approvals cannot skip steps—Supervisor must approve before PA, and PA must approve before the Dean.</li>
+                                <li><strong>Academic Advisor Required:</strong> If the student has no Academic Advisor assigned on their profile, Step 2 will be blocked until Academic Admin assigns one.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- STAGE 6 -->
+                    <div class="mb-4 ps-4 border-start border-4 border-dark position-relative">
+                        <span class="badge bg-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">6</span>
+                        <h5 class="fw-bold text-dark pt-1">Stage 6: Graduation &amp; Nearest Wisuda Schedule</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Automatic upon Dean's final approval</p>
+                        <p class="mb-2">As soon as the Faculty Dean approves, the student's status automatically changes to <strong>Graduated</strong> and the system assigns them to the <strong>nearest open Graduation (Wisuda) batch</strong> that still has available seats. Students and staff can then print the official <strong>Graduation Clearance Sheet (PDF)</strong>.</p>
+                        <div class="bg-light p-3 rounded">
+                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
+                            <ul class="mb-0 mt-1 text-muted small">
+                                <li>Make sure at least one upcoming <strong>Graduation Schedule</strong> is created, marked <em>Open</em>, and has available quota before the Dean approves Yudisium.</li>
+                            </ul>
                         </div>
                     </div>
                 </section>

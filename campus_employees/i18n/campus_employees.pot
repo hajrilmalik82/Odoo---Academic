@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 19.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-10-22 09:31+0000\n"
-"PO-Revision-Date: 2026-10-22 09:31+0000\n"
+"POT-Creation-Date: 2026-11-17 08:46+0000\n"
+"PO-Revision-Date: 2026-11-17 08:46+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,67 +16,104 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/academic_institution.py:0
+msgid ""
+"%(person)s belongs to %(their_faculty)s, so they cannot be dean of "
+"%(faculty)s. Move them first, or pick a lecturer of this faculty."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid ""
+"%(person)s cannot be moved to another faculty or programme yet. These still point at them:\n"
+"\n"
+"%(items)s\n"
+"\n"
+"Reassign or clear them first, then make this change."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/academic_institution.py:0
+msgid "%(person)s is not a lecturer, so they cannot be dean of %(faculty)s."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/res_partner.py:0
+msgid ""
+"%(person)s is not a lecturer, so they cannot be the academic advisor of "
+"%(student)s."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/academic_institution.py:0
+msgid "%(person)s is not a lecturer, so they cannot head %(program)s."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/res_partner.py:0
+msgid ""
+"%(person)s teaches on %(advisor_program)s while %(student)s is enrolled on "
+"%(student_program)s. An academic advisor belongs to the student's own "
+"programme: pick a different advisor, or move the student first."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/academic_institution.py:0
+msgid ""
+"%(person)s teaches on %(their_program)s, so they cannot head %(program)s. "
+"Move them first, or pick a lecturer of this programme."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/campus_jurisdiction.py:0
+msgid ""
+"%(programs)s do not belong to the assigned faculties (%(faculties)s). An "
+"assignment that names both a faculty and a programme outside it reaches no "
+"records at all: widen the faculty list, or drop the programme."
+msgstr ""
+
+#. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
-" Admin selects the role from the <code>Academic Role</code> dropdown "
-"(Lecturer / PMB Staff / Academic Staff) on the Job form. The system will use"
-" this parameter as a logic indicator in the next steps."
+"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>What happens "
+"next:</strong> Choosing a <em>Lecturer</em> job reveals the academic profile"
+" fields (such as NIDN and Home Study Program). Choosing <em>PMB Staff</em> "
+"or <em>Academic Staff</em> reveals the Jurisdiction tab."
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
-" Open the *tab* <strong>PMB/Academic Jurisdiction</strong> on the employee "
-"profile, then select the Faculty or Study Program that is within their work "
-"scope. Odoo will lock data access according to those territory limits."
+"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
+"Rules &amp; Validations:</strong>"
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
-" Staff fills in the biodata, uploads photos, and determines the "
-"department/faculty the employee belongs to."
+msgid "<i class=\"fa fa-lock text-success me-2\"/>Faculty &amp; Program Scope"
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<i class=\"fa fa-lock text-success me-2\"/>Security Jurisdictions"
+msgid "<i class=\"fa fa-sitemap text-primary me-2\"/>Lecturer &amp; Advisor Roles"
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid ""
-"<i class=\"fa fa-magic text-dark me-2\"/> <strong>UI Automation:</strong> "
-"When staff selects a job position that has the \"Lecturer\" role, the "
-"academic profile *Tab* will appear. If the job role is \"PMB Staff\" or "
-"\"Academic Staff\", the relevant jurisdiction *Tab* will appear. This form "
-"is highly dynamic!"
+msgid "<i class=\"fa fa-users me-2\"/> HR &amp; Staff (Employees &amp; Access)"
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid ""
-"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Strict "
-"Security:</strong> Without a clear jurisdiction, faculty-level staff risk "
-"viewing/modifying confidential data of other faculties."
-msgstr ""
-
-#. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<i class=\"fa fa-sitemap text-primary me-2\"/>Advisory Hierarchy"
-msgstr ""
-
-#. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<i class=\"fa fa-users me-2\"/> HR &amp; Staff Module"
-msgstr ""
-
-#. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<i class=\"fa fa-vcard-o text-info me-2\"/>Dynamic Employee Profile UI"
+msgid "<i class=\"fa fa-vcard-o text-info me-2\"/>Role-Based Employee Form"
 msgstr ""
 
 #. module: campus_employees
@@ -102,22 +139,76 @@ msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<strong>Actor:</strong> Campus Operations Manager / HR"
+msgid ""
+"<strong>Active User Link Required:</strong> To let a lecturer or staff "
+"member log in and approve KRS, input KHS grades, or review Theses, they must"
+" have a linked <strong>Related User</strong> on their employee profile."
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<strong>Actor:</strong> HR Manager"
+msgid ""
+"<strong>If a staff member sees an empty list:</strong> Check their employee "
+"profile and make sure at least one Faculty or Study Program is listed under "
+"their Jurisdiction tab."
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "<strong>Actor:</strong> HR Staff"
+msgid ""
+"<strong>Same Program for Advisors:</strong> A lecturer can only be assigned "
+"as a student's Academic Advisor (PA) if they are active and belong to the "
+"same Study Program."
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>Strict Area Limit:</strong> Staff can only view and process "
+"applicants, students, KRS, or KHS inside their assigned Faculty/Program."
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"<strong>Who performs this:</strong> HR Manager / Campus Operations Manager"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Who performs this:</strong> HR Manager / System Admin"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "<strong>Who performs this:</strong> HR Staff"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__advisor_id
+#: model:ir.model.fields,field_description:campus_employees.field_res_partner__academic_advisor_id
+#: model:ir.model.fields,field_description:campus_employees.field_res_users__academic_advisor_id
+msgid "Academic Advisor"
 msgstr ""
 
 #. module: campus_employees
 #: model:ir.model,name:campus_employees.model_academic_class_schedule
 msgid "Academic Class Schedule"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_academic_class_session
+msgid "Academic Class Session"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_academic_faculty
+msgid "Academic Faculty"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_academic_program
+msgid "Academic Program"
 msgstr ""
 
 #. module: campus_employees
@@ -151,6 +242,27 @@ msgid "Academic Staff (TU)"
 msgstr ""
 
 #. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Academic advisor to %(count)s student(s): %(names)s"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Advisees"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__advisor_faculty_id
+msgid "Advisor's Faculty"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__advisor_program_id
+msgid "Advisor's Programme"
+msgstr ""
+
+#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__all_faculties
 msgid "All Faculties"
 msgstr ""
@@ -171,6 +283,24 @@ msgid "Asisten Ahli"
 msgstr ""
 
 #. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_campus_advisee_assign_form
+msgid "Assign"
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_campus_advisee_assign_form
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Assign Students"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_campus_advisee_assign
+msgid "Assign Students to an Academic Advisor"
+msgstr ""
+
+#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__faculty_ids
 msgid "Assigned Faculties"
 msgstr ""
@@ -182,7 +312,28 @@ msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "Assigning Security Jurisdictions"
+msgid ""
+"Before adding employees, open <strong>Employees → Configuration → Job "
+"Positions</strong> and set the <strong>Academic Role</strong> for each "
+"position (such as <em>Lecturer</em>, <em>PMB Staff</em>, <em>Academic "
+"Staff</em>, or <em>Dean</em>)."
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_campus_advisee_assign_form
+msgid "Cancel"
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__session_count
+msgid "Class Sessions"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model,name:campus_employees.model_res_partner
+msgid "Contact"
 msgstr ""
 
 #. module: campus_employees
@@ -191,29 +342,55 @@ msgid "Create a new Academic Staff (Staf TU)"
 msgstr ""
 
 #. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Create the employee record, fill in personal details, choose their "
+"Department/Faculty, link their <strong>Related User</strong> account, and "
+"select their Job Position."
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__create_uid
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__create_uid
 msgid "Created by"
 msgstr ""
 
 #. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__create_date
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__create_date
 msgid "Created on"
 msgstr ""
 
 #. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid ""
-"Defines the working territory limits of Registration Staff (PMB) or Academic"
-" Staff (TU)."
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__dean_of_faculty_id
+msgid "Dean of"
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Dean of %(faculty)s"
 msgstr ""
 
 #. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_academic_class_schedule__display_name
+#: model:ir.model.fields,field_description:campus_employees.field_academic_class_session__display_name
+#: model:ir.model.fields,field_description:campus_employees.field_academic_faculty__display_name
+#: model:ir.model.fields,field_description:campus_employees.field_academic_program__display_name
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__display_name
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__display_name
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee_public__display_name
 #: model:ir.model.fields,field_description:campus_employees.field_hr_job__display_name
+#: model:ir.model.fields,field_description:campus_employees.field_res_partner__display_name
 msgid "Display Name"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"Each PMB or Academic Staff member only sees applicants, students, KRS, and "
+"KHS belonging to their assigned Faculty or Study Program."
 msgstr ""
 
 #. module: campus_employees
@@ -229,15 +406,9 @@ msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "Employee Profile Creation"
-msgstr ""
-
-#. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid ""
-"Employees with Lecturer status can be linked directly with students as "
-"Academic Advisors (PA). This relation triggers their authority to approve "
-"KRS."
+"Employees registered as Lecturers can be assigned as Academic Advisors (PA),"
+" Course Lecturers, or Thesis Supervisors."
 msgstr ""
 
 #. module: campus_employees
@@ -253,26 +424,50 @@ msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "HR &amp; Staff Module (HR)"
+msgid "HR &amp; Staff Module (Employees &amp; Work Scope)"
 msgstr ""
 
 #. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "HR Admin creates the campus organizational structure."
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Head of %(program)s"
 msgstr ""
 
 #. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "HR Management Workflow"
+#: model:ir.model.fields,field_description:campus_employees.field_academic_faculty__dean_id
+msgid "Head of Faculty / Dean"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_academic_program__head_id
+msgid "Head of Program"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__head_of_program_id
+msgid "Head of Programme"
 msgstr ""
 
 #. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_academic_class_schedule__id
+#: model:ir.model.fields,field_description:campus_employees.field_academic_class_session__id
+#: model:ir.model.fields,field_description:campus_employees.field_academic_faculty__id
+#: model:ir.model.fields,field_description:campus_employees.field_academic_program__id
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__id
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__id
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__id
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee_public__id
 #: model:ir.model.fields,field_description:campus_employees.field_hr_job__id
+#: model:ir.model.fields,field_description:campus_employees.field_res_partner__id
 msgid "ID"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid ""
+"If a Job Position does not have an <strong>Academic Role</strong> selected, "
+"the system will not show the Lecturer or Jurisdiction tabs on the employee "
+"profile, and the person will not appear in Lecturer/Advisor dropdowns."
 msgstr ""
 
 #. module: campus_employees
@@ -293,28 +488,26 @@ msgid "Job Position"
 msgstr ""
 
 #. module: campus_employees
-#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "Job Positions Setup"
-msgstr ""
-
-#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_hr_employee__jurisdiction_ids
 #: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
 msgid "Jurisdiction"
 msgstr ""
 
 #. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__write_uid
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__write_uid
 msgid "Last Updated by"
 msgstr ""
 
 #. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__write_date
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__write_date
 msgid "Last Updated on"
 msgstr ""
 
 #. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_academic_class_schedule__lecturer_id
+#: model:ir.model.fields,field_description:campus_employees.field_academic_class_session__lecturer_id
 #: model:ir.model.fields.selection,name:campus_employees.selection__hr_employee__academic_role__lecturer
 #: model:ir.model.fields.selection,name:campus_employees.selection__hr_job__academic_role__lecturer
 msgid "Lecturer"
@@ -353,6 +546,12 @@ msgid "NIDN:"
 msgstr ""
 
 #. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Named on %(count)s class session(s)"
+msgstr ""
+
+#. module: campus_employees
 #: model:ir.model.fields,help:campus_employees.field_hr_employee__nidn
 #: model:ir.model.fields,help:campus_employees.field_hr_employee_public__nidn
 msgid "National lecturer identification number (Nomor Induk Dosen Nasional)."
@@ -369,9 +568,20 @@ msgstr ""
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid ""
-"Operational access rights (PMB, KRS, KHS) are restricted only to specific "
-"Faculty or Study Program levels directly from the employee profile "
-"(Jurisdiction)."
+"Open the <strong>PMB / Academic Jurisdiction</strong> tab on the employee "
+"profile and select which <strong>Faculties</strong> or <strong>Study "
+"Programs</strong> that staff member is responsible for."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/wizard/assign_advisee.py:0
+msgid "Pick at least one student to assign."
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Posts Held"
 msgstr ""
 
 #. module: campus_employees
@@ -396,31 +606,79 @@ msgid "Reaches every programme, whatever the list below says."
 msgstr ""
 
 #. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Schedules"
+msgstr ""
+
+#. module: campus_employees
 #: model:ir.model.fields,field_description:campus_employees.field_campus_jurisdiction__scope
 msgid "Scope"
 msgstr ""
 
 #. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.view_employee_form_inherit_academic
+msgid "Sessions"
+msgstr ""
+
+#. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
-msgid "Staff enters new employee data into the system."
+msgid "Stage 1: Setting Up Job Positions"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Stage 2: Creating Employee &amp; Lecturer Profiles"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Stage 3: Assigning Work Scope (Jurisdiction)"
+msgstr ""
+
+#. module: campus_employees
+#: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
+msgid "Step-by-Step HR &amp; Access Workflow"
+msgstr ""
+
+#. module: campus_employees
+#: model:ir.model.fields,field_description:campus_employees.field_campus_advisee_assign__student_ids
+msgid "Students"
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__advisee_count
+msgid "Students Advised"
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+msgid "Teaching %(count)s weekly schedule(s): %(subjects)s"
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid ""
-"The employee profile form interface changes automatically based on their job"
-" role. Lecturers get the NIDN field, while PMB Staff and Academic Staff get "
-"different jurisdiction fields."
+"The employee form automatically shows the right fields based on the selected"
+" job role—such as NIDN for Lecturers, or work-area limits for PMB and "
+"Academic Staff."
 msgstr ""
 
 #. module: campus_employees
 #: model_terms:ir.ui.view,arch_db:campus_employees.employees_homepage_docs
 msgid ""
-"This module modifies the standard Odoo HR framework "
-"(<code>hr.employee</code>), injecting academic-specific capabilities into "
-"employee profiles. The system allows you to manage Lecturers, PMB Staff, and"
-" Academic Staff (TU) with a data hierarchy fully integrated into other "
-"academic modules."
+"This module manages campus staff and lecturer profiles—including Lecturers, "
+"Admissions (PMB) Staff, Academic Staff (TU), and Deans—and controls which "
+"Faculty or Study Program data each staff member is allowed to manage."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/hr_employee.py:0
+#: model:ir.model.fields,field_description:campus_employees.field_hr_employee__schedule_count
+msgid "Weekly Schedules"
 msgstr ""
 
 #. module: campus_employees
@@ -433,4 +691,17 @@ msgstr ""
 #. module: campus_employees
 #: model:ir.model.fields,help:campus_employees.field_hr_employee__jurisdiction_ids
 msgid "Which faculties and programmes this employee may reach, per purpose."
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/academic_institution.py:0
+msgid "no faculty"
+msgstr ""
+
+#. module: campus_employees
+#. odoo-python
+#: code:addons/campus_employees/models/academic_institution.py:0
+#: code:addons/campus_employees/models/res_partner.py:0
+msgid "no programme"
 msgstr ""
