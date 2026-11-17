@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_academic_subject_form_inherit_thesis" model="ir.ui.view">
+        <field name="name">academic.subject.form.inherit.thesis</field>
+        <field name="model">academic.subject</field>
+        <field name="inherit_id" ref="campus_core.view_academic_subject_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='term_type']" position="after">
+                <field name="thesis_role"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_academic_subject_tree_inherit_thesis" model="ir.ui.view">
+        <field name="name">academic.subject.tree.inherit.thesis</field>
+        <field name="model">academic.subject</field>
+        <field name="inherit_id" ref="campus_core.view_academic_subject_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='term_type']" position="after">
+                <field name="thesis_role" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_academic_subject_search_inherit_thesis" model="ir.ui.view">
+        <field name="name">academic.subject.search.inherit.thesis</field>
+        <field name="model">academic.subject</field>
+        <field name="inherit_id" ref="campus_core.view_academic_subject_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='faculty_id']" position="after">
+                <filter string="Research Methodology" name="research_method" domain="[('thesis_role', '=', 'research_method')]"/>
+                <filter string="Thesis / Final Project" name="thesis_subject" domain="[('thesis_role', '=', 'thesis')]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

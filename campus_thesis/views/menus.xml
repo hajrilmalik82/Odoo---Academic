@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Thesis & Graduation under Academic System -->
+    <menuitem id="menu_academic_thesis"
+              name="Thesis &amp; Graduation"
+              parent="campus_core.menu_academic_root"
+              sequence="35"/>
+
+    <menuitem id="menu_campus_thesis_list"
+              name="Student Theses"
+              parent="menu_academic_thesis"
+              action="action_campus_thesis"
+              sequence="10"/>
+
+    <menuitem id="menu_campus_graduation_schedule"
+              name="Graduation Schedules"
+              parent="menu_academic_thesis"
+              action="action_campus_graduation_schedule"
+              sequence="20"/>
+
+    <!-- Configuration -->
+    <menuitem id="menu_campus_thesis_config"
+              name="Thesis &amp; Yudisium"
+              parent="campus_core.menu_academic_configuration"
+              sequence="60"/>
+
+    <menuitem id="menu_campus_thesis_requirement"
+              name="Yudisium Requirements"
+              parent="menu_campus_thesis_config"
+              action="action_campus_thesis_requirement"
+              sequence="10"/>
+
+    <menuitem id="menu_campus_graduation_schedule_config"
+              name="Graduation Schedules"
+              parent="menu_campus_thesis_config"
+              action="action_campus_graduation_schedule"
+              sequence="20"/>
+</odoo>

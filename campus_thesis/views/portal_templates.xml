@@ -1,0 +1,574 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Portal Home Entry -->
+    <template id="portal_my_home" inherit_id="portal.portal_my_home" priority="110">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">My Thesis</t>
+                <t t-set="url" t-value="'/my/thesis'"/>
+                <t t-set="placeholder_count" t-value="'thesis_count'"/>
+                <t t-set="show_count" t-value="True"/>
+            </t>
+        </xpath>
+    </template>
+
+    <!-- Breadcrumbs -->
+    <template id="portal_my_breadcrumbs" inherit_id="portal.portal_breadcrumbs" priority="110">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'thesis'" class="breadcrumb-item active">
+                My Thesis
+            </li>
+            <li t-if="page_name == 'thesis_detail'" class="breadcrumb-item">
+                <a href="/my/thesis">My Thesis</a>
+            </li>
+            <li t-if="page_name == 'thesis_detail'" class="breadcrumb-item active">
+                <t t-out="thesis.name"/>
+            </li>
+        </xpath>
+    </template>
+
+    <!-- Reusable Status Badge -->
+    <template id="portal_thesis_status_badge" name="Thesis Status Badge">
+        <span t-if="state == 'draft'" class="badge rounded-pill text-bg-secondary">Draft</span>
+        <span t-if="state == 'supervisor_approval'" class="badge rounded-pill text-bg-info">Supervisor Approval</span>
+        <span t-if="state == 'supervisor_rejected'" class="badge rounded-pill text-bg-danger">Supervisor Rejected</span>
+        <span t-if="state == 'proposal'" class="badge rounded-pill text-bg-primary">Proposal Stage</span>
+        <span t-if="state == 'proposal_approved'" class="badge rounded-pill text-bg-warning">Proposal Approved (Needs Thesis KRS)</span>
+        <span t-if="state == 'thesis'" class="badge rounded-pill text-bg-primary">Thesis Stage</span>
+        <span t-if="state == 'yudisium_docs'" class="badge rounded-pill text-bg-warning">Yudisium Filing</span>
+        <span t-if="state == 'yudisium_supervisor'" class="badge rounded-pill text-bg-info">Yudisium: Supervisor</span>
+        <span t-if="state == 'yudisium_advisor'" class="badge rounded-pill text-bg-info">Yudisium: Advisor (PA)</span>
+        <span t-if="state == 'yudisium_dean'" class="badge rounded-pill text-bg-info">Yudisium: Dean</span>
+        <span t-if="state == 'graduated'" class="badge rounded-pill text-bg-success">Yudisium Approved</span>
+        <span t-if="state == 'cancelled'" class="badge rounded-pill text-bg-dark">Cancelled</span>
+    </template>
+
+    <!-- Main Thesis List & Registration Page -->
+    <template id="portal_my_thesis" name="My Thesis">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar"/>
+
+            <t t-if="error">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <i class="fa fa-warning me-2"/> <t t-out="error"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                </div>
+            </t>
+            <t t-if="success">
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    <i class="fa fa-check-circle me-2"/> <t t-out="success"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                </div>
+            </t>
+
+            <!-- Eligibility Card -->
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body">
+                    <h5 class="card-title mb-3">Thesis Eligibility Status</h5>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded d-flex justify-content-between align-items-center">
+                                <span><strong>1. Research Methodology (Passed KHS)</strong></span>
+                                <span t-if="research_method_passed" class="badge text-bg-success">Eligible / Passed</span>
+                                <span t-else="" class="badge text-bg-danger">Not Passed Yet</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="p-3 bg-light rounded d-flex justify-content-between align-items-center">
+                                <span><strong>2. Thesis Course (Approved/Locked KRS)</strong></span>
+                                <span t-if="thesis_course_enrolled" class="badge text-bg-success">Enrolled</span>
+                                <span t-else="" class="badge text-bg-secondary">Not Enrolled Yet</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Ineligible Warning -->
+            <div t-if="not theses and is_active_student and not research_method_passed" class="alert alert-warning" role="alert">
+                <i class="fa fa-info-circle me-2"/>
+                You cannot register for a Thesis yet because you have not passed a
+                <strong>Research Methodology</strong> subject in your KHS.
+            </div>
+
+            <!-- New Thesis Registration Form -->
+            <div t-if="is_active_student and research_method_passed and not has_active_thesis"
+                 class="card border-0 shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fa fa-plus-circle me-2"/>Register New Thesis &amp; Choose Supervisor</h5>
+                </div>
+                <div class="card-body">
+                    <form action="/my/thesis/create" method="post">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Proposed Thesis Title <span class="text-danger">*</span></label>
+                            <input type="text" name="title" class="form-control" required="required"
+                                   placeholder="Enter your proposed thesis title..."/>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Topic / Research Outline</label>
+                            <textarea name="research_topic" class="form-control" rows="3"
+                                      placeholder="Brief summary of problem statement and methodology..."/>
+                        </div>
+                        <div class="row g-3 mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Primary Supervisor <span class="text-danger">*</span></label>
+                                <select name="supervisor_id" class="form-select" required="required">
+                                    <option value="">-- Select Primary Supervisor --</option>
+                                    <t t-foreach="lecturers" t-as="lecturer">
+                                        <option t-att-value="lecturer.id">
+                                            <t t-out="lecturer.name"/>
+                                            <t t-if="lecturer.program_id"> (<t t-out="lecturer.program_id.name"/>)</t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label fw-bold">Co-Supervisor (Optional)</label>
+                                <select name="co_supervisor_id" class="form-select">
+                                    <option value="">-- None --</option>
+                                    <t t-foreach="lecturers" t-as="lecturer">
+                                        <option t-att-value="lecturer.id">
+                                            <t t-out="lecturer.name"/>
+                                            <t t-if="lecturer.program_id"> (<t t-out="lecturer.program_id.name"/>)</t>
+                                        </option>
+                                    </t>
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fa fa-save me-1"/> Create Thesis Draft
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Existing Theses Table -->
+            <div t-if="theses" class="card border-0 shadow-sm">
+                <div class="card-body p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Thesis No.</th>
+                                    <th>Title</th>
+                                    <th>Primary Supervisor</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                    <th class="text-end">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="theses" t-as="thesis">
+                                    <tr>
+                                        <td><a t-attf-href="/my/thesis/#{thesis.id}" class="fw-bold"><t t-out="thesis.name"/></a></td>
+                                        <td><t t-out="thesis.title"/></td>
+                                        <td><t t-out="thesis.supervisor_id.name"/></td>
+                                        <td style="min-width: 140px;">
+                                            <div class="progress" style="height: 18px;">
+                                                <div class="progress-bar bg-success" role="progressbar"
+                                                     t-attf-style="width: #{int(thesis.overall_progress)}%;">
+                                                    <t t-out="int(thesis.overall_progress)"/>%
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <t t-call="campus_thesis.portal_thesis_status_badge">
+                                                <t t-set="state" t-value="thesis.state"/>
+                                            </t>
+                                        </td>
+                                        <td class="text-end">
+                                            <a t-attf-href="/my/thesis/#{thesis.id}" class="btn btn-sm btn-outline-primary">
+                                                Open Workspace
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- Thesis Detail & Workspace -->
+    <template id="portal_thesis_detail" name="Thesis Workspace">
+        <t t-call="portal.portal_layout">
+            <t t-if="error">
+                <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                    <i class="fa fa-warning me-2"/> <t t-out="error"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                </div>
+            </t>
+            <t t-if="success">
+                <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                    <i class="fa fa-check-circle me-2"/> <t t-out="success"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"/>
+                </div>
+            </t>
+
+            <div class="bg-white p-4 rounded shadow-sm mb-4">
+                <!-- Header -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3 gap-2">
+                    <div>
+                        <small class="text-muted"><t t-out="thesis.name"/></small>
+                        <h3 class="mb-0"><t t-out="thesis.title"/></h3>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <a t-attf-href="/my/thesis/#{thesis.id}/report?download=1"
+                           class="btn btn-sm btn-outline-secondary">
+                            <i class="fa fa-download me-1"/> Download PDF
+                        </a>
+                        <t t-call="campus_thesis.portal_thesis_status_badge">
+                            <t t-set="state" t-value="thesis.state"/>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Overview Grid -->
+                <div class="row g-3 mb-4">
+                    <div class="col-md-6">
+                        <p class="mb-1"><strong>Primary Supervisor:</strong> <t t-out="thesis.supervisor_id.name"/></p>
+                        <p class="mb-1" t-if="thesis.co_supervisor_id">
+                            <strong>Co-Supervisor:</strong> <t t-out="thesis.co_supervisor_id.name"/>
+                        </p>
+                        <p class="mb-1"><strong>Academic Advisor (PA):</strong> <t t-out="thesis.advisor_id.name or '-'"/></p>
+                        <p class="mb-0"><strong>Dean of Faculty:</strong> <t t-out="thesis.dean_id.name or '-'"/></p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2">
+                            <div class="d-flex justify-content-between small fw-bold">
+                                <span>Proposal Progress</span>
+                                <span><t t-out="int(thesis.proposal_progress)"/>%</span>
+                            </div>
+                            <div class="progress" style="height: 12px;">
+                                <div class="progress-bar bg-info" t-attf-style="width: #{int(thesis.proposal_progress)}%;"/>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between small fw-bold">
+                                <span>Thesis Progress</span>
+                                <span><t t-out="int(thesis.thesis_progress)"/>%</span>
+                            </div>
+                            <div class="progress" style="height: 12px;">
+                                <div class="progress-bar bg-success" t-attf-style="width: #{int(thesis.thesis_progress)}%;"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Supervisor Rejected Banner -->
+                <div t-if="thesis.state == 'supervisor_rejected'" class="alert alert-danger">
+                    <h6 class="fw-bold"><i class="fa fa-times-circle me-1"/> Supervision / Proposal Rejected</h6>
+                    <p class="mb-3"><t t-out="thesis.rejection_reason or 'No reason specified.'"/></p>
+                    <form t-attf-action="/my/thesis/#{thesis.id}/reset_draft" method="post" class="d-inline">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="fa fa-refresh me-1"/> Revise &amp; Return to Draft
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Supervisor Approval Pending Banner -->
+                <div t-if="thesis.state == 'supervisor_approval'" class="alert alert-info">
+                    <h6 class="fw-bold mb-2">Waiting for Supervisor Approval</h6>
+                    <ul class="mb-0">
+                        <li>
+                            Primary Supervisor (<t t-out="thesis.supervisor_id.name"/>):
+                            <strong t-if="thesis.supervisor_approved" class="text-success">Approved</strong>
+                            <span t-else="" class="text-muted">Pending</span>
+                        </li>
+                        <li t-if="thesis.co_supervisor_id">
+                            Co-Supervisor (<t t-out="thesis.co_supervisor_id.name"/>):
+                            <strong t-if="thesis.co_supervisor_approved" class="text-success">Approved</strong>
+                            <span t-else="" class="text-muted">Pending</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Draft Edit & Submit Form -->
+                <div t-if="thesis.state == 'draft'" class="card bg-light border-0 mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-3">Edit Thesis Proposal &amp; Choose Supervisor</h5>
+                        <form t-attf-action="/my/thesis/#{thesis.id}/update" method="post">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Thesis Title</label>
+                                <input type="text" name="title" class="form-control" required="required"
+                                       t-att-value="thesis.title"/>
+                            </div>
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Research Topic / Outline</label>
+                                <textarea name="research_topic" class="form-control" rows="3"><t t-out="thesis.research_topic or ''"/></textarea>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Primary Supervisor</label>
+                                    <select name="supervisor_id" class="form-select" required="required">
+                                        <t t-foreach="lecturers" t-as="lecturer">
+                                            <option t-att-value="lecturer.id"
+                                                    t-att-selected="'selected' if lecturer.id == thesis.supervisor_id.id else None">
+                                                <t t-out="lecturer.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label fw-bold">Co-Supervisor (Optional)</label>
+                                    <select name="co_supervisor_id" class="form-select">
+                                        <option value="">-- None --</option>
+                                        <t t-foreach="lecturers" t-as="lecturer">
+                                            <option t-att-value="lecturer.id"
+                                                    t-att-selected="'selected' if lecturer.id == thesis.co_supervisor_id.id else None">
+                                                <t t-out="lecturer.name"/>
+                                            </option>
+                                        </t>
+                                    </select>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-outline-primary me-2">Save Changes</button>
+                        </form>
+                        <hr/>
+                        <form t-attf-action="/my/thesis/#{thesis.id}/submit" method="post" class="d-inline">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <button type="submit" class="btn btn-success">
+                                <i class="fa fa-paper-plane me-1"/> Submit to Supervisor
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Proposal Approved: Waiting for Thesis KRS -->
+                <div t-if="thesis.state == 'proposal_approved'" class="card border-warning mb-4">
+                    <div class="card-body">
+                        <h5 class="text-success"><i class="fa fa-check-circle me-1"/> Proposal Approved!</h5>
+                        <p class="mb-3">
+                            To unlock the <strong>Thesis Stage</strong>, you must enroll in a
+                            <strong>Thesis / Skripsi subject</strong> in your KRS and get it Approved.
+                        </p>
+                        <t t-if="thesis_course_enrolled">
+                            <form t-attf-action="/my/thesis/#{thesis.id}/start_thesis" method="post" class="d-inline">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-arrow-right me-1"/> Start Thesis Stage Now
+                                </button>
+                            </form>
+                        </t>
+                        <t t-else="">
+                            <a href="/my/krs" class="btn btn-warning">
+                                <i class="fa fa-edit me-1"/> Go to My KRS to Enroll in Thesis Subject
+                            </a>
+                        </t>
+                    </div>
+                </div>
+
+                <!-- Proposal or Thesis Guidance Logs -->
+                <div t-if="thesis.state in ('proposal', 'thesis')" class="mb-4">
+                    <div t-if="thesis.state == 'proposal'" class="card bg-light border-0 mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-3">Refine Proposal Title / Outline</h5>
+                            <form t-attf-action="/my/thesis/#{thesis.id}/update" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="mb-2">
+                                    <input type="text" name="title" class="form-control" required="required" t-att-value="thesis.title"/>
+                                </div>
+                                <div class="mb-2">
+                                    <textarea name="research_topic" class="form-control" rows="2"><t t-out="thesis.research_topic or ''"/></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-outline-primary">Update Proposal Title</button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="card border-0 bg-light mb-4">
+                        <div class="card-body">
+                            <h5 class="mb-3">
+                                Log <t t-if="thesis.state == 'proposal'">Proposal</t><t t-else="">Thesis</t> Guidance Progress
+                            </h5>
+                            <form t-attf-action="/my/thesis/#{thesis.id}/add_progress" method="post" enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label fw-bold">Milestone / Chapter <span class="text-danger">*</span></label>
+                                        <input type="text" name="milestone" class="form-control" required="required"
+                                               placeholder="e.g. Chapter 1 - Introduction"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">Progress (%)</label>
+                                        <input type="number" name="progress_percent" class="form-control"
+                                               min="0" max="100" step="5" value="25"/>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label class="form-label fw-bold">Draft File (Optional)</label>
+                                        <input type="file" name="attachment" class="form-control"/>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label fw-bold">Progress Notes <span class="text-danger">*</span></label>
+                                    <textarea name="description" class="form-control" rows="2" required="required"
+                                              placeholder="Summarize your progress and consultation notes..."/>
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-plus me-1"/> Submit Progress Log
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Guidance History Table (visible once past supervisor approval) -->
+                <div t-if="proposal_logs or thesis_logs" class="mb-4">
+                    <h5 class="mb-3">Guidance &amp; Progress History</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-sm align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Stage</th>
+                                    <th>Milestone</th>
+                                    <th>Notes</th>
+                                    <th>Progress</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="thesis.progress_line_ids" t-as="log">
+                                    <tr>
+                                        <td><t t-out="log.date"/></td>
+                                        <td><span class="badge text-bg-light border"><t t-out="'Proposal' if log.stage == 'proposal' else 'Thesis'"/></span></td>
+                                        <td><strong><t t-out="log.milestone"/></strong></td>
+                                        <td>
+                                            <t t-out="log.description"/>
+                                            <div t-if="log.supervisor_note" class="small text-muted mt-1">
+                                                <em>Supervisor: <t t-out="log.supervisor_note"/></em>
+                                            </div>
+                                        </td>
+                                        <td><t t-out="int(log.progress_percent)"/>%</td>
+                                        <td>
+                                            <span t-if="log.state == 'submitted'" class="badge text-bg-info">Waiting Review</span>
+                                            <span t-if="log.state == 'approved'" class="badge text-bg-success">Approved</span>
+                                            <span t-if="log.state == 'revision'" class="badge text-bg-warning">Needs Revision</span>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Yudisium Filing Checklist -->
+                <div t-if="thesis.state in ('yudisium_docs', 'yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean', 'graduated')" class="mb-4">
+                    <h5 class="mb-3">Yudisium Document Filing</h5>
+                    <div class="table-responsive">
+                        <table class="table table-bordered align-middle">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Document Type</th>
+                                    <th>Requirement</th>
+                                    <th>Status</th>
+                                    <th t-if="thesis.state == 'yudisium_docs'">Upload File</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="thesis.yudisium_document_ids" t-as="doc">
+                                    <tr>
+                                        <td><t t-out="dict(doc._fields['document_type']._description_selection(doc.env)).get(doc.document_type)"/></td>
+                                        <td>
+                                            <span t-if="doc.required" class="badge text-bg-danger">Required</span>
+                                            <span t-else="" class="badge text-bg-secondary">Optional</span>
+                                        </td>
+                                        <td>
+                                            <span t-if="doc.received" class="badge text-bg-success">Verified</span>
+                                            <span t-elif="doc.submitted_by_student" class="badge text-bg-info">Uploaded (Awaiting Verification)</span>
+                                            <span t-else="" class="badge text-bg-secondary">Pending</span>
+                                        </td>
+                                        <td t-if="thesis.state == 'yudisium_docs'">
+                                            <form t-attf-action="/my/thesis/#{thesis.id}/upload_document/#{doc.id}"
+                                                  method="post" enctype="multipart/form-data" class="d-flex gap-2">
+                                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                <input type="file" name="attachment" class="form-control form-control-sm" required="required"/>
+                                                <button type="submit" class="btn btn-sm btn-outline-primary">Upload</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div t-if="thesis.state == 'yudisium_docs'" class="mt-2">
+                        <t t-if="thesis.documents_complete">
+                            <form t-attf-action="/my/thesis/#{thesis.id}/submit_yudisium" method="post">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fa fa-check me-1"/> Submit for Yudisium Sequential Approval
+                                </button>
+                            </form>
+                        </t>
+                        <div t-else="" class="alert alert-info mb-0">
+                            Upload all required Yudisium documents above; Academic Staff will verify them before sequential Yudisium approval begins.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Sequential Yudisium Approval Progress -->
+                <div t-if="thesis.state in ('yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean', 'graduated')" class="mb-4">
+                    <h5 class="mb-3">Sequential Yudisium Approvals</h5>
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <div t-attf-class="card h-100 #{ 'border-success' if thesis.yudisium_supervisor_approved else 'border-secondary' }">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">1. Thesis Supervisor</h6>
+                                    <p class="small mb-2"><t t-out="thesis.supervisor_id.name"/></p>
+                                    <span t-if="thesis.yudisium_supervisor_approved" class="badge text-bg-success">Approved</span>
+                                    <span t-elif="thesis.state == 'yudisium_supervisor'" class="badge text-bg-warning">In Review</span>
+                                    <span t-else="" class="badge text-bg-secondary">Waiting</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div t-attf-class="card h-100 #{ 'border-success' if thesis.yudisium_advisor_approved else 'border-secondary' }">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">2. Academic Advisor (PA)</h6>
+                                    <p class="small mb-2"><t t-out="thesis.advisor_id.name or '-'"/></p>
+                                    <span t-if="thesis.yudisium_advisor_approved" class="badge text-bg-success">Approved</span>
+                                    <span t-elif="thesis.state == 'yudisium_advisor'" class="badge text-bg-warning">In Review</span>
+                                    <span t-else="" class="badge text-bg-secondary">Waiting</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div t-attf-class="card h-100 #{ 'border-success' if thesis.yudisium_dean_approved else 'border-secondary' }">
+                                <div class="card-body">
+                                    <h6 class="fw-bold">3. Dean of Faculty</h6>
+                                    <p class="small mb-2"><t t-out="thesis.dean_id.name or '-'"/></p>
+                                    <span t-if="thesis.yudisium_dean_approved" class="badge text-bg-success">Approved</span>
+                                    <span t-elif="thesis.state == 'yudisium_dean'" class="badge text-bg-warning">In Review</span>
+                                    <span t-else="" class="badge text-bg-secondary">Waiting</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Nearest Graduation Schedule -->
+                <div t-if="thesis.state == 'graduated'" class="card border-success bg-light">
+                    <div class="card-body">
+                        <h4 class="text-success mb-3"><i class="fa fa-graduation-cap me-2"/> Yudisium Completed — Nearest Graduation Schedule</h4>
+                        <t t-if="thesis.graduation_id">
+                            <p class="mb-1"><strong>Ceremony Batch:</strong> <t t-out="thesis.graduation_id.name"/></p>
+                            <p class="mb-1"><strong>Graduation Date:</strong> <t t-out="thesis.graduation_id.graduation_date"/></p>
+                            <p class="mb-0" t-if="thesis.graduation_id.location">
+                                <strong>Location / Venue:</strong> <t t-out="thesis.graduation_id.location"/>
+                            </p>
+                        </t>
+                        <p t-else="" class="mb-0 text-muted">
+                            Your Yudisium is approved! The nearest graduation ceremony schedule will appear here once announced by the Registrar.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_graduation_schedule_list" model="ir.ui.view">
+        <field name="name">campus.graduation.schedule.list</field>
+        <field name="model">campus.graduation.schedule</field>
+        <field name="arch" type="xml">
+            <list string="Graduation Schedules">
+                <field name="name"/>
+                <field name="graduation_date"/>
+                <field name="registration_deadline"/>
+                <field name="location"/>
+                <field name="participant_count"/>
+                <field name="quota"/>
+                <field name="academic_year_id" optional="show"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-success="state == 'open'"
+                       decoration-warning="state == 'closed'"
+                       decoration-info="state == 'completed'"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_campus_graduation_schedule_form" model="ir.ui.view">
+        <field name="name">campus.graduation.schedule.form</field>
+        <field name="model">campus.graduation.schedule</field>
+        <field name="arch" type="xml">
+            <form string="Graduation Schedule">
+                <header>
+                    <button name="action_close" string="Close Registration" type="object"
+                            class="btn-warning" invisible="state != 'open'"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
+                    <button name="action_reopen" string="Reopen" type="object"
+                            class="oe_highlight" invisible="state != 'closed'"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
+                    <button name="action_complete" string="Mark Completed" type="object"
+                            class="btn-success" invisible="state == 'completed'"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,closed,completed"/>
+                </header>
+                <sheet>
+                    <div name="button_box" class="oe_button_box">
+                        <button name="action_open_participants" type="object"
+                                class="oe_stat_button" icon="fa-graduation-cap">
+                            <field name="participant_count" widget="statinfo" string="Participants"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Wisuda Periode I 2026"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="graduation_date"/>
+                            <field name="registration_deadline"/>
+                            <field name="location"/>
+                        </group>
+                        <group>
+                            <field name="academic_year_id"/>
+                            <field name="quota"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_campus_graduation_schedule_search" model="ir.ui.view">
+        <field name="name">campus.graduation.schedule.search</field>
+        <field name="model">campus.graduation.schedule</field>
+        <field name="arch" type="xml">
+            <search string="Search Graduation Schedules">
+                <field name="name"/>
+                <field name="location"/>
+                <filter string="Open" name="open" domain="[('state', '=', 'open')]"/>
+                <filter string="Completed" name="completed" domain="[('state', '=', 'completed')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_campus_graduation_schedule" model="ir.actions.act_window">
+        <field name="name">Graduation Schedules</field>
+        <field name="res_model">campus.graduation.schedule</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create the first graduation schedule (Wisuda).
+            </p>
+        </field>
+    </record>
+</odoo>

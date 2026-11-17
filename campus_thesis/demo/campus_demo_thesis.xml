@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Demo Research Methodology & Thesis Subjects -->
+    <record id="demo_subject_if301" model="academic.subject">
+        <field name="name">Metodologi Penelitian</field>
+        <field name="code">IF301</field>
+        <field name="credits">3</field>
+        <field name="semester">6</field>
+        <field name="term_type">both</field>
+        <field name="thesis_role">research_method</field>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+    </record>
+    <record id="demo_subject_if401" model="academic.subject">
+        <field name="name">Skripsi</field>
+        <field name="code">IF401</field>
+        <field name="credits">6</field>
+        <field name="semester">8</field>
+        <field name="term_type">both</field>
+        <field name="thesis_role">thesis</field>
+        <field name="program_id" ref="campus_core.demo_program_if"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_if301')])]"/>
+    </record>
+
+    <record id="demo_subject_mn301" model="academic.subject">
+        <field name="name">Metodologi Penelitian Bisnis</field>
+        <field name="code">MN301</field>
+        <field name="credits">3</field>
+        <field name="semester">6</field>
+        <field name="term_type">both</field>
+        <field name="thesis_role">research_method</field>
+        <field name="program_id" ref="campus_core.demo_program_mn"/>
+    </record>
+    <record id="demo_subject_mn401" model="academic.subject">
+        <field name="name">Skripsi Manajemen</field>
+        <field name="code">MN401</field>
+        <field name="credits">6</field>
+        <field name="semester">8</field>
+        <field name="term_type">both</field>
+        <field name="thesis_role">thesis</field>
+        <field name="program_id" ref="campus_core.demo_program_mn"/>
+        <field name="prerequisite_ids" eval="[(6, 0, [ref('demo_subject_mn301')])]"/>
+    </record>
+
+    <!-- Grant demo students Ahmad Fauzi and Nabila Putri passing grades in Metopen -->
+    <record id="demo_khs_line_if01_metopen" model="academic.khs.line">
+        <field name="khs_id" ref="campus_core.demo_khs_if_01_2526"/>
+        <field name="subject_id" ref="demo_subject_if301"/>
+        <field name="numeric_grade">86.0</field>
+        <field name="is_graded" eval="True"/>
+    </record>
+    <record id="demo_khs_line_if02_metopen" model="academic.khs.line">
+        <field name="khs_id" ref="campus_core.demo_khs_if_02_2526"/>
+        <field name="subject_id" ref="demo_subject_if301"/>
+        <field name="numeric_grade">82.0</field>
+        <field name="is_graded" eval="True"/>
+    </record>
+
+    <!-- Demo Graduation Schedules -->
+    <record id="demo_graduation_2026_1" model="campus.graduation.schedule">
+        <field name="name">Wisuda Periode I 2026</field>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+        <field name="graduation_date" eval="(DateTime.today() + relativedelta(days=60)).strftime('%Y-%m-%d')"/>
+        <field name="registration_deadline" eval="(DateTime.today() + relativedelta(days=45)).strftime('%Y-%m-%d')"/>
+        <field name="location">Auditorium Graha Cendekia</field>
+        <field name="quota">200</field>
+    </record>
+    <record id="demo_graduation_2026_2" model="campus.graduation.schedule">
+        <field name="name">Wisuda Periode II 2026</field>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+        <field name="graduation_date" eval="(DateTime.today() + relativedelta(days=150)).strftime('%Y-%m-%d')"/>
+        <field name="registration_deadline" eval="(DateTime.today() + relativedelta(days=135)).strftime('%Y-%m-%d')"/>
+        <field name="location">Auditorium Graha Cendekia</field>
+        <field name="quota">200</field>
+    </record>
+
+    <!-- Demo Thesis for Ahmad Fauzi (in Proposal Stage) -->
+    <record id="demo_thesis_if_01" model="campus.thesis">
+        <field name="student_id" ref="campus_core.demo_student_if_01"/>
+        <field name="academic_year_id" ref="campus_core.demo_year_2627"/>
+        <field name="title">Implementasi Arsitektur ERP Akademik Berbasis Odoo 19 dengan Optimasi Kueri</field>
+        <field name="research_topic">Analisis konkurensi pengisian KRS dan kontrol akses berbasis yurisdiksi.</field>
+        <field name="supervisor_id" ref="campus_core.demo_emp_budi"/>
+        <field name="co_supervisor_id" ref="campus_core.demo_emp_siti"/>
+    </record>
+    <function model="campus.thesis" name="action_submit_supervisor" eval="[ref('demo_thesis_if_01')]"/>
+    <function model="campus.thesis" name="action_supervisor_approve" eval="[ref('demo_thesis_if_01')]"/>
+
+    <record id="demo_thesis_progress_if_01_bab1" model="campus.thesis.progress">
+        <field name="thesis_id" ref="demo_thesis_if_01"/>
+        <field name="stage">proposal</field>
+        <field name="milestone">Bab I - Latar Belakang &amp; Rumusan Masalah</field>
+        <field name="description">Penyusunan rumusan masalah, batasan penelitian, dan tinjauan pustaka awal.</field>
+        <field name="progress_percent">40.0</field>
+        <field name="state">approved</field>
+        <field name="supervisor_note">Lanjutkan ke penyusunan metodologi penelitian pada Bab III.</field>
+    </record>
+</odoo>

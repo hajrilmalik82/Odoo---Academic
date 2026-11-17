@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="seq_campus_thesis" model="ir.sequence">
+            <field name="name">Campus Thesis</field>
+            <field name="code">campus.thesis</field>
+            <field name="prefix">SKR/%(year)s/</field>
+            <field name="padding">4</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="mail_activity_type_thesis_supervisor" model="mail.activity.type">
+            <field name="name">Thesis Supervision Request</field>
+            <field name="summary">Approve or reject student thesis supervision request</field>
+            <field name="res_model">campus.thesis</field>
+            <field name="category">default</field>
+            <field name="delay_count">3</field>
+            <field name="delay_unit">days</field>
+            <field name="icon">fa-user-plus</field>
+        </record>
+
+        <record id="mail_activity_type_yudisium_approval" model="mail.activity.type">
+            <field name="name">Yudisium Approval</field>
+            <field name="summary">Review and approve student Yudisium clearance</field>
+            <field name="res_model">campus.thesis</field>
+            <field name="category">default</field>
+            <field name="delay_count">3</field>
+            <field name="delay_unit">days</field>
+            <field name="icon">fa-graduation-cap</field>
+        </record>
+    </data>
+</odoo>

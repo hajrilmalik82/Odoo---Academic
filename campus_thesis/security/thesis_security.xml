@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ================================================================ -->
+        <!-- campus.thesis                                                    -->
+        <!-- ================================================================ -->
+        <record id="rule_admin_thesis_access" model="ir.rule">
+            <field name="name">Campus Admin: All Theses Access</field>
+            <field name="model_id" ref="model_campus_thesis"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="rule_academic_staff_thesis_access" model="ir.rule">
+            <field name="name">Academic Staff: Faculty and Program Access for Theses</field>
+            <field name="model_id" ref="model_campus_thesis"/>
+            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('program_id')</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <!-- Lecturers see only theses where they act as Supervisor, Co-Supervisor,
+             Academic Advisor (PA), or Dean of Faculty. Uses stored relational
+             paths so ir.rule evaluates directly in SQL. -->
+        <record id="rule_lecturer_thesis_access" model="ir.rule">
+            <field name="name">Lecturer: Theses Supervised, Advised, or as Dean</field>
+            <field name="model_id" ref="model_campus_thesis"/>
+            <field name="domain_force">['|', '|', '|', ('supervisor_id.user_id', '=', user.id), ('co_supervisor_id.user_id', '=', user.id), ('student_id.academic_advisor_id.user_id', '=', user.id), ('faculty_id.dean_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_student_own_thesis" model="ir.rule">
+            <field name="name">Student: Only Own Thesis</field>
+            <field name="model_id" ref="model_campus_thesis"/>
+            <field name="domain_force">[('student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- ================================================================ -->
+        <!-- campus.thesis.progress                                           -->
+        <!-- ================================================================ -->
+        <record id="rule_admin_thesis_progress_access" model="ir.rule">
+            <field name="name">Campus Admin: All Thesis Progress Logs</field>
+            <field name="model_id" ref="model_campus_thesis_progress"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="rule_academic_staff_thesis_progress_access" model="ir.rule">
+            <field name="name">Academic Staff: Faculty and Program Access for Progress Logs</field>
+            <field name="model_id" ref="model_campus_thesis_progress"/>
+            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('thesis_id.program_id')</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_lecturer_thesis_progress_access" model="ir.rule">
+            <field name="name">Lecturer: Progress Logs of Their Theses</field>
+            <field name="model_id" ref="model_campus_thesis_progress"/>
+            <field name="domain_force">['|', '|', '|', ('thesis_id.supervisor_id.user_id', '=', user.id), ('thesis_id.co_supervisor_id.user_id', '=', user.id), ('thesis_id.student_id.academic_advisor_id.user_id', '=', user.id), ('thesis_id.faculty_id.dean_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_student_own_thesis_progress" model="ir.rule">
+            <field name="name">Student: Only Own Thesis Progress Logs</field>
+            <field name="model_id" ref="model_campus_thesis_progress"/>
+            <field name="domain_force">[('thesis_id.student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- ================================================================ -->
+        <!-- campus.thesis.document                                           -->
+        <!-- ================================================================ -->
+        <record id="rule_admin_thesis_document_access" model="ir.rule">
+            <field name="name">Campus Admin: All Yudisium Documents</field>
+            <field name="model_id" ref="model_campus_thesis_document"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="rule_academic_staff_thesis_document_access" model="ir.rule">
+            <field name="name">Academic Staff: Faculty and Program Access for Yudisium Documents</field>
+            <field name="model_id" ref="model_campus_thesis_document"/>
+            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('thesis_id.program_id')</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_create" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <record id="rule_lecturer_thesis_document_access" model="ir.rule">
+            <field name="name">Lecturer: Yudisium Documents of Their Theses</field>
+            <field name="model_id" ref="model_campus_thesis_document"/>
+            <field name="domain_force">['|', '|', '|', ('thesis_id.supervisor_id.user_id', '=', user.id), ('thesis_id.co_supervisor_id.user_id', '=', user.id), ('thesis_id.student_id.academic_advisor_id.user_id', '=', user.id), ('thesis_id.faculty_id.dean_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_student_own_thesis_document" model="ir.rule">
+            <field name="name">Student: Only Own Yudisium Documents</field>
+            <field name="model_id" ref="model_campus_thesis_document"/>
+            <field name="domain_force">[('thesis_id.student_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+    </data>
+</odoo>

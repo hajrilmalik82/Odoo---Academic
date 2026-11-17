@@ -1,0 +1,2411 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* campus_thesis
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 19.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-16 09:14+0000\n"
+"PO-Revision-Date: 2026-11-16 09:14+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "%(name)s is not a lecturer and cannot be assigned as Co-Supervisor."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"%(name)s is not a lecturer and cannot be assigned as Primary Supervisor."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "1. Primary Thesis Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "1. Thesis Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "2. Academic Advisor (PA)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "3. Dean of Faculty"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-arrow-right me-1\"/> Start Thesis Stage Now"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-check me-1\"/> Submit for Yudisium Sequential Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-check-circle me-1\"/> Proposal Approved!"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-download me-1\"/> Download PDF"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-edit me-1\"/> Go to My KRS to Enroll in Thesis Subject"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "<i class=\"fa fa-graduation-cap me-2\"/> Campus Thesis Module"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid ""
+"<i class=\"fa fa-graduation-cap me-2\"/> Yudisium Completed — Nearest "
+"Graduation Schedule"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid ""
+"<i class=\"fa fa-info-circle me-2\"/>\n"
+"                You cannot register for a Thesis yet because you have not passed a\n"
+"                <strong>Research Methodology</strong> subject in your KHS."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-paper-plane me-1\"/> Submit to Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-plus me-1\"/> Submit Progress Log"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid ""
+"<i class=\"fa fa-plus-circle me-2\"/>Register New Thesis &amp; Choose "
+"Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-refresh me-1\"/> Revise &amp; Return to Draft"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "<i class=\"fa fa-save me-1\"/> Create Thesis Draft"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<i class=\"fa fa-sitemap text-info me-2\"/> End-to-End Thesis &amp; Yudisium"
+" Workflow"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<i class=\"fa fa-times-circle me-1\"/> Supervision / Proposal Rejected"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<option value=\"\">-- None --</option>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "<option value=\"\">-- Select Primary Supervisor --</option>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "<span style=\"color: #198754; font-weight: bold;\">APPROVED</span><br/>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "<span style=\"color: #6c757d;\">Pending</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "<span><strong>1. Research Methodology (Passed KHS)</strong></span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "<span><strong>2. Thesis Course (Approved/Locked KRS)</strong></span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<span>Proposal Progress</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<span>Thesis Progress</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Academic Advisor (PA):</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Ceremony Batch:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Co-Supervisor:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Curriculum Prerequisite (Research Methodology):</strong> Only "
+"students who have passed a Research Methodology subject in their KHS may "
+"register a thesis."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Dean of Faculty:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Graduation Date:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Location / Venue:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Nearest Graduation Schedule:</strong> Final Dean approval marks the "
+"student as Graduated and automatically assigns the nearest open Wisuda "
+"batch."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "<strong>Primary Supervisor:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid ""
+"<strong>Proposal Approved:</strong> The student must enroll in a Thesis course\n"
+"                        in an Approved or Locked KRS before starting the Thesis Stage."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Proposal Stage:</strong> Students log consultation progress until "
+"the Primary Supervisor approves the proposal."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "<strong>Rejected:</strong>"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Supervisor Selection &amp; Approval:</strong> Students pick a "
+"Primary Supervisor (and optional Co-Supervisor). Assigned lecturers approve "
+"or reject with feedback."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Thesis Course Gate:</strong> Proceeding to the Thesis Stage requires"
+" enrolling in a Thesis subject in an Approved or Locked KRS."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "<strong>Yudisium Approved:</strong> Assigned to Graduation Schedule"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"<strong>Yudisium Filing &amp; Sequential Approval:</strong> Once the thesis "
+"is approved and required documents are verified, clearance runs "
+"sequentially: <em>Thesis Supervisor → Academic Advisor (PA) → Dean of "
+"Faculty</em>."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_unique_active_thesis_per_student
+msgid "A student can only have one active thesis at a time."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "A system error occurred."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__advisor_id
+msgid "Academic Advisor (PA)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_academic_subject
+msgid "Academic Subject"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__academic_year_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__academic_year_id
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Academic Year"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Action"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_needaction
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_needaction
+msgid "Action Needed"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__mode
+msgid "Action Type"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Active / In Progress"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Active or graduated thesis records cannot be deleted. Cancel them instead."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/hr_employee.py:0
+msgid "Active thesis supervision (%(count)s): %(titles)s"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_ids
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_ids
+msgid "Activities"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_exception_decoration
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_state
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_state
+msgid "Activity State"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_type_icon
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_type_icon
+msgid "Activity Type Icon"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Advisor (PA)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_advisor_date
+msgid "Advisor Yudisium Date"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"All required Yudisium documents must be verified before submitting for "
+"Yudisium approval."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Approval flags can only be updated through the official approval buttons."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Log"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Proposal"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Supervision"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Thesis (Proceed to Yudisium)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Yudisium (Advisor)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Yudisium (Dean)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Approve Yudisium (Supervisor)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:mail.activity.type,summary:campus_thesis.mail_activity_type_thesis_supervisor
+msgid "Approve or reject student thesis supervision request"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_progress__state__approved
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Approved"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Assign Nearest Graduation"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Assigned to nearest graduation schedule: %s."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_attachment_count
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_attachment_count
+msgid "Attachment Count"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__name
+msgid "Batch Name"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Brief summary of problem statement and methodology..."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid "Campus Thesis &amp; Graduation Module"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
+msgid "Cancel"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__cancelled
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Cancelled"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Cannot log %(stage)s progress while the thesis is in '%(state)s' status."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Cannot start Thesis stage: %(student)s has not enrolled in a Thesis subject "
+"in an approved or locked KRS yet."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Close"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
+msgid "Close Registration"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_graduation_schedule__state__closed
+msgid "Closed"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Co-Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Co-Supervisor ("
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__co_supervisor_id
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Co-Supervisor (Optional)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__co_supervisor_approved
+msgid "Co-Supervisor Approved"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__company_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__company_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__company_id
+msgid "Company"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_graduation_schedule__state__completed
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_search
+msgid "Completed"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_thesis_requirement
+msgid "Configure required documents for Yudisium filing."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
+msgid "Confirm"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_res_partner
+msgid "Contact"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_graduation_schedule
+msgid "Create the first graduation schedule (Wisuda)."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__create_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__create_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__create_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__create_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__create_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__create_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__create_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__create_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__create_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__create_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__date
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Date"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_dean_date
+msgid "Dean Yudisium Date"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__dean_id
+msgid "Dean of Faculty"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_academic_subject__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_hr_employee__display_name
+#: model:ir.model.fields,field_description:campus_thesis.field_res_partner__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Document '%s' uploaded and awaiting academic staff verification."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__document_type
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__document_type
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Document Type"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Document Verification Summary"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__documents_complete
+msgid "Documents Complete"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__draft
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Draft"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__attachment
+msgid "Draft / Attachment"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Draft File (Optional)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_document_unique_document_type_per_thesis
+msgid "Each Yudisium document type can only appear once per thesis."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_requirement_unique_requirement
+msgid "Each Yudisium document type may only be configured once per company."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Edit Thesis Proposal &amp; Choose Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Eligible / Passed"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_hr_employee
+msgid "Employee"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Enrolled"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
+msgid "Enter clear feedback or reason for rejection / revision..."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Enter your proposed thesis title..."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__faculty_id
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Faculty"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__attachment
+msgid "File Attachment"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__attachment_filename
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__attachment_filename
+msgid "File Name"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Final Thesis Manuscript"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Finance / Tuition Clearance"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_follower_ids
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_follower_ids
+msgid "Followers"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_partner_ids
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_partner_ids
+msgid "Followers (Partners)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_type_icon
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_type_icon
+msgid "Font awesome icon e.g. fa-tasks"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Graduated or already cancelled theses cannot be cancelled."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/graduation_schedule.py:0
+msgid "Graduating Students"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__thesis_ids
+msgid "Graduating Theses"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Graduation (Wisuda)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__graduation_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__graduation_date
+msgid "Graduation Date"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__graduation_location
+msgid "Graduation Location"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__graduation_id
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Graduation Schedule"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_campus_graduation_schedule
+msgid "Graduation Schedule (Wisuda)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.actions.act_window,name:campus_thesis.action_campus_graduation_schedule
+#: model:ir.ui.menu,name:campus_thesis.menu_campus_graduation_schedule
+#: model:ir.ui.menu,name:campus_thesis.menu_campus_graduation_schedule_config
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_list
+msgid "Graduation Schedules"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__progress_line_ids
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Guidance & Progress Logs"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Guidance &amp; Progress History"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Guidance Log"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__description
+msgid "Guidance Notes"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Guidance Progress"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Guidance progress log submitted for supervisor review."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__has_message
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__has_message
+msgid "Has Message"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_academic_subject__id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__id
+#: model:ir.model.fields,field_description:campus_thesis.field_hr_employee__id
+#: model:ir.model.fields,field_description:campus_thesis.field_res_partner__id
+msgid "ID"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_exception_icon
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_exception_icon
+msgid "Icon"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_exception_icon
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_needaction
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_needaction
+msgid "If checked, new messages require your attention."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_has_error
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_has_sms_error
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_has_error
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_has_sms_error
+msgid "If checked, some messages have a delivery error."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "In Review"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Invalid thesis status change from '%(old)s' to '%(new)s'."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_is_follower
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_is_follower
+msgid "Is Follower"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__name
+msgid "Label"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__write_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__write_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__write_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__write_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__write_uid
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__write_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__write_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__write_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__write_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__write_date
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__registration_deadline
+msgid ""
+"Latest date a student completing Yudisium can be assigned to this batch."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Library Clearance (Bebas Pustaka)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__location
+msgid "Location / Venue"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Log"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
+msgid ""
+"Manages the full academic lifecycle from Research Methodology prerequisite "
+"verification, supervisor approval, proposal &amp; thesis progress logs, "
+"sequential Yudisium clearance, to nearest Graduation (Wisuda) assignment."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
+msgid "Mark Completed"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_academic_subject__thesis_role
+msgid ""
+"Marks subjects that gate the thesis workflow: passing Research Methodology "
+"unlocks thesis registration; enrolling in Thesis unlocks the thesis writing "
+"stage after proposal approval."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__quota
+msgid "Maximum participants allowed for this ceremony. Leave 0 for unlimited."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_has_error
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_has_error
+msgid "Message Delivery error"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_ids
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_ids
+msgid "Messages"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Milestone"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__milestone
+msgid "Milestone / Chapter"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Milestone / Chapter <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Milestone and progress notes are required."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__my_activity_date_deadline
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__my_activity_date_deadline
+msgid "My Activity Deadline"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_breadcrumbs
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_home
+msgid "My Thesis"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_progress__state__revision
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Needs Revision"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "New thesis records must start in Draft status."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_date_deadline
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_date_deadline
+msgid "Next Activity Deadline"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_summary
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_summary
+msgid "Next Activity Summary"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_type_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_type_id
+msgid "Next Activity Type"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "No active academic year is configured."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "No open upcoming graduation schedule is available."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "No upcoming open graduation schedule found yet; assign once scheduled."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Not Enrolled Yet"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Not Passed Yet"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__note
+msgid "Note"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Notes"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_needaction_counter
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_needaction_counter
+msgid "Number of Actions"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_has_error_counter
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_has_error_counter
+msgid "Number of errors"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_needaction_counter
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_needaction_counter
+msgid "Number of messages requiring action"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_has_error_counter
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_has_error_counter
+msgid "Number of messages with delivery error"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Official Graduation Photo"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Only Academic Staff or Campus Administrators can verify Yudisium documents."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Only active students can register a thesis."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Only contacts marked as Student can register a thesis."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Only the assigned %(role)s or a Campus Administrator may perform this "
+"action."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Only the assigned %(role)s or a Campus Administrator may return this "
+"Yudisium."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Only the assigned Thesis Supervisor(s) can create pre-approved progress "
+"logs."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Only the assigned Thesis Supervisor(s) or Campus Administrator can review "
+"guidance logs."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_graduation_schedule__state__open
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_search
+msgid "Open"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Open Workspace"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Optional"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Other Document"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Overall Progress"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__overall_progress
+msgid "Overall Progress (%)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__quota
+msgid "Participant Quota"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/graduation_schedule.py:0
+msgid "Participant quota cannot be negative."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__participant_count
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
+msgid "Participants"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Pending"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Please choose a file to upload."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Please select a valid supervisor."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Please select a valid thesis supervisor."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__supervisor_id
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Primary Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Primary Supervisor ("
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Primary Supervisor <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__supervisor_approved
+msgid "Primary Supervisor Approved"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Primary Supervisor and Co-Supervisor must be different lecturers."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Primary Thesis Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Primary thesis supervisor is required."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Program"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Progress"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__progress_percent
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Progress (%)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Progress Notes <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Progress log stage must match the current thesis stage."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Progress logs can only be added during Proposal or Thesis stages."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Progress percentage must be a valid number."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_progress_progress_percent_range
+msgid "Progress percentage must be between 0 and 100."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Proposal"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Proposal & Timeline"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__proposal_approved
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Proposal Approved (Needs Thesis KRS)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__proposal_approved_date
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Proposal Approved Date"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__proposal_progress
+msgid "Proposal Progress (%)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__proposal
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_progress__stage__proposal
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Proposal Stage"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Proposal approved and Thesis course already enrolled in KRS. Advanced to "
+"Thesis Stage."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Proposal approved. Student must enroll in a Thesis course in an approved KRS"
+" before starting the Thesis Stage."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Proposed Thesis Title <span class=\"text-danger\">*</span>"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__reason
+msgid "Reason"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Reference:"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Refine Proposal Title / Outline"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_thesis
+msgid "Register the first student thesis!"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__registration_deadline
+msgid "Registration Deadline"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/graduation_schedule.py:0
+msgid "Registration deadline cannot be after the graduation date."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__academic_subject__thesis_role__regular
+msgid "Regular Subject"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Reject"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
+msgid "Reject / Return Thesis"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_reject_wizard__mode__supervisor_reject
+msgid "Reject Supervision / Proposal"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Rejected by supervisor."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__rejection_reason
+msgid "Rejection / Revision Reason"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
+msgid "Reopen"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Request Revision"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__required
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__required
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Required"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__required_document_count
+msgid "Required Documents"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_requirement_search
+msgid "Required Only"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Requirement"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__academic_subject__thesis_role__research_method
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_academic_subject_search_inherit_thesis
+msgid "Research Methodology"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__research_method_passed
+msgid "Research Methodology Passed"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Research Topic / Outline"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Research background, objectives, and scope..."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Reset to Draft"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_user_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_user_id
+msgid "Responsible User"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Return Yudisium for Revision"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_reject_wizard__mode__yudisium_return
+msgid "Return Yudisium to Filing"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Return for Document Revision"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Returned for document revision."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__state
+msgid "Review Status"
+msgstr ""
+
+#. module: campus_thesis
+#: model:mail.activity.type,summary:campus_thesis.mail_activity_type_yudisium_approval
+msgid "Review and approve student Yudisium clearance"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Review thesis supervision request from %s"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__reviewed_by_id
+msgid "Reviewed By"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__reviewed_date
+msgid "Reviewed Date"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Revise"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_has_sms_error
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_has_sms_error
+msgid "SMS Delivery error"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Save Changes"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Scientific Journal / Publication Draft"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_search
+msgid "Search Graduation Schedules"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Search Theses"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_requirement_search
+msgid "Search Yudisium Requirements"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__sequence
+msgid "Sequence"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Sequential Approval Sign-Off (Supervisor → Advisor → Dean)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Sequential Yudisium Approvals"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__stage
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Stage"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Start Thesis Stage"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__state
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__state
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Status"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_state
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_state
+msgid ""
+"Status based on activities\n"
+"Overdue: Due date is already passed\n"
+"Today: Activity date is today\n"
+"Planned: Future activities."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__student_id
+msgid "Student"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Student %(student)s cannot take a thesis yet: they must pass a Research "
+"Methodology subject in their KHS first."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Student %(student)s must enroll in a Thesis subject in an approved or locked"
+" KRS before entering the Thesis stage."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Student %(student)s must pass a Research Methodology subject before "
+"proceeding with their thesis."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Student %(student)s must pass a Research Methodology subject before "
+"submitting."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Student & Curriculum Gate"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__nim
+msgid "Student ID (NIM)"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/res_partner.py:0
+#: model:ir.actions.act_window,name:campus_thesis.action_campus_thesis
+#: model:ir.ui.menu,name:campus_thesis.menu_campus_thesis_list
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_list
+msgid "Student Theses"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Student Thesis"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_campus_thesis
+msgid "Student Thesis (Skripsi)"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Student status must be active to submit a thesis."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_thesis
+msgid ""
+"Students must have passed a Research Methodology subject in their KHS before"
+" registering."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__program_id
+msgid "Study Program"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Submit for Supervisor Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Submit for Yudisium Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Summarize your progress and consultation notes..."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Supervision & Progress"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Supervision approval recorded by %s. Waiting for the other supervisor."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Supervision request submitted to your supervisor(s)."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__supervisor_approval
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Supervisor Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__supervisor_note
+msgid "Supervisor Feedback"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__supervisor_rejected
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Supervisor Rejected"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_supervisor_date
+msgid "Supervisor Yudisium Date"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Supervisor(s) approved the supervision request. Thesis moved to Proposal "
+"Stage."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Supervisor, Academic Advisor, and Dean must all approve Yudisium before "
+"graduation."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Supervisor:"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Supervisors can only be changed while the thesis is in Draft or Supervisor "
+"Rejected."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "That document line does not belong to your thesis."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "That thesis record is not available."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "The action could not be completed."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "The student on a thesis record cannot be changed."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_res_partner__thesis_ids
+#: model:ir.model.fields,field_description:campus_thesis.field_res_users__thesis_ids
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_student_form_standalone_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_employee_form_inherit_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_partner_form_inherit_campus_thesis
+msgid "Theses"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/hr_employee.py:0
+#: model:ir.model.fields,field_description:campus_thesis.field_hr_employee__supervised_thesis_count
+msgid "Theses Supervised"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__thesis_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__thesis_id
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__thesis_id
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Thesis"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.ui.menu,name:campus_thesis.menu_academic_thesis
+msgid "Thesis & Graduation"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.ui.menu,name:campus_thesis.menu_campus_thesis_config
+msgid "Thesis & Yudisium"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.actions.report,name:campus_thesis.action_report_thesis
+msgid "Thesis & Yudisium Sheet"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Thesis &amp; Yudisium Clearance Record"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__academic_subject__thesis_role__thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_academic_subject_search_inherit_thesis
+msgid "Thesis / Final Project"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__thesis_approved_date
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+msgid "Thesis Approved Date"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_academic_subject__thesis_role
+msgid "Thesis Classification"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_res_partner__thesis_count
+#: model:ir.model.fields,field_description:campus_thesis.field_res_users__thesis_count
+msgid "Thesis Count"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__thesis_course_enrolled
+msgid "Thesis Course Taken (KRS)"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Thesis Eligibility Status"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_campus_thesis_progress
+msgid "Thesis Guidance & Progress Log"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Thesis No."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__name
+msgid "Thesis Number"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__thesis_progress
+msgid "Thesis Progress (%)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_campus_thesis_reject_wizard
+msgid "Thesis Rejection / Return Wizard"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_progress__stage__thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Thesis Stage"
+msgstr ""
+
+#. module: campus_thesis
+#: model:mail.activity.type,name:campus_thesis.mail_activity_type_thesis_supervisor
+msgid "Thesis Supervision Request"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Thesis Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Thesis Supervisor and Academic Advisor must both approve Yudisium before "
+"Dean approval."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Thesis Supervisor must approve Yudisium before Academic Advisor approval."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__title
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+#: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Thesis Title"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_campus_thesis_document
+msgid "Thesis Yudisium Document Checklist"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Thesis approved by supervisor. Proceed to Yudisium document filing."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Thesis course KRS verified. Advanced to Thesis Stage."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Thesis course enrollment verified. Welcome to the Thesis Stage!"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Thesis details can no longer be modified in the current status."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Thesis details updated."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Thesis draft created."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Thesis rejected by supervisor. Reason: %s"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid ""
+"Thesis returned to Draft. You may now update your supervisor and resubmit."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Thesis title and topic cannot be changed after proposal approval."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Thesis title cannot be empty."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Thesis title is required."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "This action is not allowed from the current thesis status."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "This student already has an active thesis record."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Title"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid ""
+"To unlock the <strong>Thesis Stage</strong>, you must enroll in a\n"
+"                            <strong>Thesis / Skripsi subject</strong> in your KRS and get it Approved."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__research_topic
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
+msgid "Topic / Research Outline"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_exception_decoration
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Update Proposal Title"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Upload"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Upload File"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid ""
+"Upload all required Yudisium documents above; Academic Staff will verify "
+"them before sequential Yudisium approval begins."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Uploaded (Awaiting Verification)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__submitted_by_student
+msgid "Uploaded by Student"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Uploaded file is empty."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Uploaded file must not exceed 10 MB."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Verified"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_document__received
+msgid "Verified / Received"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__received_document_count
+msgid "Verified Documents"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Verified Temporary Transcript"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Waiting"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_progress__state__submitted
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Waiting Review"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Waiting for Supervisor Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__website_message_ids
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__website_message_ids
+msgid "Website Messages"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__website_message_ids
+#: model:ir.model.fields,help:campus_thesis.field_campus_thesis__website_message_ids
+msgid "Website communication history"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid ""
+"Your Yudisium is approved! The nearest graduation ceremony schedule will "
+"appear here once announced by the Registrar."
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "Yudisium & Sequential Approvals"
+msgstr ""
+
+#. module: campus_thesis
+#: model:mail.activity.type,name:campus_thesis.mail_activity_type_yudisium_approval
+msgid "Yudisium Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__graduated
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Yudisium Approved"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "Yudisium Document Filing"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model,name:campus_thesis.model_campus_thesis_requirement
+msgid "Yudisium Document Requirement"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.actions.act_window,name:campus_thesis.action_campus_thesis_requirement
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_requirement_list
+msgid "Yudisium Document Requirements"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_document_ids
+msgid "Yudisium Documents"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__yudisium_docs
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Yudisium Filing"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_search
+msgid "Yudisium Process"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.ui.menu,name:campus_thesis.menu_campus_thesis_requirement
+msgid "Yudisium Requirements"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Yudisium Step 1 approved by Thesis Supervisor. Forwarded to Academic "
+"Advisor."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Yudisium Step 1: Thesis Supervisor approval for %s"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid ""
+"Yudisium Step 2 approved by Academic Advisor. Forwarded to Dean of Faculty."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Yudisium Step 2: Academic Advisor approval for %s"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Yudisium Step 3 approved by Dean! Student status set to Graduated. %s"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Yudisium Step 3: Dean approval for %s"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid "Yudisium documents can only be uploaded during Yudisium Filing."
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "Yudisium returned to filing stage. Reason: %s"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/controllers/portal.py:0
+msgid ""
+"Yudisium submitted for sequential approval (Supervisor -> Advisor -> Dean)."
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_advisor_approved
+msgid "Yudisium: Academic Advisor Approved"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Yudisium: Advisor (PA)"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__yudisium_advisor
+msgid "Yudisium: Advisor Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Yudisium: Dean"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__yudisium_dean
+msgid "Yudisium: Dean Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_dean_approved
+msgid "Yudisium: Dean Approved"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_status_badge
+msgid "Yudisium: Supervisor"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__yudisium_supervisor
+msgid "Yudisium: Supervisor Approval"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_supervisor_approved
+msgid "Yudisium: Supervisor Approved"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
+msgid "e.g. Chapter 1 - Introduction"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
+msgid "e.g. Design and Implementation of Academic ERP System"
+msgstr ""
+
+#. module: campus_thesis
+#: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
+msgid "e.g. Wisuda Periode I 2026"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/graduation_schedule.py:0
+msgid "graduation_id"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "graduation_photo"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "journal_article"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "library_clearance"
+msgstr ""
+
+#. module: campus_thesis
+#: model:ir.actions.report,print_report_name:campus_thesis.action_report_thesis
+msgid "object._get_report_base_filename()"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "other"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/res_partner.py:0
+msgid "student_id"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/hr_employee.py:0
+msgid "supervisor_id"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "temporary_transcript"
+msgstr ""
+
+#. module: campus_thesis
+#. odoo-python
+#: code:addons/campus_thesis/models/campus_thesis.py:0
+msgid "tuition_clearance"
+msgstr ""

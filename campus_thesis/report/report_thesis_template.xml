@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_thesis_document">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page" style="font-family: 'Times New Roman', Times, serif;">
+                        <div class="text-center mb-4">
+                            <h3 style="font-weight: bold; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 2px;">
+                                Thesis &amp; Yudisium Clearance Record
+                            </h3>
+                            <p style="font-size: 10.5pt; color: #555; margin-bottom: 0;">
+                                Reference: <strong><t t-out="o.name"/></strong>
+                            </p>
+                            <hr style="border-top: 2px solid #000; margin-top: 10px;"/>
+                        </div>
+
+                        <t t-call="campus_core.report_campus_student_header">
+                            <t t-set="student" t-value="o.student_id"/>
+                            <t t-set="faculty" t-value="o.faculty_id"/>
+                            <t t-set="program" t-value="o.program_id"/>
+                            <tr>
+                                <td style="padding: 3px 0;">Academic Year</td>
+                                <td>:</td>
+                                <td><t t-out="o.academic_year_id.display_name or '-'"/></td>
+                                <td style="padding: 3px 0;">Advisor (PA)</td>
+                                <td>:</td>
+                                <td><t t-out="o.advisor_id.name or '-'"/></td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 3px 0;">Status</td>
+                                <td>:</td>
+                                <td>
+                                    <strong>
+                                        <t t-out="dict(o._fields['state']._description_selection(o.env)).get(o.state, o.state)"/>
+                                    </strong>
+                                </td>
+                                <td style="padding: 3px 0;">Overall Progress</td>
+                                <td>:</td>
+                                <td><t t-out="int(o.overall_progress or 0)"/>%</td>
+                            </tr>
+                        </t>
+
+                        <table class="table table-sm table-bordered" style="font-size: 10pt; margin-bottom: 20px;">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 28%; background-color: #f4f6f8;">Thesis Title</th>
+                                    <td><strong><t t-out="o.title"/></strong></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f4f6f8;">Primary Supervisor</th>
+                                    <td><t t-out="o.supervisor_id.name or '-'"/></td>
+                                </tr>
+                                <tr t-if="o.co_supervisor_id">
+                                    <th style="background-color: #f4f6f8;">Co-Supervisor</th>
+                                    <td><t t-out="o.co_supervisor_id.name"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f4f6f8;">Proposal Approved Date</th>
+                                    <td><t t-out="o.proposal_approved_date or '-'"/></td>
+                                </tr>
+                                <tr>
+                                    <th style="background-color: #f4f6f8;">Thesis Approved Date</th>
+                                    <td><t t-out="o.thesis_approved_date or '-'"/></td>
+                                </tr>
+                                <tr t-if="o.graduation_id">
+                                    <th style="background-color: #f4f6f8;">Graduation Schedule</th>
+                                    <td>
+                                        <strong><t t-out="o.graduation_id.display_name"/></strong>
+                                        <t t-if="o.graduation_location">
+                                            — <t t-out="o.graduation_location"/>
+                                        </t>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <h5 style="font-weight: bold; margin-bottom: 10px;">Sequential Yudisium Approvals</h5>
+                        <table class="table table-sm table-bordered text-center" style="font-size: 9.5pt; page-break-inside: avoid;">
+                            <thead>
+                                <tr style="background-color: #2c3e50; color: white;">
+                                    <th style="width: 33%;">1. Primary Thesis Supervisor</th>
+                                    <th style="width: 33%;">2. Academic Advisor (PA)</th>
+                                    <th style="width: 34%;">3. Dean of Faculty</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td style="padding: 12px;">
+                                        <div><strong t-out="o.supervisor_id.name or '-'"/></div>
+                                        <div style="margin-top: 8px;">
+                                            <t t-if="o.yudisium_supervisor_approved">
+                                                <span style="color: #198754; font-weight: bold;">APPROVED</span><br/>
+                                                <small t-out="o.yudisium_supervisor_date"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color: #6c757d;">Pending</span>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        <div><strong t-out="o.advisor_id.name or '-'"/></div>
+                                        <div style="margin-top: 8px;">
+                                            <t t-if="o.yudisium_advisor_approved">
+                                                <span style="color: #198754; font-weight: bold;">APPROVED</span><br/>
+                                                <small t-out="o.yudisium_advisor_date"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color: #6c757d;">Pending</span>
+                                            </t>
+                                        </div>
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        <div><strong t-out="o.dean_id.name or '-'"/></div>
+                                        <div style="margin-top: 8px;">
+                                            <t t-if="o.yudisium_dean_approved">
+                                                <span style="color: #198754; font-weight: bold;">APPROVED</span><br/>
+                                                <small t-out="o.yudisium_dean_date"/>
+                                            </t>
+                                            <t t-else="">
+                                                <span style="color: #6c757d;">Pending</span>
+                                            </t>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

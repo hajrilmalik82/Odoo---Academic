@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_thesis_reject_wizard_form" model="ir.ui.view">
+        <field name="name">campus.thesis.reject.wizard.form</field>
+        <field name="model">campus.thesis.reject.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reject / Return Thesis">
+                <group>
+                    <field name="thesis_id"/>
+                    <field name="mode" invisible="1"/>
+                    <field name="reason" placeholder="Enter clear feedback or reason for rejection / revision..."/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-danger"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

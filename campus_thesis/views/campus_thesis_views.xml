@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_campus_thesis_form" model="ir.ui.view">
+        <field name="name">campus.thesis.form</field>
+        <field name="model">campus.thesis</field>
+        <field name="arch" type="xml">
+            <form string="Student Thesis">
+                <header>
+                    <button name="action_submit_supervisor" string="Submit for Supervisor Approval"
+                            type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_supervisor_approve" string="Approve Supervision"
+                            type="object" class="btn-success" invisible="state != 'supervisor_approval'"/>
+                    <button name="action_approve_proposal" string="Approve Proposal"
+                            type="object" class="oe_highlight" invisible="state != 'proposal'"/>
+                    <button name="action_start_thesis" string="Start Thesis Stage"
+                            type="object" class="oe_highlight" invisible="state != 'proposal_approved'"/>
+                    <button name="action_approve_thesis" string="Approve Thesis (Proceed to Yudisium)"
+                            type="object" class="btn-success" invisible="state != 'thesis'"/>
+                    <button name="action_submit_yudisium" string="Submit for Yudisium Approval"
+                            type="object" class="oe_highlight" invisible="state != 'yudisium_docs'"/>
+                    <button name="action_yudisium_approve_supervisor" string="Approve Yudisium (Supervisor)"
+                            type="object" class="btn-success" invisible="state != 'yudisium_supervisor'"/>
+                    <button name="action_yudisium_approve_advisor" string="Approve Yudisium (Advisor)"
+                            type="object" class="btn-success" invisible="state != 'yudisium_advisor'"/>
+                    <button name="action_yudisium_approve_dean" string="Approve Yudisium (Dean)"
+                            type="object" class="btn-success" invisible="state != 'yudisium_dean'"/>
+                    <button name="action_assign_nearest_graduation" string="Assign Nearest Graduation"
+                            type="object" class="oe_highlight"
+                            invisible="state != 'graduated' or graduation_id != False"/>
+                    <button name="action_supervisor_reject" string="Reject"
+                            type="object" class="btn-danger"
+                            invisible="state not in ('supervisor_approval', 'proposal')"/>
+                    <button name="action_yudisium_return_to_docs" string="Return for Document Revision"
+                            type="object" class="btn-warning"
+                            invisible="state not in ('yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean')"/>
+                    <button name="action_reset_to_draft" string="Reset to Draft"
+                            type="object" class="btn-secondary"
+                            invisible="state not in ('supervisor_rejected', 'cancelled')"/>
+                    <button name="action_cancel" string="Cancel"
+                            type="object" class="btn-secondary"
+                            invisible="state in ('graduated', 'cancelled')"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,supervisor_approval,proposal,thesis,yudisium_docs,yudisium_supervisor,yudisium_advisor,yudisium_dean,graduated"/>
+                </header>
+                <sheet>
+                    <div class="alert alert-warning" role="alert" invisible="state != 'proposal_approved'">
+                        <strong>Proposal Approved:</strong> The student must enroll in a Thesis course
+                        in an Approved or Locked KRS before starting the Thesis Stage.
+                    </div>
+                    <div class="alert alert-danger" role="alert" invisible="state != 'supervisor_rejected'">
+                        <strong>Rejected:</strong>
+                        <field name="rejection_reason" readonly="1" nolabel="1" class="ms-1"/>
+                    </div>
+                    <div class="alert alert-success" role="alert" invisible="state != 'graduated' or not graduation_id">
+                        <strong>Yudisium Approved:</strong> Assigned to Graduation Schedule
+                        <field name="graduation_id" readonly="1" nolabel="1" class="ms-1 fw-bold"/>.
+                    </div>
+
+                    <div class="oe_title">
+                        <h2>
+                            <field name="name"/>
+                        </h2>
+                        <label for="title" class="oe_edit_only" string="Thesis Title"/>
+                        <h1>
+                            <field name="title" placeholder="e.g. Design and Implementation of Academic ERP System"/>
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group string="Student &amp; Curriculum Gate">
+                            <field name="student_id" readonly="state != 'draft'"/>
+                            <field name="nim"/>
+                            <field name="faculty_id"/>
+                            <field name="program_id"/>
+                            <field name="academic_year_id"/>
+                            <field name="advisor_id"/>
+                            <field name="dean_id"/>
+                            <field name="research_method_passed" widget="boolean"/>
+                            <field name="thesis_course_enrolled" widget="boolean"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <group string="Supervision &amp; Progress">
+                            <field name="supervisor_id"/>
+                            <field name="supervisor_approved" readonly="1"/>
+                            <field name="co_supervisor_id"/>
+                            <field name="co_supervisor_approved" readonly="1" invisible="not co_supervisor_id"/>
+                            <field name="proposal_progress" widget="progressbar"/>
+                            <field name="thesis_progress" widget="progressbar"/>
+                            <field name="overall_progress" widget="progressbar"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Proposal &amp; Timeline" name="proposal_outline">
+                            <group>
+                                <group>
+                                    <field name="research_topic" placeholder="Research background, objectives, and scope..."/>
+                                    <field name="rejection_reason" readonly="1" invisible="not rejection_reason"/>
+                                </group>
+                                <group>
+                                    <field name="proposal_approved_date"/>
+                                    <field name="thesis_approved_date"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <page string="Guidance &amp; Progress Logs" name="progress_logs">
+                            <field name="progress_line_ids"
+                                   context="{'default_stage': 'thesis' if state == 'thesis' else 'proposal'}">
+                                <list>
+                                    <field name="date"/>
+                                    <field name="stage"/>
+                                    <field name="milestone"/>
+                                    <field name="description"/>
+                                    <field name="progress_percent" widget="progressbar"/>
+                                    <field name="attachment_filename" column_invisible="1"/>
+                                    <field name="attachment" filename="attachment_filename" optional="show"/>
+                                    <field name="state" widget="badge"
+                                           decoration-info="state == 'submitted'"
+                                           decoration-success="state == 'approved'"
+                                           decoration-warning="state == 'revision'"/>
+                                    <button name="action_approve" string="Approve" type="object"
+                                            icon="fa-check" class="btn-success"
+                                            invisible="state == 'approved'"/>
+                                    <button name="action_request_revision" string="Revise" type="object"
+                                            icon="fa-undo" class="btn-warning"
+                                            invisible="state == 'revision'"/>
+                                </list>
+                                <form string="Guidance Log">
+                                    <header>
+                                        <button name="action_approve" string="Approve Log" type="object"
+                                                class="btn-success" invisible="state == 'approved'"/>
+                                        <button name="action_request_revision" string="Request Revision" type="object"
+                                                class="btn-warning" invisible="state == 'revision'"/>
+                                        <field name="state" widget="statusbar"/>
+                                    </header>
+                                    <group>
+                                        <group>
+                                            <field name="stage"/>
+                                            <field name="date"/>
+                                            <field name="milestone"/>
+                                            <field name="progress_percent"/>
+                                        </group>
+                                        <group>
+                                            <field name="attachment_filename" invisible="1"/>
+                                            <field name="attachment" filename="attachment_filename"/>
+                                            <field name="reviewed_by_id"/>
+                                            <field name="reviewed_date"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="description"/>
+                                        <field name="supervisor_note"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <page string="Yudisium &amp; Sequential Approvals" name="yudisium">
+                            <group string="Sequential Approval Sign-Off (Supervisor → Advisor → Dean)">
+                                <group>
+                                    <field name="yudisium_supervisor_approved"/>
+                                    <field name="yudisium_supervisor_date"/>
+                                    <field name="yudisium_advisor_approved"/>
+                                    <field name="yudisium_advisor_date"/>
+                                    <field name="yudisium_dean_approved"/>
+                                    <field name="yudisium_dean_date"/>
+                                </group>
+                                <group string="Document Verification Summary">
+                                    <field name="required_document_count"/>
+                                    <field name="received_document_count"/>
+                                    <field name="documents_complete"/>
+                                </group>
+                            </group>
+                            <field name="yudisium_document_ids">
+                                <list editable="bottom">
+                                    <field name="document_type"/>
+                                    <field name="required"/>
+                                    <field name="submitted_by_student" readonly="1"/>
+                                    <field name="attachment_filename" column_invisible="1"/>
+                                    <field name="attachment" filename="attachment_filename"/>
+                                    <field name="received"/>
+                                    <field name="note"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <page string="Graduation (Wisuda)" name="graduation">
+                            <group>
+                                <group>
+                                    <field name="graduation_id"/>
+                                    <field name="graduation_date"/>
+                                    <field name="graduation_location"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- List View -->
+    <record id="view_campus_thesis_list" model="ir.ui.view">
+        <field name="name">campus.thesis.list</field>
+        <field name="model">campus.thesis</field>
+        <field name="arch" type="xml">
+            <list string="Student Theses">
+                <field name="name"/>
+                <field name="nim"/>
+                <field name="student_id"/>
+                <field name="title"/>
+                <field name="program_id"/>
+                <field name="supervisor_id"/>
+                <field name="overall_progress" widget="progressbar"/>
+                <field name="graduation_id" optional="show"/>
+                <field name="company_id" column_invisible="1"/>
+                <field name="state" widget="badge"
+                       decoration-info="state in ('supervisor_approval', 'proposal', 'proposal_approved', 'thesis')"
+                       decoration-warning="state in ('yudisium_docs', 'yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean')"
+                       decoration-success="state == 'graduated'"
+                       decoration-danger="state in ('supervisor_rejected', 'cancelled')"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_campus_thesis_search" model="ir.ui.view">
+        <field name="name">campus.thesis.search</field>
+        <field name="model">campus.thesis</field>
+        <field name="arch" type="xml">
+            <search string="Search Theses">
+                <field name="name"/>
+                <field name="title"/>
+                <field name="student_id"/>
+                <field name="nim"/>
+                <field name="supervisor_id"/>
+                <separator/>
+                <filter string="Active / In Progress" name="active_theses"
+                        domain="[('state', 'not in', ('graduated', 'cancelled'))]"/>
+                <filter string="Supervisor Approval" name="supervisor_approval"
+                        domain="[('state', '=', 'supervisor_approval')]"/>
+                <filter string="Proposal Stage" name="proposal"
+                        domain="[('state', 'in', ('proposal', 'proposal_approved'))]"/>
+                <filter string="Thesis Stage" name="thesis"
+                        domain="[('state', '=', 'thesis')]"/>
+                <filter string="Yudisium Process" name="yudisium"
+                        domain="[('state', 'in', ('yudisium_docs', 'yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean'))]"/>
+                <filter string="Yudisium Approved" name="graduated"
+                        domain="[('state', '=', 'graduated')]"/>
+                <group name="group_by">
+                    <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
+                    <filter string="Faculty" name="group_by_faculty" context="{'group_by': 'faculty_id'}"/>
+                    <filter string="Program" name="group_by_program" context="{'group_by': 'program_id'}"/>
+                    <filter string="Primary Supervisor" name="group_by_supervisor" context="{'group_by': 'supervisor_id'}"/>
+                    <filter string="Graduation Schedule" name="group_by_graduation" context="{'group_by': 'graduation_id'}"/>
+                </group>
+                <searchpanel>
+                    <field name="program_id" icon="fa-building" enable_counters="1" groupby="faculty_id" select="multi"/>
+                    <field name="state" icon="fa-tasks" enable_counters="1" select="multi"/>
+                </searchpanel>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_campus_thesis" model="ir.actions.act_window">
+        <field name="name">Student Theses</field>
+        <field name="res_model">campus.thesis</field>
+        <field name="view_mode">list,form,activity</field>
+        <field name="context">{'search_default_active_theses': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Register the first student thesis!
+            </p>
+            <p>
+                Students must have passed a Research Methodology subject in their KHS before registering.
+            </p>
+        </field>
+    </record>
+</odoo>

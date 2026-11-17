@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_campus_thesis_requirement_list" model="ir.ui.view">
+        <field name="name">campus.thesis.requirement.list</field>
+        <field name="model">campus.thesis.requirement</field>
+        <field name="arch" type="xml">
+            <list string="Yudisium Document Requirements" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="document_type"/>
+                <field name="required"/>
+                <field name="company_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_campus_thesis_requirement_search" model="ir.ui.view">
+        <field name="name">campus.thesis.requirement.search</field>
+        <field name="model">campus.thesis.requirement</field>
+        <field name="arch" type="xml">
+            <search string="Search Yudisium Requirements">
+                <field name="document_type"/>
+                <filter string="Required Only" name="required_only" domain="[('required', '=', True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_campus_thesis_requirement" model="ir.actions.act_window">
+        <field name="name">Yudisium Document Requirements</field>
+        <field name="res_model">campus.thesis.requirement</field>
+        <field name="view_mode">list</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Configure required documents for Yudisium filing.
+            </p>
+        </field>
+    </record>
+</odoo>

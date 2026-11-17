@@ -33,7 +33,7 @@
 #                      "dbfilter rejects it" buried in the log.
 set -euo pipefail
 
-SEMUA_MODUL="campus_core,campus_website,campus_employees,campus_pmb,campus_portal"
+SEMUA_MODUL="campus_core,campus_website,campus_employees,campus_pmb,campus_portal,campus_thesis"
 
 ODOO_DIR="${ODOO_DIR:-$HOME/odoo-dev/odoo-19}"
 PYTHON="${PYTHON:-$ODOO_DIR/venv-19/bin/python}"
@@ -49,8 +49,8 @@ Pakai: ./jalankan-test.sh -d <database> [-u <modul,modul>]
 
   -d  database yang dipakai (wajib)
   -u  modul yang di-upgrade dan diuji
-      bawaan: semua lima modul
-      pilihan: campus_core campus_website campus_employees campus_pmb campus_portal
+      bawaan: semua enam modul
+      pilihan: campus_core campus_website campus_employees campus_pmb campus_portal campus_thesis
   -p  port HTTP untuk test (bawaan $PORT)
   -h  tampilkan bantuan ini
 
