@@ -56,6 +56,10 @@ class CampusThesisProgress(models.Model):
             thesis_id = vals.get('thesis_id')
             stage = vals.get('stage', 'proposal')
             thesis = self.env['campus.thesis'].browse(thesis_id) if thesis_id else self.env['campus.thesis']
+            if thesis and not self._is_supervisor_or_admin(thesis):
+                raise AccessError(_(
+                    "Only the assigned Thesis Supervisor(s) or Campus Administrator may create progress logs."
+                ))
             if thesis and thesis.state != stage:
                 raise ValidationError(_(
                     "Cannot log %(stage)s progress while the thesis is in '%(state)s' status.",
@@ -68,9 +72,17 @@ class CampusThesisProgress(models.Model):
                 ))
         return super().create(vals_list)
 
+    _SUPERVISOR_WRITABLE_FIELDS = {'state', 'supervisor_note', 'reviewed_by_id', 'reviewed_date'}
+
     def write(self, vals):
-        if 'state' in vals or 'supervisor_note' in vals:
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        if not is_admin:
             self._check_supervisor_review_permission()
+            disallowed = set(vals) - self._SUPERVISOR_WRITABLE_FIELDS
+            if disallowed:
+                raise AccessError(_(
+                    "Supervisors can only update review status and feedback, not student log entries (%s)."
+                ) % ', '.join(sorted(disallowed)))
         if 'stage' in vals:
             for line in self:
                 if line.thesis_id.state != vals['stage']:

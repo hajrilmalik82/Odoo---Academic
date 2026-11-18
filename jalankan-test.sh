@@ -173,7 +173,7 @@ echo
 # The result line names its database, and a run can emit more than one - an
 # earlier line about a different database with zero tests matched a naive grep
 # and reported green over a red run.
-RESULT="$(grep -E "odoo\.tests\.result" "$LOG" | grep -F "database '$DB'" | tail -1)"
+RESULT="$(grep -E "odoo\.tests\.result" "$LOG" | grep -F "database '$DB'" | tail -1 || true)"
 
 if [ -z "$RESULT" ]; then
     echo "MERAH: tidak ada hasil test untuk database '$DB'. Run-nya gagal sebelum test jalan."
@@ -183,15 +183,13 @@ fi
 
 if echo "$RESULT" | grep -qE "0 failed, 0 error"; then
     echo "$RESULT" | sed 's/.*odoo.tests.result: /HIJAU: /'
+    rm -f "$LOG"
     exit 0
 fi
 
 echo "$RESULT" | sed 's/.*odoo.tests.result: /MERAH: /'
 echo "Yang gagal:"
-# "FAIL: Subtest Foo.bar (...)" as well as "FAIL: Foo.bar" - a subTest failure
-# carries an extra word, and the first version of this grep missed it entirely,
-# so a red run reported that it could not name what had failed.
-grep -oE "(ERROR|FAIL): (Subtest )?Test[A-Za-z0-9_]*\.[a-z0-9_]+" "$LOG" \
+grep -oE "(ERROR|FAIL): (Subtest )?Test[A-Za-z0-9_]*\.[A-Za-z0-9_]+" "$LOG" \
     | sed -E 's/^(ERROR|FAIL): //' | sort -u | sed 's/^/  /' \
     || echo "  (tidak ada baris test yang gagal - lihat log, mungkin gagal saat upgrade)"
 echo

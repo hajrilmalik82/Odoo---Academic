@@ -6,29 +6,21 @@ class CampusBuilding(models.Model):
     _name = 'campus.building'
     _description = 'Campus Building'
     _order = 'name'
-    # No _check_company_auto here: the flag only does something when a field
-    # on the model carries check_company=True, and none does. Declared, it
-    # read as multi-company protection that was never in force.
 
-    # `code` is optional, so buildings without a code must stay unconstrained;
-    # COALESCE keeps company-less buildings in a single bucket (NULLs are
-    # otherwise distinct in PostgreSQL and would defeat the constraint).
     _check_code_unique = models.UniqueIndex(
-        "(code, COALESCE(company_id, 0)) WHERE code IS NOT NULL",
-        "Building code must be unique per company!",
+        "(code) WHERE code IS NOT NULL",
+        "Building code must be unique!",
     )
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code')
     location = fields.Char(string='Location', required=True, help="Example: Campus A Sudirman")
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
 
 class CampusRoom(models.Model):
     _name = 'campus.room'
     _description = 'Campus Room'
     _order = 'name'
-    _check_company_auto = True
 
     _check_name_building_unique = models.Constraint(
         'UNIQUE (name, building_id)',
@@ -36,13 +28,12 @@ class CampusRoom(models.Model):
     )
 
     name = fields.Char(string='Name', required=True)
-    building_id = fields.Many2one('campus.building', string='Building', required=True, check_company=True)
+    building_id = fields.Many2one('campus.building', string='Building', required=True)
     capacity = fields.Integer(string='Capacity', required=True)
     room_type = fields.Selection([
         ('theory', 'Theory'),
         ('lab', 'Laboratory')
     ], string='Room Type', required=True, default='theory')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     @api.constrains('capacity')
     def _check_capacity(self):

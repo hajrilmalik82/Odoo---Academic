@@ -141,3 +141,12 @@ class TestLecturerPicker(CampusCommon):
                 arch = self.env[model].get_view(self.env.ref(xmlid).id, view_type)['arch']
                 self.assertIn('class_program_id', arch)
                 self.assertIn('class_faculty_id', arch)
+
+    def test_server_side_rejects_far_faculty_or_non_lecturer_on_schedule_and_session(self):
+        from odoo.exceptions import ValidationError
+        with self.assertRaises(ValidationError):
+            self.schedule.lecturer_id = self.far_lecturer
+        with self.assertRaises(ValidationError):
+            self.schedule.lecturer_id = self.staff
+        with self.assertRaises(ValidationError):
+            self.session.lecturer_id = self.far_lecturer

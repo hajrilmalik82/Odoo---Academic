@@ -30,16 +30,19 @@
                             invisible="state != 'graduated' or graduation_id != False"/>
                     <button name="action_supervisor_reject" string="Reject"
                             type="object" class="btn-danger"
-                            invisible="state not in ('supervisor_approval', 'proposal')"/>
+                            invisible="state not in ('supervisor_approval', 'proposal')"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_yudisium_return_to_docs" string="Return for Document Revision"
                             type="object" class="btn-warning"
-                            invisible="state not in ('yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean')"/>
+                            invisible="state not in ('yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean')"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_reset_to_draft" string="Reset to Draft"
                             type="object" class="btn-secondary"
                             invisible="state not in ('supervisor_rejected', 'cancelled')"/>
                     <button name="action_cancel" string="Cancel"
                             type="object" class="btn-secondary"
-                            invisible="state in ('graduated', 'cancelled')"/>
+                            invisible="state in ('graduated', 'cancelled')"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <field name="state" widget="statusbar"
                            statusbar_visible="draft,supervisor_approval,proposal,thesis,yudisium_docs,yudisium_supervisor,yudisium_advisor,yudisium_dean,graduated"/>
                 </header>
@@ -71,19 +74,18 @@
                         <group string="Student &amp; Curriculum Gate">
                             <field name="student_id" readonly="state != 'draft'"/>
                             <field name="nim"/>
-                            <field name="faculty_id"/>
-                            <field name="program_id"/>
-                            <field name="academic_year_id"/>
+                            <field name="faculty_id" readonly="1"/>
+                            <field name="program_id" readonly="1"/>
+                            <field name="academic_year_id" readonly="state != 'draft'"/>
                             <field name="advisor_id"/>
                             <field name="dean_id"/>
                             <field name="research_method_passed" widget="boolean"/>
                             <field name="thesis_course_enrolled" widget="boolean"/>
-                            <field name="company_id" invisible="1"/>
                         </group>
                         <group string="Supervision &amp; Progress">
-                            <field name="supervisor_id"/>
+                            <field name="supervisor_id" readonly="state not in ('draft', 'supervisor_rejected')"/>
                             <field name="supervisor_approved" readonly="1"/>
-                            <field name="co_supervisor_id"/>
+                            <field name="co_supervisor_id" readonly="state not in ('draft', 'supervisor_rejected')"/>
                             <field name="co_supervisor_approved" readonly="1" invisible="not co_supervisor_id"/>
                             <field name="proposal_progress" widget="progressbar"/>
                             <field name="thesis_progress" widget="progressbar"/>
@@ -216,7 +218,6 @@
                 <field name="supervisor_id"/>
                 <field name="overall_progress" widget="progressbar"/>
                 <field name="graduation_id" optional="show"/>
-                <field name="company_id" column_invisible="1"/>
                 <field name="state" widget="badge"
                        decoration-info="state in ('supervisor_approval', 'proposal', 'proposal_approved', 'thesis')"
                        decoration-warning="state in ('yudisium_docs', 'yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean')"

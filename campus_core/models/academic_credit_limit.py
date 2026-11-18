@@ -8,7 +8,7 @@ class AcademicCreditLimit(models.Model):
     This used to be an if/elif ladder inside academic.krs with the thresholds
     and the credit caps written as literals, so changing campus policy meant
     changing code and redeploying. It is ordinary master data: registrars adjust
-    it, often between terms, and it differs per institution.
+    it, often between terms.
 
     Bands are read highest first and the first one the student's CGPA reaches
     wins, so a band at 0.0 acts as the floor for everyone else.
@@ -17,23 +17,11 @@ class AcademicCreditLimit(models.Model):
     _name = 'academic.credit.limit'
     _description = 'Credit Limit by CGPA'
     # Highest threshold first, because the lookup takes the first band the
-    # CGPA reaches; company_id only breaks a tie, so an institution's own
-    # band wins over the shipped global one AT THE SAME CGPA and never
-    # overtakes a higher band. id last so the result never depends on row order.
-    # NULLS LAST is not decoration: PostgreSQL sorts NULLs FIRST on DESC, so
-    # without it the shared band (company_id NULL) outranked an institution's
-    # own band at the same threshold - the exact opposite of the intent.
-    _order = 'min_cgpa desc, company_id desc nulls last, id desc'
-    # No _check_company_auto here: the flag only does something when a field
-    # on the model carries check_company=True, and none does. Declared, it
-    # read as multi-company protection that was never in force.
+    # CGPA reaches; id last so the result never depends on row order.
+    _order = 'min_cgpa desc, id desc'
 
-    # COALESCE, not a plain UNIQUE: PostgreSQL treats NULLs as distinct, and
-    # every band this module ships has company_id unset, so the plain
-    # constraint allowed any number of duplicate bands at the same CGPA - the
-    # one case it was written to stop. Same shape as res.partner's NIM index.
-    _unique_band_per_company = models.UniqueIndex(
-        "(min_cgpa, COALESCE(company_id, 0))",
+    _unique_band = models.Constraint(
+        'UNIQUE (min_cgpa)',
         "Only one credit limit band may start at a given CGPA.",
     )
 
@@ -44,9 +32,6 @@ class AcademicCreditLimit(models.Model):
     max_credits = fields.Integer(
         string='Maximum Credits (SKS)', required=True,
         help="Most credits a student in this band may register in one term.",
-    )
-    company_id = fields.Many2one(
-        'res.company', string='Company', default=lambda self: self.env.company,
     )
 
     @api.depends('min_cgpa', 'max_credits')
@@ -66,18 +51,10 @@ class AcademicCreditLimit(models.Model):
                 raise ValidationError(_("Maximum credits must be greater than zero."))
 
     @api.model
-    def _get_max_credits(self, cgpa, company=None):
-        """Credit cap for a CGPA, or None when no band is configured.
-
-        Scoped to one institution plus the company-less bands the module ships,
-        and ordered so a company's own band wins over the shared fallback. The
-        lookup is sudo'd by its callers, so no multi-company record rule could
-        correct an unscoped search afterwards.
-        """
-        company = company or self.env.company
+    def _get_max_credits(self, cgpa):
+        """Credit cap for a CGPA, or None when no band is configured."""
         band = self.search(
-            [('min_cgpa', '<=', cgpa or 0.0),
-             ('company_id', 'in', [company.id, False])],
-            order='min_cgpa desc, company_id desc nulls last, id desc', limit=1,
+            [('min_cgpa', '<=', cgpa or 0.0)],
+            order='min_cgpa desc, id desc', limit=1,
         )
         return band.max_credits if band else None

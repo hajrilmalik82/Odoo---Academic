@@ -12,7 +12,6 @@
                 <field name="participant_count"/>
                 <field name="quota"/>
                 <field name="academic_year_id" optional="show"/>
-                <field name="company_id" column_invisible="1"/>
                 <field name="state" widget="badge"
                        decoration-success="state == 'open'"
                        decoration-warning="state == 'closed'"
@@ -60,7 +59,6 @@
                         <group>
                             <field name="academic_year_id"/>
                             <field name="quota"/>
-                            <field name="company_id" invisible="1"/>
                         </group>
                     </group>
                 </sheet>

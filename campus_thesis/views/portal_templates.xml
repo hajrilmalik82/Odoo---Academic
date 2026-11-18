@@ -116,7 +116,7 @@
                                 <label class="form-label fw-bold">Primary Supervisor <span class="text-danger">*</span></label>
                                 <select name="supervisor_id" class="form-select" required="required">
                                     <option value="">-- Select Primary Supervisor --</option>
-                                    <t t-foreach="lecturers" t-as="lecturer">
+                                    <t t-foreach="primary_lecturers" t-as="lecturer">
                                         <option t-att-value="lecturer.id">
                                             <t t-out="lecturer.name"/>
                                             <t t-if="lecturer.program_id"> (<t t-out="lecturer.program_id.name"/>)</t>
@@ -128,7 +128,7 @@
                                 <label class="form-label fw-bold">Co-Supervisor (Optional)</label>
                                 <select name="co_supervisor_id" class="form-select">
                                     <option value="">-- None --</option>
-                                    <t t-foreach="lecturers" t-as="lecturer">
+                                    <t t-foreach="co_lecturers" t-as="lecturer">
                                         <option t-att-value="lecturer.id">
                                             <t t-out="lecturer.name"/>
                                             <t t-if="lecturer.program_id"> (<t t-out="lecturer.program_id.name"/>)</t>
@@ -307,7 +307,7 @@
                                 <div class="col-md-6">
                                     <label class="form-label fw-bold">Primary Supervisor</label>
                                     <select name="supervisor_id" class="form-select" required="required">
-                                        <t t-foreach="lecturers" t-as="lecturer">
+                                        <t t-foreach="primary_lecturers" t-as="lecturer">
                                             <option t-att-value="lecturer.id"
                                                     t-att-selected="'selected' if lecturer.id == thesis.supervisor_id.id else None">
                                                 <t t-out="lecturer.name"/>
@@ -319,10 +319,11 @@
                                     <label class="form-label fw-bold">Co-Supervisor (Optional)</label>
                                     <select name="co_supervisor_id" class="form-select">
                                         <option value="">-- None --</option>
-                                        <t t-foreach="lecturers" t-as="lecturer">
+                                        <t t-foreach="co_lecturers" t-as="lecturer">
                                             <option t-att-value="lecturer.id"
                                                     t-att-selected="'selected' if lecturer.id == thesis.co_supervisor_id.id else None">
                                                 <t t-out="lecturer.name"/>
+                                                <t t-if="lecturer.program_id"> (<t t-out="lecturer.program_id.name"/>)</t>
                                             </option>
                                         </t>
                                     </select>

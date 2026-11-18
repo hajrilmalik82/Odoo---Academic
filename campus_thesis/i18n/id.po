@@ -20,17 +20,13 @@ msgstr ""
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "%(name)s is not a lecturer and cannot be assigned as Co-Supervisor."
-msgstr ""
-"%(name)s bukan dosen sehingga tidak dapat ditunjuk sebagai Pembimbing "
-"Pendamping."
+msgstr "%(name)s bukan dosen sehingga tidak dapat ditunjuk sebagai Pembimbing Pendamping."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"%(name)s is not a lecturer and cannot be assigned as Primary Supervisor."
-msgstr ""
-"%(name)s bukan dosen sehingga tidak dapat ditunjuk sebagai Pembimbing Utama."
+msgid "%(name)s is not a lecturer and cannot be assigned as Primary Supervisor."
+msgstr "%(name)s bukan dosen sehingga tidak dapat ditunjuk sebagai Pembimbing Utama."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
@@ -77,8 +73,7 @@ msgstr "<i class=\"fa fa-download me-1\"/> Unduh PDF"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "<i class=\"fa fa-edit me-1\"/> Go to My KRS to Enroll in Thesis Subject"
-msgstr ""
-"<i class=\"fa fa-edit me-1\"/> Buka KRS untuk Mengambil Mata Kuliah Skripsi"
+msgstr "<i class=\"fa fa-edit me-1\"/> Buka KRS untuk Mengambil Mata Kuliah Skripsi"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -87,12 +82,8 @@ msgstr "<i class=\"fa fa-graduation-cap me-2\"/> Modul Skripsi &amp; Wisuda"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
-msgid ""
-"<i class=\"fa fa-graduation-cap me-2\"/> Yudisium Completed — Nearest "
-"Graduation Schedule"
-msgstr ""
-"<i class=\"fa fa-graduation-cap me-2\"/> Yudisium Selesai — Jadwal Wisuda "
-"Terdekat"
+msgid "<i class=\"fa fa-graduation-cap me-2\"/> Yudisium Completed — Nearest Graduation Schedule"
+msgstr "<i class=\"fa fa-graduation-cap me-2\"/> Yudisium Selesai — Jadwal Wisuda Terdekat"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
@@ -101,6 +92,9 @@ msgid ""
 "                You cannot register for a Thesis yet because you have not passed a\n"
 "                <strong>Research Methodology</strong> subject in your KHS."
 msgstr ""
+"<i class=\"fa fa-info-circle me-2\"/>\n"
+"                Anda belum dapat mendaftar Skripsi karena belum lulus mata kuliah\n"
+"                <strong>Metodologi Penelitian</strong> pada KHS Anda."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -114,12 +108,8 @@ msgstr "<i class=\"fa fa-plus me-1\"/> Kirim Catatan Progres"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
-msgid ""
-"<i class=\"fa fa-plus-circle me-2\"/>Register New Thesis &amp; Choose "
-"Supervisor"
-msgstr ""
-"<i class=\"fa fa-plus-circle me-2\"/>Daftar Skripsi Baru &amp; Pilih "
-"Pembimbing"
+msgid "<i class=\"fa fa-plus-circle me-2\"/>Register New Thesis &amp; Choose Supervisor"
+msgstr "<i class=\"fa fa-plus-circle me-2\"/>Daftar Skripsi Baru &amp; Pilih Pembimbing"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -133,9 +123,7 @@ msgstr "<i class=\"fa fa-save me-1\"/> Buat Draf Skripsi"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<i class=\"fa fa-sitemap text-info me-2\"/> End-to-End Thesis &amp; Yudisium"
-" Workflow"
+msgid "<i class=\"fa fa-sitemap text-info me-2\"/> End-to-End Thesis &amp; Yudisium Workflow"
 msgstr ""
 
 #. module: campus_thesis
@@ -172,8 +160,7 @@ msgstr "<span><strong>1. Metode Penelitian (Lulus di KHS)</strong></span>"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
 msgid "<span><strong>2. Thesis Course (Approved/Locked KRS)</strong></span>"
-msgstr ""
-"<span><strong>2. Mata Kuliah Skripsi (KRS Disetujui/Dikunci)</strong></span>"
+msgstr "<span><strong>2. Mata Kuliah Skripsi (KRS Disetujui/Dikunci)</strong></span>"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -202,10 +189,7 @@ msgstr "<strong>Pembimbing Pendamping:</strong>"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Curriculum Prerequisite (Research Methodology):</strong> Only "
-"students who have passed a Research Methodology subject in their KHS may "
-"register a thesis."
+msgid "<strong>Curriculum Prerequisite (Research Methodology):</strong> Only students who have passed a Research Methodology subject in their KHS may register a thesis."
 msgstr ""
 
 #. module: campus_thesis
@@ -225,10 +209,7 @@ msgstr "<strong>Lokasi / Tempat:</strong>"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Nearest Graduation Schedule:</strong> Final Dean approval marks the "
-"student as Graduated and automatically assigns the nearest open Wisuda "
-"batch."
+msgid "<strong>Nearest Graduation Schedule:</strong> Final Dean approval marks the student as Graduated and automatically assigns the nearest open Wisuda batch."
 msgstr ""
 
 #. module: campus_thesis
@@ -242,12 +223,12 @@ msgid ""
 "<strong>Proposal Approved:</strong> The student must enroll in a Thesis course\n"
 "                        in an Approved or Locked KRS before starting the Thesis Stage."
 msgstr ""
+"<strong>Proposal Disetujui:</strong> Mahasiswa harus mengambil mata kuliah Skripsi\n"
+"                        pada KRS yang Disetujui atau Dikunci sebelum memulai Tahap Skripsi."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Proposal Stage:</strong> Students log consultation progress until "
-"the Primary Supervisor approves the proposal."
+msgid "<strong>Proposal Stage:</strong> Students log consultation progress until the Primary Supervisor approves the proposal."
 msgstr ""
 
 #. module: campus_thesis
@@ -257,17 +238,12 @@ msgstr "<strong>Ditolak:</strong>"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Supervisor Selection &amp; Approval:</strong> Students pick a "
-"Primary Supervisor (and optional Co-Supervisor). Assigned lecturers approve "
-"or reject with feedback."
+msgid "<strong>Supervisor Selection &amp; Approval:</strong> Students pick a Primary Supervisor (and optional Co-Supervisor). Assigned lecturers approve or reject with feedback."
 msgstr ""
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Thesis Course Gate:</strong> Proceeding to the Thesis Stage requires"
-" enrolling in a Thesis subject in an Approved or Locked KRS."
+msgid "<strong>Thesis Course Gate:</strong> Proceeding to the Thesis Stage requires enrolling in a Thesis subject in an Approved or Locked KRS."
 msgstr ""
 
 #. module: campus_thesis
@@ -277,18 +253,13 @@ msgstr "<strong>Yudisium Disetujui:</strong> Terdaftar pada Jadwal Wisuda"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Yudisium Filing &amp; Sequential Approval:</strong> Once the thesis "
-"is approved and required documents are verified, clearance runs "
-"sequentially: <em>Thesis Supervisor → Academic Advisor (PA) → Dean of "
-"Faculty</em>."
+msgid "<strong>Yudisium Filing &amp; Sequential Approval:</strong> Once the thesis is approved and required documents are verified, clearance runs sequentially: <em>Thesis Supervisor → Academic Advisor (PA) → Dean of Faculty</em>."
 msgstr ""
 
 #. module: campus_thesis
 #: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_unique_active_thesis_per_student
 msgid "A student can only have one active thesis at a time."
-msgstr ""
-"Satu mahasiswa hanya boleh memiliki satu skripsi aktif pada satu waktu."
+msgstr "Satu mahasiswa hanya boleh memiliki satu skripsi aktif pada satu waktu."
 
 #. module: campus_thesis
 #. odoo-python
@@ -324,7 +295,7 @@ msgstr "Aksi"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_needaction
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_needaction
 msgid "Action Needed"
-msgstr ""
+msgstr "Perlu Tindakan"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__mode
@@ -339,11 +310,8 @@ msgstr "Aktif / Berjalan"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Active or graduated thesis records cannot be deleted. Cancel them instead."
-msgstr ""
-"Data skripsi yang sedang berjalan atau sudah lulus tidak dapat dihapus. "
-"Batalkan sebagai gantinya."
+msgid "Active or graduated thesis records cannot be deleted. Cancel them instead."
+msgstr "Data skripsi yang sedang berjalan atau sudah lulus tidak dapat dihapus. Batalkan sebagai gantinya."
 
 #. module: campus_thesis
 #. odoo-python
@@ -355,25 +323,25 @@ msgstr "Bimbingan skripsi aktif (%(count)s): %(titles)s"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_ids
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_ids
 msgid "Activities"
-msgstr ""
+msgstr "Aktivitas"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_exception_decoration
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_exception_decoration
 msgid "Activity Exception Decoration"
-msgstr ""
+msgstr "Dekorasi Pengecualian Aktivitas"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_state
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_state
 msgid "Activity State"
-msgstr ""
+msgstr "Status Aktivitas"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_type_icon
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_type_icon
 msgid "Activity Type Icon"
-msgstr ""
+msgstr "Ikon Jenis Aktivitas"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.report_thesis_document
@@ -388,20 +356,14 @@ msgstr "Tanggal Yudisium PA"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"All required Yudisium documents must be verified before submitting for "
-"Yudisium approval."
-msgstr ""
-"Semua berkas wajib Yudisium harus diverifikasi sebelum diajukan untuk "
-"persetujuan Yudisium."
+msgid "All required Yudisium documents must be verified before submitting for Yudisium approval."
+msgstr "Semua berkas wajib Yudisium harus diverifikasi sebelum diajukan untuk persetujuan Yudisium."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Approval flags can only be updated through the official approval buttons."
-msgstr ""
-"Status persetujuan hanya dapat diubah melalui tombol persetujuan resmi."
+msgid "Approval flags can only be updated through the official approval buttons."
+msgstr "Status persetujuan hanya dapat diubah melalui tombol persetujuan resmi."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
@@ -446,7 +408,7 @@ msgstr "Setujui Yudisium (Pembimbing)"
 #. module: campus_thesis
 #: model:mail.activity.type,summary:campus_thesis.mail_activity_type_thesis_supervisor
 msgid "Approve or reject student thesis supervision request"
-msgstr ""
+msgstr "Setujui atau tolak pengajuan pembimbingan skripsi mahasiswa"
 
 #. module: campus_thesis
 #: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis_progress__state__approved
@@ -469,7 +431,7 @@ msgstr "Ditempatkan pada jadwal wisuda terdekat: %s."
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_attachment_count
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_attachment_count
 msgid "Attachment Count"
-msgstr ""
+msgstr "Jumlah Lampiran"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__name
@@ -479,7 +441,7 @@ msgstr "Nama Periode"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
 msgid "Brief summary of problem statement and methodology..."
-msgstr ""
+msgstr "Ringkasan singkat rumusan masalah dan metodologi..."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -501,20 +463,14 @@ msgstr "Dibatalkan"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Cannot log %(stage)s progress while the thesis is in '%(state)s' status."
-msgstr ""
-"Tidak dapat mencatat progres %(stage)s saat skripsi berstatus '%(state)s'."
+msgid "Cannot log %(stage)s progress while the thesis is in '%(state)s' status."
+msgstr "Tidak dapat mencatat progres %(stage)s saat skripsi berstatus '%(state)s'."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Cannot start Thesis stage: %(student)s has not enrolled in a Thesis subject "
-"in an approved or locked KRS yet."
-msgstr ""
-"Tidak dapat memulai tahap Skripsi: %(student)s belum mengambil mata kuliah "
-"Skripsi di KRS yang Disetujui atau Dikunci."
+msgid "Cannot start Thesis stage: %(student)s has not enrolled in a Thesis subject in an approved or locked KRS yet."
+msgstr "Tidak dapat memulai tahap Skripsi: %(student)s belum mengambil mata kuliah Skripsi di KRS yang Disetujui atau Dikunci."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
@@ -540,7 +496,7 @@ msgstr "Pembimbing Pendamping"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Co-Supervisor ("
-msgstr ""
+msgstr "Pembimbing Pendamping ("
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__co_supervisor_id
@@ -570,7 +526,7 @@ msgstr "Selesai"
 #. module: campus_thesis
 #: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_thesis_requirement
 msgid "Configure required documents for Yudisium filing."
-msgstr ""
+msgstr "Atur dokumen persyaratan untuk pemberkasan Yudisium."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
@@ -580,12 +536,12 @@ msgstr "Konfirmasi"
 #. module: campus_thesis
 #: model:ir.model,name:campus_thesis.model_res_partner
 msgid "Contact"
-msgstr ""
+msgstr "Kontak"
 
 #. module: campus_thesis
 #: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_graduation_schedule
 msgid "Create the first graduation schedule (Wisuda)."
-msgstr ""
+msgstr "Buat jadwal wisuda pertama."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__create_uid
@@ -595,7 +551,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__create_uid
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__create_uid
 msgid "Created by"
-msgstr ""
+msgstr "Dibuat oleh"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__create_date
@@ -605,7 +561,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__create_date
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__create_date
 msgid "Created on"
-msgstr ""
+msgstr "Dibuat pada"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__date
@@ -636,7 +592,7 @@ msgstr "Dekan Fakultas"
 #: model:ir.model.fields,field_description:campus_thesis.field_hr_employee__display_name
 #: model:ir.model.fields,field_description:campus_thesis.field_res_partner__display_name
 msgid "Display Name"
-msgstr ""
+msgstr "Nama Tampilan"
 
 #. module: campus_thesis
 #. odoo-python
@@ -680,17 +636,17 @@ msgstr "Berkas Draf (Opsional)"
 #. module: campus_thesis
 #: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_document_unique_document_type_per_thesis
 msgid "Each Yudisium document type can only appear once per thesis."
-msgstr ""
+msgstr "Setiap jenis dokumen Yudisium hanya dapat muncul satu kali per skripsi."
 
 #. module: campus_thesis
 #: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_requirement_unique_requirement
 msgid "Each Yudisium document type may only be configured once per company."
-msgstr ""
+msgstr "Setiap jenis dokumen Yudisium hanya dapat dikonfigurasi satu kali."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Edit Thesis Proposal &amp; Choose Supervisor"
-msgstr ""
+msgstr "Ubah Proposal Skripsi &amp; Pilih Pembimbing"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
@@ -700,7 +656,7 @@ msgstr "Memenuhi Syarat / Lulus"
 #. module: campus_thesis
 #: model:ir.model,name:campus_thesis.model_hr_employee
 msgid "Employee"
-msgstr ""
+msgstr "Pegawai"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
@@ -710,12 +666,12 @@ msgstr "Sudah Diambil"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_reject_wizard_form
 msgid "Enter clear feedback or reason for rejection / revision..."
-msgstr ""
+msgstr "Masukkan masukan atau alasan penolakan / revisi yang jelas..."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
 msgid "Enter your proposed thesis title..."
-msgstr ""
+msgstr "Masukkan usulan judul skripsi Anda..."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__faculty_id
@@ -750,19 +706,19 @@ msgstr "Bebas Keuangan / UKT"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_follower_ids
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_follower_ids
 msgid "Followers"
-msgstr ""
+msgstr "Pengikut"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_partner_ids
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_partner_ids
 msgid "Followers (Partners)"
-msgstr ""
+msgstr "Pengikut (Mitra)"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_type_icon
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_type_icon
 msgid "Font awesome icon e.g. fa-tasks"
-msgstr ""
+msgstr "Ikon Font Awesome mis. fa-tasks"
 
 #. module: campus_thesis
 #. odoo-python
@@ -842,19 +798,19 @@ msgstr "Catatan Bimbingan"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Guidance Progress"
-msgstr ""
+msgstr "Kemajuan Bimbingan"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "Guidance progress log submitted for supervisor review."
-msgstr ""
+msgstr "Catatan kemajuan bimbingan dikirim untuk ditinjau pembimbing."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__has_message
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__has_message
 msgid "Has Message"
-msgstr ""
+msgstr "Memiliki Pesan"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_academic_subject__id
@@ -867,25 +823,25 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_thesis.field_hr_employee__id
 #: model:ir.model.fields,field_description:campus_thesis.field_res_partner__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_exception_icon
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_exception_icon
 msgid "Icon"
-msgstr ""
+msgstr "Ikon"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_exception_icon
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_exception_icon
 msgid "Icon to indicate an exception activity."
-msgstr ""
+msgstr "Ikon penanda aktivitas pengecualian."
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_needaction
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_needaction
 msgid "If checked, new messages require your attention."
-msgstr ""
+msgstr "Jika dicentang, pesan baru memerlukan perhatian Anda."
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_has_error
@@ -893,7 +849,7 @@ msgstr ""
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_has_error
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_has_sms_error
 msgid "If checked, some messages have a delivery error."
-msgstr ""
+msgstr "Jika dicentang, terdapat pesan yang gagal terkirim."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -910,12 +866,12 @@ msgstr "Perubahan status skripsi dari '%(old)s' ke '%(new)s' tidak valid."
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_is_follower
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_is_follower
 msgid "Is Follower"
-msgstr ""
+msgstr "Adalah Pengikut"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__name
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__write_uid
@@ -925,7 +881,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__write_uid
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__write_uid
 msgid "Last Updated by"
-msgstr ""
+msgstr "Terakhir Diperbarui oleh"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__write_date
@@ -935,13 +891,12 @@ msgstr ""
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__write_date
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__write_date
 msgid "Last Updated on"
-msgstr ""
+msgstr "Terakhir Diperbarui pada"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__registration_deadline
-msgid ""
-"Latest date a student completing Yudisium can be assigned to this batch."
-msgstr ""
+msgid "Latest date a student completing Yudisium can be assigned to this batch."
+msgstr "Batas tanggal terakhir mahasiswa lulus Yudisium untuk masuk periode wisuda ini."
 
 #. module: campus_thesis
 #. odoo-python
@@ -957,14 +912,11 @@ msgstr "Lokasi / Tempat"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Log"
-msgstr ""
+msgstr "Catat"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"Manages the full academic lifecycle from Research Methodology prerequisite "
-"verification, supervisor approval, proposal &amp; thesis progress logs, "
-"sequential Yudisium clearance, to nearest Graduation (Wisuda) assignment."
+msgid "Manages the full academic lifecycle from Research Methodology prerequisite verification, supervisor approval, proposal &amp; thesis progress logs, sequential Yudisium clearance, to nearest Graduation (Wisuda) assignment."
 msgstr ""
 
 #. module: campus_thesis
@@ -974,28 +926,25 @@ msgstr "Tandai Selesai"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_academic_subject__thesis_role
-msgid ""
-"Marks subjects that gate the thesis workflow: passing Research Methodology "
-"unlocks thesis registration; enrolling in Thesis unlocks the thesis writing "
-"stage after proposal approval."
-msgstr ""
+msgid "Marks subjects that gate the thesis workflow: passing Research Methodology unlocks thesis registration; enrolling in Thesis unlocks the thesis writing stage after proposal approval."
+msgstr "Menandai mata kuliah gerbang skripsi: lulus Metodologi Penelitian membuka pendaftaran skripsi; mengambil mata kuliah Skripsi membuka tahap penulisan setelah proposal disetujui."
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__quota
 msgid "Maximum participants allowed for this ceremony. Leave 0 for unlimited."
-msgstr ""
+msgstr "Jumlah maksimum peserta wisuda ini. Isi 0 untuk tanpa batas."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_has_error
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_has_error
 msgid "Message Delivery error"
-msgstr ""
+msgstr "Kesalahan Pengiriman Pesan"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_ids
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_ids
 msgid "Messages"
-msgstr ""
+msgstr "Pesan"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -1010,19 +959,19 @@ msgstr "Tahapan / Bab"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Milestone / Chapter <span class=\"text-danger\">*</span>"
-msgstr ""
+msgstr "Tahap / Bab <span class=\"text-danger\">*</span>"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "Milestone and progress notes are required."
-msgstr ""
+msgstr "Tahap/Bab dan catatan kemajuan wajib diisi."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__my_activity_date_deadline
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__my_activity_date_deadline
 msgid "My Activity Deadline"
-msgstr ""
+msgstr "Tenggat Aktivitas Saya"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_breadcrumbs
@@ -1046,25 +995,25 @@ msgstr "Data skripsi baru harus dimulai dengan status Draf."
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_date_deadline
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_date_deadline
 msgid "Next Activity Deadline"
-msgstr ""
+msgstr "Tenggat Aktivitas Berikutnya"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_summary
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_summary
 msgid "Next Activity Summary"
-msgstr ""
+msgstr "Ringkasan Aktivitas Berikutnya"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_type_id
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_type_id
 msgid "Next Activity Type"
-msgstr ""
+msgstr "Jenis Aktivitas Berikutnya"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "No active academic year is configured."
-msgstr ""
+msgstr "Belum ada tahun akademik aktif yang dikonfigurasi."
 
 #. module: campus_thesis
 #. odoo-python
@@ -1076,9 +1025,7 @@ msgstr "Belum ada jadwal wisuda terbuka yang tersedia."
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "No upcoming open graduation schedule found yet; assign once scheduled."
-msgstr ""
-"Belum ada jadwal wisuda mendatang yang terbuka; tetapkan setelah "
-"dijadwalkan."
+msgstr "Belum ada jadwal wisuda mendatang yang terbuka; tetapkan setelah dijadwalkan."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
@@ -1104,25 +1051,25 @@ msgstr "Catatan"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_needaction_counter
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_needaction_counter
 msgid "Number of Actions"
-msgstr ""
+msgstr "Jumlah Tindakan"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_has_error_counter
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_has_error_counter
 msgid "Number of errors"
-msgstr ""
+msgstr "Jumlah kesalahan"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_needaction_counter
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_needaction_counter
 msgid "Number of messages requiring action"
-msgstr ""
+msgstr "Jumlah pesan yang memerlukan tindakan"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__message_has_error_counter
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr ""
+msgstr "Jumlah pesan yang gagal dikirim"
 
 #. module: campus_thesis
 #. odoo-python
@@ -1133,11 +1080,8 @@ msgstr "Pas Foto Resmi Wisuda"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Only Academic Staff or Campus Administrators can verify Yudisium documents."
-msgstr ""
-"Hanya Staf Akademik atau Admin Kampus yang dapat memverifikasi berkas "
-"Yudisium."
+msgid "Only Academic Staff or Campus Administrators can verify Yudisium documents."
+msgstr "Hanya Staf Akademik atau Admin Kampus yang dapat memverifikasi berkas Yudisium."
 
 #. module: campus_thesis
 #. odoo-python
@@ -1154,41 +1098,26 @@ msgstr "Hanya kontak bertipe Mahasiswa yang dapat mendaftarkan skripsi."
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Only the assigned %(role)s or a Campus Administrator may perform this "
-"action."
-msgstr ""
-"Hanya %(role)s terkait atau Admin Kampus yang boleh melakukan aksi ini."
+msgid "Only the assigned %(role)s or a Campus Administrator may perform this action."
+msgstr "Hanya %(role)s terkait atau Admin Kampus yang boleh melakukan aksi ini."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Only the assigned %(role)s or a Campus Administrator may return this "
-"Yudisium."
-msgstr ""
-"Hanya %(role)s terkait atau Admin Kampus yang boleh mengembalikan berkas "
-"Yudisium ini."
+msgid "Only the assigned %(role)s or a Campus Administrator may return this Yudisium."
+msgstr "Hanya %(role)s terkait atau Admin Kampus yang boleh mengembalikan berkas Yudisium ini."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Only the assigned Thesis Supervisor(s) can create pre-approved progress "
-"logs."
-msgstr ""
-"Hanya Dosen Pembimbing Skripsi terkait yang dapat langsung membuat catatan "
-"progres disetujui."
+msgid "Only the assigned Thesis Supervisor(s) can create pre-approved progress logs."
+msgstr "Hanya Dosen Pembimbing Skripsi terkait yang dapat langsung membuat catatan progres disetujui."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Only the assigned Thesis Supervisor(s) or Campus Administrator can review "
-"guidance logs."
-msgstr ""
-"Hanya Dosen Pembimbing Skripsi terkait atau Admin Kampus yang dapat meninjau"
-" catatan bimbingan."
+msgid "Only the assigned Thesis Supervisor(s) or Campus Administrator can review guidance logs."
+msgstr "Hanya Dosen Pembimbing Skripsi terkait atau Admin Kampus yang dapat meninjau catatan bimbingan."
 
 #. module: campus_thesis
 #: model:ir.model.fields.selection,name:campus_thesis.selection__campus_graduation_schedule__state__open
@@ -1274,12 +1203,12 @@ msgstr "Pembimbing Utama"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Primary Supervisor ("
-msgstr ""
+msgstr "Pembimbing Utama ("
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
 msgid "Primary Supervisor <span class=\"text-danger\">*</span>"
-msgstr ""
+msgstr "Pembimbing Utama <span class=\"text-danger\">*</span>"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__supervisor_approved
@@ -1324,7 +1253,7 @@ msgstr "Progres (%)"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Progress Notes <span class=\"text-danger\">*</span>"
-msgstr ""
+msgstr "Catatan Kemajuan <span class=\"text-danger\">*</span>"
 
 #. module: campus_thesis
 #. odoo-python
@@ -1336,14 +1265,13 @@ msgstr "Tahap catatan progres harus sesuai dengan tahap skripsi saat ini."
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "Progress logs can only be added during Proposal or Thesis stages."
-msgstr ""
-"Catatan progres hanya dapat ditambahkan pada tahap Proposal atau Skripsi."
+msgstr "Catatan progres hanya dapat ditambahkan pada tahap Proposal atau Skripsi."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "Progress percentage must be a valid number."
-msgstr ""
+msgstr "Persentase kemajuan harus berupa angka yang valid."
 
 #. module: campus_thesis
 #: model:ir.model.constraint,message:campus_thesis.constraint_campus_thesis_progress_progress_percent_range
@@ -1388,27 +1316,19 @@ msgstr "Tahap Proposal"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Proposal approved and Thesis course already enrolled in KRS. Advanced to "
-"Thesis Stage."
-msgstr ""
-"Proposal disetujui dan mata kuliah Skripsi sudah diambil di KRS. Dilanjutkan"
-" ke Tahap Skripsi."
+msgid "Proposal approved and Thesis course already enrolled in KRS. Advanced to Thesis Stage."
+msgstr "Proposal disetujui dan mata kuliah Skripsi sudah diambil di KRS. Dilanjutkan ke Tahap Skripsi."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Proposal approved. Student must enroll in a Thesis course in an approved KRS"
-" before starting the Thesis Stage."
-msgstr ""
-"Proposal disetujui. Mahasiswa wajib mengambil mata kuliah Skripsi pada KRS "
-"yang disetujui sebelum masuk Tahap Skripsi."
+msgid "Proposal approved. Student must enroll in a Thesis course in an approved KRS before starting the Thesis Stage."
+msgstr "Proposal disetujui. Mahasiswa wajib mengambil mata kuliah Skripsi pada KRS yang disetujui sebelum masuk Tahap Skripsi."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_my_thesis
 msgid "Proposed Thesis Title <span class=\"text-danger\">*</span>"
-msgstr ""
+msgstr "Usulan Judul Skripsi <span class=\"text-danger\">*</span>"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_reject_wizard__reason
@@ -1428,7 +1348,7 @@ msgstr "Perbarui Judul / Ringkasan Proposal"
 #. module: campus_thesis
 #: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_thesis
 msgid "Register the first student thesis!"
-msgstr ""
+msgstr "Daftarkan skripsi mahasiswa pertama!"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__registration_deadline
@@ -1525,7 +1445,7 @@ msgstr "Topik / Garis Besar Penelitian"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
 msgid "Research background, objectives, and scope..."
-msgstr ""
+msgstr "Latar belakang penelitian, tujuan, dan ruang lingkup..."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
@@ -1536,7 +1456,7 @@ msgstr "Kembalikan ke Draf"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__activity_user_id
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__activity_user_id
 msgid "Responsible User"
-msgstr ""
+msgstr "Pengguna Penanggung Jawab"
 
 #. module: campus_thesis
 #. odoo-python
@@ -1568,13 +1488,13 @@ msgstr "Status Tinjauan"
 #. module: campus_thesis
 #: model:mail.activity.type,summary:campus_thesis.mail_activity_type_yudisium_approval
 msgid "Review and approve student Yudisium clearance"
-msgstr ""
+msgstr "Tinjau dan setujui kelengkapan Yudisium mahasiswa"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Review thesis supervision request from %s"
-msgstr ""
+msgstr "Tinjau pengajuan pembimbingan skripsi dari %s"
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_progress__reviewed_by_id
@@ -1595,7 +1515,7 @@ msgstr "Revisi"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__message_has_sms_error
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__message_has_sms_error
 msgid "SMS Delivery error"
-msgstr ""
+msgstr "Kesalahan Pengiriman SMS"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -1626,7 +1546,7 @@ msgstr "Cari Persyaratan Yudisium"
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis_requirement__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Urutan"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
@@ -1669,6 +1589,10 @@ msgid ""
 "Today: Activity date is today\n"
 "Planned: Future activities."
 msgstr ""
+"Status berdasarkan aktivitas\n"
+"Terlambat: Tenggat sudah terlewat\n"
+"Hari Ini: Tenggat hari ini\n"
+"Terjadwal: Aktivitas mendatang."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__student_id
@@ -1678,42 +1602,26 @@ msgstr "Mahasiswa"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Student %(student)s cannot take a thesis yet: they must pass a Research "
-"Methodology subject in their KHS first."
-msgstr ""
-"Mahasiswa %(student)s belum dapat mengajukan skripsi: harus lulus mata "
-"kuliah Metode Penelitian pada KHS terlebih dahulu."
+msgid "Student %(student)s cannot take a thesis yet: they must pass a Research Methodology subject in their KHS first."
+msgstr "Mahasiswa %(student)s belum dapat mengajukan skripsi: harus lulus mata kuliah Metode Penelitian pada KHS terlebih dahulu."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Student %(student)s must enroll in a Thesis subject in an approved or locked"
-" KRS before entering the Thesis stage."
-msgstr ""
-"Mahasiswa %(student)s harus mengambil mata kuliah Skripsi pada KRS berstatus"
-" Disetujui atau Dikunci sebelum masuk tahap Skripsi."
+msgid "Student %(student)s must enroll in a Thesis subject in an approved or locked KRS before entering the Thesis stage."
+msgstr "Mahasiswa %(student)s harus mengambil mata kuliah Skripsi pada KRS berstatus Disetujui atau Dikunci sebelum masuk tahap Skripsi."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Student %(student)s must pass a Research Methodology subject before "
-"proceeding with their thesis."
-msgstr ""
-"Mahasiswa %(student)s harus lulus mata kuliah Metode Penelitian sebelum "
-"melanjutkan skripsi."
+msgid "Student %(student)s must pass a Research Methodology subject before proceeding with their thesis."
+msgstr "Mahasiswa %(student)s harus lulus mata kuliah Metode Penelitian sebelum melanjutkan skripsi."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Student %(student)s must pass a Research Methodology subject before "
-"submitting."
-msgstr ""
-"Mahasiswa %(student)s harus lulus mata kuliah Metode Penelitian sebelum "
-"mengajukan."
+msgid "Student %(student)s must pass a Research Methodology subject before submitting."
+msgstr "Mahasiswa %(student)s harus lulus mata kuliah Metode Penelitian sebelum mengajukan."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
@@ -1752,10 +1660,8 @@ msgstr "Status mahasiswa harus aktif untuk mengajukan skripsi."
 
 #. module: campus_thesis
 #: model_terms:ir.actions.act_window,help:campus_thesis.action_campus_thesis
-msgid ""
-"Students must have passed a Research Methodology subject in their KHS before"
-" registering."
-msgstr ""
+msgid "Students must have passed a Research Methodology subject in their KHS before registering."
+msgstr "Mahasiswa harus sudah lulus mata kuliah Metodologi Penelitian di KHS sebelum mendaftar."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__program_id
@@ -1775,7 +1681,7 @@ msgstr "Ajukan Persetujuan Yudisium"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Summarize your progress and consultation notes..."
-msgstr ""
+msgstr "Ringkas perkembangan dan catatan konsultasi Anda..."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
@@ -1786,9 +1692,7 @@ msgstr "Pembimbingan & Progres"
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Supervision approval recorded by %s. Waiting for the other supervisor."
-msgstr ""
-"Persetujuan pembimbingan dicatat oleh %s. Menunggu persetujuan pembimbing "
-"lainnya."
+msgstr "Persetujuan pembimbingan dicatat oleh %s. Menunggu persetujuan pembimbing lainnya."
 
 #. module: campus_thesis
 #. odoo-python
@@ -1822,36 +1726,25 @@ msgstr "Tanggal Yudisium Pembimbing"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Supervisor(s) approved the supervision request. Thesis moved to Proposal "
-"Stage."
-msgstr ""
-"Pembimbing menyetujui pengajuan bimbingan. Skripsi masuk ke Tahap Proposal."
+msgid "Supervisor(s) approved the supervision request. Thesis moved to Proposal Stage."
+msgstr "Pembimbing menyetujui pengajuan bimbingan. Skripsi masuk ke Tahap Proposal."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Supervisor, Academic Advisor, and Dean must all approve Yudisium before "
-"graduation."
-msgstr ""
-"Pembimbing Skripsi, Dosen PA, dan Dekan harus menyetujui Yudisium sebelum "
-"kelulusan."
+msgid "Supervisor, Academic Advisor, and Dean must all approve Yudisium before graduation."
+msgstr "Pembimbing Skripsi, Dosen PA, dan Dekan harus menyetujui Yudisium sebelum kelulusan."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "Supervisor:"
-msgstr ""
+msgstr "Pembimbing:"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Supervisors can only be changed while the thesis is in Draft or Supervisor "
-"Rejected."
-msgstr ""
-"Dosen pembimbing hanya dapat diubah saat status Draf atau Ditolak "
-"Pembimbing."
+msgid "Supervisors can only be changed while the thesis is in Draft or Supervisor Rejected."
+msgstr "Dosen pembimbing hanya dapat diubah saat status Draf atau Ditolak Pembimbing."
 
 #. module: campus_thesis
 #. odoo-python
@@ -1990,7 +1883,7 @@ msgstr "Tahap Skripsi"
 #. module: campus_thesis
 #: model:mail.activity.type,name:campus_thesis.mail_activity_type_thesis_supervisor
 msgid "Thesis Supervision Request"
-msgstr ""
+msgstr "Pengajuan Bimbingan Skripsi"
 
 #. module: campus_thesis
 #. odoo-python
@@ -2001,20 +1894,14 @@ msgstr "Dosen Pembimbing Skripsi"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Thesis Supervisor and Academic Advisor must both approve Yudisium before "
-"Dean approval."
-msgstr ""
-"Pembimbing Skripsi dan Dosen PA harus menyetujui Yudisium sebelum "
-"persetujuan Dekan."
+msgid "Thesis Supervisor and Academic Advisor must both approve Yudisium before Dean approval."
+msgstr "Pembimbing Skripsi dan Dosen PA harus menyetujui Yudisium sebelum persetujuan Dekan."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Thesis Supervisor must approve Yudisium before Academic Advisor approval."
-msgstr ""
-"Pembimbing Skripsi harus menyetujui Yudisium sebelum persetujuan Dosen PA."
+msgid "Thesis Supervisor must approve Yudisium before Academic Advisor approval."
+msgstr "Pembimbing Skripsi harus menyetujui Yudisium sebelum persetujuan Dosen PA."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__title
@@ -2045,9 +1932,7 @@ msgstr "KRS mata kuliah Skripsi terverifikasi. Masuk ke Tahap Skripsi."
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
 msgid "Thesis course enrollment verified. Welcome to the Thesis Stage!"
-msgstr ""
-"Pengambilan mata kuliah Skripsi terverifikasi. Selamat datang di Tahap "
-"Skripsi!"
+msgstr "Pengambilan mata kuliah Skripsi terverifikasi. Selamat datang di Tahap Skripsi!"
 
 #. module: campus_thesis
 #. odoo-python
@@ -2076,18 +1961,14 @@ msgstr "Skripsi ditolak oleh pembimbing. Alasan: %s"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
-msgid ""
-"Thesis returned to Draft. You may now update your supervisor and resubmit."
-msgstr ""
-"Skripsi dikembalikan ke Draf. Anda dapat memperbarui pembimbing dan "
-"mengajukan ulang."
+msgid "Thesis returned to Draft. You may now update your supervisor and resubmit."
+msgstr "Skripsi dikembalikan ke Draf. Anda dapat memperbarui pembimbing dan mengajukan ulang."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Thesis title and topic cannot be changed after proposal approval."
-msgstr ""
-"Judul dan topik skripsi tidak dapat diubah setelah proposal disetujui."
+msgstr "Judul dan topik skripsi tidak dapat diubah setelah proposal disetujui."
 
 #. module: campus_thesis
 #. odoo-python
@@ -2124,6 +2005,8 @@ msgid ""
 "To unlock the <strong>Thesis Stage</strong>, you must enroll in a\n"
 "                            <strong>Thesis / Skripsi subject</strong> in your KRS and get it Approved."
 msgstr ""
+"Untuk membuka <strong>Tahap Skripsi</strong>, Anda harus mengambil\n"
+"                            <strong>mata kuliah Skripsi</strong> di KRS dan mendapat persetujuan."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__research_topic
@@ -2135,7 +2018,7 @@ msgstr "Topik / Garis Besar Penelitian"
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__activity_exception_decoration
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__activity_exception_decoration
 msgid "Type of the exception activity on record."
-msgstr ""
+msgstr "Jenis aktivitas pengecualian pada catatan."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -2154,10 +2037,8 @@ msgstr "Unggah Berkas"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
-msgid ""
-"Upload all required Yudisium documents above; Academic Staff will verify "
-"them before sequential Yudisium approval begins."
-msgstr ""
+msgid "Upload all required Yudisium documents above; Academic Staff will verify them before sequential Yudisium approval begins."
+msgstr "Unggah seluruh dokumen wajib Yudisium di atas; Staf Akademik akan memverifikasinya sebelum persetujuan berjenjang dimulai."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
@@ -2222,20 +2103,18 @@ msgstr "Menunggu Persetujuan Pembimbing"
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_graduation_schedule__website_message_ids
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__website_message_ids
 msgid "Website Messages"
-msgstr ""
+msgstr "Pesan Situs Web"
 
 #. module: campus_thesis
 #: model:ir.model.fields,help:campus_thesis.field_campus_graduation_schedule__website_message_ids
 #: model:ir.model.fields,help:campus_thesis.field_campus_thesis__website_message_ids
 msgid "Website communication history"
-msgstr ""
+msgstr "Riwayat komunikasi situs web"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
-msgid ""
-"Your Yudisium is approved! The nearest graduation ceremony schedule will "
-"appear here once announced by the Registrar."
-msgstr ""
+msgid "Your Yudisium is approved! The nearest graduation ceremony schedule will appear here once announced by the Registrar."
+msgstr "Yudisium Anda telah disetujui! Jadwal wisuda terdekat akan muncul di sini setelah diumumkan bagian Akademik."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
@@ -2245,7 +2124,7 @@ msgstr "Yudisium & Persetujuan Berurutan"
 #. module: campus_thesis
 #: model:mail.activity.type,name:campus_thesis.mail_activity_type_yudisium_approval
 msgid "Yudisium Approval"
-msgstr ""
+msgstr "Persetujuan Yudisium"
 
 #. module: campus_thesis
 #: model:ir.model.fields.selection,name:campus_thesis.selection__campus_thesis__state__graduated
@@ -2294,44 +2173,38 @@ msgstr "Persyaratan Yudisium"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Yudisium Step 1 approved by Thesis Supervisor. Forwarded to Academic "
-"Advisor."
-msgstr ""
-"Yudisium Tahap 1 disetujui oleh Pembimbing Skripsi. Diteruskan ke Dosen PA."
+msgid "Yudisium Step 1 approved by Thesis Supervisor. Forwarded to Academic Advisor."
+msgstr "Yudisium Tahap 1 disetujui oleh Pembimbing Skripsi. Diteruskan ke Dosen PA."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Yudisium Step 1: Thesis Supervisor approval for %s"
-msgstr ""
+msgstr "Yudisium Tahap 1: Persetujuan Pembimbing Skripsi untuk %s"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
-msgid ""
-"Yudisium Step 2 approved by Academic Advisor. Forwarded to Dean of Faculty."
-msgstr ""
-"Yudisium Tahap 2 disetujui oleh Dosen PA. Diteruskan ke Dekan Fakultas."
+msgid "Yudisium Step 2 approved by Academic Advisor. Forwarded to Dean of Faculty."
+msgstr "Yudisium Tahap 2 disetujui oleh Dosen PA. Diteruskan ke Dekan Fakultas."
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Yudisium Step 2: Academic Advisor approval for %s"
-msgstr ""
+msgstr "Yudisium Tahap 2: Persetujuan Dosen PA untuk %s"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Yudisium Step 3 approved by Dean! Student status set to Graduated. %s"
-msgstr ""
-"Yudisium Tahap 3 disetujui oleh Dekan! Status mahasiswa menjadi Lulus. %s"
+msgstr "Yudisium Tahap 3 disetujui oleh Dekan! Status mahasiswa menjadi Lulus. %s"
 
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "Yudisium Step 3: Dean approval for %s"
-msgstr ""
+msgstr "Yudisium Tahap 3: Persetujuan Dekan untuk %s"
 
 #. module: campus_thesis
 #. odoo-python
@@ -2348,11 +2221,8 @@ msgstr "Yudisium dikembalikan ke tahap pemberkasan. Alasan: %s"
 #. module: campus_thesis
 #. odoo-python
 #: code:addons/campus_thesis/controllers/portal.py:0
-msgid ""
-"Yudisium submitted for sequential approval (Supervisor -> Advisor -> Dean)."
-msgstr ""
-"Yudisium diajukan untuk persetujuan berurutan (Pembimbing -> Dosen PA -> "
-"Dekan)."
+msgid "Yudisium submitted for sequential approval (Supervisor -> Advisor -> Dean)."
+msgstr "Yudisium diajukan untuk persetujuan berurutan (Pembimbing -> Dosen PA -> Dekan)."
 
 #. module: campus_thesis
 #: model:ir.model.fields,field_description:campus_thesis.field_campus_thesis__yudisium_advisor_approved
@@ -2402,17 +2272,17 @@ msgstr "Yudisium: Disetujui Pembimbing"
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.portal_thesis_detail
 msgid "e.g. Chapter 1 - Introduction"
-msgstr ""
+msgstr "mis. Bab I - Pendahuluan"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_thesis_form
 msgid "e.g. Design and Implementation of Academic ERP System"
-msgstr ""
+msgstr "mis. Perancangan dan Implementasi Sistem ERP Akademik"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.view_campus_graduation_schedule_form
 msgid "e.g. Wisuda Periode I 2026"
-msgstr ""
+msgstr "mis. Wisuda Periode I 2026"
 
 #. module: campus_thesis
 #. odoo-python
@@ -2485,18 +2355,8 @@ msgstr "Modul Skripsi, Yudisium &amp; Wisuda"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"This module guides final-year students, supervisors, academic advisors, and "
-"faculty deans through the complete thesis journey—from eligibility checks "
-"and supervisor approval, proposal and thesis progress, 3-step Yudisium "
-"clearance, to automatic placement in the nearest Graduation (Wisuda) "
-"schedule."
-msgstr ""
-"Modul ini memandu mahasiswa tingkat akhir, dosen pembimbing, dosen PA, dan "
-"dekan fakultas melalui seluruh proses tugas akhir—mulai dari pengecekan "
-"syarat awal, persetujuan pembimbing, progres proposal dan skripsi, "
-"persetujuan yudisium 3 tahap, hingga penempatan otomatis ke jadwal wisuda "
-"terdekat."
+msgid "This module guides final-year students, supervisors, academic advisors, and faculty deans through the complete thesis journey—from eligibility checks and supervisor approval, proposal and thesis progress, 3-step Yudisium clearance, to automatic placement in the nearest Graduation (Wisuda) schedule."
+msgstr "Modul ini memandu mahasiswa tingkat akhir, dosen pembimbing, dosen PA, dan dekan fakultas melalui seluruh proses tugas akhir—mulai dari pengecekan syarat awal, persetujuan pembimbing, progres proposal dan skripsi, persetujuan yudisium 3 tahap, hingga penempatan otomatis ke jadwal wisuda terdekat."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -2510,64 +2370,33 @@ msgstr "Tahap 1: Pendaftaran Skripsi &amp; Pemilihan Dosen Pembimbing"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Who performs this:</strong> Student (via Portal "
-"<code>/my/thesis</code>) or Academic Admin"
-msgstr ""
-"<strong>Pelaksana:</strong> Mahasiswa (lewat Portal <code>/my/thesis</code>)"
-" atau Admin Akademik"
+msgid "<strong>Who performs this:</strong> Student (via Portal <code>/my/thesis</code>) or Academic Admin"
+msgstr "<strong>Pelaksana:</strong> Mahasiswa (lewat Portal <code>/my/thesis</code>) atau Admin Akademik"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"Enter the proposed <strong>Thesis Title</strong>, select a <strong>Primary "
-"Supervisor</strong> (required) and an optional Co-Supervisor, then click "
-"<strong>Submit to Supervisor</strong>."
-msgstr ""
-"Masukkan rencana <strong>Judul Skripsi</strong>, pilih <strong>Pembimbing "
-"Utama</strong> (wajib) serta Pembimbing Pendamping (opsional), lalu klik "
-"<strong>Ajukan ke Pembimbing</strong>."
+msgid "Enter the proposed <strong>Thesis Title</strong>, select a <strong>Primary Supervisor</strong> (required) and an optional Co-Supervisor, then click <strong>Submit to Supervisor</strong>."
+msgstr "Masukkan rencana <strong>Judul Skripsi</strong>, pilih <strong>Pembimbing Utama</strong> (wajib) serta Pembimbing Pendamping (opsional), lalu klik <strong>Ajukan ke Pembimbing</strong>."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
-"Rules &amp; Validations (What to check if blocked):</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
-"&amp; Validasi Sistem (Apa yang harus dicek jika tertahan):</strong>"
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System Rules &amp; Validations (What to check if blocked):</strong>"
+msgstr "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan &amp; Validasi Sistem (Apa yang harus dicek jika tertahan):</strong>"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Active Student Only:</strong> Only students with <em>Active</em> "
-"status can register a thesis."
-msgstr ""
-"<strong>Khusus Mahasiswa Aktif:</strong> Hanya mahasiswa berstatus "
-"<em>Aktif</em> yang dapat mendaftarkan skripsi."
+msgid "<strong>Active Student Only:</strong> Only students with <em>Active</em> status can register a thesis."
+msgstr "<strong>Khusus Mahasiswa Aktif:</strong> Hanya mahasiswa berstatus <em>Aktif</em> yang dapat mendaftarkan skripsi."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Must Pass Research Methodology First:</strong> The student must have"
-" already passed a subject marked as <em>Research Methodology</em> in their "
-"graded KHS. If blocked, verify that the Research Methodology grade has been "
-"entered and is passing."
-msgstr ""
-"<strong>Wajib Lulus Metode Penelitian Terlebih Dahulu:</strong> Mahasiswa "
-"harus sudah lulus mata kuliah bertanda <em>Metode Penelitian</em> di KHS "
-"yang sudah dinilai. Jika tertahan, pastikan nilai Metode Penelitian sudah "
-"diinput dan dinyatakan lulus."
+msgid "<strong>Must Pass Research Methodology First:</strong> The student must have already passed a subject marked as <em>Research Methodology</em> in their graded KHS. If blocked, verify that the Research Methodology grade has been entered and is passing."
+msgstr "<strong>Wajib Lulus Metode Penelitian Terlebih Dahulu:</strong> Mahasiswa harus sudah lulus mata kuliah bertanda <em>Metode Penelitian</em> di KHS yang sudah dinilai. Jika tertahan, pastikan nilai Metode Penelitian sudah diinput dan dinyatakan lulus."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Valid Supervisors Only:</strong> Supervisors must be active "
-"Lecturers, and the Primary Supervisor and Co-Supervisor cannot be the same "
-"person."
-msgstr ""
-"<strong>Pembimbing Harus Valid:</strong> Pembimbing harus berstatus Dosen "
-"aktif, dan Pembimbing Utama tidak boleh sama dengan Pembimbing Pendamping."
+msgid "<strong>Valid Supervisors Only:</strong> Supervisors must be active Lecturers, and the Primary Supervisor and Co-Supervisor cannot be the same person."
+msgstr "<strong>Pembimbing Harus Valid:</strong> Pembimbing harus berstatus Dosen aktif, dan Pembimbing Utama tidak boleh sama dengan Pembimbing Pendamping."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -2576,49 +2405,28 @@ msgstr "Tahap 2: Persetujuan atau Penolakan oleh Dosen Pembimbing"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Who performs this:</strong> Primary Thesis Supervisor (Lecturer)"
+msgid "<strong>Who performs this:</strong> Primary Thesis Supervisor (Lecturer)"
 msgstr "<strong>Pelaksana:</strong> Dosen Pembimbing Utama Skripsi"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"The assigned Primary Supervisor reviews the request and clicks "
-"<strong>Approve</strong> to open the Proposal stage, or "
-"<strong>Reject</strong> with a written reason."
-msgstr ""
-"Dosen Pembimbing Utama meninjau pengajuan lalu klik <strong>Setujui</strong>"
-" untuk masuk ke tahap Proposal, atau klik <strong>Tolak</strong> disertai "
-"alasan tertulis."
+msgid "The assigned Primary Supervisor reviews the request and clicks <strong>Approve</strong> to open the Proposal stage, or <strong>Reject</strong> with a written reason."
+msgstr "Dosen Pembimbing Utama meninjau pengajuan lalu klik <strong>Setujui</strong> untuk masuk ke tahap Proposal, atau klik <strong>Tolak</strong> disertai alasan tertulis."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
-"Rules &amp; Validations:</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
-"&amp; Validasi Sistem:</strong>"
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System Rules &amp; Validations:</strong>"
+msgstr "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan &amp; Validasi Sistem:</strong>"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>If Rejected:</strong> The student or Admin can click <strong>Reset "
-"to Draft</strong>, revise the title or choose a different supervisor, and "
-"submit again."
-msgstr ""
-"<strong>Jika Ditolak:</strong> Mahasiswa atau Admin dapat klik "
-"<strong>Kembalikan ke Draf</strong>, memperbaiki judul atau memilih "
-"pembimbing lain, lalu mengajukan ulang."
+msgid "<strong>If Rejected:</strong> The student or Admin can click <strong>Reset to Draft</strong>, revise the title or choose a different supervisor, and submit again."
+msgstr "<strong>Jika Ditolak:</strong> Mahasiswa atau Admin dapat klik <strong>Kembalikan ke Draf</strong>, memperbaiki judul atau memilih pembimbing lain, lalu mengajukan ulang."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Access Check:</strong> Only the assigned Primary Supervisor (or "
-"Admin) can approve or reject the request."
-msgstr ""
-"<strong>Aturan Akses:</strong> Hanya Pembimbing Utama yang ditunjuk (atau "
-"Admin) yang dapat menyetujui atau menolak pengajuan."
+msgid "<strong>Access Check:</strong> Only the assigned Primary Supervisor (or Admin) can approve or reject the request."
+msgstr "<strong>Aturan Akses:</strong> Hanya Pembimbing Utama yang ditunjuk (atau Admin) yang dapat menyetujui atau menolak pengajuan."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -2627,49 +2435,23 @@ msgstr "Tahap 3: Tahap Proposal &amp; Catatan Bimbingan"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Who performs this:</strong> Student (logs progress) &amp; Primary "
-"Supervisor (reviews &amp; approves proposal)"
-msgstr ""
-"<strong>Pelaksana:</strong> Mahasiswa (mencatat progres) &amp; Pembimbing "
-"Utama (menilai &amp; menyetujui proposal)"
+msgid "<strong>Who performs this:</strong> Student (logs progress) &amp; Primary Supervisor (reviews &amp; approves proposal)"
+msgstr "<strong>Pelaksana:</strong> Mahasiswa (mencatat progres) &amp; Pembimbing Utama (menilai &amp; menyetujui proposal)"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"During the Proposal stage, the student records consultation milestones, "
-"notes, completion percentage, and optional file attachments. The supervisor "
-"reviews each log (<em>Approved</em> or <em>Needs Revision</em>) and clicks "
-"<strong>Approve Proposal</strong> when ready."
-msgstr ""
-"Pada tahap Proposal, mahasiswa mencatat tahapan bimbingan, catatan, "
-"persentase progres, serta lampiran berkas. Pembimbing meninjau setiap "
-"catatan (<em>Disetujui</em> atau <em>Perlu Revisi</em>) dan klik "
-"<strong>Setujui Proposal</strong> jika sudah siap."
+msgid "During the Proposal stage, the student records consultation milestones, notes, completion percentage, and optional file attachments. The supervisor reviews each log (<em>Approved</em> or <em>Needs Revision</em>) and clicks <strong>Approve Proposal</strong> when ready."
+msgstr "Pada tahap Proposal, mahasiswa mencatat tahapan bimbingan, catatan, persentase progres, serta lampiran berkas. Pembimbing meninjau setiap catatan (<em>Disetujui</em> atau <em>Perlu Revisi</em>) dan klik <strong>Setujui Proposal</strong> jika sudah siap."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>File Upload Rules:</strong> Uploaded files must not be empty and "
-"cannot exceed <strong>10 MB</strong>."
-msgstr ""
-"<strong>Aturan Unggah Berkas:</strong> Berkas yang diunggah tidak boleh "
-"kosong dan ukurannya maksimal <strong>10 MB</strong>."
+msgid "<strong>File Upload Rules:</strong> Uploaded files must not be empty and cannot exceed <strong>10 MB</strong>."
+msgstr "<strong>Aturan Unggah Berkas:</strong> Berkas yang diunggah tidak boleh kosong dan ukurannya maksimal <strong>10 MB</strong>."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Before Moving to Thesis Stage:</strong> To advance from Proposal to "
-"Thesis Writing, the student <strong>must already be enrolled in a Thesis "
-"subject</strong> inside an <strong>Approved</strong> or "
-"<strong>Locked</strong> KRS. If blocked here, make sure the student's KRS "
-"containing the Thesis subject has been approved by their Academic Advisor."
-msgstr ""
-"<strong>Syarat Masuk Tahap Skripsi:</strong> Untuk lanjut dari tahap "
-"Proposal ke tahap Skripsi, mahasiswa <strong>wajib sudah mengambil mata "
-"kuliah Skripsi</strong> pada KRS yang berstatus <strong>Disetujui</strong> "
-"atau <strong>Dikunci</strong>. Jika tertahan di langkah ini, pastikan KRS "
-"yang memuat mata kuliah Skripsi sudah disetujui oleh Dosen PA."
+msgid "<strong>Before Moving to Thesis Stage:</strong> To advance from Proposal to Thesis Writing, the student <strong>must already be enrolled in a Thesis subject</strong> inside an <strong>Approved</strong> or <strong>Locked</strong> KRS. If blocked here, make sure the student's KRS containing the Thesis subject has been approved by their Academic Advisor."
+msgstr "<strong>Syarat Masuk Tahap Skripsi:</strong> Untuk lanjut dari tahap Proposal ke tahap Skripsi, mahasiswa <strong>wajib sudah mengambil mata kuliah Skripsi</strong> pada KRS yang berstatus <strong>Disetujui</strong> atau <strong>Dikunci</strong>. Jika tertahan di langkah ini, pastikan KRS yang memuat mata kuliah Skripsi sudah disetujui oleh Dosen PA."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -2683,14 +2465,8 @@ msgstr "<strong>Pelaksana:</strong> Mahasiswa &amp; Pembimbing Utama"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"The student continues logging thesis consultations and drafts until "
-"completion. When finished, the Primary Supervisor clicks <strong>Approve "
-"Thesis</strong> to move the student into Yudisium Filing."
-msgstr ""
-"Mahasiswa melanjutkan pencatatan bimbingan dan penyusunan naskah skripsi "
-"hingga selesai. Jika sudah layak, Pembimbing Utama klik <strong>Setujui "
-"Skripsi</strong> untuk masuk ke tahap Pemberkasan Yudisium."
+msgid "The student continues logging thesis consultations and drafts until completion. When finished, the Primary Supervisor clicks <strong>Approve Thesis</strong> to move the student into Yudisium Filing."
+msgstr "Mahasiswa melanjutkan pencatatan bimbingan dan penyusunan naskah skripsi hingga selesai. Jika sudah layak, Pembimbing Utama klik <strong>Setujui Skripsi</strong> untuk masuk ke tahap Pemberkasan Yudisium."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -2699,81 +2475,43 @@ msgstr "Tahap 5: Pemberkasan Yudisium &amp; Persetujuan Berjenjang 3 Tahap"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Who performs this:</strong> Student / Admin (uploads documents), "
-"then Supervisor → Academic Advisor (PA) → Faculty Dean"
-msgstr ""
-"<strong>Pelaksana:</strong> Mahasiswa / Admin (unggah berkas), lalu "
-"Pembimbing Skripsi → Dosen PA → Dekan Fakultas"
+msgid "<strong>Who performs this:</strong> Student / Admin (uploads documents), then Supervisor → Academic Advisor (PA) → Faculty Dean"
+msgstr "<strong>Pelaksana:</strong> Mahasiswa / Admin (unggah berkas), lalu Pembimbing Skripsi → Dosen PA → Dekan Fakultas"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Document Filing:</strong> Upload all required Yudisium clearance "
-"documents (via Portal or Backend) and verify them, then submit for Yudisium "
-"approval."
-msgstr ""
-"<strong>Pemberkasan Dokumen:</strong> Unggah seluruh berkas syarat yudisium "
-"(lewat Portal atau Sistem) dan lakukan verifikasi, lalu ajukan untuk "
-"persetujuan yudisium."
+msgid "<strong>Document Filing:</strong> Upload all required Yudisium clearance documents (via Portal or Backend) and verify them, then submit for Yudisium approval."
+msgstr "<strong>Pemberkasan Dokumen:</strong> Unggah seluruh berkas syarat yudisium (lewat Portal atau Sistem) dan lakukan verifikasi, lalu ajukan untuk persetujuan yudisium."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Step 1 — Thesis Supervisor Approval:</strong> Primary Supervisor "
-"confirms thesis clearance."
-msgstr ""
-"<strong>Langkah 1 — Persetujuan Pembimbing Skripsi:</strong> Pembimbing "
-"Utama memberikan persetujuan yudisium."
+msgid "<strong>Step 1 — Thesis Supervisor Approval:</strong> Primary Supervisor confirms thesis clearance."
+msgstr "<strong>Langkah 1 — Persetujuan Pembimbing Skripsi:</strong> Pembimbing Utama memberikan persetujuan yudisium."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Step 2 — Academic Advisor (PA) Approval:</strong> The student's "
-"Academic Advisor confirms academic clearance."
-msgstr ""
-"<strong>Langkah 2 — Persetujuan Dosen PA:</strong> Dosen Pembimbing Akademik"
-" mahasiswa memberikan persetujuan akademik."
+msgid "<strong>Step 2 — Academic Advisor (PA) Approval:</strong> The student's Academic Advisor confirms academic clearance."
+msgstr "<strong>Langkah 2 — Persetujuan Dosen PA:</strong> Dosen Pembimbing Akademik mahasiswa memberikan persetujuan akademik."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Step 3 — Faculty Dean Approval:</strong> The Faculty Dean gives the "
-"final Yudisium sign-off."
-msgstr ""
-"<strong>Langkah 3 — Persetujuan Dekan Fakultas:</strong> Dekan Fakultas "
-"memberikan persetujuan akhir yudisium."
+msgid "<strong>Step 3 — Faculty Dean Approval:</strong> The Faculty Dean gives the final Yudisium sign-off."
+msgstr "<strong>Langkah 3 — Persetujuan Dekan Fakultas:</strong> Dekan Fakultas memberikan persetujuan akhir yudisium."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Complete Documents Required:</strong> You cannot submit Yudisium if "
-"any mandatory document is still unuploaded or unverified."
-msgstr ""
-"<strong>Berkas Wajib Harus Lengkap:</strong> Pengajuan yudisium tidak dapat "
-"dikirim jika masih ada berkas wajib yang belum diunggah atau belum "
-"diverifikasi."
+msgid "<strong>Complete Documents Required:</strong> You cannot submit Yudisium if any mandatory document is still unuploaded or unverified."
+msgstr "<strong>Berkas Wajib Harus Lengkap:</strong> Pengajuan yudisium tidak dapat dikirim jika masih ada berkas wajib yang belum diunggah atau belum diverifikasi."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Strict Order:</strong> Approvals cannot skip steps—Supervisor must "
-"approve before PA, and PA must approve before the Dean."
-msgstr ""
-"<strong>Urutan Tidak Boleh Dilompati:</strong> Persetujuan harus "
-"berurutan—Pembimbing Skripsi menyetujui lebih dulu sebelum Dosen PA, dan "
-"Dosen PA sebelum Dekan."
+msgid "<strong>Strict Order:</strong> Approvals cannot skip steps—Supervisor must approve before PA, and PA must approve before the Dean."
+msgstr "<strong>Urutan Tidak Boleh Dilompati:</strong> Persetujuan harus berurutan—Pembimbing Skripsi menyetujui lebih dulu sebelum Dosen PA, dan Dosen PA sebelum Dekan."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Academic Advisor Required:</strong> If the student has no Academic "
-"Advisor assigned on their profile, Step 2 will be blocked until Academic "
-"Admin assigns one."
-msgstr ""
-"<strong>Dosen PA Wajib Terisi:</strong> Jika mahasiswa belum memiliki Dosen "
-"PA di profilnya, Langkah 2 akan tertahan sampai Admin Akademik "
-"menetapkannya."
+msgid "<strong>Academic Advisor Required:</strong> If the student has no Academic Advisor assigned on their profile, Step 2 will be blocked until Academic Admin assigns one."
+msgstr "<strong>Dosen PA Wajib Terisi:</strong> Jika mahasiswa belum memiliki Dosen PA di profilnya, Langkah 2 akan tertahan sampai Admin Akademik menetapkannya."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
@@ -2782,32 +2520,47 @@ msgstr "Tahap 6: Kelulusan &amp; Penjadwalan Wisuda Terdekat"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"<strong>Who performs this:</strong> Automatic upon Dean's final approval"
+msgid "<strong>Who performs this:</strong> Automatic upon Dean's final approval"
 msgstr "<strong>Pelaksana:</strong> Otomatis setelah persetujuan akhir Dekan"
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"As soon as the Faculty Dean approves, the student's status automatically "
-"changes to <strong>Graduated</strong> and the system assigns them to the "
-"<strong>nearest open Graduation (Wisuda) batch</strong> that still has "
-"available seats. Students and staff can then print the official "
-"<strong>Graduation Clearance Sheet (PDF)</strong>."
-msgstr ""
-"Begitu Dekan Fakultas menyetujui, status mahasiswa otomatis berubah menjadi "
-"<strong>Lulus (Graduated)</strong> dan sistem menempatkannya ke "
-"<strong>jadwal Wisuda terdekat yang masih buka</strong> dan masih memiliki "
-"kuota. Mahasiswa maupun staf kemudian dapat mencetak <strong>Lembar "
-"Bebas/Yudisium &amp; Wisuda (PDF)</strong>."
+msgid "As soon as the Faculty Dean approves, the student's status automatically changes to <strong>Graduated</strong> and the system assigns them to the <strong>nearest open Graduation (Wisuda) batch</strong> that still has available seats. Students and staff can then print the official <strong>Graduation Clearance Sheet (PDF)</strong>."
+msgstr "Begitu Dekan Fakultas menyetujui, status mahasiswa otomatis berubah menjadi <strong>Lulus (Graduated)</strong> dan sistem menempatkannya ke <strong>jadwal Wisuda terdekat yang masih buka</strong> dan masih memiliki kuota. Mahasiswa maupun staf kemudian dapat mencetak <strong>Lembar Bebas/Yudisium &amp; Wisuda (PDF)</strong>."
 
 #. module: campus_thesis
 #: model_terms:ir.ui.view,arch_db:campus_thesis.thesis_homepage_docs
-msgid ""
-"Make sure at least one upcoming <strong>Graduation Schedule</strong> is "
-"created, marked <em>Open</em>, and has available quota before the Dean "
-"approves Yudisium."
-msgstr ""
-"Pastikan minimal sudah ada satu <strong>Jadwal Wisuda</strong> mendatang "
-"yang dibuat, berstatus <em>Buka (Open)</em>, dan memiliki kuota tersedia "
-"sebelum Dekan menyetujui yudisium."
+msgid "Make sure at least one upcoming <strong>Graduation Schedule</strong> is created, marked <em>Open</em>, and has available quota before the Dean approves Yudisium."
+msgstr "Pastikan minimal sudah ada satu <strong>Jadwal Wisuda</strong> mendatang yang dibuat, berstatus <em>Buka (Open)</em>, dan memiliki kuota tersedia sebelum Dekan menyetujui yudisium."
+
+#. module: campus_thesis
+msgid "Primary Supervisor %(name)s must belong to the student's study program (%(program)s)."
+msgstr "Pembimbing Utama %(name)s harus berasal dari program studi mahasiswa (%(program)s)."
+
+#. module: campus_thesis
+msgid "Graduation schedule '%(name)s' is full (quota: %(quota)s)."
+msgstr "Jadwal wisuda '%(name)s' sudah penuh (kuota: %(quota)s)."
+
+#. module: campus_thesis
+msgid "Participant quota cannot be lowered below active participants (%s)."
+msgstr "Kuota peserta tidak dapat diturunkan di bawah jumlah peserta aktif (%s)."
+
+#. module: campus_thesis
+msgid "Snapshot, academic year, and workflow audit fields cannot be modified directly."
+msgstr "Field ringkasan prodi, tahun akademik, dan tanggal alur tidak dapat diubah langsung."
+
+#. module: campus_thesis
+msgid "Only Academic Staff or Campus Administrators can assign a graduation schedule."
+msgstr "Hanya Staf Akademik atau Administrator Kampus yang dapat menetapkan jadwal wisuda."
+
+#. module: campus_thesis
+msgid "Only Academic Staff or Campus Administrators can cancel a thesis."
+msgstr "Hanya Staf Akademik atau Administrator Kampus yang dapat membatalkan skripsi."
+
+#. module: campus_thesis
+msgid "Only the assigned Thesis Supervisor(s) or Campus Administrator may create progress logs."
+msgstr "Hanya Pembimbing Skripsi yang ditugaskan atau Administrator Kampus yang dapat membuat log bimbingan."
+
+#. module: campus_thesis
+msgid "Supervisors can only update review status and feedback, not student log entries (%s)."
+msgstr "Pembimbing hanya dapat memperbarui status tinjauan dan catatan umpan balik, bukan isi log mahasiswa (%s)."

@@ -91,7 +91,7 @@
                         </table>
 
                         <!-- SIGNATURES -->
-                        <div style="margin-top: 40px; font-size: 10pt;">
+                        <div style="margin-top: 40px; font-size: 10pt; page-break-inside: avoid;">
                             <table style="width: 100%;">
                                 <tr>
                                     <td style="width: 50%; text-align: center;">

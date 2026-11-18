@@ -446,3 +446,58 @@ class TestThesisWorkflow(ThesisFixtureMixin, CampusCommon):
         thesis.action_cancel()
         self.supervisor_emp.write({'program_id': other_program.id})
         self.assertEqual(self.supervisor_emp.program_id, other_program)
+
+    def test_primary_supervisor_must_match_student_program_while_co_supervisor_cross_program_ok(self):
+        self._record_metopen_grade(self.student, score=85.0)
+        other_prog = self.env['academic.program'].create({
+            'name': '%s Program Pembimbing' % TAG,
+            'code': 'ZPG',
+            'faculty_id': self.faculty.id,
+        })
+        cross_lecturer = self.env['hr.employee'].create({
+            'name': '%s Dosen Lintas Prodi' % TAG,
+            'academic_role': 'lecturer',
+            'faculty_id': self.faculty.id,
+            'program_id': other_prog.id,
+        })
+        with self.assertRaises(ValidationError):
+            self._make_thesis(supervisor_id=cross_lecturer.id)
+        thesis = self._make_thesis(co_supervisor_id=cross_lecturer.id)
+        self.assertEqual(thesis.co_supervisor_id, cross_lecturer)
+
+    def test_graduation_quota_blocks_overflow_assignment(self):
+        today = fields.Date.context_today(self.env.user)
+        sched = self.env['campus.graduation.schedule'].create({
+            'name': '%s Wisuda Kuota 1' % TAG,
+            'graduation_date': today + timedelta(days=2),
+            'registration_deadline': today + timedelta(days=1),
+            'quota': 1,
+        })
+        # Close any pre-existing demo schedules in this test transaction so
+        # _get_nearest_schedule deterministically selects ``sched``.
+        self.env['campus.graduation.schedule'].search([
+            ('id', '!=', sched.id), ('state', '=', 'open'),
+        ]).action_close()
+        self._record_metopen_grade(self.student, score=88.0)
+        self._enroll_thesis_krs(self.student, approve=True)
+        t1 = self._make_thesis()
+        t1.action_submit_supervisor()
+        t1.with_user(self.supervisor_user).action_supervisor_approve()
+        t1.with_user(self.supervisor_user).action_approve_proposal()
+        t1.with_user(self.supervisor_user).action_approve_thesis()
+        t1.yudisium_document_ids.write({'received': True})
+        t1.action_submit_yudisium()
+        t1.with_user(self.supervisor_user).action_yudisium_approve_supervisor()
+        t1.with_user(self.advisor_user).action_yudisium_approve_advisor()
+        t1.with_user(self.dean_user).action_yudisium_approve_dean()
+        self.assertEqual(t1.graduation_id, sched)
+
+        s2 = self.env['res.partner'].create({
+            'name': '%s Mahasiswa Kuota 2' % TAG,
+            'is_student': True, 'student_status': 'active',
+            'program_id': self.program.id, 'academic_advisor_id': self.advisor.id,
+        })
+        self._record_metopen_grade(s2, score=88.0)
+        t2 = self._make_thesis(student_id=s2.id)
+        with self.assertRaises(ValidationError):
+            t2.write({'graduation_id': sched.id})

@@ -3,20 +3,35 @@ import logging
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, ValidationError
 
+from .academic_subject import SEMESTER_SELECTION
+
 _logger = logging.getLogger(__name__)
 
 
 class AcademicCoursePackage(models.Model):
     _name = 'academic.course.package'
     _description = 'Academic Course Package'
-    _check_company_auto = True
 
     name = fields.Char(string='Name', required=True)
-    program_id = fields.Many2one('academic.program', string='Program', required=True, check_company=True)
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True)
+    program_id = fields.Many2one('academic.program', string='Program', required=True)
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True)
+    semester = fields.Selection(SEMESTER_SELECTION, string='Semester')
     total_credits = fields.Integer(string='Total Credits', compute='_compute_total_credits', store=True)
     line_ids = fields.One2many('academic.course.package.line', 'package_id', string='Lines')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
+
+    @api.constrains('program_id')
+    def _check_lines_program(self):
+        for package in self:
+            mismatched = package.line_ids.filtered(
+                lambda line: line.subject_id.program_id and line.subject_id.program_id != package.program_id
+            )
+            if mismatched:
+                raise ValidationError(_(
+                    "Subject '%(subject)s' does not belong to program '%(program)s'."
+                ) % {
+                    'subject': mismatched[0].subject_id.display_name,
+                    'program': package.program_id.display_name,
+                })
 
     @api.depends('line_ids.credits')
     def _compute_total_credits(self):
@@ -51,18 +66,32 @@ class AcademicCoursePackageLine(models.Model):
         "A subject can only appear once in a course package.",
     )
 
+    @api.constrains('package_id', 'subject_id')
+    def _check_subject_program(self):
+        for line in self:
+            if (
+                line.package_id.program_id
+                and line.subject_id.program_id
+                and line.subject_id.program_id != line.package_id.program_id
+            ):
+                raise ValidationError(_(
+                    "Subject '%(subject)s' does not belong to program '%(program)s'."
+                ) % {
+                    'subject': line.subject_id.display_name,
+                    'program': line.package_id.program_id.display_name,
+                })
+
 
 class AcademicKrs(models.Model):
     _name = 'academic.krs'
     _description = 'Academic KRS'
     _order = 'create_date desc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _check_company_auto = True
 
     name = fields.Char(string='KRS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict', index=True)
+    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], ondelete='restrict', index=True)
     
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, ondelete='restrict')
 
     advisor_id = fields.Many2one('hr.employee', related='student_id.academic_advisor_id', string='Academic Advisor', readonly=True)
     # Snapshot, not a live mirror of where the student studies today. Same
@@ -99,7 +128,6 @@ class AcademicKrs(models.Model):
     
     total_credits = fields.Integer(string='Total Credits', compute='_compute_total_credits', store=True)
     line_ids = fields.One2many('academic.krs.line', 'krs_id', string='KRS Lines')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     _unique_student_academic_year_term = models.Constraint(
         'UNIQUE (student_id, academic_year_id)',
@@ -140,9 +168,7 @@ class AcademicKrs(models.Model):
         """
         self.ensure_one()
         cgpa = self.student_id.cgpa or 0.0
-        max_credits = self.env['academic.credit.limit'].sudo()._get_max_credits(
-            cgpa, company=self.company_id,
-        )
+        max_credits = self.env['academic.credit.limit'].sudo()._get_max_credits(cgpa)
         if max_credits is None:
             raise ValidationError(_(
                 "No credit limit bands are configured. Set them under "
@@ -184,13 +210,16 @@ class AcademicKrs(models.Model):
     }
     _PORTAL_STATE_TRANSITIONS = {('draft', 'submitted'), ('revision', 'submitted')}
     _ADMIN_STATE_TRANSITIONS = {('approved', 'locked'), ('locked', 'approved'), ('approved', 'draft')}
+    _ADVISOR_REVIEW_TRANSITIONS = {
+        ('submitted', 'approved'),
+        ('submitted', 'revision'),
+        ('submitted', 'rejected'),
+    }
 
     def _check_state_transition_allowed(self, new_state):
         # The state graph is a data-integrity rule, not a permission, so it holds
-        # for everyone: administrators and sudo'd code included. Previously the
-        # whole method returned early for them, which let an administrator write
-        # state='approved' straight onto a draft over RPC and skip submission
-        # entirely. Only the role checks further down are relaxed.
+        # for everyone: administrators and sudo'd code included. Only the role
+        # checks further down are relaxed.
         for record in self:
             if record.state == new_state:
                 continue
@@ -213,8 +242,8 @@ class AcademicKrs(models.Model):
                 raise AccessError(_("Students can only submit their KRS for approval."))
             if transition in self._ADMIN_STATE_TRANSITIONS:
                 raise AccessError(_("Only Campus Administrators can perform this KRS status change."))
-            if transition == ('submitted', 'approved') and record.advisor_id not in user.employee_ids:
-                raise AccessError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
+            if transition in self._ADVISOR_REVIEW_TRANSITIONS and record.advisor_id not in user.employee_ids:
+                raise AccessError(_("Only the assigned Academic Advisor or Academic Admin can review this KRS."))
 
     def write(self, vals):
         self._check_content_write_allowed(vals)
@@ -413,16 +442,22 @@ class AcademicKrs(models.Model):
                 summary=_("Review the KRS submitted by %s") % student_name,
             )
 
+    def _check_advisor_review_rights(self):
+        """Restrict Approve / Request Revision / Reject strictly to the advisor or Admin."""
+        user = self.env.user
+        if self.env.su or user.has_group('campus_core.group_campus_administrator'):
+            return
+        for record in self:
+            if record.advisor_id not in user.employee_ids:
+                raise AccessError(_(
+                    "Only the assigned Academic Advisor or Academic Admin can review this KRS."
+                ))
+
     def action_approve(self):
         for record in self:
             if record.state != 'submitted':
                 raise ValidationError(_("Only submitted KRS records can be approved."))
-
-            # Security
-            user = self.env.user
-            if record.advisor_id not in user.employee_ids and not user.has_group('campus_core.group_campus_administrator'):
-                raise AccessError(_("Only the assigned Academic Advisor or Academic Admin can approve this KRS."))
-            # Set state to approved
+            record._check_advisor_review_rights()
             record.state = 'approved'
             record.activity_feedback(['campus_core.mail_activity_type_krs_review'])
 
@@ -430,6 +465,7 @@ class AcademicKrs(models.Model):
         for record in self:
             if record.state != 'submitted':
                 raise ValidationError(_("Only submitted KRS records can be sent for revision."))
+            record._check_advisor_review_rights()
             record.state = 'revision'
             # Close the review activity this answers, and open the one the
             # student now owes. Same reason as _schedule_advisor_review.
@@ -446,6 +482,7 @@ class AcademicKrs(models.Model):
         for record in self:
             if record.state != 'submitted':
                 raise ValidationError(_("Only submitted KRS records can be rejected."))
+            record._check_advisor_review_rights()
             record.state = 'rejected'
             record.activity_feedback(['campus_core.mail_activity_type_krs_review'])
 
@@ -567,9 +604,9 @@ class AcademicKrsLine(models.Model):
     # Snapshot, not a live related. Depending on subject_id alone means the SKS
     # is copied when the subject is chosen and never again, so editing a
     # subject's credits later cannot rewrite study plans that were already
-    # approved or locked. Explicit values in create() win over the compute, so
-    # the KRS generator wizard still controls what it writes.
-    credits = fields.Integer(string='Credits', compute='_compute_credits', store=True, readonly=False)
+    # Snapshot from subject_id when the line is added or updated; read-only so
+    # users/RPC cannot forge arbitrary credit totals.
+    credits = fields.Integer(string='Credits', compute='_compute_credits', store=True, readonly=True)
 
     @api.depends('schedule_id')
     def _compute_subject_id(self):
@@ -586,6 +623,18 @@ class AcademicKrsLine(models.Model):
             # KRS total kept counting credits for a line that no longer has a
             # subject. A falsy subject yields 0.
             record.credits = record.subject_id.credits
+
+    @api.constrains('subject_id', 'schedule_id')
+    def _check_schedule_subject(self):
+        """Ensure an assigned schedule matches the line's declared subject."""
+        for record in self:
+            if record.schedule_id and record.subject_id and record.schedule_id.class_id.subject_id != record.subject_id:
+                raise ValidationError(_(
+                    "Schedule '%(schedule)s' belongs to a different subject than '%(subject)s'."
+                ) % {
+                    'schedule': record.schedule_id.display_name,
+                    'subject': record.subject_id.display_name,
+                })
 
     @api.constrains('schedule_id', 'krs_id')
     def _check_schedule_academic_year(self):
@@ -629,16 +678,10 @@ class AcademicKrsLine(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        """Guard the third mutation path.
-
-        write() and unlink() were already covered, but creation was not, so a
-        subject could still be appended to a KRS that is submitted, approved or
-        locked. That is the route by which an approved 18 SKS plan could quietly
-        grow past the limit after the advisor had signed off on it.
-
-        Checked before the insert rather than after, so the caller gets the real
-        reason instead of a constraint violation.
-        """
+        """Guard line creation against frozen KRS records and credit tampering."""
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        if not is_admin and any('credits' in vals for vals in vals_list):
+            raise AccessError(_("Only Campus Administrators can manually override KRS line credits."))
         krs_ids = {vals['krs_id'] for vals in vals_list if vals.get('krs_id')}
         if krs_ids:
             frozen = self.env['academic.krs'].browse(list(krs_ids)).filtered(
@@ -652,6 +695,17 @@ class AcademicKrsLine(models.Model):
 
     def write(self, vals):
         self._check_krs_editable()
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        if not is_admin and 'credits' in vals:
+            raise AccessError(_("Only Campus Administrators can manually override KRS line credits."))
+        if 'krs_id' in vals:
+            target_krs = self.env['academic.krs'].browse(vals['krs_id']) if vals['krs_id'] else self.env['academic.krs']
+            if not target_krs or target_krs.state not in self.env['academic.krs']._EDITABLE_STATES:
+                raise ValidationError(_(
+                    "KRS subjects can only be moved to a KRS in Draft or Needs Revision."
+                ))
+            if not is_admin and any(line.student_id != target_krs.student_id for line in self):
+                raise AccessError(_("KRS lines cannot be moved to another student's KRS."))
         return super().write(vals)
 
     def unlink(self):

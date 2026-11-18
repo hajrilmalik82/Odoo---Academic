@@ -89,3 +89,86 @@ class TestCampusSecurity(CampusCommon):
     def test_prerequisite_cycle_is_rejected(self):
         with self.assertRaises(ValidationError):
             self.subject_a.prerequisite_ids = self.subject_a
+
+    def test_non_advisor_lecturer_cannot_reject_or_request_revision(self):
+        other_lecturer_user = self.env['res.users'].create({
+            'name': 'Dosen Penguji', 'login': 'dosen.penguji.test',
+            'group_ids': [(6, 0, [self.internal_group.id, self.lecturer_group.id])],
+        })
+        self.advisor.user_id = self.lecturer_user
+        krs = self._make_krs()
+        krs.action_submit()
+        with self.assertRaises(AccessError):
+            krs.with_user(other_lecturer_user).action_request_revision()
+        with self.assertRaises(AccessError):
+            krs.with_user(other_lecturer_user).action_reject()
+        with self.assertRaises(AccessError):
+            krs.with_user(other_lecturer_user).write({'state': 'rejected'})
+
+    def test_advisor_can_read_advisee_khs_lines_not_write(self):
+        self.advisor.user_id = self.lecturer_user
+        krs = self._make_krs()
+        krs.action_submit()
+        krs.action_approve()
+        krs.action_lock()
+        khs_lines = self.env['academic.khs.line'].with_user(self.lecturer_user).search([
+            ('khs_id.student_id', '=', self.student.id),
+        ])
+        self.assertEqual(len(khs_lines), 1)
+        with self.assertRaises(AccessError):
+            khs_lines.with_user(self.lecturer_user).write({'numeric_grade': 95.0})
+
+    def test_lecturer_can_read_course_packages_and_cannot_spoof_khs_credits(self):
+        package = self.env['academic.course.package'].create({
+            'name': 'Paket Test ACL', 'program_id': self.program.id,
+            'academic_year_id': self.year.id, 'semester': '1',
+            'line_ids': [(0, 0, {'subject_id': self.subject_a.id})],
+        })
+        self.assertEqual(
+            self.env['academic.course.package'].with_user(self.lecturer_user).search([('id', '=', package.id)]),
+            package,
+        )
+        self.schedule.lecturer_id = self.advisor
+        self.advisor.user_id = self.lecturer_user
+        krs = self._make_krs()
+        krs.action_submit()
+        krs.action_approve()
+        krs.action_lock()
+        line = self.env['academic.khs.line'].search([('khs_id.student_id', '=', self.student.id)], limit=1)
+        with self.assertRaises(AccessError):
+            line.with_user(self.lecturer_user).write({'credits': 99})
+
+    def test_krs_line_move_and_credit_override_guards(self):
+        frozen_krs = self._make_krs()
+        frozen_krs.action_submit()
+        other_student = self.env['res.partner'].create({
+            'name': 'Mahasiswa Lain KRS', 'is_student': True, 'student_status': 'active',
+            'program_id': self.program.id, 'academic_advisor_id': self.advisor.id,
+        })
+        draft_krs = self.env['academic.krs'].create({
+            'student_id': other_student.id, 'academic_year_id': self.year.id,
+            'line_ids': [(0, 0, {'subject_id': self.subject_b.id})],
+        })
+        staff_user = self.env['res.users'].create({
+            'name': 'Staf Guard', 'login': 'staf.guard.test',
+            'group_ids': [(6, 0, [
+                self.internal_group.id,
+                self.env.ref('campus_core.group_campus_academic_staff').id,
+            ])],
+        })
+        if 'campus.jurisdiction' in self.env:
+            staff_emp = self.env['hr.employee'].create({
+                'name': 'Staf Guard',
+                'academic_role': 'academic',
+                'user_id': staff_user.id,
+            })
+            self.env['campus.jurisdiction'].create({
+                'employee_id': staff_emp.id,
+                'scope': 'academic',
+                'all_faculties': True,
+                'all_programs': True,
+            })
+        with self.assertRaises(ValidationError):
+            draft_krs.line_ids.with_user(staff_user).write({'krs_id': frozen_krs.id})
+        with self.assertRaises(AccessError):
+            draft_krs.line_ids.with_user(staff_user).write({'credits': 99})

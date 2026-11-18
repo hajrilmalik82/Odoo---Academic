@@ -36,19 +36,18 @@
                     </div>
                     <group>
                         <group string="Personal Information">
-                            <field name="email" widget="email"/>
+                            <field name="email" widget="email" readonly="state in ('accepted', 'registered', 'rejected')"/>
                             <field name="phone" widget="phone"/>
                             <field name="previous_school"/>
                         </group>
                         <group string="Application Details">
                             <field name="registration_date"/>
-                            <field name="admission_path"/>
-                            <field name="faculty_id"/>
-                            <field name="program_id"/>
-                            <field name="academic_year_id"/>
+                            <field name="admission_path" readonly="state in ('accepted', 'registered', 'rejected')"/>
+                            <field name="faculty_id" readonly="state in ('accepted', 'registered', 'rejected')"/>
+                            <field name="program_id" readonly="state in ('accepted', 'registered', 'rejected')"/>
+                            <field name="academic_year_id" readonly="state in ('accepted', 'registered', 'rejected')"/>
                             <field name="partner_id" invisible="1"/>
                             <field name="user_id" invisible="1"/>
-                            <field name="company_id" invisible="1"/>
                         </group>
                     </group>
                     <group string="Verification &amp; Payment">
@@ -59,15 +58,15 @@
                         </group>
                         <group string="Fees &amp; Payment">
                             <field name="currency_id" invisible="1"/>
-                            <field name="registration_fee" widget="monetary"/>
-                            <field name="registration_fee_paid"/>
-                            <field name="reregistration_fee" widget="monetary"/>
-                            <field name="reregistration_fee_paid"/>
+                            <field name="registration_fee" widget="monetary" readonly="state in ('accepted', 'registered', 'rejected')"/>
+                            <field name="registration_fee_paid" readonly="state in ('accepted', 'registered', 'rejected')"/>
+                            <field name="reregistration_fee" widget="monetary" readonly="state in ('registered', 'rejected')"/>
+                            <field name="reregistration_fee_paid" readonly="state in ('registered', 'rejected')"/>
                         </group>
                     </group>
                     <notebook>
                         <page string="Documents">
-                            <field name="document_line_ids">
+                            <field name="document_line_ids" readonly="state in ('accepted', 'registered', 'rejected')">
                                 <list editable="bottom">
                                     <field name="document_type"/>
                                     <field name="required"/>
@@ -136,7 +135,6 @@
                 <field name="registration_date"/>
                 <field name="registration_fee_paid" optional="show"/>
                 <field name="reregistration_fee_paid" optional="show"/>
-                <field name="company_id" column_invisible="1"/>
                 <field name="state" widget="badge" 
                        decoration-info="state in ('submitted', 'document_review')"
                        decoration-success="state in ('accepted', 'registered')"
@@ -151,10 +149,12 @@
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
         <field name="state">code</field>
         <field name="code">
-if records:
-    records.action_submit()
+eligible = records.filtered(lambda r: r.state == 'draft')
+if eligible:
+    eligible.action_submit()
         </field>
     </record>
 
@@ -163,24 +163,26 @@ if records:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
         <field name="state">code</field>
         <field name="code">
-if records:
-    records.action_start_document_review()
+eligible = records.filtered(lambda r: r.state == 'submitted')
+if eligible:
+    eligible.action_start_document_review()
         </field>
     </record>
-
-
 
     <record id="action_server_admission_accept" model="ir.actions.server">
         <field name="name">Accept</field>
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
         <field name="state">code</field>
         <field name="code">
-if records:
-    records.action_accept()
+eligible = records.filtered(lambda r: r.state == 'document_review')
+if eligible:
+    eligible.action_accept()
         </field>
     </record>
 
@@ -189,10 +191,12 @@ if records:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
         <field name="state">code</field>
         <field name="code">
-if records:
-    records.action_reject()
+eligible = records.filtered(lambda r: r.state in ('draft', 'submitted', 'document_review'))
+if eligible:
+    eligible.action_reject()
         </field>
     </record>
 
@@ -201,10 +205,12 @@ if records:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
+        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
         <field name="state">code</field>
         <field name="code">
-if records:
-    records.action_register()
+eligible = records.filtered(lambda r: r.state == 'accepted')
+if eligible:
+    eligible.action_register()
         </field>
     </record>
 

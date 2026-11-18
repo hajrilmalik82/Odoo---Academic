@@ -24,6 +24,7 @@
     'demo': [
         'demo/campus_demo_roles.xml',
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
     'application': False,
     'auto_install': False,

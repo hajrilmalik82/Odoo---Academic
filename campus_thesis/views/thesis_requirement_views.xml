@@ -8,7 +8,6 @@
                 <field name="sequence" widget="handle"/>
                 <field name="document_type"/>
                 <field name="required"/>
-                <field name="company_id" optional="hide"/>
             </list>
         </field>
     </record>

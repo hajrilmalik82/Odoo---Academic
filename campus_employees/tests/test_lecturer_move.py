@@ -175,3 +175,19 @@ class TestLecturerMove(CampusCommon):
         student.academic_advisor_id = False
         self.mover.program_id = self.elsewhere_program
         self.assertEqual(self.mover.program_id, self.elsewhere_program)
+
+    def test_employee_program_must_belong_to_faculty(self):
+        with self.assertRaises(ValidationError):
+            self.env['hr.employee'].create({
+                'name': '%s Dosen Salah Unit' % TAG,
+                'academic_role': 'lecturer',
+                'faculty_id': self.faculty.id,
+                'program_id': self.elsewhere_program.id,
+            })
+
+    def test_archiving_or_deleting_attached_lecturer_is_blocked(self):
+        self._teaches()
+        with self.assertRaises(ValidationError):
+            self.mover.active = False
+        with self.assertRaises(ValidationError):
+            self.mover.unlink()

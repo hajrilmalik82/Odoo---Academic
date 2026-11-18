@@ -173,3 +173,33 @@ class TestThesisSecurity(ThesisFixtureMixin, CampusCommon):
         doc = self.thesis_ft.yudisium_document_ids[:1]
         with self.assertRaises(AccessError):
             doc.with_user(self.supervisor_user).write({'received': True})
+
+    def test_lecturer_cannot_cancel_thesis_or_edit_protected_snapshot_fields(self):
+        with self.assertRaises(AccessError):
+            self.thesis_ft.with_user(self.advisor_user).action_cancel()
+        with self.assertRaises(AccessError):
+            self.thesis_ft.with_user(self.supervisor_user).write({'program_id': self.other_program.id})
+        with self.assertRaises(AccessError):
+            self.thesis_ft.with_user(self.supervisor_user).write({'rejection_reason': 'forged'})
+
+    def test_advisor_cannot_create_or_alter_progress_log_content(self):
+        self.thesis_ft.action_submit_supervisor()
+        self.thesis_ft.with_user(self.supervisor_user).action_supervisor_approve()
+        self.thesis_ft.with_user(self.co_supervisor_user).action_supervisor_approve()
+        with self.assertRaises(AccessError):
+            self.env['campus.thesis.progress'].with_user(self.advisor_user).create({
+                'thesis_id': self.thesis_ft.id,
+                'stage': 'proposal',
+                'milestone': 'Fake PA Log',
+                'description': 'Should fail',
+                'state': 'approved',
+            })
+        log = self.env['campus.thesis.progress'].sudo().create({
+            'thesis_id': self.thesis_ft.id,
+            'stage': 'proposal',
+            'milestone': 'Bab I',
+            'description': 'Student draft',
+            'progress_percent': 30.0,
+        })
+        with self.assertRaises(AccessError):
+            log.with_user(self.supervisor_user).write({'milestone': 'Supervisor Rewrote Milestone'})

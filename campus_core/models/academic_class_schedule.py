@@ -6,7 +6,6 @@ from odoo.tools import SQL
 class AcademicClassSchedule(models.Model):
     _name = 'academic.class.schedule'
     _description = 'Academic Class Schedule'
-    _check_company_auto = True
     # The model has no `name` column, so _rec_name's default left name_search
     # with nothing to match on and every schedule dropdown returned the whole
     # table whatever was typed. _rec_names_search is what fixed that; _rec_name
@@ -31,7 +30,7 @@ class AcademicClassSchedule(models.Model):
     ], string='Day of Week', required=True)
     start_time = fields.Float(string='Start Time', required=True)
     end_time = fields.Float(string='End Time', required=True)
-    room_id = fields.Many2one('campus.room', string='Room', required=True, check_company=True, index=True)
+    room_id = fields.Many2one('campus.room', string='Room', required=True, index=True)
     room_capacity = fields.Integer(related='room_id.capacity', string='Capacity', readonly=True)
     # No domain here on purpose. Filtering this to academic lecturers needs
     # academic_role, program_id and faculty_id on hr.employee, and those belong
@@ -42,7 +41,6 @@ class AcademicClassSchedule(models.Model):
         'hr.employee',
         string='Lecturer',
     )
-    company_id = fields.Many2one(related='class_id.company_id', store=True)
     enrolled_count = fields.Integer(string='Enrolled', compute='_compute_capacity_display')
     capacity_display = fields.Char(string='Capacity (Max/Filled)', compute='_compute_capacity_display')
 

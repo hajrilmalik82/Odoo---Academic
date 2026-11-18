@@ -56,7 +56,7 @@
                             <ul class="mb-0 mt-1 text-muted small">
                                 <li><strong>Only Editable in Draft / Revision:</strong> You cannot add or remove subjects once the KRS is <em>Submitted</em>, <em>Approved</em>, or <em>Locked</em>. If you need changes after submitting, ask your Academic Advisor to return it for revision.</li>
                                 <li><strong>KRS Period Must Be Open:</strong> Students can only edit KRS within the active KRS dates. Outside this period, contact Academic Admin.</li>
-                                <li><strong>Automatic Checks on "Take":</strong> The portal immediately blocks and shows an alert banner if adding a class exceeds your GPA SKS limit, overlaps with another chosen schedule, has a full classroom, or misses a prerequisite subject.</li>
+                                <li><strong>Automatic Checks:</strong> Clicking <strong>Take</strong> or <strong>Choose Class</strong> immediately checks room seat availability and timetable overlaps, while clicking <strong>Submit KRS</strong> verifies prerequisites and your GPA SKS limit.</li>
                             </ul>
                         </div>
                     </div>

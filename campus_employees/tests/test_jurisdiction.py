@@ -270,3 +270,112 @@ class TestJurisdictionConsistency(CampusCommon):
         domain = self.env['campus.jurisdiction']._fields['program_ids'].domain
         self.assertIn('faculty_ids', domain)
         self.assertNotIn("('id', '!=', 0)", domain)
+
+    def test_all_faculties_with_all_programs_disabled_and_no_programs_fails_closed(self):
+        """all_faculties=True with all_programs=False and empty program_ids must fail closed."""
+        row = self._jurisdiction(
+            all_faculties=True,
+            all_programs=True,
+        )
+        row.write({'all_programs': False})
+        self.assertEqual(row._domain_for('program_id'), [(0, '=', 1)])
+
+
+@tagged('post_install', '-at_install')
+class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
+    """Academic Staff read access to hr.employee and partner write/create jurisdiction."""
+
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.staff_group = cls.env.ref('campus_core.group_campus_academic_staff')
+        cls.lecturer_group = cls.env.ref('campus_core.group_campus_lecturer')
+        internal = cls.env.ref('base.group_user')
+        cls.staff_user = cls.env['res.users'].create({
+            'name': '%s Staf Partner' % TAG, 'login': 'zz.staf.partner.test',
+            'group_ids': [(6, 0, [internal.id, cls.staff_group.id])],
+        })
+        cls.staff_employee = cls.env['hr.employee'].create({
+            'name': '%s Staf Partner' % TAG,
+            'academic_role': 'academic',
+            'user_id': cls.staff_user.id,
+        })
+        cls.other_faculty = cls.env['academic.faculty'].create({
+            'name': '%s Fakultas Partner Lain' % TAG, 'code': 'ZPF',
+        })
+        cls.other_program = cls.env['academic.program'].create({
+            'name': '%s Prodi Partner Lain' % TAG, 'code': 'ZPP',
+            'faculty_id': cls.other_faculty.id,
+        })
+        cls.other_student = cls.env['res.partner'].create({
+            'name': '%s Mahasiswa Partner Lain' % TAG,
+            'is_student': True, 'student_status': 'active',
+            'program_id': cls.other_program.id,
+        })
+
+    def test_academic_staff_can_read_hr_employee(self):
+        self.assertTrue(self.env['hr.employee'].with_user(self.staff_user).has_access('read'))
+        self.assertIn(self.advisor, self.env['hr.employee'].with_user(self.staff_user).search([
+            ('id', '=', self.advisor.id),
+        ]))
+
+    def test_academic_staff_partner_write_and_create_scoped_to_jurisdiction(self):
+        self.env['campus.jurisdiction'].sudo().create({
+            'employee_id': self.staff_employee.id,
+            'scope': 'academic',
+            'faculty_ids': [(6, 0, [self.faculty.id])],
+            'all_programs': True,
+        })
+        self.student.with_user(self.staff_user).write({'name': '%s Budi Updated' % TAG})
+        with self.assertRaises(AccessError):
+            self.other_student.with_user(self.staff_user).write({'name': '%s Blocked' % TAG})
+        with self.assertRaises(AccessError):
+            self.student.with_user(self.staff_user).write({
+                'program_id': self.other_program.id,
+                'academic_advisor_id': False,
+            })
+        with self.assertRaises(AccessError):
+            self.env['res.partner'].with_user(self.staff_user).create({
+                'name': '%s Outside Student' % TAG,
+                'is_student': True,
+                'program_id': self.other_program.id,
+            })
+
+    def test_revoking_employee_user_or_archiving_revokes_campus_groups(self):
+        user = self.env['res.users'].create({
+            'name': '%s Dosen Group' % TAG, 'login': 'zz.dosen.group.test',
+            'group_ids': [(6, 0, [self.env.ref('base.group_user').id])],
+        })
+        employee = self.env['hr.employee'].create({
+            'name': '%s Dosen Group' % TAG,
+            'academic_role': 'lecturer',
+            'user_id': user.id,
+        })
+        self.assertIn(self.lecturer_group, user.group_ids)
+
+        employee.user_id = False
+        user.invalidate_recordset(['group_ids'])
+        self.assertNotIn(self.lecturer_group, user.group_ids)
+
+        employee.user_id = user
+        user.invalidate_recordset(['group_ids'])
+        self.assertIn(self.lecturer_group, user.group_ids)
+
+        employee.active = False
+        user.invalidate_recordset(['group_ids'])
+        self.assertNotIn(self.lecturer_group, user.group_ids)
+
+        user_two = self.env['res.users'].create({
+            'name': '%s Dosen Delete' % TAG, 'login': 'zz.dosen.delete.test',
+            'group_ids': [(6, 0, [self.env.ref('base.group_user').id])],
+        })
+        emp_two = self.env['hr.employee'].create({
+            'name': '%s Dosen Delete' % TAG,
+            'academic_role': 'lecturer',
+            'user_id': user_two.id,
+        })
+        user_two.invalidate_recordset(['group_ids'])
+        self.assertIn(self.lecturer_group, user_two.group_ids)
+        emp_two.unlink()
+        user_two.invalidate_recordset(['group_ids'])
+        self.assertNotIn(self.lecturer_group, user_two.group_ids)

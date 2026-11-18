@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 # Who may be put in front of a class.
 #
@@ -19,9 +20,34 @@ from odoo import fields, models
 # the domain silently stops narrowing and the picker offers every employee.
 LECTURER_DOMAIN = (
     "[('academic_role', '=', 'lecturer'), '|',"
-    " ('program_id', '=', class_program_id),"
-    " ('faculty_id', '=', class_faculty_id)]"
+    " '&', ('program_id', '!=', False), ('program_id', '=', class_program_id),"
+    " '&', ('faculty_id', '!=', False), ('faculty_id', '=', class_faculty_id)]"
 )
+
+
+def _check_lecturer_eligible(records):
+    """Validate assigned lecturers against the class's faculty/programme."""
+    for record in records.filtered('lecturer_id'):
+        lecturer = record.lecturer_id
+        if lecturer.academic_role and lecturer.academic_role != 'lecturer':
+            raise ValidationError(records.env._(
+                "%(person)s is not a lecturer and cannot be assigned to teach %(class_name)s.",
+                person=lecturer.name,
+                class_name=record.display_name,
+            ))
+        class_program = record.class_program_id
+        class_faculty = record.class_faculty_id
+        if not class_program or not (lecturer.program_id or lecturer.faculty_id):
+            # Allow incomplete profile setup during fixture/demo loading; once a
+            # lecturer's unit is filled in, it must match the class faculty/program.
+            continue
+        if lecturer.program_id != class_program and lecturer.faculty_id != class_faculty:
+            raise ValidationError(records.env._(
+                "%(person)s does not belong to Faculty '%(faculty)s' or Program '%(program)s'.",
+                person=lecturer.name,
+                faculty=class_faculty.name or '-',
+                program=class_program.name or '-',
+            ))
 
 
 class AcademicClassSchedule(models.Model):
@@ -39,6 +65,10 @@ class AcademicClassSchedule(models.Model):
 
     lecturer_id = fields.Many2one('hr.employee', domain=LECTURER_DOMAIN)
 
+    @api.constrains('lecturer_id', 'class_id')
+    def _check_lecturer_eligible(self):
+        _check_lecturer_eligible(self)
+
 
 class AcademicClassSession(models.Model):
     """Restrict the Lecturer picker on a single session.
@@ -53,3 +83,7 @@ class AcademicClassSession(models.Model):
     _inherit = 'academic.class.session'
 
     lecturer_id = fields.Many2one('hr.employee', domain=LECTURER_DOMAIN)
+
+    @api.constrains('lecturer_id', 'class_id')
+    def _check_lecturer_eligible(self):
+        _check_lecturer_eligible(self)

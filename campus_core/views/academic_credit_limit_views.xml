@@ -7,7 +7,6 @@
             <search string="Search Credit Limits">
                 <field name="min_cgpa"/>
                 <field name="max_credits"/>
-                <field name="company_id" groups="base.group_multi_company"/>
             </search>
         </field>
     </record>
@@ -19,7 +18,6 @@
             <list string="Credit Limits" editable="bottom">
                 <field name="min_cgpa"/>
                 <field name="max_credits"/>
-                <field name="company_id" groups="base.group_multi_company"/>
             </list>
         </field>
     </record>
@@ -33,7 +31,6 @@
                     <group>
                         <field name="min_cgpa"/>
                         <field name="max_credits"/>
-                        <field name="company_id" groups="base.group_multi_company"/>
                     </group>
                 </sheet>
             </form>

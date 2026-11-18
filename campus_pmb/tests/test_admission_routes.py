@@ -127,6 +127,14 @@ class TestPublicAdmissionApi(CampusHttpCommon):
         self.assertEqual(body.get('status'), 'error')
         self.assertNotIn('system', body.get('message', '').lower())
 
+    def test_boolean_ids_in_json_payload_are_refused(self):
+        response = self._submit(
+            email='zz.bool.http@contoh.test',
+            studyProgramId=True,
+        )
+        self.assertEqual(response.status_code, 400)
+        self.assertFalse(self._admission('zz.bool.http@contoh.test'))
+
 
 @tagged('post_install', '-at_install')
 class TestPmbMenu(CampusHttpCommon):

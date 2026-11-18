@@ -17,13 +17,10 @@ class CampusThesisRequirement(models.Model):
         required=True,
     )
     required = fields.Boolean(string='Required', default=True)
-    company_id = fields.Many2one(
-        'res.company', string='Company', default=lambda self: self.env.company,
-    )
 
-    _unique_requirement = models.UniqueIndex(
-        "(document_type, COALESCE(company_id, 0))",
-        "Each Yudisium document type may only be configured once per company.",
+    _unique_requirement = models.Constraint(
+        'UNIQUE (document_type)',
+        "Each Yudisium document type may only be configured once.",
     )
 
     @api.depends('document_type')
@@ -53,12 +50,9 @@ class CampusThesisDocument(models.Model):
         ]
 
     @api.model
-    def _default_document_specs(self, company=None):
-        """Return [(document_type, required)] favoring company-specific rules."""
-        company = company or self.env.company
-        requirements = self.env['campus.thesis.requirement'].sudo().search([
-            ('company_id', 'in', [company.id, False]),
-        ])
+    def _default_document_specs(self):
+        """Return [(document_type, required)] from Yudisium document configuration."""
+        requirements = self.env['campus.thesis.requirement'].sudo().search([])
         if not requirements:
             return [
                 (doc_type, True)
@@ -69,14 +63,7 @@ class CampusThesisDocument(models.Model):
                     'temporary_transcript',
                 )
             ]
-        specs = {}
-        ranks = {}
-        for req in requirements:
-            rank = bool(req.company_id)
-            if req.document_type not in specs or rank >= ranks[req.document_type]:
-                specs[req.document_type] = req.required
-                ranks[req.document_type] = rank
-        return list(specs.items())
+        return [(req.document_type, req.required) for req in requirements]
 
     thesis_id = fields.Many2one(
         'campus.thesis', string='Thesis', required=True, ondelete='cascade', index=True,

@@ -4,13 +4,10 @@ from odoo.fields import Domain
 class ResPartner(models.Model):
     _inherit = 'res.partner'
 
-    # A plain UNIQUE(nim, company_id) would be ineffective: PostgreSQL treats
-    # NULLs as distinct, and res.partner.company_id is NULL for most partners,
-    # so duplicate NIMs would still slip through. COALESCE puts every
-    # company-less partner in one bucket, and the WHERE clause keeps the many
-    # non-student partners (nim IS NULL) out of the index entirely.
+    # Exclude non-student rows (nim IS NULL / empty) so PostgreSQL indexes only
+    # real student numbers in this single-company campus setup.
     _check_nim_unique = models.UniqueIndex(
-        "(nim, COALESCE(company_id, 0)) WHERE nim IS NOT NULL",
+        "(nim) WHERE nim IS NOT NULL AND nim <> ''",
         "Student ID (NIM) must be unique!",
     )
 
@@ -27,13 +24,6 @@ class ResPartner(models.Model):
     # restrict, not the default set-null: deleting a programme used to blank the
     # Study Program and Faculty of every student enrolled in it, without warning.
     # A programme that is no longer offered should be archived, not deleted.
-    # Deliberately NO check_company here, unlike academic.subject.program_id.
-    # odoo/orm/models.py:4052 reads the record's own company_id as the reference,
-    # and when it is empty _check_company_domain narrows to
-    # ('company_id', '=', False) - so a contact with no company may only point at
-    # a programme with no company. res.partner.company_id is empty for ordinary
-    # contacts while academic.program defaults to the active company, which made
-    # every student contact impossible to save.
     program_id = fields.Many2one(
         'academic.program', string="Study Program", ondelete='restrict',
     )
@@ -112,7 +102,12 @@ class ResPartner(models.Model):
                 if not line.is_graded or not line.subject_id:
                     continue
                 kept = best_per_subject.get(line.subject_id.id)
-                if kept is None or line.grade_points > kept.grade_points:
+                line_key = (line.grade_points, line.khs_id.academic_year_id.name or '', line.id)
+                kept_key = (
+                    (kept.grade_points, kept.khs_id.academic_year_id.name or '', kept.id)
+                    if kept else None
+                )
+                if kept_key is None or line_key > kept_key:
                     best_per_subject[line.subject_id.id] = line
         return sorted(
             best_per_subject.values(),

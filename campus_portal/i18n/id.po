@@ -47,22 +47,8 @@ msgstr "<i class=\"fa fa-edit\"/> Daftar KRS Sekarang"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Horizontal Data "
-"Isolation (Data Leakage Prevention):</strong> Absolute <em>Domain "
-"Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot"
-" perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1"
-" to /krs/2) to view Student B's data. Odoo automatically returns an *Error "
-"403 Forbidden* if the document ownership (Partner ID) does not intersect "
-"with the current logged-in session."
-msgstr ""
-"<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Isolasi Data "
-"Horizontal (Data Leakage Prevention):</strong> <em>Domain Filtering</em> "
-"absolut diinjeksikan pada level <em>ORM Query</em>. Mahasiswa A tidak dapat "
-"melakukan <em>URL Spoofing</em> (misal: mengubah ID pada URL dari /krs/1 "
-"menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo secara otomatis "
-"mengembalikan *Error 403 Forbidden* jika kepemilikan dokumen (Partner ID) "
-"tidak beririsan dengan sesi login saat ini."
+msgid "<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Horizontal Data Isolation (Data Leakage Prevention):</strong> Absolute <em>Domain Filtering</em> is injected at the <em>ORM Query</em> level. Student A cannot perform <em>URL Spoofing</em> (e.g., changing the ID in the URL from /krs/1 to /krs/2) to view Student B's data. Odoo automatically returns an *Error 403 Forbidden* if the document ownership (Partner ID) does not intersect with the current logged-in session."
+msgstr "<i class=\"fa fa-eye-slash text-dark me-2\"/> <strong>Isolasi Data Horizontal (Data Leakage Prevention):</strong> <em>Domain Filtering</em> absolut diinjeksikan pada level <em>ORM Query</em>. Mahasiswa A tidak dapat melakukan <em>URL Spoofing</em> (misal: mengubah ID pada URL dari /krs/1 menjadi /krs/2) untuk melihat data Mahasiswa B. Odoo secara otomatis mengembalikan *Error 403 Forbidden* jika kepemilikan dokumen (Partner ID) tidak beririsan dengan sesi login saat ini."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -71,10 +57,8 @@ msgstr "<i class=\"fa fa-laptop me-2\"/> Modul Portal Kampus"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<i class=\"fa fa-lock text-dark me-2\"/> Cyber Security &amp; Data Isolation"
-msgstr ""
-"<i class=\"fa fa-lock text-dark me-2\"/> Keamanan Cyber &amp; Isolasi Data"
+msgid "<i class=\"fa fa-lock text-dark me-2\"/> Cyber Security &amp; Data Isolation"
+msgstr "<i class=\"fa fa-lock text-dark me-2\"/> Keamanan Cyber &amp; Isolasi Data"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -83,25 +67,13 @@ msgstr "<i class=\"fa fa-plus\"/> Ambil"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Encrypted Sessions "
-"&amp; Authorization Middleware:</strong> Every URL route (Controller) in "
-"this module is fortified by the <code>@http.route(auth='user')</code> "
-"decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic "
-"trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF)"
-" threats."
-msgstr ""
-"<i class=\"fa fa-shield text-danger me-2\"/> <strong>Sesi Terenkripsi &amp; "
-"Middleware Otorisasi:</strong> Setiap rute URL (Controller) pada modul ini "
-"dibentengi oleh dekorator <code>@http.route(auth='user')</code>. Lapisan "
-"<em>Middleware</em> Odoo mengalihkan lalu lintas anonim yang mencoba "
-"memotong layar dan menetralkan ancaman *Cross-Site Request Forgery* (CSRF)."
+msgid "<i class=\"fa fa-shield text-danger me-2\"/> <strong>Encrypted Sessions &amp; Authorization Middleware:</strong> Every URL route (Controller) in this module is fortified by the <code>@http.route(auth='user')</code> decorator. Odoo's <em>Middleware</em> layer redirects anonymous traffic trying to bypass screens and neutralizes *Cross-Site Request Forgery* (CSRF) threats."
+msgstr "<i class=\"fa fa-shield text-danger me-2\"/> <strong>Sesi Terenkripsi &amp; Middleware Otorisasi:</strong> Setiap rute URL (Controller) pada modul ini dibentengi oleh dekorator <code>@http.route(auth='user')</code>. Lapisan <em>Middleware</em> Odoo mengalihkan lalu lintas anonim yang mencoba memotong layar dan menetralkan ancaman *Cross-Site Request Forgery* (CSRF)."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
 msgid "<i class=\"fa fa-star text-warning me-2\"/> Self-Service Operational Steps"
-msgstr ""
-"<i class=\"fa fa-star text-warning me-2\"/> Langkah Operasional Self-Service"
+msgstr "<i class=\"fa fa-star text-warning me-2\"/> Langkah Operasional Self-Service"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -138,16 +110,8 @@ msgstr "Aksi"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"An architectural extension that acts as a Frontend bridge between the Core "
-"ERP system and the Student as an End-User. Built on Odoo web controllers, "
-"this module prioritizes a smooth User Experience (UX) while maintaining "
-"real-time data integrity to and from the main database."
-msgstr ""
-"Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem"
-" ERP Core dan Mahasiswa sebagai End-User. Dibangun di atas web controller "
-"Odoo, modul ini mengutamakan User Experience (UX) yang mulus sekaligus "
-"menjaga integritas data real-time dari dan ke database utama."
+msgid "An architectural extension that acts as a Frontend bridge between the Core ERP system and the Student as an End-User. Built on Odoo web controllers, this module prioritizes a smooth User Experience (UX) while maintaining real-time data integrity to and from the main database."
+msgstr "Ekstensi arsitektural yang bertindak sebagai jembatan Frontend antara sistem ERP Core dan Mahasiswa sebagai End-User. Dibangun di atas web controller Odoo, modul ini mengutamakan User Experience (UX) yang mulus sekaligus menjaga integritas data real-time dari dan ke database utama."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -311,16 +275,8 @@ msgstr "Langkah 3: Pemantauan Transkrip KHS Real-Time"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Students log in and are redirected to the <code>/my/home</code> route "
-"(Portal My Account) by default. This interface is ergonomically designed to "
-"display main metric aggregations, such as current running KRS and grade "
-"transcripts."
-msgstr ""
-"Mahasiswa login dan diarahkan ke rute <code>/my/home</code> (Portal My "
-"Account) secara default. Antarmuka ini dirancang secara ergonomis untuk "
-"menampilkan agregasi metrik utama, seperti KRS yang sedang berjalan dan "
-"transkrip nilai."
+msgid "Students log in and are redirected to the <code>/my/home</code> route (Portal My Account) by default. This interface is ergonomically designed to display main metric aggregations, such as current running KRS and grade transcripts."
+msgstr "Mahasiswa login dan diarahkan ke rute <code>/my/home</code> (Portal My Account) secara default. Antarmuka ini dirancang secara ergonomis untuk menampilkan agregasi metrik utama, seperti KRS yang sedang berjalan dan transkrip nilai."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -369,16 +325,14 @@ msgstr "Mata kuliah tersebut tidak ada dalam KRS ini."
 #. module: campus_portal
 #. odoo-python
 #: code:addons/campus_portal/controllers/portal.py:0
-msgid ""
-"The KRS registration period is closed, or no academic year has been "
-"configured."
+msgid "The KRS registration period is closed, or no academic year has been configured."
 msgstr "Masa pengisian KRS sedang ditutup atau Tahun Akademik belum diatur."
 
 #. module: campus_portal
 #. odoo-python
 #: code:addons/campus_portal/controllers/portal.py:0
 msgid "The action could not be completed."
-msgstr ""
+msgstr "Tindakan tidak dapat diselesaikan."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
@@ -398,25 +352,13 @@ msgstr "KRS ini sudah diajukan."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
-msgid ""
-"This subject is already taken in another section. Remove the existing one "
-"first to switch."
-msgstr ""
-"Mata kuliah ini sudah diambil di kelas lain. Hapus dulu kelas yang lama "
-"kalau mau pindah."
+msgid "This subject is already taken in another section. Remove the existing one first to switch."
+msgstr "Mata kuliah ini sudah diambil di kelas lain. Hapus dulu kelas yang lama kalau mau pindah."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Through the KHS menu, students monitor grade movements in real-time. The "
-"<em>Single Source of Truth</em> principle ensures that the second a Lecturer"
-" publishes grades in the backend, the grades propagate and display on the "
-"student portal screen, minimizing information latency."
-msgstr ""
-"Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. "
-"Prinsip <em>Single Source of Truth</em> memastikan bahwa saat Dosen "
-"mempublikasikan nilai di backend, nilai tersebut merambat dan tampil di "
-"layar portal mahasiswa, meminimalkan latensi informasi."
+msgid "Through the KHS menu, students monitor grade movements in real-time. The <em>Single Source of Truth</em> principle ensures that the second a Lecturer publishes grades in the backend, the grades propagate and display on the student portal screen, minimizing information latency."
+msgstr "Melalui menu KHS, mahasiswa memantau pergerakan nilai secara real-time. Prinsip <em>Single Source of Truth</em> memastikan bahwa saat Dosen mempublikasikan nilai di backend, nilai tersebut merambat dan tampil di layar portal mahasiswa, meminimalkan latensi informasi."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_my_khs
@@ -430,38 +372,20 @@ msgstr "Menunggu Persetujuan"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"When a student opens a Draft KRS document, the bottom table dynamically "
-"renders all currently offered class schedules (*Available Schedules*). The "
-"student interacts via *Point-and-Click* (clicking the "
-"<strong>\"Take\"</strong> button) on the desired class. The HTTP request is "
-"sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind "
-"the data immediately without manual typing. If SKS limits are exceeded, the "
-"portal UI blocks it immediately with a *Flash Message*."
-msgstr ""
-"Saat mahasiswa membuka dokumen Draft KRS, tabel bawah secara dinamis "
-"merender semua jadwal kelas yang ditawarkan saat ini (*Jadwal Tersedia*). "
-"Mahasiswa berinteraksi melalui *Point-and-Click* (mengklik tombol "
-"<strong>\"Ambil\"</strong>) pada kelas yang diinginkan. Request HTTP dikirim"
-" melalui <em>Web Controller</em> ke <em>Odoo Backend</em> untuk mengikat "
-"data secara langsung tanpa pengetikan manual. Jika batas SKS terlampaui, UI "
-"portal akan langsung memblokirnya dengan *Flash Message*."
+msgid "When a student opens a Draft KRS document, the bottom table dynamically renders all currently offered class schedules (*Available Schedules*). The student interacts via *Point-and-Click* (clicking the <strong>\"Take\"</strong> button) on the desired class. The HTTP request is sent via the <em>Web Controller</em> to the <em>Odoo Backend</em> to bind the data immediately without manual typing. If SKS limits are exceeded, the portal UI blocks it immediately with a *Flash Message*."
+msgstr "Saat mahasiswa membuka dokumen Draft KRS, tabel bawah secara dinamis merender semua jadwal kelas yang ditawarkan saat ini (*Jadwal Tersedia*). Mahasiswa berinteraksi melalui *Point-and-Click* (mengklik tombol <strong>\"Ambil\"</strong>) pada kelas yang diinginkan. Request HTTP dikirim melalui <em>Web Controller</em> ke <em>Odoo Backend</em> untuk mengikat data secara langsung tanpa pengetikan manual. Jika batas SKS terlampaui, UI portal akan langsung memblokirnya dengan *Flash Message*."
 
 #. module: campus_portal
 #. odoo-python
 #: code:addons/campus_portal/controllers/portal.py:0
 msgid "You can only add subjects while the KRS is in Draft or Needs Revision."
-msgstr ""
-"Mata kuliah hanya dapat ditambahkan selama KRS berstatus Draf atau Perlu "
-"Revisi."
+msgstr "Mata kuliah hanya dapat ditambahkan selama KRS berstatus Draf atau Perlu Revisi."
 
 #. module: campus_portal
 #. odoo-python
 #: code:addons/campus_portal/controllers/portal.py:0
-msgid ""
-"You can only remove subjects while the KRS is in Draft or Needs Revision."
-msgstr ""
-"Mata kuliah hanya dapat dihapus selama KRS berstatus Draf atau Perlu Revisi."
+msgid "You can only remove subjects while the KRS is in Draft or Needs Revision."
+msgstr "Mata kuliah hanya dapat dihapus selama KRS berstatus Draf atau Perlu Revisi."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
@@ -480,14 +404,8 @@ msgstr "Modul Portal Mahasiswa (Layanan Mandiri)"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"The Student Portal is the online self-service page where active students log"
-" in to manage their Study Plan (KRS), view Study Result Cards (KHS) and GPA,"
-" and track their Thesis and Yudisium progress."
-msgstr ""
-"Portal Mahasiswa adalah halaman layanan mandiri online bagi mahasiswa aktif "
-"untuk mengisi KRS, melihat KHS dan IPK, serta memantau proses Skripsi dan "
-"Yudisium."
+msgid "The Student Portal is the online self-service page where active students log in to manage their Study Plan (KRS), view Study Result Cards (KHS) and GPA, and track their Thesis and Yudisium progress."
+msgstr "Portal Mahasiswa adalah halaman layanan mandiri online bagi mahasiswa aktif untuk mengisi KRS, melihat KHS dan IPK, serta memantau proses Skripsi dan Yudisium."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -506,34 +424,18 @@ msgstr "<strong>Pelaksana:</strong> Mahasiswa"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Log in using your campus email and password, then open <strong>My "
-"Account</strong> (<code>/my/home</code>). From the dashboard you can jump "
-"directly to your <strong>KRS</strong>, <strong>KHS</strong>, or "
-"<strong>Thesis</strong> pages."
-msgstr ""
-"Login menggunakan email kampus dan kata sandi Anda, lalu buka <strong>Akun "
-"Saya</strong> (<code>/my/home</code>). Dari halaman ini Anda dapat langsung "
-"membuka menu <strong>KRS</strong>, <strong>KHS</strong>, atau "
-"<strong>Skripsi</strong>."
+msgid "Log in using your campus email and password, then open <strong>My Account</strong> (<code>/my/home</code>). From the dashboard you can jump directly to your <strong>KRS</strong>, <strong>KHS</strong>, or <strong>Thesis</strong> pages."
+msgstr "Login menggunakan email kampus dan kata sandi Anda, lalu buka <strong>Akun Saya</strong> (<code>/my/home</code>). Dari halaman ini Anda dapat langsung membuka menu <strong>KRS</strong>, <strong>KHS</strong>, atau <strong>Skripsi</strong>."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
-"Rules &amp; Validations:</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
-"&amp; Validasi Sistem:</strong>"
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System Rules &amp; Validations:</strong>"
+msgstr "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan &amp; Validasi Sistem:</strong>"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"You must be logged in to access any portal page; visitors who are not logged"
-" in are redirected to the login screen."
-msgstr ""
-"Anda wajib login untuk membuka seluruh halaman portal; pengunjung yang belum"
-" login akan diarahkan ke halaman masuk."
+msgid "You must be logged in to access any portal page; visitors who are not logged in are redirected to the login screen."
+msgstr "Anda wajib login untuk membuka seluruh halaman portal; pengunjung yang belum login akan diarahkan ke halaman masuk."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -542,76 +444,38 @@ msgstr "Tahap 2: Mengisi &amp; Mengajukan KRS Secara Online"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Open your active KRS in <em>Draft</em> or <em>Needs Revision</em> status."
-msgstr ""
-"Buka dokumen KRS aktif Anda yang berstatus <em>Draf</em> atau <em>Perlu "
-"Revisi</em>."
+msgid "Open your active KRS in <em>Draft</em> or <em>Needs Revision</em> status."
+msgstr "Buka dokumen KRS aktif Anda yang berstatus <em>Draf</em> atau <em>Perlu Revisi</em>."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Review the list of <strong>Available Schedules</strong> at the bottom and "
-"click <strong>Take</strong> to add a class (or <strong>Remove</strong> to "
-"drop a selected class)."
-msgstr ""
-"Lihat daftar <strong>Jadwal Tersedia</strong> di bagian bawah lalu klik "
-"<strong>Ambil (Take)</strong> untuk menambahkan kelas (atau "
-"<strong>Hapus</strong> untuk membatalkan kelas)."
+msgid "Review the list of <strong>Available Schedules</strong> at the bottom and click <strong>Take</strong> to add a class (or <strong>Remove</strong> to drop a selected class)."
+msgstr "Lihat daftar <strong>Jadwal Tersedia</strong> di bagian bawah lalu klik <strong>Ambil (Take)</strong> untuk menambahkan kelas (atau <strong>Hapus</strong> untuk membatalkan kelas)."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Once your subjects and total SKS are ready, click <strong>Submit "
-"KRS</strong> to send it to your Academic Advisor (PA)."
-msgstr ""
-"Jika daftar mata kuliah dan total SKS sudah sesuai, klik <strong>Ajukan "
-"KRS</strong> untuk mengirimnya ke Dosen PA."
+msgid "Once your subjects and total SKS are ready, click <strong>Submit KRS</strong> to send it to your Academic Advisor (PA)."
+msgstr "Jika daftar mata kuliah dan total SKS sudah sesuai, klik <strong>Ajukan KRS</strong> untuk mengirimnya ke Dosen PA."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
-"Rules &amp; Validations (What to do if blocked):</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
-"&amp; Validasi Sistem (Apa yang harus dilakukan jika tertahan):</strong>"
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System Rules &amp; Validations (What to do if blocked):</strong>"
+msgstr "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan &amp; Validasi Sistem (Apa yang harus dilakukan jika tertahan):</strong>"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<strong>Only Editable in Draft / Revision:</strong> You cannot add or remove"
-" subjects once the KRS is <em>Submitted</em>, <em>Approved</em>, or "
-"<em>Locked</em>. If you need changes after submitting, ask your Academic "
-"Advisor to return it for revision."
-msgstr ""
-"<strong>Hanya Bisa Diubah Saat Draf / Revisi:</strong> Anda tidak bisa "
-"menambah atau menghapus mata kuliah jika KRS sudah berstatus "
-"<em>Diajukan</em>, <em>Disetujui</em>, atau <em>Dikunci</em>. Jika perlu "
-"perubahan setelah diajukan, minta Dosen PA mengembalikannya untuk direvisi."
+msgid "<strong>Only Editable in Draft / Revision:</strong> You cannot add or remove subjects once the KRS is <em>Submitted</em>, <em>Approved</em>, or <em>Locked</em>. If you need changes after submitting, ask your Academic Advisor to return it for revision."
+msgstr "<strong>Hanya Bisa Diubah Saat Draf / Revisi:</strong> Anda tidak bisa menambah atau menghapus mata kuliah jika KRS sudah berstatus <em>Diajukan</em>, <em>Disetujui</em>, atau <em>Dikunci</em>. Jika perlu perubahan setelah diajukan, minta Dosen PA mengembalikannya untuk direvisi."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<strong>KRS Period Must Be Open:</strong> Students can only edit KRS within "
-"the active KRS dates. Outside this period, contact Academic Admin."
-msgstr ""
-"<strong>Periode KRS Harus Sedang Buka:</strong> Mahasiswa hanya dapat "
-"mengubah KRS dalam rentang tanggal periode KRS aktif. Di luar jadwal "
-"tersebut, hubungi Admin Akademik."
+msgid "<strong>KRS Period Must Be Open:</strong> Students can only edit KRS within the active KRS dates. Outside this period, contact Academic Admin."
+msgstr "<strong>Periode KRS Harus Sedang Buka:</strong> Mahasiswa hanya dapat mengubah KRS dalam rentang tanggal periode KRS aktif. Di luar jadwal tersebut, hubungi Admin Akademik."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"<strong>Automatic Checks on \"Take\":</strong> The portal immediately blocks"
-" and shows an alert banner if adding a class exceeds your GPA SKS limit, "
-"overlaps with another chosen schedule, has a full classroom, or misses a "
-"prerequisite subject."
-msgstr ""
-"<strong>Pemeriksaan Otomatis Saat Klik \"Ambil\":</strong> Portal langsung "
-"menahan dan menampilkan pesan peringatan jika kelas yang dipilih melebihi "
-"batas SKS IPK Anda, jadwalnya bentrok, kuota kelas sudah penuh, atau mata "
-"kuliah prasyaratnya belum lulus."
+msgid "<strong>Automatic Checks on \"Take\":</strong> The portal immediately blocks and shows an alert banner if adding a class exceeds your GPA SKS limit, overlaps with another chosen schedule, has a full classroom, or misses a prerequisite subject."
+msgstr "<strong>Pemeriksaan Otomatis Saat Klik \"Ambil\":</strong> Portal langsung menahan dan menampilkan pesan peringatan jika kelas yang dipilih melebihi batas SKS IPK Anda, jadwalnya bentrok, kuota kelas sudah penuh, atau mata kuliah prasyaratnya belum lulus."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -620,14 +484,8 @@ msgstr "Tahap 3: Melihat KHS &amp; IPK"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Open the <strong>KHS</strong> menu to see your subjects, letter grades, "
-"semester GPA (IP), and cumulative GPA (IPK). Grades appear automatically as "
-"soon as your lecturer enters them."
-msgstr ""
-"Buka menu <strong>KHS</strong> untuk melihat daftar mata kuliah, nilai "
-"huruf, IP semester, dan IPK. Nilai akan langsung tampil segera setelah dosen"
-" pengampu menginputkannya."
+msgid "Open the <strong>KHS</strong> menu to see your subjects, letter grades, semester GPA (IP), and cumulative GPA (IPK). Grades appear automatically as soon as your lecturer enters them."
+msgstr "Buka menu <strong>KHS</strong> untuk melihat daftar mata kuliah, nilai huruf, IP semester, dan IPK. Nilai akan langsung tampil segera setelah dosen pengampu menginputkannya."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -641,15 +499,8 @@ msgstr "<strong>Pelaksana:</strong> Mahasiswa Tingkat Akhir"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Open <strong>My Thesis</strong> (<code>/my/thesis</code>) to register your "
-"thesis, add consultation progress notes, upload Yudisium clearance "
-"documents, and download your Graduation Clearance Sheet PDF once approved."
-msgstr ""
-"Buka menu <strong>Skripsi Saya</strong> (<code>/my/thesis</code>) untuk "
-"mendaftarkan skripsi, mencatat progres bimbingan, mengunggah berkas "
-"yudisium, dan mengunduh Surat Keterangan Lulus/Yudisium (PDF) setelah "
-"disetujui."
+msgid "Open <strong>My Thesis</strong> (<code>/my/thesis</code>) to register your thesis, add consultation progress notes, upload Yudisium clearance documents, and download your Graduation Clearance Sheet PDF once approved."
+msgstr "Buka menu <strong>Skripsi Saya</strong> (<code>/my/thesis</code>) untuk mendaftarkan skripsi, mencatat progres bimbingan, mengunggah berkas yudisium, dan mengunduh Surat Keterangan Lulus/Yudisium (PDF) setelah disetujui."
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
@@ -658,12 +509,49 @@ msgstr "<i class=\"fa fa-lock text-dark me-2\"/> Privasi Data Mahasiswa"
 
 #. module: campus_portal
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_homepage_docs
-msgid ""
-"Each student account can only view and edit its own KRS, KHS, and Thesis "
-"records. If someone tries to open another student's document link directly, "
-"the system automatically blocks access so personal academic records stay "
-"private."
-msgstr ""
-"Setiap akun mahasiswa hanya dapat melihat dan mengelola KRS, KHS, dan "
-"Skripsi miliknya sendiri. Jika ada yang mencoba membuka tautan dokumen milik"
-" mahasiswa lain, sistem otomatis memblokirnya agar data akademik tetap aman."
+msgid "Each student account can only view and edit its own KRS, KHS, and Thesis records. If someone tries to open another student's document link directly, the system automatically blocks access so personal academic records stay private."
+msgstr "Setiap akun mahasiswa hanya dapat melihat dan mengelola KRS, KHS, dan Skripsi miliknya sendiri. Jika ada yang mencoba membuka tautan dokumen milik mahasiswa lain, sistem otomatis memblokirnya agar data akademik tetap aman."
+
+#. module: campus_portal
+msgid "That class is not offered for your study programme in this academic year."
+msgstr "Kelas tersebut tidak ditawarkan untuk program studi Anda pada tahun akademik ini."
+
+#. module: campus_portal
+msgid "That class or action conflicts with an existing registration rule."
+msgstr "Kelas atau tindakan tersebut bentrok dengan aturan pendaftaran yang berlaku."
+
+#. module: campus_portal
+msgid "Subject '%s' is already in your KRS. Remove the existing section first if you want to switch classes."
+msgstr "Mata kuliah '%s' sudah ada di KRS Anda. Hapus kelas yang ada terlebih dahulu jika ingin berganti kelas."
+
+#. module: campus_portal
+msgid "Class '%(name)s' is full (%(taken)s / %(capacity)s seats taken)."
+msgstr "Kelas '%(name)s' sudah penuh (%(taken)s / %(capacity)s kursi terisi)."
+
+#. module: campus_portal
+msgid "Schedule overlap detected between %(first)s and %(second)s."
+msgstr "Terjadi bentrok jadwal antara %(first)s dan %(second)s."
+
+#. module: campus_portal
+msgid "Choose Class"
+msgstr "Pilih Kelas"
+
+#. module: campus_portal
+msgid "Needs Schedule"
+msgstr "Belum Ada Jadwal"
+
+#. module: campus_portal
+msgid "Choose a class below"
+msgstr "Pilih kelas di bawah ini"
+
+#. module: campus_portal
+msgid "Seats"
+msgstr "Kuota Kursi"
+
+#. module: campus_portal
+msgid "Full"
+msgstr "Penuh"
+
+#. module: campus_portal
+msgid "Schedule & Room"
+msgstr "Jadwal & Ruang"

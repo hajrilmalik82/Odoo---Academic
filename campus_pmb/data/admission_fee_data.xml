@@ -10,7 +10,6 @@
             <field name="fee_type">registration</field>
             <field name="admission_path">regular</field>
             <field name="amount">250000</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="fee_registration_transfer" model="campus.admission.fee">
@@ -18,7 +17,6 @@
             <field name="fee_type">registration</field>
             <field name="admission_path">transfer</field>
             <field name="amount">350000</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="fee_registration_scholarship" model="campus.admission.fee">
@@ -26,7 +24,6 @@
             <field name="fee_type">registration</field>
             <field name="admission_path">scholarship</field>
             <field name="amount">0</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="fee_reregistration_all" model="campus.admission.fee">
@@ -34,7 +31,6 @@
             <field name="fee_type">reregistration</field>
             <field name="admission_path">all</field>
             <field name="amount">4500000</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="fee_reregistration_scholarship" model="campus.admission.fee">
@@ -42,7 +38,6 @@
             <field name="fee_type">reregistration</field>
             <field name="admission_path">scholarship</field>
             <field name="amount">0</field>
-            <field name="company_id" eval="False"/>
         </record>
 
     </data>

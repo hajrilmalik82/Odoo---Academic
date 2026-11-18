@@ -51,57 +51,30 @@ class AcademicFaculty(models.Model):
     _name = 'academic.faculty'
     _description = 'Academic Faculty'
     _order = 'name'
-    _check_company_auto = True
 
-    # Case-insensitive on purpose: a plain UNIQUE (name) compares byte for byte,
-    # so "Fakultas Teknologi Industri" and "FAKULTAS TEKNOLOGI INDUSTRI" were
-    # accepted as two different faculties and then sat side by side in the HR
-    # department tree with no way to tell them apart. An index on lower(name) is
-    # what makes the two collide.
-    # Immutable short code, and the half of a NIM that must never move. NIMs
-    # used to be built from the first letters of the CURRENT display name, so
-    # renaming "Fakultas Teknik" to "Fakultas Teknologi Industri" silently
-    # changed the prefix for every student admitted afterwards, splitting one
-    # faculty's cohort across two numbering series. Derived from the name only
-    # at creation, as a starting point; after that it is the registrar's to set
-    # and the constraint below stops it moving once NIMs exist.
+    # Immutable short code used as part of the student number (NIM) prefix.
+    # Derived from the name only at creation when omitted; locked once NIMs exist.
     code = fields.Char(
         string='Code', size=4, copy=False,
         help="Short code used to build student numbers (NIM). Cannot be changed "
              "once a student number has been issued from it.",
     )
 
-    # The NIM prefix is built from this, so two records sharing a code produce
-    # student numbers that cannot be told apart. The automatic derivation
-    # collides on exactly the pair a real campus has - "Teknik Informatika" and
-    # "Teknik Industri" both reduce to TI - so the database has to refuse it
-    # rather than leave it to be noticed years later. COALESCE for the same
-    # reason as everywhere else here: NULLs are distinct in PostgreSQL.
-    _unique_code_per_company = models.UniqueIndex(
-        "(upper(code), COALESCE(company_id, 0)) WHERE code IS NOT NULL",
+    _unique_code = models.UniqueIndex(
+        "(upper(code)) WHERE code IS NOT NULL",
         "Faculty code must be unique: it is what student numbers are built from.",
     )
 
-    # Kept global, not scoped by company_id, and deliberately so: this suite
-    # models one institution, every ir.rule in it is written without a company
-    # clause, and two faculties with the same name in one database would be a
-    # data-entry mistake whichever company they belong to. Scoping the index by
-    # company only becomes right once there are company record rules to go with
-    # it; until then it would quietly allow the duplicates this index exists to
-    # catch. (This used to defer to "audit item S-07", a document that is not in
-    # this repository and never was.)
+    # Case-insensitive: prevents near-duplicate faculty names side by side in
+    # the HR department tree.
     _unique_name_case_insensitive = models.UniqueIndex(
         "(lower(name))",
         "Faculty name must be unique!",
     )
 
     name = fields.Char(string='Name', required=True)
-    dean_id = fields.Many2one('hr.employee', string="Head of Faculty / Dean", check_company=True)
+    dean_id = fields.Many2one('hr.employee', string="Head of Faculty / Dean")
     department_id = fields.Many2one('hr.department', string="Linked HR Department", ondelete='restrict', copy=False)
-    company_id = fields.Many2one(
-        'res.company', string='Company',
-        default=lambda self: self.env.company
-    )
 
 
     def _issued_nim_count(self):
@@ -183,24 +156,9 @@ class AcademicProgram(models.Model):
     _name = 'academic.program'
     _description = 'Academic Program'
     _order = 'name'
-    _check_company_auto = True
 
-    # Global, not scoped by faculty. A programme name identifies the programme
-    # across the whole institution: "Teknik Informatika" belongs to exactly one
-    # faculty, and the same name appearing under two faculties is a data-entry
-    # mistake rather than a legitimate second programme. Scoped by faculty, the
-    # constraint accepted those duplicates, and they then showed up twice in the
-    # HR department tree with no way to tell them apart.
-    # Kept company-wide, and case-insensitive, for the same reasons as
-    # academic.faculty above.
-    # The NIM prefix is built from this, so two records sharing a code produce
-    # student numbers that cannot be told apart. The automatic derivation
-    # collides on exactly the pair a real campus has - "Teknik Informatika" and
-    # "Teknik Industri" both reduce to TI - so the database has to refuse it
-    # rather than leave it to be noticed years later. COALESCE for the same
-    # reason as everywhere else here: NULLs are distinct in PostgreSQL.
-    _unique_code_per_company = models.UniqueIndex(
-        "(upper(code), COALESCE(company_id, 0)) WHERE code IS NOT NULL",
+    _unique_code = models.UniqueIndex(
+        "(upper(code)) WHERE code IS NOT NULL",
         "Programme code must be unique: it is what student numbers are built from.",
     )
 
@@ -210,30 +168,20 @@ class AcademicProgram(models.Model):
     )
 
     name = fields.Char(string='Name', required=True)
-    # Immutable short code, and the half of a NIM that must never move. NIMs
-    # used to be built from the first letters of the CURRENT display name, so
-    # renaming "Fakultas Teknik" to "Fakultas Teknologi Industri" silently
-    # changed the prefix for every student admitted afterwards, splitting one
-    # programme's cohort across two numbering series. Derived from the name only
-    # at creation, as a starting point; after that it is the registrar's to set
-    # and the constraint below stops it moving once NIMs exist.
+    # Immutable short code used as part of the student number (NIM) prefix.
     code = fields.Char(
         string='Code', size=4, copy=False,
         help="Short code used to build student numbers (NIM). Cannot be changed "
              "once a student number has been issued from it.",
     )
     faculty_id = fields.Many2one(
-        'academic.faculty', string='Faculty', required=True, check_company=True,
+        'academic.faculty', string='Faculty', required=True,
         # Searched by faculty on every programme list and by the jurisdiction
         # record rules in campus_employees.
         index=True,
     )
-    head_id = fields.Many2one('hr.employee', string="Head of Program", check_company=True)
+    head_id = fields.Many2one('hr.employee', string="Head of Program")
     department_id = fields.Many2one('hr.department', string="Linked HR Department", ondelete='restrict', copy=False)
-    company_id = fields.Many2one(
-        'res.company', string='Company',
-        default=lambda self: self.env.company
-    )
 
 
     def _issued_nim_count(self):
@@ -251,18 +199,24 @@ class AcademicProgram(models.Model):
         for vals in vals_list:
             if not vals.get('code'):
                 vals['code'] = _derive_code(vals.get('name'))
-        for vals in vals_list:
-            if 'name' in vals and not vals.get('department_id'):
-                parent_dept_id = False
-                if vals.get('faculty_id'):
-                    faculty = self.env['academic.faculty'].browse(vals['faculty_id'])
-                    parent_dept_id = faculty.department_id.id if faculty.department_id else False
-                dept = self.env['hr.department'].create({
-                    'name': vals['name'],
-                    'parent_id': parent_dept_id,
-                    'manager_id': vals.get('head_id', False)
-                })
-                vals['department_id'] = dept.id
+        needing = [vals for vals in vals_list if 'name' in vals and not vals.get('department_id')]
+        if needing:
+            faculty_ids = {vals['faculty_id'] for vals in needing if vals.get('faculty_id')}
+            faculties = {
+                faculty.id: faculty
+                for faculty in self.env['academic.faculty'].browse(list(faculty_ids))
+            }
+            departments = self.env['hr.department'].create([{
+                'name': vals['name'],
+                'parent_id': (
+                    faculties[vals['faculty_id']].department_id.id
+                    if vals.get('faculty_id') and faculties[vals['faculty_id']].department_id
+                    else False
+                ),
+                'manager_id': vals.get('head_id', False),
+            } for vals in needing])
+            for vals, department in zip(needing, departments):
+                vals['department_id'] = department.id
         programs = super().create(vals_list)
         for program in programs:
             program._set_head_reports_to(program.faculty_id.dean_id)
@@ -300,22 +254,27 @@ class AcademicProgram(models.Model):
                         "The code of '%(name)s' can no longer be changed: student "
                         "numbers have already been issued from it."
                     ) % {'name': record.display_name})
+        outgoing_deans = (
+            {program.id: program.faculty_id.dean_id for program in self}
+            if 'faculty_id' in vals else {}
+        )
         res = super().write(vals)
         for program in self:
-            if not program.department_id:
-                continue
-            if 'name' in vals:
-                program.department_id.with_context(campus_mirror_sync=True).name = program.name
-            if 'head_id' in vals:
-                # Same reasoning as the dean above: a cleared Head of Program
-                # leaves the programme's department without a manager.
-                program.department_id.with_context(campus_mirror_sync=True).manager_id = program.head_id.id
-                if program.head_id:
-                    program._set_head_reports_to(program.faculty_id.dean_id)
+            if program.department_id:
+                if 'name' in vals:
+                    program.department_id.with_context(campus_mirror_sync=True).name = program.name
+                if 'head_id' in vals:
+                    # Same reasoning as the dean above: a cleared Head of Program
+                    # leaves the programme's department without a manager.
+                    program.department_id.with_context(campus_mirror_sync=True).manager_id = program.head_id.id
+                    if program.head_id:
+                        program._set_head_reports_to(program.faculty_id.dean_id)
+                if 'faculty_id' in vals:
+                    program.department_id.with_context(campus_mirror_sync=True).parent_id = (
+                        program.faculty_id.department_id.id if program.faculty_id.department_id else False
+                    )
             if 'faculty_id' in vals:
-                program.department_id.with_context(campus_mirror_sync=True).parent_id = (
-                    program.faculty_id.department_id.id if program.faculty_id.department_id else False
-                )
+                program._set_head_reports_to(program.faculty_id.dean_id, outgoing_deans.get(program.id))
         return res
 
     def unlink(self):

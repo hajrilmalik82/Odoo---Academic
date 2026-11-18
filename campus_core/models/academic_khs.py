@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models, Command
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 
 
 class AcademicKhs(models.Model):
@@ -7,14 +7,12 @@ class AcademicKhs(models.Model):
     _description = 'Academic Transcript (KHS)'
     _order = 'create_date desc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _check_company_auto = True
 
     name = fields.Char(string='KHS Number', required=True, copy=False, readonly=True, default=lambda self: 'New')
-    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], check_company=True, ondelete='restrict', index=True)
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, check_company=True, ondelete='restrict')
+    student_id = fields.Many2one('res.partner', string='Student', required=True, domain=[('is_student', '=', True)], ondelete='restrict', index=True)
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, ondelete='restrict')
 
     line_ids = fields.One2many('academic.khs.line', 'khs_id', string='Grade Lines')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
     # Computed GPA fields.
     # total_credits is everything the student is taking this term and is what the
     # transcript and the portal show. graded_credits is the GPA denominator: only
@@ -147,10 +145,8 @@ class AcademicKhsLine(models.Model):
     khs_id = fields.Many2one('academic.khs', string='KHS', ondelete='cascade', index=True)
     subject_id = fields.Many2one('academic.subject', string='Subject', required=True)
     # Snapshot, not a live related: a transcript must keep the SKS the subject
-    # carried when it was taken. As a related, editing a subject's credits
-    # rewrote every historical KHS and silently changed past GPAs and the
-    # printed transcript.
-    credits = fields.Integer(string='Credits', compute='_compute_credits', store=True, readonly=False)
+    # carried when it was taken, and stays read-only after lock.
+    credits = fields.Integer(string='Credits', compute='_compute_credits', store=True, readonly=True)
     schedule_ids = fields.Many2many('academic.class.schedule', string='Schedules')
     # Input field
     numeric_grade = fields.Float(string='Numeric Grade', digits=(5, 2))
@@ -185,29 +181,13 @@ class AcademicKhsLine(models.Model):
         The bands live in academic.grade.scale now. sudo() because a lecturer
         entering grades is reading campus configuration, not someone else's data.
         """
-        return self.env['academic.grade.scale'].sudo()._get_grade(
-            score, company=self.khs_id.company_id,
-        )
+        return self.env['academic.grade.scale'].sudo()._get_grade(score)
 
     @api.depends('numeric_grade', 'is_graded')
     def _compute_grade_conversion(self):
-        # Bands read once per compute call, not once per line. Saving a class's
-        # grades in the editable list used to issue one ordered SELECT per row,
-        # and a stored recompute across the whole table would have issued one per
-        # historical grade. Deliberately not ormcached: academic.grade.scale is
-        # master data a registrar edits, and a cache with no invalidation would
-        # reintroduce the staleness this audit found elsewhere.
-        Scale = self.env['academic.grade.scale'].sudo()
-        bands_by_company = {}
+        # Bands read once per compute call, not once per line.
+        bands = self.env['academic.grade.scale'].sudo().search([])
         for record in self:
-            company = record.khs_id.company_id or self.env.company
-            if company.id not in bands_by_company:
-                bands_by_company[company.id] = Scale.search(
-                    [('company_id', 'in', [company.id, False])],
-                )
-        for record in self:
-            company = record.khs_id.company_id or self.env.company
-            bands = bands_by_company[company.id]
             if not record.is_graded:
                 # Show nothing rather than a fabricated E for a subject nobody
                 # has marked yet.
@@ -222,15 +202,27 @@ class AcademicKhsLine(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            # A line created carrying a real grade is already graded. A line
-            # created empty is not: action_lock() generates a whole semester of
-            # them, and leaving is_graded False is what stops those blanks from
-            # being averaged in as zeros.
-            if vals.get('numeric_grade'):
+            # A line created with an explicit numeric_grade (including 0.0) is
+            # already graded; blank lines from action_lock() leave it False.
+            if 'numeric_grade' in vals and vals['numeric_grade'] is not None:
                 vals.setdefault('is_graded', True)
         return super().create(vals_list)
 
+    _LECTURER_WRITABLE_FIELDS = {'numeric_grade', 'is_graded'}
+
     def write(self, vals):
+        user = self.env.user
+        is_registrar = (
+            self.env.su
+            or user.has_group('campus_core.group_campus_administrator')
+            or user.has_group('campus_core.group_campus_academic_staff')
+        )
+        if not is_registrar:
+            disallowed = set(vals) - self._LECTURER_WRITABLE_FIELDS
+            if disallowed:
+                raise AccessError(_(
+                    "Lecturers can only modify grade values, not transcript structure (%s)."
+                ) % ', '.join(sorted(disallowed)))
         # Writing a grade marks the line graded, a deliberate 0 included.
         if 'numeric_grade' in vals:
             vals.setdefault('is_graded', True)

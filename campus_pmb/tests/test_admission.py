@@ -280,14 +280,11 @@ class TestAdmission(CampusCommon):
         self.assertEqual(scholarship.reregistration_fee, 0.0)
 
     def test_program_specific_reregistration_fee_overrides_default(self):
-        # Including company_id=False (like the seeded rows) must still allow
-        # pointing at a study program that belongs to the active company.
         self.env['campus.admission.fee'].create({
             'fee_type': 'reregistration',
             'admission_path': 'all',
             'program_id': self.program.id,
             'amount': 6750000.0,
-            'company_id': False,
         })
         admission = self._applicant(email='zz.fee.prodi@contoh.test', admission_path='regular')
         self.assertEqual(admission.reregistration_fee, 6750000.0)
@@ -331,3 +328,75 @@ class TestAdmission(CampusCommon):
         self.assertEqual(admission.phone, '+62 812-3456-7890')
         with self.assertRaises(ValidationError):
             admission.phone = 'bukan-nomor-telepon'
+
+    def test_renaming_institution_keeps_generated_nim_prefix(self):
+        before, _year = self.env['campus.admission']._generate_nim(
+            self.faculty, self.program, self.year,
+        )
+        self.faculty.name = '%s Fakultas Baru' % TAG
+        self.program.name = '%s Program Baru' % TAG
+        after, _year = self.env['campus.admission']._generate_nim(
+            self.faculty, self.program, self.year,
+        )
+        self.assertEqual(before.rsplit('-', 1)[0], after.rsplit('-', 1)[0])
+
+    def test_faculty_program_mismatch_and_invalid_email_rejected(self):
+        other_faculty = self.env['academic.faculty'].create({
+            'name': '%s Fakultas Mismatch' % TAG, 'code': 'ZFM',
+        })
+        with self.assertRaises(ValidationError):
+            self._applicant(
+                email='zz.mismatch@contoh.test',
+                faculty_id=other_faculty.id,
+                program_id=self.program.id,
+            )
+        with self.assertRaises(ValidationError):
+            self._applicant(email='not-an-email')
+
+    def test_re_reject_blocked_and_activities_follow_workflow(self):
+        doc_act = self.env.ref('campus_pmb.mail_activity_type_document_review')
+        pay_act = self.env.ref('campus_pmb.mail_activity_type_payment_verification')
+        acc_act = self.env.ref('campus_pmb.mail_activity_type_create_account')
+
+        adm_reject = self._applicant(email='zz.reject.twice@contoh.test')
+        adm_reject.action_submit()
+        self.assertTrue(adm_reject.activity_ids.filtered(lambda a: a.activity_type_id == doc_act))
+        adm_reject.action_reject()
+        self.assertFalse(adm_reject.activity_ids)
+        with self.assertRaises(UserError):
+            adm_reject.action_reject()
+
+        adm = self._applicant(email='zz.activity.flow@contoh.test', admission_path='regular')
+        adm.action_submit()
+        self.assertTrue(adm.activity_ids.filtered(lambda a: a.activity_type_id == pay_act))
+        adm.action_start_document_review()
+        adm.document_line_ids.write({'received': True})
+        adm.registration_fee_paid = True
+        adm.action_accept()
+        self.assertTrue(adm.activity_ids.filtered(lambda a: a.activity_type_id == acc_act))
+        adm.reregistration_fee_paid = True
+        adm.action_register()
+        self.assertFalse(adm.activity_ids)
+
+    def test_post_acceptance_locks_and_path_checklist_sync(self):
+        adm = self._applicant(email='zz.sync.path@contoh.test', admission_path='transfer')
+        self.assertIn('transcript', adm.document_line_ids.mapped('document_type'))
+        adm.write({'admission_path': 'regular'})
+        self.assertNotIn('transcript', adm.document_line_ids.mapped('document_type'))
+
+        adm.action_submit()
+        adm.action_start_document_review()
+        adm.document_line_ids.write({'received': True})
+        adm.registration_fee_paid = True
+        adm.action_accept()
+
+        with self.assertRaises(ValidationError):
+            adm.write({'program_id': self.program.id})
+        with self.assertRaises(ValidationError):
+            adm.document_line_ids[0].write({'received': False})
+
+        # Re-registration payment remains editable while accepted until registered
+        adm.reregistration_fee_paid = True
+        adm.action_register()
+        with self.assertRaises(ValidationError):
+            adm.write({'reregistration_fee_paid': False})

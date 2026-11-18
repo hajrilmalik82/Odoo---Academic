@@ -40,7 +40,6 @@
                 <field name="advisor_id"/>
                 <field name="total_credits"/>
                 <field name="state" widget="badge" decoration-info="state == 'submitted'" decoration-success="state in ('approved', 'locked')" decoration-warning="state == 'revision'" decoration-danger="state == 'rejected'"/>
-                <field name="company_id" column_invisible="1"/>
             </list>
         </field>
     </record>
@@ -87,7 +86,6 @@
 
                             <field name="package_id" readonly="state not in ('draft', 'revision')"/>
                             <field name="total_credits"/>
-                            <field name="company_id" invisible="1"/>
                         </group>
                     </group>
                     <notebook>
@@ -97,7 +95,7 @@
                                     <field name="subject_id" options="{'no_create': True}" domain="[('program_id', '=', parent.program_id)]"/>
                                     <field name="schedule_id" domain="[('class_id.subject_id', '=', subject_id)]" options="{'no_create': True}"/>
                                     <field name="class_id" column_invisible="1"/>
-                                    <field name="credits"/>
+                                    <field name="credits" readonly="1"/>
                                 </list>
                             </field>
                         </page>

@@ -10,17 +10,7 @@ from ..models.academic_institution import _derive_code
 
 @tagged('post_install', '-at_install')
 class TestInstitutionCode(CampusCommon):
-    """academic.faculty.code and academic.program.code: the NIM prefix.
-
-    The prefix used to be the initials of the CURRENT display name, so renaming
-    a faculty silently started a new numbering series for every student admitted
-    afterwards. These pin the replacement.
-    """
-
-    def _nim(self, faculty=None, program=None):
-        return self.env['campus.admission']._generate_nim(
-            faculty or self.faculty, program or self.program, self.year,
-        )[0]
+    """academic.faculty.code and academic.program.code: the NIM prefix."""
 
     def test_derivation_matches_the_old_nim_prefix(self):
         """The seed reproduces exactly what the old name-based prefix produced.
@@ -50,14 +40,13 @@ class TestInstitutionCode(CampusCommon):
         })
         self.assertEqual(program.code, 'TM')
 
-    def test_renaming_does_not_move_the_nim_prefix(self):
-        before = self._nim()
+    def test_renaming_does_not_move_the_codes(self):
+        before = (self.faculty.code, self.program.code)
         self.faculty.name = '%s Fakultas Teknologi Industri' % TAG
         self.program.name = '%s Teknik Informatika dan Komputer' % TAG
-        after = self._nim()
         self.assertEqual(
-            before.rsplit('-', 1)[0], after.rsplit('-', 1)[0],
-            "renaming a faculty or programme must not change the NIM prefix",
+            (self.faculty.code, self.program.code), before,
+            "renaming a faculty or programme must not change the NIM prefix codes",
         )
 
     def test_code_is_locked_once_a_nim_has_been_issued(self):

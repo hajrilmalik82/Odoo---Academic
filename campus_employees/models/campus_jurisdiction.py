@@ -122,11 +122,25 @@ class CampusJurisdiction(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('all_faculties') and 'all_programs' not in vals and not vals.get('program_ids'):
+                vals['all_programs'] = True
         records = super().create(vals_list)
         self.env.registry.clear_cache()
         return records
 
     def write(self, vals):
+        if vals.get('all_faculties') and 'all_programs' not in vals and not vals.get('program_ids'):
+            # Only mirror _onchange_all_faculties when no explicit program filter exists.
+            with_no_programs = self.filtered(lambda rec: not rec.program_ids)
+            other = self - with_no_programs
+            res = True
+            if with_no_programs:
+                res = super(CampusJurisdiction, with_no_programs).write(dict(vals, all_programs=True))
+            if other:
+                res = super(CampusJurisdiction, other).write(vals) and res
+            self.env.registry.clear_cache()
+            return res
         res = super().write(vals)
         self.env.registry.clear_cache()
         return res
@@ -165,6 +179,10 @@ class CampusJurisdiction(models.Model):
             domain.append(('%s.faculty_id' % program_path, 'in', record.faculty_ids.ids))
         if not record.all_programs and record.program_ids:
             domain.append((program_path, 'in', record.program_ids.ids))
+        elif record.all_faculties and not record.all_programs and not record.program_ids:
+            # Explicit all_faculties=True with all_programs=False and zero selected programs
+            # should fail closed instead of silently unlocking every program.
+            return [(0, '=', 1)]
         # A bare list of leaves is AND'ed by Odoo. Empty means both dimensions
         # are unrestricted, which is "everything".
         return domain or [(1, '=', 1)]

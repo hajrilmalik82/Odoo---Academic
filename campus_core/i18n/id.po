@@ -19,12 +19,8 @@ msgstr ""
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_class.py:0
-msgid ""
-"%(count)s session(s) of this class have already started. Delete them "
-"manually first if you really mean to rebuild the schedule."
-msgstr ""
-"%(count)s pertemuan kelas ini sudah berlangsung. Hapus dulu secara manual "
-"bila Anda memang ingin menyusun ulang jadwalnya."
+msgid "%(count)s session(s) of this class have already started. Delete them manually first if you really mean to rebuild the schedule."
+msgstr "%(count)s pertemuan kelas ini sudah berlangsung. Hapus dulu secara manual bila Anda memang ingin menyusun ulang jadwalnya."
 
 #. module: campus_core
 #. odoo-python
@@ -57,14 +53,8 @@ msgstr ""
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"A KHS already exists for %(student)s in %(year)s. Delete it before "
-"%(action)s, otherwise its grades would keep counting towards the CGPA with "
-"no study plan behind them."
-msgstr ""
-"KHS untuk %(student)s pada %(year)s sudah ada. Hapus dulu sebelum "
-"%(action)s, bila tidak nilainya akan terus dihitung ke IPK tanpa KRS yang "
-"mendasarinya."
+msgid "A KHS already exists for %(student)s in %(year)s. Delete it before %(action)s, otherwise its grades would keep counting towards the CGPA with no study plan behind them."
+msgstr "KHS untuk %(student)s pada %(year)s sudah ada. Hapus dulu sebelum %(action)s, bila tidak nilainya akan terus dihitung ke IPK tanpa KRS yang mendasarinya."
 
 #. module: campus_core
 #. odoo-python
@@ -90,18 +80,13 @@ msgstr "Seorang mahasiswa hanya dapat memiliki satu KRS per tahun akademik."
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_course_package_line_unique_subject_per_package
 msgid "A subject can only appear once in a course package."
-msgstr ""
-"Suatu mata pelajaran hanya dapat muncul satu kali dalam satu paket kursus."
+msgstr "Suatu mata kuliah hanya dapat muncul satu kali dalam satu paket mata kuliah."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_subject.py:0
-msgid ""
-"A subject cannot be its own prerequisite, directly or through a chain of "
-"prerequisites."
-msgstr ""
-"Mata kuliah tidak boleh menjadi prasyarat bagi dirinya sendiri, baik "
-"langsung maupun melalui rantai prasyarat."
+msgid "A subject cannot be its own prerequisite, directly or through a chain of prerequisites."
+msgstr "Mata kuliah tidak boleh menjadi prasyarat bagi dirinya sendiri, baik langsung maupun melalui rantai prasyarat."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_krs__advisor_id
@@ -216,8 +201,7 @@ msgstr "Tahun Akademik"
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_year_name_term_company_unique
 msgid "Academic Year with this name and term already exists for this company."
-msgstr ""
-"Tahun Akademik dengan nama dan istilah ini sudah ada untuk perusahaan ini."
+msgstr "Tahun Akademik dengan nama dan istilah ini sudah ada untuk perusahaan ini."
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_academic_year
@@ -293,22 +277,19 @@ msgstr "Dosen Pembimbing Akademik"
 #. odoo-python
 #: code:addons/campus_core/wizard/krs_generator_wizard.py:0
 msgid "All selected students already have a KRS for this academic year."
-msgstr ""
-"Semua mahasiswa yang dipilih sudah punya KRS untuk tahun akademik ini."
+msgstr "Semua mahasiswa yang dipilih sudah punya KRS untuk tahun akademik ini."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "All subjects must have a selected schedule before submitting."
-msgstr ""
-"Semua mata pelajaran harus memiliki jadwal yang dipilih sebelum diserahkan."
+msgstr "Semua mata kuliah harus memiliki jadwal yang dipilih sebelum diserahkan."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_khs.py:0
-msgid ""
-"An approved KRS is required before creating a KHS for this academic period."
-msgstr "Menyetujui/Menolak KRS"
+msgid "An approved KRS is required before creating a KHS for this academic period."
+msgstr "KRS yang disetujui diperlukan sebelum membuat KHS untuk periode akademik ini."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_krs_form
@@ -449,12 +430,8 @@ msgstr "Batal"
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_institution.py:0
-msgid ""
-"Cannot delete %(names)s: employees are still assigned to the linked HR "
-"department. Move them to another department first."
-msgstr ""
-"Tidak dapat menghapus %(names)s: masih ada pegawai pada departemen HR yang "
-"terkait. Pindahkan dulu ke departemen lain."
+msgid "Cannot delete %(names)s: employees are still assigned to the linked HR department. Move them to another department first."
+msgstr "Tidak dapat menghapus %(names)s: masih ada pegawai pada departemen HR yang terkait. Pindahkan dulu ke departemen lain."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class_schedule__room_capacity
@@ -727,32 +704,20 @@ msgstr "SKS Diambil"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_form
-msgid ""
-"Credits already marked by a lecturer. This is the denominator of the Term "
-"GPA; unmarked subjects are not averaged in."
-msgstr ""
-"SKS yang sudah dinilai dosen. Ini penyebut IP Semester; mata kuliah yang "
-"belum dinilai tidak ikut dirata-rata."
+msgid "Credits already marked by a lecturer. This is the denominator of the Term GPA; unmarked subjects are not averaged in."
+msgstr "SKS yang sudah dinilai dosen. Ini penyebut IP Semester; mata kuliah yang belum dinilai tidak ikut dirata-rata."
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_res_partner__graded_credits
 #: model:ir.model.fields,help:campus_core.field_res_users__graded_credits
-msgid ""
-"Credits counted towards the CGPA: one attempt per subject, the best one."
-msgstr ""
-"SKS yang diperhitungkan ke IPK: satu percobaan per mata kuliah, yang "
-"terbaik."
+msgid "Credits counted towards the CGPA: one attempt per subject, the best one."
+msgstr "SKS yang diperhitungkan ke IPK: satu percobaan per mata kuliah, yang terbaik."
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_res_partner__earned_credits
 #: model:ir.model.fields,help:campus_core.field_res_users__earned_credits
-msgid ""
-"Credits from subjects passed at or above the configured passing grade point."
-" Lower than the graded total when a subject was failed and not yet repeated."
-msgstr ""
-"SKS dari mata kuliah yang lulus pada atau di atas bobot nilai kelulusan. "
-"Lebih kecil dari total SKS dinilai bila ada mata kuliah yang tidak lulus dan"
-" belum diulang."
+msgid "Credits from subjects passed at or above the configured passing grade point. Lower than the graded total when a subject was failed and not yet repeated."
+msgstr "SKS dari mata kuliah yang lulus pada atau di atas bobot nilai kelulusan. Lebih kecil dari total SKS dinilai bila ada mata kuliah yang tidak lulus dan belum diulang."
 
 #. module: campus_core
 #. odoo-python
@@ -796,8 +761,7 @@ msgstr "Dekan Fakultas"
 #. module: campus_core
 #: model_terms:ir.actions.act_window,help:campus_core.action_academic_credit_limit
 msgid "Define how many credits a student may take at each CGPA level"
-msgstr ""
-"Tentukan berapa SKS yang boleh diambil mahasiswa pada tiap tingkat IPK"
+msgstr "Tentukan berapa SKS yang boleh diambil mahasiswa pada tiap tingkat IPK"
 
 #. module: campus_core
 #: model_terms:ir.actions.act_window,help:campus_core.action_academic_grade_scale
@@ -807,7 +771,7 @@ msgstr "Tentukan bagaimana nilai angka dikonversi menjadi huruf mutu"
 #. module: campus_core
 #: model:ir.model,name:campus_core.model_hr_department
 msgid "Department"
-msgstr ""
+msgstr "Departemen"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_grade_scale__description
@@ -929,9 +893,8 @@ msgstr "Fakultas"
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_faculty_unique_code_per_company
-msgid ""
-"Faculty code must be unique: it is what student numbers are built from."
-msgstr ""
+msgid "Faculty code must be unique: it is what student numbers are built from."
+msgstr "Kode fakultas harus unik: kode ini digunakan untuk membentuk NIM mahasiswa."
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_faculty_unique_name_case_insensitive
@@ -1093,8 +1056,7 @@ msgstr "Berapa SKS yang boleh diambil mahasiswa pada tiap tingkat IPK."
 #: model:ir.model.fields,help:campus_core.field_res_config_settings__campus_sessions_per_term
 #: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
 msgid "How many weekly meetings Generate Sessions creates for a class."
-msgstr ""
-"Berapa pertemuan mingguan yang dibuat Generate Sessions untuk satu kelas."
+msgstr "Berapa pertemuan mingguan yang dibuat Generate Sessions untuk satu kelas."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
@@ -1178,9 +1140,7 @@ msgstr "Catatan internal..."
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "Invalid KRS status change from '%(old_state)s' to '%(new_state)s'."
-msgstr ""
-"Perubahan status KRS dari '%(old_state)s' ke '%(new_state)s' tidak "
-"diizinkan."
+msgstr "Perubahan status KRS dari '%(old_state)s' ke '%(new_state)s' tidak diizinkan."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__message_is_follower
@@ -1265,20 +1225,14 @@ msgstr "Tanggal Mulai KRS"
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"KRS subjects can only be added while the KRS is in Draft or Needs Revision."
-msgstr ""
-"Mata kuliah hanya dapat ditambahkan selama KRS berstatus Draf atau Perlu "
-"Revisi."
+msgid "KRS subjects can only be added while the KRS is in Draft or Needs Revision."
+msgstr "Mata kuliah hanya dapat ditambahkan selama KRS berstatus Draf atau Perlu Revisi."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"KRS subjects can only be changed while the KRS is in Draft or Needs "
-"Revision."
-msgstr ""
-"Mata kuliah hanya dapat diubah selama KRS berstatus Draf atau Perlu Revisi."
+msgid "KRS subjects can only be changed while the KRS is in Draft or Needs Revision."
+msgstr "Mata kuliah hanya dapat diubah selama KRS berstatus Draf atau Perlu Revisi."
 
 #. module: campus_core
 #: model:ir.model.fields.selection,name:campus_core.selection__campus_room__room_type__lab
@@ -1406,21 +1360,13 @@ msgstr "IPK terendah yang memenuhi syarat untuk batas SKS ini."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.res_config_settings_view_form_campus
-msgid ""
-"Lowest grade point that counts as a pass. Decides whether a prerequisite has"
-" been met and which credits count as earned."
-msgstr ""
-"Bobot nilai terendah yang dianggap lulus. Menentukan apakah prasyarat sudah "
-"terpenuhi dan SKS mana yang dihitung lulus."
+msgid "Lowest grade point that counts as a pass. Decides whether a prerequisite has been met and which credits count as earned."
+msgstr "Bobot nilai terendah yang dianggap lulus. Menentukan apakah prasyarat sudah terpenuhi dan SKS mana yang dihitung lulus."
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_res_config_settings__campus_pass_grade_point
-msgid ""
-"Lowest grade point that counts as a pass. Used to decide whether a "
-"prerequisite has been met and which credits count as earned."
-msgstr ""
-"Bobot nilai terendah yang dianggap lulus. Dipakai untuk menentukan apakah "
-"prasyarat sudah terpenuhi dan SKS mana yang dihitung lulus."
+msgid "Lowest grade point that counts as a pass. Used to decide whether a prerequisite has been met and which credits count as earned."
+msgstr "Bobot nilai terendah yang dianggap lulus. Dipakai untuk menentukan apakah prasyarat sudah terpenuhi dan SKS mana yang dihitung lulus."
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_grade_scale__min_score
@@ -1539,9 +1485,7 @@ msgstr "Senin"
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_credit_limit__max_credits
 msgid "Most credits a student in this band may register in one term."
-msgstr ""
-"SKS terbanyak yang boleh diambil mahasiswa pada rentang ini dalam satu "
-"semester."
+msgstr "SKS terbanyak yang boleh diambil mahasiswa pada rentang ini dalam satu semester."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__my_activity_date_deadline
@@ -1624,21 +1568,14 @@ msgstr "No."
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_khs.py:0
-msgid ""
-"No approved KRS found for this student in the selected academic period."
-msgstr ""
-"Tidak ditemukan KRS yang disetujui untuk mahasiswa ini pada periode akademik"
-" yang dipilih."
+msgid "No approved KRS found for this student in the selected academic period."
+msgstr "Tidak ditemukan KRS yang disetujui untuk mahasiswa ini pada periode akademik yang dipilih."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"No credit limit bands are configured. Set them under Academic System > "
-"Configuration > Credit Limits before students can submit a KRS."
-msgstr ""
-"Belum ada rentang batas SKS yang diatur. Atur di Academic System > "
-"Configuration > Batas SKS sebelum mahasiswa dapat mengajukan KRS."
+msgid "No credit limit bands are configured. Set them under Academic System > Configuration > Credit Limits before students can submit a KRS."
+msgstr "Belum ada rentang batas SKS yang diatur. Atur di Academic System > Configuration > Batas SKS sebelum mahasiswa dapat mengajukan KRS."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.report_transcript_document
@@ -1648,18 +1585,13 @@ msgstr "Belum ada mata kuliah yang dinilai."
 #. module: campus_core
 #: model_terms:ir.actions.act_window,help:campus_core.action_academic_class_schedule
 msgid "No schedules found. Schedules are created from within a Class record."
-msgstr ""
-"Tidak ada jadwal yang ditemukan. Jadwal dibuat dari dalam catatan Kelas."
+msgstr "Tidak ada jadwal yang ditemukan. Jadwal dibuat dari dalam catatan Kelas."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
-msgid ""
-"Not enough seats: %(capacity)s in the room, %(taken)s already taken, "
-"%(adding)s being assigned."
-msgstr ""
-"Kursi tidak cukup: %(capacity)s di ruangan, %(taken)s sudah terisi, "
-"%(adding)s sedang ditempatkan."
+msgid "Not enough seats: %(capacity)s in the room, %(taken)s already taken, %(adding)s being assigned."
+msgstr "Kursi tidak cukup: %(capacity)s di ruangan, %(taken)s sudah terisi, %(adding)s sedang ditempatkan."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__message_needaction_counter
@@ -1687,7 +1619,7 @@ msgstr "Jumlah pesan yang memerlukan tindakan"
 #: model:ir.model.fields,help:campus_core.field_academic_khs__message_has_error_counter
 #: model:ir.model.fields,help:campus_core.field_academic_krs__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Hanya PMB yang dapat menerima lamaran."
+msgstr "Jumlah pesan yang gagal dikirim"
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_khs_line__numeric_grade
@@ -1717,8 +1649,7 @@ msgstr "Cuti"
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "Only Campus Administrators can perform this KRS status change."
-msgstr ""
-"Hanya Campus Administrator yang dapat melakukan perubahan status KRS ini."
+msgstr "Hanya Campus Administrator yang dapat melakukan perubahan status KRS ini."
 
 #. module: campus_core
 #. odoo-python
@@ -1736,9 +1667,7 @@ msgstr "Hanya catatan KRS yang disetujui yang dapat dikunci."
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "Only campus administrators can reset an approved KRS to draft."
-msgstr ""
-"Hanya pengurus kampus yang dapat mereset KRS yang telah disetujui menjadi "
-"draft."
+msgstr "Hanya pengurus kampus yang dapat mereset KRS yang telah disetujui menjadi draft."
 
 #. module: campus_core
 #. odoo-python
@@ -1749,18 +1678,13 @@ msgstr "Hanya rekaman KRS draf atau revisi yang dapat diserahkan."
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"Only locked KRS records can be unlocked. '%(name)s' is currently "
-"'%(state)s'."
-msgstr ""
-"Hanya catatan KRS yang terkunci yang dapat dibuka kuncinya. ' %(name)s ' "
-"saat ini adalah ' %(state)s '."
+msgid "Only locked KRS records can be unlocked. '%(name)s' is currently '%(state)s'."
+msgstr "Hanya catatan KRS yang terkunci yang dapat dibuka kuncinya. ' %(name)s ' saat ini adalah ' %(state)s '."
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_credit_limit_unique_band_per_company
 msgid "Only one credit limit band may start at a given CGPA."
-msgstr ""
-"Hanya boleh ada satu rentang batas SKS yang dimulai pada IPK tertentu."
+msgstr "Hanya boleh ada satu rentang batas SKS yang dimulai pada IPK tertentu."
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_grade_scale_unique_score_per_company
@@ -1783,17 +1707,13 @@ msgstr "Hanya rekaman KRS yang diserahkan yang dapat ditolak."
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "Only submitted KRS records can be sent for revision."
-msgstr ""
-"Hanya rekaman KRS yang telah diserahkan yang dapat dikirim untuk direvisi."
+msgstr "Hanya rekaman KRS yang telah diserahkan yang dapat dikirim untuk direvisi."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"Only the assigned Academic Advisor or Academic Admin can approve this KRS."
-msgstr ""
-"Hanya Pembimbing Akademik atau Admin Akademik yang ditugaskan yang dapat "
-"menyetujui KRS ini."
+msgid "Only the assigned Academic Advisor or Academic Admin can approve this KRS."
+msgstr "Hanya Pembimbing Akademik atau Admin Akademik yang ditugaskan yang dapat menyetujui KRS ini."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_course_package_line__package_id
@@ -1885,9 +1805,8 @@ msgstr "Nama program studi tidak boleh sama!"
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_program_unique_code_per_company
-msgid ""
-"Programme code must be unique: it is what student numbers are built from."
-msgstr ""
+msgid "Programme code must be unique: it is what student numbers are built from."
+msgstr "Kode program studi harus unik: kode ini digunakan untuk membentuk NIM mahasiswa."
 
 #. module: campus_core
 #: model:ir.actions.act_window,name:campus_core.action_academic_program
@@ -2025,11 +1944,8 @@ msgstr "Jadwal"
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
-msgid ""
-"Schedule '%(schedule)s' belongs to a different academic year than this KRS."
-msgstr ""
-"Jadwal '%(schedule)s' berasal dari tahun akademik yang berbeda dengan KRS "
-"ini."
+msgid "Schedule '%(schedule)s' belongs to a different academic year than this KRS."
+msgstr "Jadwal '%(schedule)s' berasal dari tahun akademik yang berbeda dengan KRS ini."
 
 #. module: campus_core
 #. odoo-python
@@ -2094,17 +2010,17 @@ msgstr "Nilai angka ke huruf mutu"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_building_search
 msgid "Search Buildings"
-msgstr ""
+msgstr "Cari Gedung"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_credit_limit_search
 msgid "Search Credit Limits"
-msgstr ""
+msgstr "Cari Batas SKS"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_grade_scale_search
 msgid "Search Grade Scale"
-msgstr ""
+msgstr "Cari Skala Nilai"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_khs_search
@@ -2124,7 +2040,7 @@ msgstr "Penanganan Sementara group_domain Panel Pencarian"
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_room_search
 msgid "Search Rooms"
-msgstr ""
+msgstr "Cari Ruangan"
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_schedule_search
@@ -2153,14 +2069,8 @@ msgstr "Pilih Mahasiswa..."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_assign_schedule_wizard_form
-msgid ""
-"Select a schedule and the students you wish to assign to it. Only students "
-"who have added this subject to their KRS but haven't selected a schedule yet"
-" are shown."
-msgstr ""
-"Pilih jadwal dan siswa yang ingin Anda tugaskan. Hanya siswa yang telah "
-"menambahkan mata pelajaran ini ke KRS tetapi belum memilih jadwal yang "
-"ditampilkan."
+msgid "Select a schedule and the students you wish to assign to it. Only students who have added this subject to their KRS but haven't selected a schedule yet are shown."
+msgstr "Pilih jadwal dan siswa yang ingin Anda tugaskan. Hanya siswa yang telah menambahkan mata kuliah ini ke KRS tetapi belum memilih jadwal yang ditampilkan."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_krs_generator_wizard_form
@@ -2261,12 +2171,8 @@ msgstr "Kembalikan ke Draf"
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_faculty__code
 #: model:ir.model.fields,help:campus_core.field_academic_program__code
-msgid ""
-"Short code used to build student numbers (NIM). Cannot be changed once a "
-"student number has been issued from it."
-msgstr ""
-"Kode singkat untuk menyusun NIM. Tidak bisa diubah setelah ada NIM yang "
-"diterbitkan dari kode ini."
+msgid "Short code used to build student numbers (NIM). Cannot be changed once a student number has been issued from it."
+msgstr "Kode singkat untuk menyusun NIM. Tidak bisa diubah setelah ada NIM yang diterbitkan dari kode ini."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_academic_class__start_date
@@ -2285,11 +2191,8 @@ msgstr "Waktu Mulai"
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_class__start_date
-msgid ""
-"Starting point for Generate Sessions. The number of meetings comes from "
-"Settings."
-msgstr ""
-"Titik awal Generate Sessions. Jumlah pertemuannya diambil dari Pengaturan."
+msgid "Starting point for Generate Sessions. The number of meetings comes from Settings."
+msgstr "Titik awal Generate Sessions. Jumlah pertemuannya diambil dari Pengaturan."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
@@ -2349,30 +2252,20 @@ msgstr "Siswa %(student)s sudah memiliki jadwal yang ditetapkan."
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
-msgid ""
-"Student %(student)s's KRS belongs to a different academic year than this "
-"class."
-msgstr ""
-"KRS mahasiswa %(student)s berasal dari tahun akademik yang berbeda dengan "
-"kelas ini."
+msgid "Student %(student)s's KRS belongs to a different academic year than this class."
+msgstr "KRS mahasiswa %(student)s berasal dari tahun akademik yang berbeda dengan kelas ini."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
-msgid ""
-"Student %(student)s's KRS is already %(state)s and can no longer be changed."
-msgstr ""
-"KRS mahasiswa %(student)s sudah berstatus %(state)s dan tidak dapat diubah "
-"lagi."
+msgid "Student %(student)s's KRS is already %(state)s and can no longer be changed."
+msgstr "KRS mahasiswa %(student)s sudah berstatus %(state)s dan tidak dapat diubah lagi."
 
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/wizard/assign_schedule_wizard.py:0
-msgid ""
-"Student %(student)s's KRS line is for a different subject than this class."
-msgstr ""
-"Baris KRS mahasiswa %(student)s untuk mata kuliah yang berbeda dengan kelas "
-"ini."
+msgid "Student %(student)s's KRS line is for a different subject than this class."
+msgstr "Baris KRS mahasiswa %(student)s untuk mata kuliah yang berbeda dengan kelas ini."
 
 #. module: campus_core
 #: model:ir.model.fields,field_description:campus_core.field_res_partner__nim
@@ -2422,9 +2315,7 @@ msgstr "Transkrip Nilai Mahasiswa (KHS)"
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "Student cannot take the same subject '%s' twice in one KRS."
-msgstr ""
-"Mahasiswa tidak dapat mengambil mata pelajaran yang sama '%s' dua kali dalam"
-" satu KRS."
+msgstr "Mahasiswa tidak dapat mengambil mata kuliah yang sama '%s' dua kali dalam satu KRS."
 
 #. module: campus_core
 #: model:mail.activity.type,summary:campus_core.mail_activity_type_krs_revision
@@ -2590,18 +2481,13 @@ msgstr "Masa pengisian KRS tidak boleh berakhir sebelum dimulai."
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/academic_institution.py:0
-msgid ""
-"The code of '%(name)s' can no longer be changed: student numbers have "
-"already been issued from it."
-msgstr ""
-"Kode '%(name)s' tidak dapat diubah lagi: sudah ada NIM yang diterbitkan dari"
-" kode ini."
+msgid "The code of '%(name)s' can no longer be changed: student numbers have already been issued from it."
+msgstr "Kode '%(name)s' tidak dapat diubah lagi: sudah ada NIM yang diterbitkan dari kode ini."
 
 #. module: campus_core
 #: model:ir.model.constraint,message:campus_core.constraint_academic_khs_line_unique_khs_subject
 msgid "The same subject cannot appear more than once in a KHS."
-msgstr ""
-"Subyek yang sama tidak boleh muncul lebih dari satu kali dalam satu KHS."
+msgstr "Subyek yang sama tidak boleh muncul lebih dari satu kali dalam satu KHS."
 
 #. module: campus_core
 #. odoo-python
@@ -2617,11 +2503,8 @@ msgstr "Teori"
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/hr_department.py:0
-msgid ""
-"These departments mirror academic records and cannot be deleted from here: "
-"%(names)s. Delete the faculty or programme instead and its department goes "
-"with it."
-msgstr ""
+msgid "These departments mirror academic records and cannot be deleted from here: %(names)s. Delete the faculty or programme instead and its department goes with it."
+msgstr "Departemen ini mencerminkan data akademik dan tidak dapat dihapus dari sini: %(names)s. Hapus fakultas atau program studinya maka departemennya akan ikut terhapus."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_academic_class_session_search
@@ -2661,8 +2544,7 @@ msgstr "Total SKS Dinilai"
 #. odoo-python
 #: code:addons/campus_core/models/academic_krs.py:0
 msgid "Total credits cannot exceed %(max_credits)s SKS for this student."
-msgstr ""
-"Total SKS tidak boleh melebihi %(max_credits)s SKS untuk mahasiswa ini."
+msgstr "Total SKS tidak boleh melebihi %(max_credits)s SKS untuk mahasiswa ini."
 
 #. module: campus_core
 #. odoo-python
@@ -2741,12 +2623,8 @@ msgstr "Bobot yang dipakai dalam perhitungan IP."
 
 #. module: campus_core
 #: model:ir.model.fields,help:campus_core.field_academic_grade_scale__description
-msgid ""
-"Wording printed beside this band on the official transcript, for example "
-"Excellent or Pass."
-msgstr ""
-"Keterangan yang dicetak di samping rentang ini pada transkrip resmi, "
-"misalnya Sangat Baik atau Lulus."
+msgid "Wording printed beside this band on the official transcript, for example Excellent or Pass."
+msgstr "Keterangan yang dicetak di samping rentang ini pada transkrip resmi, misalnya Sangat Baik atau Lulus."
 
 #. module: campus_core
 #: model_terms:ir.ui.view,arch_db:campus_core.view_campus_student_form_standalone
@@ -2777,8 +2655,7 @@ msgstr ""
 
 #. module: campus_core
 #: model:ir.actions.report,print_report_name:campus_core.action_report_transcript
-msgid ""
-"object.with_context(campus_transcript_filename=True)._get_report_base_filename()"
+msgid "object.with_context(campus_transcript_filename=True)._get_report_base_filename()"
 msgstr ""
 
 #. module: campus_core
@@ -2790,11 +2667,8 @@ msgstr "mengembalikan KRS ini ke draf"
 #. module: campus_core
 #. odoo-python
 #: code:addons/campus_core/models/hr_department.py:0
-msgid ""
-"“%(department)s” mirrors %(owner)s and is kept in step with it. Change it in"
-" Academic System > Configuration instead; editing it here would leave the "
-"two disagreeing with nothing to notice."
-msgstr ""
+msgid "“%(department)s” mirrors %(owner)s and is kept in step with it. Change it in Academic System > Configuration instead; editing it here would leave the two disagreeing with nothing to notice."
+msgstr "“%(department)s” mencerminkan %(owner)s dan disinkronkan dengannya. Ubah melalui Sistem Akademik > Konfigurasi; mengubah dari sini akan membuat keduanya tidak sinkron."
 
 #. module: campus_core
 #: code:addons/campus_core/models/res_partner.py:0
@@ -2815,3 +2689,55 @@ msgstr "Rencana Studi"
 #: code:addons/campus_core/models/res_partner.py:0
 msgid "Transcripts"
 msgstr "Transkrip"
+
+#. module: campus_core
+msgid "Building code must be unique!"
+msgstr "Kode gedung harus unik!"
+
+#. module: campus_core
+msgid "Academic Year with this name and term already exists."
+msgstr "Tahun Akademik dengan nama dan semester tersebut sudah ada."
+
+#. module: campus_core
+msgid "Subject '%(subject)s' does not belong to program '%(program)s'."
+msgstr "Mata kuliah '%(subject)s' bukan milik program studi '%(program)s'."
+
+#. module: campus_core
+msgid "Only the assigned Academic Advisor or Academic Admin can review this KRS."
+msgstr "Hanya Dosen PA yang ditugaskan atau Admin Akademik yang dapat meninjau KRS ini."
+
+#. module: campus_core
+msgid "Schedule '%(schedule)s' belongs to a different subject than '%(subject)s'."
+msgstr "Jadwal '%(schedule)s' berasal dari mata kuliah yang berbeda dengan '%(subject)s'."
+
+#. module: campus_core
+msgid "Only Campus Administrators can manually override KRS line credits."
+msgstr "Hanya Administrator Kampus yang dapat mengubah jumlah SKS baris KRS secara manual."
+
+#. module: campus_core
+msgid "KRS subjects can only be moved to a KRS in Draft or Needs Revision."
+msgstr "Mata kuliah KRS hanya dapat dipindahkan ke KRS berstatus Draf atau Perlu Revisi."
+
+#. module: campus_core
+msgid "KRS lines cannot be moved to another student's KRS."
+msgstr "Baris KRS tidak dapat dipindahkan ke KRS mahasiswa lain."
+
+#. module: campus_core
+msgid "Lecturers can only modify grade values, not transcript structure (%s)."
+msgstr "Dosen hanya dapat mengubah nilai, bukan struktur transkrip (%s)."
+
+#. module: campus_core
+msgid "The selected course package has no subjects."
+msgstr "Paket mata kuliah yang dipilih belum memiliki mata kuliah."
+
+#. module: campus_core
+msgid "Only active students can receive a KRS package (inactive: %s)."
+msgstr "Hanya mahasiswa aktif yang dapat menerima paket KRS (tidak aktif: %s)."
+
+#. module: campus_core
+msgid "Student %(student)s already has a section of '%(subject)s' in their KRS."
+msgstr "Mahasiswa %(student)s sudah memiliki kelas untuk '%(subject)s' di KRS-nya."
+
+#. module: campus_core
+msgid "Assigning %(student)s to %(target)s overlaps with %(existing)s."
+msgstr "Menjadwalkan %(student)s ke %(target)s bentrok dengan %(existing)s."

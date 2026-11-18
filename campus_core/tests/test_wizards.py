@@ -68,6 +68,25 @@ class TestKrsGeneratorWizard(CampusCommon):
         with self.assertRaises(ValidationError):
             wizard.action_generate_krs()
 
+    def test_it_rejects_inactive_student_and_empty_package(self):
+        self.student.student_status = 'leave'
+        with self.assertRaises(ValidationError):
+            self._wizard(self.student).action_generate_krs()
+
+        empty_pkg = self.env['academic.course.package'].create({
+            'name': '%s Paket Kosong' % TAG,
+            'program_id': self.program.id,
+            'academic_year_id': self.year_next.id,
+            'semester': '1',
+        })
+        self.student.student_status = 'active'
+        wizard = self.env['krs.generator.wizard'].create({
+            'package_id': empty_pkg.id,
+            'student_ids': [(6, 0, [self.student.id])],
+        })
+        with self.assertRaises(ValidationError):
+            wizard.action_generate_krs()
+
 
 @tagged('post_install', '-at_install')
 class TestAssignScheduleWizard(CampusCommon):
@@ -152,3 +171,31 @@ class TestAssignScheduleWizard(CampusCommon):
         line.schedule_id = self.schedule
         with self.assertRaises(ValidationError):
             self._wizard(line).action_assign_schedule()
+
+    def test_it_refuses_student_schedule_clash(self):
+        student = self._student('W11')
+        room_b = self.env['campus.room'].create({
+            'name': '%s B-101' % TAG, 'building_id': self.building.id,
+            'capacity': 5, 'room_type': 'theory',
+        })
+        klass_b = self.env['academic.class'].create({
+            'subject_id': self.subject_b.id, 'academic_year_id': self.year.id,
+            'start_date': self.year.krs_start_date,
+        })
+        clash_schedule = self.env['academic.class.schedule'].create({
+            'class_id': klass_b.id, 'class_code': 'A',
+            'day_of_week': self.schedule.day_of_week,
+            'start_time': self.schedule.start_time,
+            'end_time': self.schedule.end_time,
+            'room_id': room_b.id,
+        })
+        krs = self.env['academic.krs'].create({
+            'student_id': student.id, 'academic_year_id': self.year.id,
+            'line_ids': [
+                (0, 0, {'subject_id': self.subject_a.id}),
+                (0, 0, {'schedule_id': clash_schedule.id}),
+            ],
+        })
+        unscheduled_line = krs.line_ids.filtered(lambda row: not row.schedule_id)
+        with self.assertRaises(ValidationError):
+            self._wizard(unscheduled_line).action_assign_schedule()

@@ -2,10 +2,12 @@ import functools
 import logging
 from urllib.parse import urlencode
 
+from psycopg2 import IntegrityError
+
 from odoo import http, _
 from odoo.addons.portal.controllers.portal import CustomerPortal
 from odoo.http import request
-from odoo.exceptions import ValidationError, UserError
+from odoo.exceptions import AccessError, ValidationError, UserError
 
 _logger = logging.getLogger(__name__)
 
@@ -29,10 +31,16 @@ def report_errors_to(url_for):
         @functools.wraps(route)
         def wrapper(self, *args, **kwargs):
             try:
-                return route(self, *args, **kwargs)
-            except (ValidationError, UserError) as error:
+                with request.env.cr.savepoint():
+                    return route(self, *args, **kwargs)
+            except (ValidationError, UserError, AccessError) as error:
                 message = error.args[0] if error.args else _("The action could not be completed.")
                 return _redirect_with_error(url_for(*args, **kwargs), message)
+            except IntegrityError:
+                return _redirect_with_error(
+                    url_for(*args, **kwargs),
+                    _("That class or action conflicts with an existing registration rule."),
+                )
             except Exception:
                 _logger.exception(
                     "%s failed for user %s", route.__name__, request.env.user.login,
@@ -151,19 +159,18 @@ class CampusPortal(CustomerPortal):
         # accountant or a warehouse operator reaches it from /my like anyone
         # else. The counters were fixed for this; the two list pages were not.
         KrsObj = request.env['academic.krs'].sudo()
-        total = KrsObj.search_count(domain)
+        all_krs = KrsObj.search(domain).sorted(
+            key=lambda rec: (rec.academic_year_id.name or '', rec.id),
+            reverse=True,
+        )
+        total = len(all_krs)
         pager = request.website.pager(
             url='/my/krs',
             total=total,
             page=page,
             step=_CAMPUS_ITEMS_PER_PAGE,
         )
-        krs_records = KrsObj.search(
-            domain,
-            limit=_CAMPUS_ITEMS_PER_PAGE,
-            offset=pager['offset'],
-            order='academic_year_id desc, id desc',
-        )
+        krs_records = all_krs[pager['offset']:pager['offset'] + _CAMPUS_ITEMS_PER_PAGE]
 
         values = self._prepare_portal_layout_values()
         values.update({
@@ -189,9 +196,9 @@ class CampusPortal(CustomerPortal):
         # and create a study plan against their own contact, which then failed
         # every submission rule in a way nobody could explain.
         if not partner.is_student or partner.student_status != 'active':
-            return request.redirect('/my?' + urlencode({
-                'error': _("Only active students can fill in a KRS."),
-            }))
+            return _redirect_with_error('/my/krs', _(
+                "Only active students can fill in a KRS.",
+            ))
         
         # 1. The academic year currently open for registration. Shared definition
         # with campus_pmb, and it also honours `active`, which this inline search
@@ -244,10 +251,12 @@ class CampusPortal(CustomerPortal):
         available_schedules = request.env['academic.class.schedule'].sudo().search(
             self._offerable_schedule_domain(krs), order='class_id, class_code, id',
         )
+        enrolled_counts = available_schedules._enrolled_counts()
         values = self._prepare_portal_layout_values()
         values.update({
             'krs': krs,
             'available_schedules': available_schedules,
+            'enrolled_counts': enrolled_counts,
             'page_name': 'krs_detail',
             'error': kw.get('error'),
         })
@@ -307,10 +316,42 @@ class CampusPortal(CustomerPortal):
                 "academic year."
             ))
 
-        request.env['academic.krs.line'].sudo().create({
-            'krs_id': krs.id,
-            'schedule_id': schedule.id,
-        })
+        subject = schedule.class_id.subject_id
+        existing_subject_lines = krs.line_ids.filtered(lambda line: line.subject_id == subject)
+        unscheduled_line = existing_subject_lines.filtered(lambda line: not line.schedule_id)[:1]
+        if existing_subject_lines and not unscheduled_line:
+            raise UserError(_(
+                "Subject '%s' is already in your KRS. Remove the existing section first if you want to switch classes."
+            ) % subject.name)
+
+        schedule._lock_for_enrolment()
+        capacity = schedule.room_capacity
+        taken = schedule._enrolled_count(exclude_krs=krs)
+        if capacity <= 0 or taken >= capacity:
+            raise UserError(_(
+                "Class '%(name)s' is full (%(taken)s / %(capacity)s seats taken)."
+            ) % {'name': schedule.display_name, 'taken': taken, 'capacity': capacity})
+
+        for line in krs.line_ids:
+            if line == unscheduled_line or not line.schedule_id:
+                continue
+            existing_sched = line.schedule_id
+            if (
+                existing_sched.day_of_week == schedule.day_of_week
+                and existing_sched.start_time < schedule.end_time
+                and existing_sched.end_time > schedule.start_time
+            ):
+                raise UserError(_(
+                    "Schedule overlap detected between %(first)s and %(second)s."
+                ) % {'first': schedule.display_name, 'second': existing_sched.display_name})
+
+        if unscheduled_line:
+            unscheduled_line.write({'schedule_id': schedule.id})
+        else:
+            request.env['academic.krs.line'].sudo().create({
+                'krs_id': krs.id,
+                'schedule_id': schedule.id,
+            })
         return request.redirect('/my/krs/%s' % krs_id)
 
     @http.route(['/my/krs/<int:krs_id>/delete_line/<int:line_id>'], type='http', auth="user", website=True, methods=['POST'])
@@ -354,25 +395,19 @@ class CampusPortal(CustomerPortal):
         # the logged-in partner, so this widens nothing, and without it the
         # page is a 500 for any internal user with no campus group.
         KhsObj = request.env['academic.khs'].sudo()
-        total = KhsObj.search_count(domain)
+        all_khs = KhsObj.search(domain).sorted(
+            key=lambda rec: (rec.academic_year_id.name or '', rec.id),
+            reverse=True,
+        )
+        total = len(all_khs)
         pager = request.website.pager(
             url='/my/khs',
             total=total,
             page=page,
             step=_CAMPUS_ITEMS_PER_PAGE,
         )
-        khs_records = KhsObj.search(
-            domain,
-            limit=_CAMPUS_ITEMS_PER_PAGE,
-            offset=pager['offset'],
-            order='academic_year_id desc, id desc',
-        )
-
-        # The transcript entry point is resolved here, not derived from the
-        # paginated list. The template used to link khs_records[0], which is the
-        # newest term ON THE CURRENT PAGE - so a student on page 2 printed a
-        # transcript keyed off an old semester.
-        latest_khs = KhsObj.search(domain, order='academic_year_id desc, id desc', limit=1)
+        khs_records = all_khs[pager['offset']:pager['offset'] + _CAMPUS_ITEMS_PER_PAGE]
+        latest_khs = all_khs[:1]
 
         values = self._prepare_portal_layout_values()
         values.update({

@@ -12,17 +12,15 @@ class AcademicClass(models.Model):
     _description = 'Academic Class'
     _order = 'name'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _check_company_auto = True
 
     name = fields.Char(string='Class Name', compute='_compute_class_name', store=True, tracking=True)
-    subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, check_company=True, ondelete='restrict')
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, tracking=True, check_company=True)
+    subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, ondelete='restrict')
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, tracking=True)
     start_date = fields.Date(string='Start Date', required=True, tracking=True, help="Starting point for Generate Sessions. The number of meetings comes from Settings.")
     class_capacity_display = fields.Char(string='Total Class Capacity', compute='_compute_class_capacity_display')
     schedule_ids = fields.One2many('academic.class.schedule', 'class_id', string='Schedules')
     student_line_ids = fields.One2many('academic.krs.line', 'class_id', string='Students')
     session_ids = fields.One2many('academic.class.session', 'class_id', string='Sessions')
-    company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company)
 
     @api.depends('subject_id', 'academic_year_id')
     def _compute_class_name(self):
@@ -74,7 +72,7 @@ class AcademicClass(models.Model):
         # The campus timezone, not the timezone of whoever happens to click the
         # button. Taking it from env.user.tz meant two administrators in
         # different timezones produced different UTC times for the same class.
-        tz_name = self.company_id.resource_calendar_id.tz or self.env.user.tz or 'UTC'
+        tz_name = self.env.company.resource_calendar_id.tz or self.env.user.tz or 'UTC'
         user_tz = pytz.timezone(tz_name)
 
         # How many weekly meetings a term has is institution policy, not a
@@ -128,14 +126,13 @@ class AcademicClass(models.Model):
 class AcademicClassSession(models.Model):
     _name = 'academic.class.session'
     _description = 'Academic Class Session'
-    _check_company_auto = True
     _order = 'start_datetime'
 
     name = fields.Char(string='Name', required=True)
     class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade', index=True)
     start_datetime = fields.Datetime(string='Start Datetime', required=True)
     end_datetime = fields.Datetime(string='End Datetime', required=True)
-    room_id = fields.Many2one('campus.room', string='Room', check_company=True)
+    room_id = fields.Many2one('campus.room', string='Room')
     lecturer_id = fields.Many2one('hr.employee', string='Lecturer')
     # Carried for the dynamic domain campus_employees puts on lecturer_id, the
     # same way academic.class.schedule carries them. A dynamic domain is
@@ -143,11 +140,6 @@ class AcademicClassSession(models.Model):
     # present there - which is why both appear, invisible, in the session form.
     class_program_id = fields.Many2one('academic.program', related='class_id.subject_id.program_id')
     class_faculty_id = fields.Many2one('academic.faculty', related='class_id.subject_id.faculty_id')
-    # Every model around this one carries a company, so sessions could not be
-    # filtered or grouped by company anywhere and _check_company_auto had
-    # nothing to work with. Related and stored, the way academic.class.schedule
-    # does it, so the column is backfilled from the class on upgrade.
-    company_id = fields.Many2one(related='class_id.company_id', store=True)
 
     @api.constrains('start_datetime', 'end_datetime')
     def _check_session_datetime(self):

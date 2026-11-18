@@ -18,7 +18,12 @@ class AssignScheduleWizard(models.TransientModel):
     krs_line_ids = fields.Many2many(
         'academic.krs.line',
         string='Students (KRS Lines)',
-        domain="[('subject_id', '=', subject_id), ('krs_id.academic_year_id', '=', academic_year_id), ('schedule_id', '=', False)]",
+        domain=(
+            "[('subject_id', '=', subject_id),"
+            " ('krs_id.academic_year_id', '=', academic_year_id),"
+            " ('krs_id.state', 'in', ('draft', 'revision')),"
+            " ('schedule_id', '=', False)]"
+        ),
     )
 
     @api.model
@@ -41,6 +46,7 @@ class AssignScheduleWizard(models.TransientModel):
             })
 
         # Validation pass
+        seen_krs_ids = set()
         for line in self.krs_line_ids:
             if line.schedule_id:
                 raise ValidationError(_("Student %(student)s already has a schedule assigned.") % {'student': line.student_id.name})
@@ -55,6 +61,33 @@ class AssignScheduleWizard(models.TransientModel):
                         'state': line.krs_id.state,
                     }
                 )
+            if line.krs_id.id in seen_krs_ids or any(
+                other != line and other.class_id == self.schedule_id.class_id
+                for other in line.krs_id.line_ids
+            ):
+                raise ValidationError(
+                    _("Student %(student)s already has a section of '%(subject)s' in their KRS.") % {
+                        'student': line.student_id.name,
+                        'subject': self.class_id.subject_id.name,
+                    }
+                )
+            seen_krs_ids.add(line.krs_id.id)
+            for other in line.krs_id.line_ids:
+                if other == line or not other.schedule_id:
+                    continue
+                other_sched = other.schedule_id
+                if (
+                    other_sched.day_of_week == self.schedule_id.day_of_week
+                    and other_sched.start_time < self.schedule_id.end_time
+                    and other_sched.end_time > self.schedule_id.start_time
+                ):
+                    raise ValidationError(
+                        _("Assigning %(student)s to %(target)s overlaps with %(existing)s.") % {
+                            'student': line.student_id.name,
+                            'target': self.schedule_id.display_name,
+                            'existing': other_sched.display_name,
+                        }
+                    )
 
         # Seat check. This wizard wrote straight through without one, so an
         # administrator could drop two hundred students into a forty-seat room

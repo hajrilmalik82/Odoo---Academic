@@ -1,5 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools import SQL
 
 
 class CampusGraduationSchedule(models.Model):
@@ -14,11 +15,10 @@ class CampusGraduationSchedule(models.Model):
     _description = 'Graduation Schedule (Wisuda)'
     _order = 'graduation_date asc, id asc'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _check_company_auto = True
 
     name = fields.Char(string='Batch Name', required=True, tracking=True)
     academic_year_id = fields.Many2one(
-        'academic.year', string='Academic Year', check_company=True, tracking=True,
+        'academic.year', string='Academic Year', tracking=True,
     )
     graduation_date = fields.Date(
         string='Graduation Date', required=True, index=True, tracking=True,
@@ -43,9 +43,6 @@ class CampusGraduationSchedule(models.Model):
     participant_count = fields.Integer(
         string='Participants', compute='_compute_participant_count', store=True,
     )
-    company_id = fields.Many2one(
-        'res.company', string='Company', default=lambda self: self.env.company,
-    )
 
     @api.depends('thesis_ids.state')
     def _compute_participant_count(self):
@@ -62,6 +59,16 @@ class CampusGraduationSchedule(models.Model):
             else:
                 record.display_name = record.name or ""
 
+    def _lock_for_quota(self):
+        """Serialize concurrent batch assignment under PostgreSQL REPEATABLE READ."""
+        if not self.ids:
+            return
+        self.flush_recordset()
+        self.env.cr.execute(SQL(
+            "UPDATE %s SET write_date = write_date WHERE id IN %s",
+            SQL.identifier(self._table), tuple(self.ids),
+        ))
+
     @api.constrains('graduation_date', 'registration_deadline', 'quota')
     def _check_schedule_validity(self):
         for record in self:
@@ -75,25 +82,26 @@ class CampusGraduationSchedule(models.Model):
                 ))
             if record.quota < 0:
                 raise ValidationError(_("Participant quota cannot be negative."))
+            if record.quota > 0 and record.participant_count > record.quota:
+                raise ValidationError(_(
+                    "Participant quota cannot be lowered below active participants (%s).",
+                    record.participant_count,
+                ))
 
     @api.model
-    def _get_nearest_schedule(self, company=None, as_of=None):
-        """Return the earliest open graduation schedule accepting graduates.
-
-        Filters out past ceremonies, batches whose registration deadline has
-        passed, and full batches, preferring company-specific schedules over
-        shared (company-less) ones on the same date.
-        """
-        company = company or self.env.company
+    def _get_nearest_schedule(self, as_of=None, lock=False):
+        """Return the earliest open graduation schedule accepting graduates."""
         today = as_of or fields.Date.context_today(self)
         candidates = self.search([
             ('state', '=', 'open'),
             ('graduation_date', '>=', today),
-            ('company_id', 'in', [company.id, False]),
-        ], order='graduation_date asc, company_id desc nulls last, id asc')
+        ], order='graduation_date asc, id asc')
         for schedule in candidates:
             if schedule.registration_deadline and schedule.registration_deadline < today:
                 continue
+            if lock:
+                schedule._lock_for_quota()
+                schedule.invalidate_recordset(['participant_count'])
             if schedule.quota > 0 and schedule.participant_count >= schedule.quota:
                 continue
             return schedule

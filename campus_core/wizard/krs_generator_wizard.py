@@ -10,7 +10,10 @@ class KrsGeneratorWizard(models.TransientModel):
     academic_year_id = fields.Many2one(related='package_id.academic_year_id', string='Academic Year')
     program_id = fields.Many2one(related='package_id.program_id', string='Study Program')
     
-    student_ids = fields.Many2many('res.partner', string='Students', domain="[('is_student', '=', True), ('program_id', '=', program_id)]")
+    student_ids = fields.Many2many(
+        'res.partner', string='Students',
+        domain="[('is_student', '=', True), ('student_status', '=', 'active'), ('program_id', '=', program_id)]",
+    )
 
     @api.model
     def default_get(self, fields):
@@ -20,9 +23,10 @@ class KrsGeneratorWizard(models.TransientModel):
             package = self.env['academic.course.package'].browse(package_id)
             res['package_id'] = package.id
             
-            # Default students: all students in the program who don't have a KRS for this year
+            # Default students: active students in the program who don't have a KRS for this year
             students = self.env['res.partner'].search([
                 ('is_student', '=', True),
+                ('student_status', '=', 'active'),
                 ('program_id', '=', package.program_id.id)
             ])
             existing_krs = self.env['academic.krs'].search([
@@ -38,8 +42,15 @@ class KrsGeneratorWizard(models.TransientModel):
 
     def action_generate_krs(self):
         self.ensure_one()
+        if not self.package_id.line_ids:
+            raise ValidationError(_("The selected course package has no subjects."))
         if not self.student_ids:
             raise ValidationError(_("Please select at least one student."))
+        inactive = self.student_ids.filtered(lambda student: student.student_status != 'active')
+        if inactive:
+            raise ValidationError(_(
+                "Only active students can receive a KRS package (inactive: %s)."
+            ) % ', '.join(inactive.mapped('name')))
             
         krs_obj = self.env['academic.krs']
         

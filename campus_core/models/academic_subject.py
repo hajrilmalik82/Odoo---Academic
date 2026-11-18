@@ -2,6 +2,14 @@ from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 
+SEMESTER_SELECTION = [
+    ('1', 'Semester 1'), ('2', 'Semester 2'),
+    ('3', 'Semester 3'), ('4', 'Semester 4'),
+    ('5', 'Semester 5'), ('6', 'Semester 6'),
+    ('7', 'Semester 7'), ('8', 'Semester 8'),
+]
+
+
 class AcademicSubject(models.Model):
     _name = 'academic.subject'
     _description = 'Academic Subject'
@@ -9,7 +17,6 @@ class AcademicSubject(models.Model):
     # needs too; see campus_mixins.py for what it works around and when to drop it.
     _inherit = ['campus.searchpanel.group.domain.mixin']
     _order = 'code, name'
-    _check_company_auto = True
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', required=True)
@@ -19,12 +26,7 @@ class AcademicSubject(models.Model):
         ('even', 'Even'),
         ('both', 'Both')
     ], string='Term Type', required=True)
-    semester = fields.Selection([
-        ('1', 'Semester 1'), ('2', 'Semester 2'), 
-        ('3', 'Semester 3'), ('4', 'Semester 4'), 
-        ('5', 'Semester 5'), ('6', 'Semester 6'), 
-        ('7', 'Semester 7'), ('8', 'Semester 8')
-    ], string='Semester')
+    semester = fields.Selection(SEMESTER_SELECTION, string='Semester')
     prerequisite_ids = fields.Many2many(
         'academic.subject',
         'academic_subject_prerequisite_rel',
@@ -34,18 +36,11 @@ class AcademicSubject(models.Model):
         domain="[('program_id', '=', program_id)]",
     )
     program_id = fields.Many2one(
-        # check_company so _check_company_auto on this model is actually doing
-        # something: a Company A subject could be attached to a Company B
-        # programme with no error.
-        'academic.program', string='Program', required=True, check_company=True,
+        'academic.program', string='Program', required=True,
     )
     faculty_id = fields.Many2one(
         'academic.faculty', string='Faculty',
         related='program_id.faculty_id', store=True
-    )
-    company_id = fields.Many2one(
-        'res.company', string='Company',
-        default=lambda self: self.env.company
     )
 
     _code_program_unique = models.Constraint(
@@ -79,13 +74,10 @@ class AcademicYear(models.Model):
     _name = 'academic.year'
     _description = 'Academic Year'
     _order = 'name desc'
-    _check_company_auto = True
 
-    # COALESCE so that two company-less academic years cannot collide
-    # (PostgreSQL treats NULL company_id values as distinct).
-    _name_term_company_unique = models.UniqueIndex(
-        "(name, term_type, COALESCE(company_id, 0))",
-        "Academic Year with this name and term already exists for this company.",
+    _name_term_unique = models.Constraint(
+        'UNIQUE (name, term_type)',
+        "Academic Year with this name and term already exists.",
     )
 
     name = fields.Char(string='Name', required=True)
@@ -93,10 +85,6 @@ class AcademicYear(models.Model):
     active = fields.Boolean(string='Active', default=True)
     krs_start_date = fields.Date(string="KRS Start Date")
     krs_end_date = fields.Date(string="KRS End Date")
-    company_id = fields.Many2one(
-        'res.company', string='Company',
-        default=lambda self: self.env.company
-    )
 
     @api.constrains('krs_start_date', 'krs_end_date')
     def _check_krs_period(self):

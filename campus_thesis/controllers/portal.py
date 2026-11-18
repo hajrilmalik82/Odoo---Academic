@@ -1,6 +1,7 @@
 import base64
 import functools
 import logging
+import math
 import os
 from urllib.parse import urlencode
 
@@ -67,11 +68,15 @@ class CampusThesisPortal(CustomerPortal):
         return thesis
 
     def _get_available_lecturers(self, partner):
-        company_id = partner.company_id.id or request.env.company.id
-        return request.env['hr.employee'].sudo().search([
-            ('academic_role', '=', 'lecturer'),
-            '|', ('company_id', '=', False), ('company_id', '=', company_id),
-        ], order='name')
+        Lecturer = request.env['hr.employee'].sudo()
+        primary_domain = [('academic_role', '=', 'lecturer')]
+        if partner.program_id:
+            primary_domain.append(('program_id', '=', partner.program_id.id))
+        else:
+            primary_domain.append((0, '=', 1))
+        primary_lecturers = Lecturer.search(primary_domain, order='name')
+        co_lecturers = Lecturer.search([('academic_role', '=', 'lecturer')], order='name')
+        return primary_lecturers, co_lecturers
 
     def _parse_supervisor_ids(self, post):
         """Parse primary and optional co-supervisor IDs from a portal form."""
@@ -107,11 +112,12 @@ class CampusThesisPortal(CustomerPortal):
         is_active_student = bool(partner.is_student and partner.student_status == 'active')
         research_method_passed = partner.sudo()._has_passed_research_method() if partner.is_student else False
         thesis_course_enrolled = partner.sudo()._has_enrolled_thesis_subject() if partner.is_student else False
-        lecturers = (
-            self._get_available_lecturers(partner)
-            if is_active_student and research_method_passed and not has_active_thesis
-            else request.env['hr.employee'].sudo().browse()
-        )
+        if is_active_student and research_method_passed and not has_active_thesis:
+            primary_lecturers, co_lecturers = self._get_available_lecturers(partner)
+        else:
+            empty_emp = request.env['hr.employee'].sudo().browse()
+            primary_lecturers = empty_emp
+            co_lecturers = empty_emp
 
         values = self._prepare_portal_layout_values()
         values.update({
@@ -120,7 +126,9 @@ class CampusThesisPortal(CustomerPortal):
             'is_active_student': is_active_student,
             'research_method_passed': research_method_passed,
             'thesis_course_enrolled': thesis_course_enrolled,
-            'lecturers': lecturers,
+            'primary_lecturers': primary_lecturers,
+            'co_lecturers': co_lecturers,
+            'lecturers': primary_lecturers,
             'page_name': 'thesis',
             'error': kw.get('error'),
             'success': kw.get('success'),
@@ -162,12 +170,12 @@ class CampusThesisPortal(CustomerPortal):
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
 
         partner = request.env.user.partner_id
-        lecturers = self._get_available_lecturers(partner)
+        primary_lecturers, co_lecturers = self._get_available_lecturers(partner)
         research_method_passed = partner.sudo()._has_passed_research_method()
         thesis_course_enrolled = partner.sudo()._has_enrolled_thesis_subject()
         nearest_graduation = (
             thesis.graduation_id
-            or request.env['campus.graduation.schedule'].sudo()._get_nearest_schedule(company=thesis.company_id)
+            or request.env['campus.graduation.schedule'].sudo()._get_nearest_schedule()
         )
         proposal_logs = thesis.progress_line_ids.filtered(lambda l: l.stage == 'proposal')
         thesis_logs = thesis.progress_line_ids.filtered(lambda l: l.stage == 'thesis')
@@ -175,7 +183,9 @@ class CampusThesisPortal(CustomerPortal):
         values = self._prepare_portal_layout_values()
         values.update({
             'thesis': thesis,
-            'lecturers': lecturers,
+            'primary_lecturers': primary_lecturers,
+            'co_lecturers': co_lecturers,
+            'lecturers': primary_lecturers,
             'research_method_passed': research_method_passed,
             'thesis_course_enrolled': thesis_course_enrolled,
             'nearest_graduation': nearest_graduation,
@@ -257,6 +267,8 @@ class CampusThesisPortal(CustomerPortal):
             progress_percent = float(post.get('progress_percent') or 0.0)
         except (TypeError, ValueError):
             raise ValidationError(_("Progress percentage must be a valid number."))
+        if not math.isfinite(progress_percent) or progress_percent < 0.0 or progress_percent > 100.0:
+            raise ValidationError(_("Progress percentage must be between 0 and 100."))
 
         attachment_data, filename = self._parse_uploaded_file('attachment')
         vals = {

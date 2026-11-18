@@ -83,7 +83,7 @@
                     <t t-foreach="krs_records" t-as="krs">
                         <tr>
                             <td><a t-attf-href="/my/krs/#{krs.id}"><span t-field="krs.name"/></a></td>
-                            <td><span t-field="krs.academic_year_id.name"/></td>
+                            <td><span t-out="krs.academic_year_id.display_name"/></td>
                             <td>
                                 <span t-if="krs.state == 'draft'" class="badge rounded-pill text-bg-secondary">Draft</span>
                                 <span t-if="krs.state == 'submitted'" class="badge rounded-pill text-bg-info">Submitted</span>
@@ -143,7 +143,7 @@
                     <t t-foreach="khs_records" t-as="khs">
                         <tr>
                             <td><span t-field="khs.name"/></td>
-                            <td><span t-field="khs.academic_year_id.name"/></td>
+                            <td><span t-out="khs.academic_year_id.display_name"/></td>
                             <td><span t-field="khs.total_credits"/></td>
                             <td><span t-field="khs.term_gpa"/></td>
                             <td class="text-end">
@@ -199,7 +199,7 @@
 
                 <div class="row mb-4">
                     <div class="col-md-6">
-                        <p><strong>Academic Year:</strong> <t t-out="krs.academic_year_id.name"/></p>
+                        <p><strong>Academic Year:</strong> <t t-out="krs.academic_year_id.display_name"/></p>
                     </div>
                     <div class="col-md-6">
                         <p><strong>Total Credits:</strong> <t t-out="krs.total_credits"/></p>
@@ -219,6 +219,8 @@
                             <tr>
                                 <th>Code</th>
                                 <th>Subject</th>
+                                <th>Class</th>
+                                <th>Schedule &amp; Room</th>
                                 <th>Credits</th>
                                 <th t-if="is_editable">Actions</th>
                             </tr>
@@ -228,6 +230,17 @@
                                 <tr>
                                     <td><t t-out="line.subject_id.code"/></td>
                                     <td><t t-out="line.subject_id.name"/></td>
+                                    <td>
+                                        <t t-if="line.schedule_id">Class <t t-out="line.schedule_id.class_code"/></t>
+                                        <t t-else=""><span class="badge bg-warning text-dark">Needs Schedule</span></t>
+                                    </td>
+                                    <td>
+                                        <t t-if="line.schedule_id">
+                                            <t t-out="line.schedule_id.display_name"/>
+                                            <span class="ms-1 px-1 bg-light border rounded text-dark"><t t-out="line.schedule_id.room_id.name"/></span>
+                                        </t>
+                                        <t t-else=""><span class="text-muted small">Choose a class below</span></t>
+                                    </td>
                                     <td><t t-out="line.credits"/></td>
                                     <td t-if="is_editable">
                                         <form t-attf-action="/my/krs/#{krs.id}/delete_line/#{line.id}" method="post" class="d-inline">
@@ -242,7 +255,7 @@
                                     <!-- The Action column only exists while the KRS is
                                          editable, so the empty row has to span the same
                                          number of columns the header actually rendered. -->
-                                    <td t-att-colspan="4 if is_editable else 3" class="text-center text-muted">No subjects added yet.</td>
+                                    <td t-att-colspan="6 if is_editable else 5" class="text-center text-muted">No subjects added yet.</td>
                                 </tr>
                             </t>
                         </tbody>
@@ -251,72 +264,85 @@
 
                 <t t-if="is_editable">
                     <div class="card bg-light border-0 mb-4">
-                        <h5 class="mt-5 mb-3">Available Schedules</h5>
-                        <div class="table-responsive bg-white rounded shadow-sm">
-                            <table class="table table-hover align-middle mb-0">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>Subject</th>
-                                        <th>Class</th>
-                                        <th>Lecturer</th>
-                                        <th>Schedule &amp; Room</th>
-                                        <th>Credits</th>
-                                        <th class="text-center">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <!-- Read once, not once per row: the old lambda ran a filtered()
-                                         over every KRS line for each schedule on the page. -->
-                                    <t t-set="taken_schedule_ids" t-value="krs.line_ids.schedule_id.ids"/>
-                                    <t t-set="taken_subject_ids" t-value="krs.line_ids.subject_id.ids"/>
-                                    <t t-foreach="available_schedules" t-as="sch">
-                                        <t t-set="is_enrolled" t-value="sch.id in taken_schedule_ids"/>
-                                        <!-- Another section of a subject already in the KRS. Taking it
-                                             is refused at submit time ("same subject twice in one KRS"),
-                                             so the button is closed here instead of failing later. -->
-                                        <t t-set="other_section_taken" t-value="not is_enrolled and sch.class_id.subject_id.id in taken_subject_ids"/>
-                                        <tr t-att-class="'table-success opacity-50' if is_enrolled else ('opacity-50' if other_section_taken else '')">
-                                            <td class="fw-bold"><t t-out="sch.class_id.subject_id.name"/></td>
-                                            <td>Class <t t-out="sch.class_code"/></td>
-                                            <td>
-                                                <t t-if="sch.lecturer_id">
-                                                    <span class="badge bg-secondary mb-1"><t t-out="sch.lecturer_id.name"/></span>
-                                                </t>
-                                                <t t-else="">-</t>
-                                            </td>
-                                            <td>
-                                                <div class="small">
-                                                    <i class="fa fa-clock-o text-muted me-1"/>
-                                                    <t t-out="sch.display_name"/>
-                                                    <span class="ms-1 px-1 bg-light border rounded text-dark"><i class="fa fa-map-marker text-danger"/> <t t-out="sch.room_id.name"/></span>
-                                                </div>
-                                            </td>
-                                            <td><span class="badge bg-info"><t t-out="sch.class_id.subject_id.credits"/> credits</span></td>
-                                            <td class="text-center">
-                                                <t t-if="is_enrolled">
-                                                    <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Taken</button>
-                                                </t>
-                                                <t t-elif="other_section_taken">
-                                                    <button class="btn btn-sm btn-outline-secondary" disabled="1"
-                                                            title="This subject is already taken in another section. Remove the existing one first to switch.">
-                                                        <i class="fa fa-ban"/> Another section taken
-                                                    </button>
-                                                </t>
-                                                <t t-else="">
-                                                    <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">
-                                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                                        <input type="hidden" name="schedule_id" t-att-value="sch.id"/>
-                                                        <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"/> Take</button>
-                                                    </form>
-                                                </t>
-                                            </td>
+                        <div class="card-body">
+                            <h5 class="mb-3">Available Schedules</h5>
+                            <div class="table-responsive bg-white rounded shadow-sm">
+                                <table class="table table-hover align-middle mb-0">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th>Subject</th>
+                                            <th>Class</th>
+                                            <th>Lecturer</th>
+                                            <th>Schedule &amp; Room</th>
+                                            <th>Seats</th>
+                                            <th>Credits</th>
+                                            <th class="text-center">Actions</th>
                                         </tr>
-                                    </t>
-                                    <tr t-if="not available_schedules">
-                                        <td colspan="6" class="text-center py-4 text-muted">No schedules are open for this term yet.</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody>
+                                        <t t-set="taken_schedule_ids" t-value="krs.line_ids.schedule_id.ids"/>
+                                        <t t-set="scheduled_subject_ids" t-value="krs.line_ids.filtered('schedule_id').subject_id.ids"/>
+                                        <t t-set="unscheduled_subject_ids" t-value="krs.line_ids.filtered(lambda l: not l.schedule_id).subject_id.ids"/>
+                                        <t t-foreach="available_schedules" t-as="sch">
+                                            <t t-set="is_enrolled" t-value="sch.id in taken_schedule_ids"/>
+                                            <t t-set="needs_schedule" t-value="not is_enrolled and sch.class_id.subject_id.id in unscheduled_subject_ids"/>
+                                            <t t-set="other_section_taken" t-value="not is_enrolled and not needs_schedule and sch.class_id.subject_id.id in scheduled_subject_ids"/>
+                                            <t t-set="seats_taken" t-value="enrolled_counts.get(sch.id, 0)"/>
+                                            <t t-set="seats_left" t-value="max(0, sch.room_capacity - seats_taken)"/>
+                                            <tr t-att-class="'table-success opacity-50' if is_enrolled else ('table-warning' if needs_schedule else ('opacity-50' if other_section_taken else ''))">
+                                                <td class="fw-bold"><t t-out="sch.class_id.subject_id.name"/></td>
+                                                <td>Class <t t-out="sch.class_code"/></td>
+                                                <td>
+                                                    <t t-if="sch.lecturer_id">
+                                                        <span class="badge bg-secondary mb-1"><t t-out="sch.lecturer_id.name"/></span>
+                                                    </t>
+                                                    <t t-else="">-</t>
+                                                </td>
+                                                <td>
+                                                    <div class="small">
+                                                        <i class="fa fa-clock-o text-muted me-1"/>
+                                                        <t t-out="sch.display_name"/>
+                                                        <span class="ms-1 px-1 bg-light border rounded text-dark"><i class="fa fa-map-marker text-danger"/> <t t-out="sch.room_id.name"/></span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span t-if="seats_left &gt; 0" class="badge bg-light text-dark border"><t t-out="seats_left"/> / <t t-out="sch.room_capacity"/></span>
+                                                    <span t-else="" class="badge bg-danger">Full</span>
+                                                </td>
+                                                <td><span class="badge bg-info"><t t-out="sch.class_id.subject_id.credits"/> credits</span></td>
+                                                <td class="text-center">
+                                                    <t t-if="is_enrolled">
+                                                        <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Taken</button>
+                                                    </t>
+                                                    <t t-elif="needs_schedule">
+                                                        <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">
+                                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                            <input type="hidden" name="schedule_id" t-att-value="sch.id"/>
+                                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-calendar-check-o"/> Choose Class</button>
+                                                        </form>
+                                                    </t>
+                                                    <t t-elif="other_section_taken">
+                                                        <button class="btn btn-sm btn-outline-secondary" disabled="1"
+                                                                title="This subject is already taken in another section. Remove the existing one first to switch.">
+                                                            <i class="fa fa-ban"/> Another section taken
+                                                        </button>
+                                                    </t>
+                                                    <t t-else="">
+                                                        <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">
+                                                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                                            <input type="hidden" name="schedule_id" t-att-value="sch.id"/>
+                                                            <button type="submit" class="btn btn-sm btn-success"><i class="fa fa-plus"/> Take</button>
+                                                        </form>
+                                                    </t>
+                                                </td>
+                                            </tr>
+                                        </t>
+                                        <tr t-if="not available_schedules">
+                                            <td colspan="7" class="text-center py-4 text-muted">No schedules are open for this term yet.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
 

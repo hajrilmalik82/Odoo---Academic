@@ -7,27 +7,16 @@ from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
-_TRACK_METADATA = {
-    'regular': {
-        'name': 'Reguler',
-        'description': 'Jalur seleksi reguler penerimaan mahasiswa baru berbasis tes potensi akademik.',
-        'discountPercentage': 0,
-    },
-    'scholarship': {
-        'name': 'Beasiswa',
-        'description': 'Program beasiswa unggulan bebas biaya pendaftaran dan potongan penuh daftar ulang.',
-        'discountPercentage': 100,
-    },
-    'transfer': {
-        'name': 'Pindahan / Alih Jenjang',
-        'description': 'Jalur penerimaan mahasiswa pindahan atau alih jenjang dengan pengakuan transkrip SKS.',
-        'discountPercentage': 0,
-    },
-}
-
-
 class CampusPMBWebsite(http.Controller):
     """Public JSON REST API for the standalone React frontend-app."""
+
+    @staticmethod
+    def _track_descriptions():
+        return {
+            'regular': _("Regular admission track based on academic aptitude assessment."),
+            'scholarship': _("Merit scholarship track with configured fee exemptions."),
+            'transfer': _("Transfer admission track with prior credit recognition."),
+        }
 
     @http.route(
         '/api/admission/options',
@@ -41,17 +30,12 @@ class CampusPMBWebsite(http.Controller):
                 'Access-Control-Allow-Methods': 'GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
             })
-        company = request.env.company
-        company_domain = [
-            '|', ('company_id', '=', False), ('company_id', '=', company.id),
-        ]
-        faculties = request.env['academic.faculty'].sudo().search(company_domain)
-        programs = request.env['academic.program'].sudo().search(company_domain)
+        faculties = request.env['academic.faculty'].sudo().search([])
+        programs = request.env['academic.program'].sudo().search([])
         Fee = request.env['campus.admission.fee'].sudo()
-        all_fee_rules = Fee.search(company_domain)
-        paths = [
-            key for key, _label in request.env['campus.admission']._admission_path_selection()
-        ]
+        all_fee_rules = Fee.search([])
+        path_selection = request.env['campus.admission']._admission_path_selection()
+        paths = [key for key, _label in path_selection]
 
         fee_matrix = {}
         for path in paths:
@@ -59,12 +43,10 @@ class CampusPMBWebsite(http.Controller):
             for prog in [None] + list(programs):
                 prog_key = str(prog.id) if prog else ''
                 reg_amount = Fee._get_fee_amount(
-                    'registration', admission_path=path, program=prog,
-                    company=company, rules=all_fee_rules,
+                    'registration', admission_path=path, program=prog, rules=all_fee_rules,
                 )
                 rereg_amount = Fee._get_fee_amount(
-                    'reregistration', admission_path=path, program=prog,
-                    company=company, rules=all_fee_rules,
+                    'reregistration', admission_path=path, program=prog, rules=all_fee_rules,
                 )
                 fee_matrix[path][prog_key] = {
                     'registration': reg_amount,
@@ -76,7 +58,7 @@ class CampusPMBWebsite(http.Controller):
                 'id': str(fac.id),
                 'name': fac.name,
                 'code': fac.code or '',
-                'description': 'Program pendidikan tinggi unggulan di lingkungan %s.' % fac.name,
+                'description': _("Higher education programs offered by %s.") % fac.name,
             }
             for fac in faculties
         ]
@@ -95,18 +77,23 @@ class CampusPMBWebsite(http.Controller):
             for prog in programs
         ]
 
+        descriptions = self._track_descriptions()
+        base_rereg = fee_matrix.get('regular', {}).get('', {}).get('reregistration', 0.0)
         track_list = []
-        for key, label in request.env['campus.admission']._admission_path_selection():
-            meta = _TRACK_METADATA.get(key, {})
+        for key, label in path_selection:
+            track_rereg = fee_matrix.get(key, {}).get('', {}).get('reregistration', 0.0)
+            discount_pct = 0
+            if base_rereg > 0 and track_rereg < base_rereg:
+                discount_pct = max(0, min(100, round(100 * (base_rereg - track_rereg) / base_rereg)))
             track_list.append({
                 'id': key,
-                'name': meta.get('name', label),
-                'description': meta.get('description', label),
+                'name': label,
+                'description': descriptions.get(key, label),
                 'registrationFee': fee_matrix.get(key, {}).get('', {}).get('registration', 0.0),
-                'discountPercentage': meta.get('discountPercentage', 0),
+                'discountPercentage': discount_pct,
             })
 
-        default_rereg_fee = fee_matrix.get('regular', {}).get('', {}).get('reregistration', 0.0)
+        default_rereg_fee = base_rereg
         return request.make_json_response({
             'status': 'success',
             'data': {

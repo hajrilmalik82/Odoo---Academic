@@ -18,94 +18,57 @@ msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Automated "
-"Academic Year:</strong> Candidates do not need to manually select the "
-"Academic Year. The backend controller automatically fetches the currently "
-"active Academic Year and attaches it to the candidate's application in the "
-"background."
+msgid "<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Automated Academic Year:</strong> Candidates do not need to manually select the Academic Year. The backend controller automatically fetches the currently active Academic Year and attaches it to the candidate's application in the background."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
-" Committee clicks <strong>Accept</strong>. The status changes to "
-"<em>Accepted</em>."
+msgid "<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong> Committee clicks <strong>Accept</strong>. The status changes to <em>Accepted</em>."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
-" Committee clicks <strong>Submit</strong> from the <em>Actions</em> menu "
-"(Gear Icon) or form view."
+msgid "<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong> Committee clicks <strong>Submit</strong> from the <em>Actions</em> menu (Gear Icon) or form view."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong>"
-" If all documents are complete, the committee clicks "
-"<strong>Accept</strong>."
+msgid "<i class=\"fa fa-check-circle text-success me-2\"/> <strong>Action:</strong> If all documents are complete, the committee clicks <strong>Accept</strong>."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-check-circle text-success me-2\"/> Next, the committee "
-"continues the review process from within the Odoo backend following the "
-"workflow stages above."
+msgid "<i class=\"fa fa-check-circle text-success me-2\"/> Next, the committee continues the review process from within the Odoo backend following the workflow stages above."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-cogs text-success me-2\"/>Document Automation &amp; "
-"Validation"
+msgid "<i class=\"fa fa-cogs text-success me-2\"/>Document Automation &amp; Validation"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> "
-"<strong>Restrictions:</strong> Candidates who are already in "
-"<em>Accepted</em> or <em>Registered</em> status <strong>cannot</strong> be "
-"rejected anymore to prevent accidental cancellation after account creation."
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Restrictions:</strong> Candidates who are already in <em>Accepted</em> or <em>Registered</em> status <strong>cannot</strong> be rejected anymore to prevent accidental cancellation after account creation."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Strict "
-"Validation:</strong> The committee <strong>cannot</strong> proceed to the "
-"next stage if there are still mandatory documents that have not been "
-"received (Checklist is not 100%)."
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Strict Validation:</strong> The committee <strong>cannot</strong> proceed to the next stage if there are still mandatory documents that have not been received (Checklist is not 100%)."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-filter text-info me-2\"/> <strong>Dynamic Form "
-"Filtering:</strong> The online registration form is equipped with smart "
-"JavaScript that automatically filters the available Study Programs based on "
-"the selected Faculty. This guarantees error-free data entry from candidates."
+msgid "<i class=\"fa fa-filter text-info me-2\"/> <strong>Dynamic Form Filtering:</strong> The online registration form is equipped with smart JavaScript that automatically filters the available Study Programs based on the selected Faculty. This guarantees error-free data entry from candidates."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-filter text-primary me-2\"/>Smart Navigation (Search Panel)"
+msgid "<i class=\"fa fa-filter text-primary me-2\"/>Smart Navigation (Search Panel)"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-globe text-primary me-2\"/> <strong>URL Access:</strong> "
-"Prospective students simply open the page <strong>/admission</strong> (or "
-"click PMB Admission on the menu), fill out the online form, and click "
-"<strong>Submit Application</strong>. The system automatically creates a new "
-"record in Admissions with <em>Draft</em> status."
+msgid "<i class=\"fa fa-globe text-primary me-2\"/> <strong>URL Access:</strong> Prospective students simply open the page <strong>/admission</strong> (or click PMB Admission on the menu), fill out the online form, and click <strong>Submit Application</strong>. The system automatically creates a new record in Admissions with <em>Draft</em> status."
 msgstr ""
 
 #. module: campus_pmb
@@ -115,88 +78,57 @@ msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-id-card text-dark me-2\"/> <strong>Automatic Student ID "
-"&amp; Academic Attributes:</strong> The system automatically creates the "
-"Student Registration Number (NIM) based on Faculty, Study Program, and Year."
-" It also sets the enrollment generation automatically."
+msgid "<i class=\"fa fa-id-card text-dark me-2\"/> <strong>Automatic Student ID &amp; Academic Attributes:</strong> The system automatically creates the Student Registration Number (NIM) based on Faculty, Study Program, and Year. It also sets the enrollment generation automatically."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Access "
-"Provisioning:</strong> Student accounts are instantly linked with Portal "
-"access so they can log in to view schedules or fill out KRS."
+msgid "<i class=\"fa fa-magic text-dark me-2\"/> <strong>Access Provisioning:</strong> Student accounts are instantly linked with Portal access so they can log in to view schedules or fill out KRS."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Contact Creation "
-"(Res.Partner):</strong> Candidate data is automatically migrated into a "
-"official Campus Contact database with Faculty and Study Program linked."
+msgid "<i class=\"fa fa-magic text-dark me-2\"/> <strong>Contact Creation (Res.Partner):</strong> Candidate data is automatically migrated into a official Campus Contact database with Faculty and Study Program linked."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-magic text-dark me-2\"/> <strong>Portal Account Creation "
-"(Res.Users):</strong> Odoo automatically creates login accounts for students"
-" with their Email as the username."
+msgid "<i class=\"fa fa-magic text-dark me-2\"/> <strong>Portal Account Creation (Res.Users):</strong> Odoo automatically creates login accounts for students with their Email as the username."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-shield text-danger me-2\"/>Data Security (Row-Level "
-"Security)"
+msgid "<i class=\"fa fa-shield text-danger me-2\"/>Data Security (Row-Level Security)"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-times-circle text-danger me-2\"/> <strong>Action:</strong> "
-"Committee clicks <strong>Reject</strong> from the form or <em>Actions</em> "
-"menu. The status changes to <em>Rejected</em> and cannot be processed "
-"further."
+msgid "<i class=\"fa fa-times-circle text-danger me-2\"/> <strong>Action:</strong> Committee clicks <strong>Reject</strong> from the form or <em>Actions</em> menu. The status changes to <em>Rejected</em> and cannot be processed further."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<span class=\"badge bg-danger position-absolute\" style=\"left: -15px; top: "
-"0px; font-size: 1rem;\">5</span>"
+msgid "<span class=\"badge bg-danger position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">5</span>"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top:"
-" 0px; font-size: 1rem;\">3</span>"
+msgid "<span class=\"badge bg-primary position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">3</span>"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
-"top: 0px; font-size: 1rem;\">1</span>"
-msgstr ""
-"<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; "
-"top: 0px; font-size: 1rem;\">1</span>"
+msgid "<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">1</span>"
+msgstr "<span class=\"badge bg-secondary position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">1</span>"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<span class=\"badge bg-success position-absolute\" style=\"left: -15px; top:"
-" 0px; font-size: 1rem;\">4</span>"
+msgid "<span class=\"badge bg-success position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">4</span>"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: "
-"-15px; top: 0px; font-size: 1rem;\">2</span>"
+msgid "<span class=\"badge bg-warning text-dark position-absolute\" style=\"left: -15px; top: 0px; font-size: 1rem;\">2</span>"
 msgstr ""
 
 #. module: campus_pmb
@@ -222,7 +154,7 @@ msgstr ""
 #. module: campus_pmb
 #: model:ir.model.constraint,message:campus_pmb.constraint_campus_admission_requirement_unique_requirement
 msgid "A document type may only be listed once per admission path."
-msgstr ""
+msgstr "Satu jenis dokumen hanya dapat dicantumkan satu kali per jalur masuk."
 
 #. module: campus_pmb
 #. odoo-python
@@ -236,7 +168,7 @@ msgid ""
 "A requirement on \"All Paths\" is asked of everyone. One on a\n"
 "                specific path is added only for those applicants - a transfer\n"
 "                student's transcript, for instance."
-msgstr ""
+msgstr "Persyaratan pada \"Semua Jalur\" diminta dari semua pendaftar. Persyaratan jalur khusus hanya ditambahkan untuk jalur tersebut — misalnya transkrip pendaftar pindahan."
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_hr_employee__academic_role
@@ -315,7 +247,7 @@ msgstr "Daftar Periksa Dokumen Penerimaan"
 #. module: campus_pmb
 #: model:ir.model,name:campus_pmb.model_campus_admission_requirement
 msgid "Admission Document Requirement"
-msgstr ""
+msgstr "Persyaratan Dokumen PMB"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__admission_path
@@ -335,13 +267,13 @@ msgstr "Pendaftaran PMB"
 #. module: campus_pmb
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_jurisdiction__scope__pmb
 msgid "Admissions (PMB)"
-msgstr ""
+msgstr "Penerimaan (PMB)"
 
 #. module: campus_pmb
 #. odoo-python
 #: code:addons/campus_pmb/models/admission.py:0
 msgid "All Paths"
-msgstr ""
+msgstr "Semua Jalur"
 
 #. module: campus_pmb
 #. odoo-python
@@ -351,19 +283,14 @@ msgstr "Semua dokumen yang diperlukan harus diterima terlebih dahulu."
 
 #. module: campus_pmb
 #: model:ir.model.constraint,message:campus_pmb.constraint_campus_admission_email_year_unique
-msgid ""
-"An admission record already exists for this email in this academic year."
+msgid "An admission record already exists for this email in this academic year."
 msgstr "Sudah ada pendaftaran dengan email ini pada tahun akademik yang sama."
 
 #. module: campus_pmb
 #. odoo-python
 #: code:addons/campus_pmb/models/admission.py:0
-msgid ""
-"An application with this email address already exists for this academic "
-"year. Please contact the admissions office if you need to change it."
-msgstr ""
-"Sudah ada pendaftaran dengan alamat email ini pada tahun akademik ini. "
-"Hubungi bagian penerimaan bila perlu diubah."
+msgid "An application with this email address already exists for this academic year. Please contact the admissions office if you need to change it."
+msgstr "Sudah ada pendaftaran dengan alamat email ini pada tahun akademik ini. Hubungi bagian penerimaan bila perlu diubah."
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__name
@@ -398,17 +325,13 @@ msgstr "Calon Mahasiswa (Publik)"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Candidates who have passed all verifications are now ready to be officially "
-"accepted as prospective students."
-msgstr ""
-"Kandidat yang telah lolos seluruh verifikasi kini siap diterima secara resmi"
-" sebagai calon mahasiswa."
+msgid "Candidates who have passed all verifications are now ready to be officially accepted as prospective students."
+msgstr "Kandidat yang telah lolos seluruh verifikasi kini siap diterima secara resmi sebagai calon mahasiswa."
 
 #. module: campus_pmb
 #: model_terms:ir.actions.act_window,help:campus_pmb.action_campus_admission_requirement
 msgid "Choose which documents each kind of applicant must hand in"
-msgstr ""
+msgstr "Tentukan dokumen yang wajib diserahkan oleh setiap jalur pendaftar"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__company_id
@@ -480,7 +403,7 @@ msgstr "Daftar Periksa Dokumen"
 #: model:ir.ui.menu,name:campus_pmb.menu_campus_admission_requirement
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_requirement_list
 msgid "Document Requirements"
-msgstr ""
+msgstr "Persyaratan Dokumen"
 
 #. module: campus_pmb
 #: model:ir.model.fields.selection,name:campus_pmb.selection__campus_admission__state__document_review
@@ -534,18 +457,12 @@ msgstr "Pegawai"
 #. module: campus_pmb
 #: model:ir.model,name:campus_pmb.model_campus_jurisdiction
 msgid "Employee Jurisdiction"
-msgstr ""
+msgstr "Yurisdiksi Pegawai"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Equipped with an interactive *Search Panel* on the left side of the table. "
-"The committee can filter thousands of application records with one click by "
-"Faculty, Program, or Application Status."
-msgstr ""
-"Dilengkapi dengan *Panel Pencarian* interaktif di sisi kiri meja. Panitia "
-"dapat menyaring ribuan catatan lamaran dengan satu klik berdasarkan "
-"Fakultas, Program, atau Status Lamaran."
+msgid "Equipped with an interactive *Search Panel* on the left side of the table. The committee can filter thousands of application records with one click by Faculty, Program, or Application Status."
+msgstr "Dilengkapi dengan *Panel Pencarian* interaktif di sisi kiri tabel. Panitia dapat menyaring ribuan data pendaftaran dengan satu klik berdasarkan Fakultas, Program, atau Status Pendaftaran."
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__faculty_id
@@ -627,9 +544,7 @@ msgstr "Jika dicentang, beberapa pesan mengalami kesalahan pengiriman."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"If the candidate does not meet the requirements at any stage, for example "
-"documents that cannot be verified, the process can be terminated."
+msgid "If the candidate does not meet the requirements at any stage, for example documents that cannot be verified, the process can be terminated."
 msgstr ""
 
 #. module: campus_pmb
@@ -647,8 +562,7 @@ msgstr "Pilihan jalur masuk tidak sah."
 #. odoo-python
 #: code:addons/campus_pmb/models/admission.py:0
 msgid "Invalid admission status change from '%(old)s' to '%(new)s'."
-msgstr ""
-"Perubahan status pendaftaran dari '%(old)s' ke '%(new)s' tidak diizinkan."
+msgstr "Perubahan status pendaftaran dari '%(old)s' ke '%(new)s' tidak diizinkan."
 
 #. module: campus_pmb
 #. odoo-python
@@ -676,7 +590,7 @@ msgstr "Adalah Pengikut"
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__name
 msgid "Label"
-msgstr ""
+msgstr "Label"
 
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission__write_uid
@@ -762,7 +676,7 @@ msgstr "Jumlah pesan yang memerlukan tindakan"
 #. module: campus_pmb
 #: model:ir.model.fields,help:campus_pmb.field_campus_admission__message_has_error_counter
 msgid "Number of messages with delivery error"
-msgstr "Hanya PMB yang dapat menerima lamaran."
+msgstr "Jumlah pesan yang gagal dikirim"
 
 #. module: campus_pmb
 #. odoo-python
@@ -948,7 +862,7 @@ msgstr "Beasiswa"
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_jurisdiction__scope
 msgid "Scope"
-msgstr ""
+msgstr "Cakupan"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_search
@@ -958,7 +872,7 @@ msgstr "Cari Pendaftar"
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.view_campus_admission_requirement_search
 msgid "Search Requirements"
-msgstr ""
+msgstr "Cari Persyaratan"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -968,7 +882,7 @@ msgstr "Pendaftaran Mandiri melalui Website (Online)"
 #. module: campus_pmb
 #: model:ir.model.fields,field_description:campus_pmb.field_campus_admission_requirement__sequence
 msgid "Sequence"
-msgstr ""
+msgstr "Urutan"
 
 #. module: campus_pmb
 #: model:ir.actions.server,name:campus_pmb.action_server_admission_start_review
@@ -1031,50 +945,28 @@ msgstr "Diajukan"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The PMB module also provides a public application page that prospective "
-"students can access directly from the campus website without needing to log "
-"in first."
-msgstr ""
-"Modul PMB juga menyediakan halaman aplikasi publik yang dapat diakses "
-"langsung oleh calon mahasiswa dari website kampus tanpa perlu login terlebih"
-" dahulu."
+msgid "The PMB module also provides a public application page that prospective students can access directly from the campus website without needing to log in first."
+msgstr "Modul PMB juga menyediakan halaman aplikasi publik yang dapat diakses langsung oleh calon mahasiswa dari website kampus tanpa perlu login terlebih dahulu."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The final stage demonstrating the power of Odoo ERP. When the committee "
-"clicks <strong>Register Student</strong>, python code executes in the "
-"background without human intervention:"
+msgid "The final stage demonstrating the power of Odoo ERP. When the committee clicks <strong>Register Student</strong>, python code executes in the background without human intervention:"
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The process starts when the candidate fills out the form. Each applicant is "
-"automatically assigned a unique Registration Number (e.g. PMB/2026/0001)."
-msgstr ""
-"Prosesnya dimulai saat kandidat mengisi formulir. Setiap pemohon secara "
-"otomatis diberi Nomor Pendaftaran unik (misalnya PMB/2026/0001)."
+msgid "The process starts when the candidate fills out the form. Each applicant is automatically assigned a unique Registration Number (e.g. PMB/2026/0001)."
+msgstr "Prosesnya dimulai saat kandidat mengisi formulir. Setiap pemohon secara otomatis diberi Nomor Pendaftaran unik (misalnya PMB/2026/0001)."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The system blocks acceptance while any required document is still "
-"outstanding. Transitions between states are tightly controlled by backend "
-"algorithms."
+msgid "The system blocks acceptance while any required document is still outstanding. Transitions between states are tightly controlled by backend algorithms."
 msgstr ""
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The system restricts PMB Committee access rights. Committee members can only"
-" view and process candidates who apply to the Faculty or Study Program under"
-" their responsibility. Candidate privacy is guaranteed."
-msgstr ""
-"Sistem membatasi hak akses Komite PMB. Anggota panitia hanya dapat melihat "
-"dan memproses calon yang melamar ke Fakultas atau Program Studi yang berada "
-"di bawah tanggung jawabnya. Privasi kandidat terjamin."
+msgid "The system restricts PMB Committee access rights. Committee members can only view and process candidates who apply to the Faculty or Study Program under their responsibility. Candidate privacy is guaranteed."
+msgstr "Sistem membatasi hak akses Komite PMB. Anggota panitia hanya dapat melihat dan memproses calon yang melamar ke Fakultas atau Program Studi yang berada di bawah tanggung jawabnya. Privasi kandidat terjamin."
 
 #. module: campus_pmb
 #. odoo-python
@@ -1084,11 +976,7 @@ msgstr "Tindakan ini tidak diperbolehkan dari status penerimaan saat ini."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"This module is designed to digitize and automate the entire student "
-"admissions cycle. From filling out application forms to document "
-"verification and automatic portal account creation. This module ensures that"
-" no data is missed and minimizes human error."
+msgid "This module is designed to digitize and automate the entire student admissions cycle. From filling out application forms to document verification and automatic portal account creation. This module ensures that no data is missed and minimizes human error."
 msgstr ""
 
 #. module: campus_pmb
@@ -1140,27 +1028,18 @@ msgstr "Riwayat komunikasi situs web"
 
 #. module: campus_pmb
 #: model:ir.model.fields,help:campus_pmb.field_campus_jurisdiction__scope
-msgid ""
-"What this assignment governs. Each module that restricts records by faculty "
-"or programme adds its own scope."
-msgstr ""
+msgid "What this assignment governs. Each module that restricts records by faculty or programme adds its own scope."
+msgstr "Hal yang diatur oleh penugasan ini. Setiap modul pembatas menambah cakupannya sendiri."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"When entering this stage, the system intelligently creates a *Checklist* of "
-"required documents (Diploma, ID Card, Photo) based on the candidate's "
-"admission path."
-msgstr ""
-"Saat memasuki tahap ini, sistem secara cerdas membuat *Daftar Periksa* "
-"dokumen yang diperlukan (Ijazah, KTP, Foto) berdasarkan jalur penerimaan "
-"kandidat."
+msgid "When entering this stage, the system intelligently creates a *Checklist* of required documents (Diploma, ID Card, Photo) based on the candidate's admission path."
+msgstr "Saat memasuki tahap ini, sistem secara cerdas membuat *Daftar Periksa* dokumen yang diperlukan (Ijazah, KTP, Foto) berdasarkan jalur penerimaan kandidat."
 
 #. module: campus_pmb
 #: model:ir.model.fields,help:campus_pmb.field_campus_admission_requirement__admission_path
-msgid ""
-"Which applicants are asked for this document. 'All Paths' covers every one."
-msgstr ""
+msgid "Which applicants are asked for this document. 'All Paths' covers every one."
+msgstr "Pendaftar mana yang wajib menyerahkan dokumen ini. 'Semua Jalur' berlaku untuk semuanya."
 
 #. module: campus_pmb
 #. odoo-python
@@ -1311,14 +1190,8 @@ msgstr "<i class=\"fa fa-graduation-cap me-2\"/> PMB (Penerimaan Mahasiswa Baru)
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"This module handles the entire new student admissions process—from online or"
-" office registration, document verification, acceptance decisions, up to "
-"creating the official Student ID (NIM) and Portal login account."
-msgstr ""
-"Modul ini mengelola seluruh proses penerimaan mahasiswa baru—mulai dari "
-"pendaftaran online maupun di loket, verifikasi berkas, keputusan kelulusan, "
-"hingga pembuatan NIM resmi dan akun login Portal Mahasiswa."
+msgid "This module handles the entire new student admissions process—from online or office registration, document verification, acceptance decisions, up to creating the official Student ID (NIM) and Portal login account."
+msgstr "Modul ini mengelola seluruh proses penerimaan mahasiswa baru—mulai dari pendaftaran online maupun di loket, verifikasi berkas, keputusan kelulusan, hingga pembuatan NIM resmi dan akun login Portal Mahasiswa."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1327,12 +1200,8 @@ msgstr "<i class=\"fa fa-shield text-danger me-2\"/>Akses Sesuai Fakultas/Prodi"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"PMB Committee members only see and process applicants applying to the "
-"Faculty or Study Program within their assigned work area."
-msgstr ""
-"Panitia PMB hanya melihat dan memproses calon mahasiswa yang mendaftar ke "
-"Fakultas atau Program Studi di wilayah tugasnya."
+msgid "PMB Committee members only see and process applicants applying to the Faculty or Study Program within their assigned work area."
+msgstr "Panitia PMB hanya melihat dan memproses calon mahasiswa yang mendaftar ke Fakultas atau Program Studi di wilayah tugasnya."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1341,29 +1210,18 @@ msgstr "<i class=\"fa fa-filter text-primary me-2\"/>Penyaringan Data Cepat"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Use the left-hand Search Panel in the Admissions list to filter applicants "
-"with one click by Faculty, Study Program, or Status."
-msgstr ""
-"Gunakan panel filter di sebelah kiri daftar Pendaftaran untuk menyaring "
-"calon mahasiswa dengan satu klik berdasarkan Fakultas, Program Studi, atau "
-"Status."
+msgid "Use the left-hand Search Panel in the Admissions list to filter applicants with one click by Faculty, Study Program, or Status."
+msgstr "Gunakan panel filter di sebelah kiri daftar Pendaftaran untuk menyaring calon mahasiswa dengan satu klik berdasarkan Fakultas, Program Studi, atau Status."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "<i class=\"fa fa-cogs text-success me-2\"/>Document &amp; Status Checks"
-msgstr ""
-"<i class=\"fa fa-cogs text-success me-2\"/>Pemeriksaan Berkas &amp; Status"
+msgstr "<i class=\"fa fa-cogs text-success me-2\"/>Pemeriksaan Berkas &amp; Status"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The system prevents accepting an applicant if required documents are still "
-"missing, and protects already-registered students from accidental rejection."
-msgstr ""
-"Sistem mencegah panitia meluluskan pendaftar jika berkas wajib belum "
-"lengkap, serta melindungi pendaftar yang sudah resmi menjadi mahasiswa agar "
-"tidak tertolak secara tidak sengaja."
+msgid "The system prevents accepting an applicant if required documents are still missing, and protects already-registered students from accidental rejection."
+msgstr "Sistem mencegah panitia meluluskan pendaftar jika berkas wajib belum lengkap, serta melindungi pendaftar yang sudah resmi menjadi mahasiswa agar tidak tertolak secara tidak sengaja."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1377,50 +1235,28 @@ msgstr "Tahap 1: Pendaftaran Calon Mahasiswa (Draf)"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>Who performs this:</strong> Prospective Student (Online) or PMB "
-"Committee (Office)"
-msgstr ""
-"<strong>Pelaksana:</strong> Calon Mahasiswa (Online) atau Panitia PMB "
-"(Loket)"
+msgid "<strong>Who performs this:</strong> Prospective Student (Online) or PMB Committee (Office)"
+msgstr "<strong>Pelaksana:</strong> Calon Mahasiswa (Online) atau Panitia PMB (Loket)"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"The applicant fills in personal data, email, phone, and desired Study "
-"Program. The system automatically assigns a unique Registration Number (e.g."
-" <code>PMB/2026/0001</code>) and sets the status to <em>Draft</em>."
-msgstr ""
-"Calon mahasiswa mengisi data diri, email, nomor telepon, dan Program Studi "
-"pilihan. Sistem otomatis memberikan Nomor Pendaftaran unik (contoh: "
-"<code>PMB/2026/0001</code>) dengan status <em>Draf</em>."
+msgid "The applicant fills in personal data, email, phone, and desired Study Program. The system automatically assigns a unique Registration Number (e.g. <code>PMB/2026/0001</code>) and sets the status to <em>Draft</em>."
+msgstr "Calon mahasiswa mengisi data diri, email, nomor telepon, dan Program Studi pilihan. Sistem otomatis memberikan Nomor Pendaftaran unik (contoh: <code>PMB/2026/0001</code>) dengan status <em>Draf</em>."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System "
-"Rules &amp; Validations:</strong>"
-msgstr ""
-"<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan "
-"&amp; Validasi Sistem:</strong>"
+msgid "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>System Rules &amp; Validations:</strong>"
+msgstr "<i class=\"fa fa-exclamation-triangle text-danger me-2\"/> <strong>Aturan &amp; Validasi Sistem:</strong>"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Full name, valid email, chosen Faculty, and Study Program must be filled in "
-"before the application can be submitted."
-msgstr ""
-"Nama lengkap, email yang valid, Fakultas, dan Program Studi wajib diisi "
-"sebelum pendaftaran dapat diajukan."
+msgid "Full name, valid email, chosen Faculty, and Study Program must be filled in before the application can be submitted."
+msgstr "Nama lengkap, email yang valid, Fakultas, dan Program Studi wajib diisi sebelum pendaftaran dapat diajukan."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Click <strong>Submit</strong> when the initial data is ready to move to "
-"Document Review."
-msgstr ""
-"Klik <strong>Ajukan (Submit)</strong> jika data awal sudah lengkap untuk "
-"masuk ke tahap Verifikasi Berkas."
+msgid "Click <strong>Submit</strong> when the initial data is ready to move to Document Review."
+msgstr "Klik <strong>Ajukan (Submit)</strong> jika data awal sudah lengkap untuk masuk ke tahap Verifikasi Berkas."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1434,27 +1270,13 @@ msgstr "<strong>Pelaksana:</strong> Panitia PMB"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"When submitted, the system automatically creates a <strong>Document "
-"Checklist</strong> (e.g., Diploma, ID Card, Photo) based on the applicant's "
-"admission path. Check and mark each submitted document as verified."
-msgstr ""
-"Saat diajukan, sistem otomatis membuat <strong>Daftar Periksa "
-"Berkas</strong> (misalnya Ijazah, KTP, Pas Foto) sesuai jalur masuk "
-"pendaftar. Periksa dan tandai setiap berkas yang sudah diterima."
+msgid "When submitted, the system automatically creates a <strong>Document Checklist</strong> (e.g., Diploma, ID Card, Photo) based on the applicant's admission path. Check and mark each submitted document as verified."
+msgstr "Saat diajukan, sistem otomatis membuat <strong>Daftar Periksa Berkas</strong> (misalnya Ijazah, KTP, Pas Foto) sesuai jalur masuk pendaftar. Periksa dan tandai setiap berkas yang sudah diterima."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>100% Mandatory Documents Required:</strong> You "
-"<strong>cannot</strong> click <em>Accept</em> if any mandatory document in "
-"the checklist is still marked missing or unverified. Complete and verify all"
-" required items first."
-msgstr ""
-"<strong>Berkas Wajib Harus 100% Lengkap:</strong> Anda <strong>tidak "
-"dapat</strong> menekan tombol <em>Terima (Accept)</em> jika masih ada berkas"
-" wajib yang belum diterima atau belum diverifikasi. Lengkapi dan verifikasi "
-"seluruh berkas wajib terlebih dahulu."
+msgid "<strong>100% Mandatory Documents Required:</strong> You <strong>cannot</strong> click <em>Accept</em> if any mandatory document in the checklist is still marked missing or unverified. Complete and verify all required items first."
+msgstr "<strong>Berkas Wajib Harus 100% Lengkap:</strong> Anda <strong>tidak dapat</strong> menekan tombol <em>Terima (Accept)</em> jika masih ada berkas wajib yang belum diterima atau belum diverifikasi. Lengkapi dan verifikasi seluruh berkas wajib terlebih dahulu."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1468,13 +1290,8 @@ msgstr "<strong>Pelaksana:</strong> Panitia PMB / Administrator"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Once all required documents are verified and the applicant passes selection,"
-" click <strong>Accept</strong>. The status changes to <em>Accepted</em>."
-msgstr ""
-"Jika seluruh berkas wajib sudah terverifikasi dan pendaftar dinyatakan lolos"
-" seleksi, klik <strong>Terima (Accept)</strong>. Status berubah menjadi "
-"<em>Diterima</em>."
+msgid "Once all required documents are verified and the applicant passes selection, click <strong>Accept</strong>. The status changes to <em>Accepted</em>."
+msgstr "Jika seluruh berkas wajib sudah terverifikasi dan pendaftar dinyatakan lolos seleksi, klik <strong>Terima (Accept)</strong>. Status berubah menjadi <em>Diterima</em>."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1483,58 +1300,33 @@ msgstr "Tahap 4: Daftar Ulang Final (Buat NIM &amp; Akun Mahasiswa)"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Click <strong>Register Student</strong> on an <em>Accepted</em> application."
-" The system automatically completes four tasks at once:"
-msgstr ""
-"Klik <strong>Daftarkan Mahasiswa (Register Student)</strong> pada "
-"pendaftaran berstatus <em>Diterima</em>. Sistem otomatis menyelesaikan empat"
-" hal sekaligus:"
+msgid "Click <strong>Register Student</strong> on an <em>Accepted</em> application. The system automatically completes four tasks at once:"
+msgstr "Klik <strong>Daftarkan Mahasiswa (Register Student)</strong> pada pendaftaran berstatus <em>Diterima</em>. Sistem otomatis menyelesaikan empat hal sekaligus:"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>Generates Official NIM:</strong> Creates the Student Registration "
-"Number (NIM) based on Faculty, Study Program, and Enrollment Year."
-msgstr ""
-"<strong>Membuat NIM Resmi:</strong> Menghasilkan Nomor Induk Mahasiswa (NIM)"
-" berdasarkan Fakultas, Program Studi, dan Tahun Masuk."
+msgid "<strong>Generates Official NIM:</strong> Creates the Student Registration Number (NIM) based on Faculty, Study Program, and Enrollment Year."
+msgstr "<strong>Membuat NIM Resmi:</strong> Menghasilkan Nomor Induk Mahasiswa (NIM) berdasarkan Fakultas, Program Studi, dan Tahun Masuk."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>Creates Student Profile:</strong> Adds the applicant to the official"
-" Student directory linked to their Faculty and Study Program."
-msgstr ""
-"<strong>Membuat Profil Mahasiswa:</strong> Memasukkan pendaftar ke daftar "
-"Mahasiswa resmi beserta Fakultas dan Program Studinya."
+msgid "<strong>Creates Student Profile:</strong> Adds the applicant to the official Student directory linked to their Faculty and Study Program."
+msgstr "<strong>Membuat Profil Mahasiswa:</strong> Memasukkan pendaftar ke daftar Mahasiswa resmi beserta Fakultas dan Program Studinya."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>Creates Portal Account:</strong> Sets up a Student Portal login "
-"account using the applicant's email address as their username."
-msgstr ""
-"<strong>Membuat Akun Portal:</strong> Membuatkan akun login Portal Mahasiswa"
-" menggunakan alamat email pendaftar sebagai username."
+msgid "<strong>Creates Portal Account:</strong> Sets up a Student Portal login account using the applicant's email address as their username."
+msgstr "<strong>Membuat Akun Portal:</strong> Membuatkan akun login Portal Mahasiswa menggunakan alamat email pendaftar sebagai username."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>Grants Portal Access:</strong> Enables the student to log in "
-"immediately to view schedules and fill out KRS."
-msgstr ""
-"<strong>Memberikan Akses Portal:</strong> Mahasiswa dapat langsung login "
-"untuk melihat jadwal kuliah dan mengisi KRS."
+msgid "<strong>Grants Portal Access:</strong> Enables the student to log in immediately to view schedules and fill out KRS."
+msgstr "<strong>Memberikan Akses Portal:</strong> Mahasiswa dapat langsung login untuk melihat jadwal kuliah dan mengisi KRS."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"An applicant can only be registered once. Make sure the applicant's email is"
-" unique and not already used by another portal account."
-msgstr ""
-"Satu pendaftar hanya dapat didaftarkan menjadi mahasiswa satu kali. Pastikan"
-" email pendaftar unik dan belum dipakai akun portal lain."
+msgid "An applicant can only be registered once. Make sure the applicant's email is unique and not already used by another portal account."
+msgstr "Satu pendaftar hanya dapat didaftarkan menjadi mahasiswa satu kali. Pastikan email pendaftar unik dan belum dipakai akun portal lain."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1543,27 +1335,13 @@ msgstr "Tahap 5: Menolak Pendaftaran"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"If an applicant does not meet requirements (for example, invalid documents "
-"or failed selection), click <strong>Reject</strong> from the form or the "
-"<em>Actions</em> menu."
-msgstr ""
-"Jika pendaftar tidak memenuhi syarat (misalnya berkas tidak sah atau tidak "
-"lolos seleksi), klik <strong>Tolak (Reject)</strong> dari formulir atau menu"
-" <em>Aksi</em>."
+msgid "If an applicant does not meet requirements (for example, invalid documents or failed selection), click <strong>Reject</strong> from the form or the <em>Actions</em> menu."
+msgstr "Jika pendaftar tidak memenuhi syarat (misalnya berkas tidak sah atau tidak lolos seleksi), klik <strong>Tolak (Reject)</strong> dari formulir atau menu <em>Aksi</em>."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<strong>Protected Final Statuses:</strong> Applications that are already "
-"<em>Accepted</em> or <em>Registered</em> <strong>cannot</strong> be "
-"rejected, preventing accidental cancellation after a Student ID and account "
-"have been issued."
-msgstr ""
-"<strong>Status Final Dilindungi:</strong> Pendaftaran yang sudah berstatus "
-"<em>Diterima</em> atau <em>Terdaftar (Registered)</em> <strong>tidak "
-"dapat</strong> ditolak lagi untuk mencegah pembatalan tidak sengaja setelah "
-"NIM dan akun dibuat."
+msgid "<strong>Protected Final Statuses:</strong> Applications that are already <em>Accepted</em> or <em>Registered</em> <strong>cannot</strong> be rejected, preventing accidental cancellation after a Student ID and account have been issued."
+msgstr "<strong>Status Final Dilindungi:</strong> Pendaftaran yang sudah berstatus <em>Diterima</em> atau <em>Terdaftar (Registered)</em> <strong>tidak dapat</strong> ditolak lagi untuk mencegah pembatalan tidak sengaja setelah NIM dan akun dibuat."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1572,53 +1350,23 @@ msgstr "Pendaftaran Mandiri Online (Website Publik)"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"Prospective students can apply directly from the campus website without "
-"logging in first:"
-msgstr ""
-"Calon mahasiswa dapat mendaftar langsung melalui website kampus tanpa perlu "
-"login terlebih dahulu:"
+msgid "Prospective students can apply directly from the campus website without logging in first:"
+msgstr "Calon mahasiswa dapat mendaftar langsung melalui website kampus tanpa perlu login terlebih dahulu:"
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-globe text-primary me-2\"/> <strong>Step 1 — Open "
-"Registration Form:</strong> Go to <strong>/admission</strong> (or click "
-"<em>PMB Admission</em> in the top menu), fill in personal details, and click"
-" <strong>Submit Application</strong>. A new <em>Draft</em> application is "
-"created automatically."
-msgstr ""
-"<i class=\"fa fa-globe text-primary me-2\"/> <strong>Langkah 1 — Buka "
-"Formulir Pendaftaran:</strong> Buka halaman <strong>/admission</strong> "
-"(atau klik menu <em>Pendaftaran PMB</em>), isi data diri, lalu klik "
-"<strong>Kirim Pendaftaran</strong>. Data pendaftaran berstatus <em>Draf</em>"
-" akan langsung tersimpan."
+msgid "<i class=\"fa fa-globe text-primary me-2\"/> <strong>Step 1 — Open Registration Form:</strong> Go to <strong>/admission</strong> (or click <em>PMB Admission</em> in the top menu), fill in personal details, and click <strong>Submit Application</strong>. A new <em>Draft</em> application is created automatically."
+msgstr "<i class=\"fa fa-globe text-primary me-2\"/> <strong>Langkah 1 — Buka Formulir Pendaftaran:</strong> Buka halaman <strong>/admission</strong> (atau klik menu <em>Pendaftaran PMB</em>), isi data diri, lalu klik <strong>Kirim Pendaftaran</strong>. Data pendaftaran berstatus <em>Draf</em> akan langsung tersimpan."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-filter text-info me-2\"/> <strong>Step 2 — Choosing Faculty"
-" &amp; Program:</strong> After choosing a Faculty, the Study Program list "
-"automatically narrows down to only programs inside that Faculty so "
-"applicants cannot pick a mismatched combination."
-msgstr ""
-"<i class=\"fa fa-filter text-info me-2\"/> <strong>Langkah 2 — Memilih "
-"Fakultas &amp; Prodi:</strong> Setelah memilih Fakultas, daftar Program "
-"Studi otomatis menyaring prodi yang ada di Fakultas tersebut saja agar tidak"
-" salah pilih kombinasi."
+msgid "<i class=\"fa fa-filter text-info me-2\"/> <strong>Step 2 — Choosing Faculty &amp; Program:</strong> After choosing a Faculty, the Study Program list automatically narrows down to only programs inside that Faculty so applicants cannot pick a mismatched combination."
+msgstr "<i class=\"fa fa-filter text-info me-2\"/> <strong>Langkah 2 — Memilih Fakultas &amp; Prodi:</strong> Setelah memilih Fakultas, daftar Program Studi otomatis menyaring prodi yang ada di Fakultas tersebut saja agar tidak salah pilih kombinasi."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
-msgid ""
-"<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Step 3 — "
-"Active Academic Year:</strong> Applicants do not need to pick the Academic "
-"Year—the system automatically links the application to the currently active "
-"Academic Year, and the PMB Committee reviews it from the backend."
-msgstr ""
-"<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Langkah 3 — "
-"Tahun Akademik Otomatis:</strong> Pendaftar tidak perlu memilih Tahun "
-"Akademik—sistem otomatis mengaitkan pendaftaran ke Tahun Akademik yang "
-"sedang aktif, lalu Panitia PMB melanjutkan proses verifikasi."
+msgid "<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Step 3 — Active Academic Year:</strong> Applicants do not need to pick the Academic Year—the system automatically links the application to the currently active Academic Year, and the PMB Committee reviews it from the backend."
+msgstr "<i class=\"fa fa-calendar-check-o text-success me-2\"/> <strong>Langkah 3 — Tahun Akademik Otomatis:</strong> Pendaftar tidak perlu memilih Tahun Akademik—sistem otomatis mengaitkan pendaftaran ke Tahun Akademik yang sedang aktif, lalu Panitia PMB melanjutkan proses verifikasi."
 
 #. module: campus_pmb
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
@@ -1669,3 +1417,110 @@ msgstr "Terima / Tolak pendaftar"
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "Register Student (Create NIM &amp; Account)"
 msgstr "Daftarkan Mahasiswa (Buat NIM &amp; Akun)"
+
+#. module: campus_pmb
+msgid "A fee rule for this fee type, admission path, and study program already exists."
+msgstr "Aturan biaya untuk jenis biaya, jalur masuk, dan program studi ini sudah ada."
+
+#. module: campus_pmb
+msgid "All Programs"
+msgstr "Semua Program Studi"
+
+#. module: campus_pmb
+msgid "Applicant name and email address are required."
+msgstr "Nama lengkap dan alamat email pendaftar wajib diisi."
+
+#. module: campus_pmb
+msgid "Configure Registration and Re-registration Fees"
+msgstr "Atur Biaya Pendaftaran dan Daftar Ulang"
+
+#. module: campus_pmb
+msgid "Contact"
+msgstr "Kontak"
+
+#. module: campus_pmb
+msgid "Currency"
+msgstr "Mata Uang"
+
+#. module: campus_pmb
+msgid "Invalid phone number format: %(phone)s"
+msgstr "Format nomor telepon tidak valid: %(phone)s"
+
+#. module: campus_pmb
+msgid "Job Position"
+msgstr "Jabatan"
+
+#. module: campus_pmb
+msgid "Leave empty to apply to all study programs."
+msgstr "Kosongkan untuk menerapkan ke semua program studi."
+
+#. module: campus_pmb
+msgid "Search Admission Fees"
+msgstr "Cari Biaya Pendaftaran"
+
+#. module: campus_pmb
+msgid ""
+"Set registration fees by admission path and re-registration\n"
+"                (daftar ulang) fees by study program or admission path. Leave\n"
+"                Program empty to apply a rule across all study programs."
+msgstr "Atur biaya pendaftaran per jalur masuk dan biaya daftar ulang berdasarkan program studi atau jalur masuk. Kosongkan Program Studi untuk berlaku di seluruh prodi."
+
+#. module: campus_pmb
+msgid "The email %(email)s already belongs to another account in the system (%(name)s), which is not a student. Register this applicant with a different email address, or ask an administrator to resolve the two accounts first."
+msgstr "Email %(email)s sudah terdaftar pada akun lain di sistem (%(name)s) yang bukan mahasiswa. Daftarkan dengan email lain atau hubungi administrator terlebih dahulu."
+
+#. module: campus_pmb
+msgid "Which applicants this fee applies to. 'All Paths' covers every path unless overridden."
+msgstr "Pendaftar yang dikenakan biaya ini. 'Semua Jalur' berlaku untuk semuanya kecuali ada aturan khusus."
+
+#. module: campus_pmb
+msgid "Program '%(program)s' does not belong to Faculty '%(faculty)s'."
+msgstr "Program Studi '%(program)s' tidak termasuk dalam Fakultas '%(faculty)s'."
+
+#. module: campus_pmb
+msgid "Invalid email address format: %(email)s"
+msgstr "Format alamat email tidak valid: %(email)s"
+
+#. module: campus_pmb
+msgid "Core admission details, fees, and documents cannot be modified once an application is %(state)s."
+msgstr "Data inti pendaftaran, biaya, dan dokumen tidak dapat diubah setelah pendaftaran berstatus %(state)s."
+
+#. module: campus_pmb
+msgid "Application details, documents, and registration fees are locked after acceptance."
+msgstr "Detail pendaftaran, dokumen, dan biaya pendaftaran dikunci setelah diterima."
+
+#. module: campus_pmb
+msgid "Review admission documents for %s"
+msgstr "Tinjau dokumen pendaftaran untuk %s"
+
+#. module: campus_pmb
+msgid "Verify registration fee payment for %s"
+msgstr "Verifikasi pembayaran biaya pendaftaran untuk %s"
+
+#. module: campus_pmb
+msgid "Complete document verification for %s"
+msgstr "Selesaikan verifikasi dokumen untuk %s"
+
+#. module: campus_pmb
+msgid "Create student portal account and NIM for %s"
+msgstr "Buat akun portal mahasiswa dan NIM untuk %s"
+
+#. module: campus_pmb
+msgid "Verify re-registration fee payment for %s"
+msgstr "Verifikasi pembayaran daftar ulang untuk %s"
+
+#. module: campus_pmb
+msgid "Regular admission track based on academic aptitude assessment."
+msgstr "Jalur seleksi reguler penerimaan mahasiswa baru berbasis tes potensi akademik."
+
+#. module: campus_pmb
+msgid "Merit scholarship track with configured fee exemptions."
+msgstr "Program beasiswa unggulan dengan pembebasan biaya sesuai ketentuan."
+
+#. module: campus_pmb
+msgid "Transfer admission track with prior credit recognition."
+msgstr "Jalur penerimaan mahasiswa pindahan atau alih jenjang dengan pengakuan transkrip SKS."
+
+#. module: campus_pmb
+msgid "Higher education programs offered by %s."
+msgstr "Program pendidikan tinggi di lingkungan %s."

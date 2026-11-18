@@ -8,9 +8,9 @@
             <list string="Course Packages">
                 <field name="name"/>
                 <field name="program_id"/>
+                <field name="semester"/>
                 <field name="academic_year_id"/>
                 <field name="total_credits"/>
-                <field name="company_id" column_invisible="1"/>
             </list>
         </field>
     </record>
@@ -29,11 +29,11 @@
                         <group>
                             <field name="name"/>
                             <field name="program_id"/>
+                            <field name="semester"/>
                         </group>
                         <group>
                             <field name="academic_year_id"/>
                             <field name="total_credits"/>
-                            <field name="company_id" invisible="1"/>
                         </group>
                     </group>
                     <notebook>

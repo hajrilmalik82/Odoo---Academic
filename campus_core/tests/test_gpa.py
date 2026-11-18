@@ -101,10 +101,18 @@ class TestGpa(CampusCommon):
         krs, khs = self._locked_krs_with_khs()
         before_krs = krs.total_credits
         before_khs = khs.line_ids[0].credits
-
         self.subject_a.credits = 1
         krs.invalidate_recordset()
         khs.invalidate_recordset()
-
         self.assertEqual(krs.total_credits, before_krs)
         self.assertEqual(khs.line_ids[0].credits, before_khs)
+
+    def test_creating_khs_line_with_zero_grade_marks_it_graded(self):
+        krs, khs = self._locked_krs_with_khs()
+        line = self.env['academic.khs.line'].create({
+            'khs_id': khs.id,
+            'subject_id': self.subject_b.id,
+            'numeric_grade': 0.0,
+        })
+        self.assertTrue(line.is_graded)
+        self.assertEqual(line.letter_grade, 'E')

@@ -84,7 +84,6 @@
                         <group>
                             <field name="enrolled_count"/>
                             <field name="capacity_display"/>
-                            <field name="company_id" invisible="1"/>
                         </group>
                     </group>
                 </sheet>

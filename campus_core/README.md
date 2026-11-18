@@ -1,13 +1,15 @@
 # Campus Academic — SIAKAD for Odoo 19
 
-Five modules that together run an Indonesian campus: admissions, employees,
-academic records, the student portal and the public site. `campus_core` is the
-application; the rest are parts of it, not separate apps.
+Six single-company modules that together run an Indonesian campus: admissions,
+employees, academic records, thesis & graduation management, the student portal,
+and the public site. `campus_core` is the application; the rest are parts of
+it, not separate apps.
 
 ## Install order
 
-They declare their own dependencies, so installing `campus_portal` and
-`campus_pmb` pulls everything else in. By hand, the order is:
+They declare their own dependencies, so installing `campus_portal`,
+`campus_pmb`, and `campus_thesis` pulls everything else in. By hand, the order
+is:
 
 1. **campus_core** — faculties, study programmes, subjects, academic years,
    classes and schedules, KRS (study plan), KHS (term grades), the transcript,
@@ -20,30 +22,34 @@ They declare their own dependencies, so installing `campus_portal` and
    `/`, and the one-off setup that skips Odoo's website configurator.
 3. **campus_employees** — the academic roles on `hr.employee` (Lecturer,
    Academic Staff) and `campus.jurisdiction`, the model that decides which
-   students' records a staff member reaches.
-4. **campus_pmb** — new-student admission (PMB): the public application form,
-   the document checklist, the admission state machine, NIM generation and the
-   student's portal account. Adds the PMB Staff role and the `pmb` jurisdiction
-   scope.
-5. **campus_portal** — `/my/krs` and `/my/khs` for students: fill in a study
-   plan, submit it, print the KRS, KHS and transcript.
+   students' records and student contacts a staff member reaches.
+4. **campus_pmb** — new-student admission (PMB): the public application REST
+   API, the document checklist, fees, the admission state machine, NIM
+   generation and the student's portal account. Adds the PMB Staff role and
+   the `pmb` jurisdiction scope.
+5. **campus_portal** — `/my/krs` and `/my/khs` for students: select sections
+   (including from pre-generated Semester 1–3 course packages) or add/retake
+   courses, submit study plans, and print the KRS, KHS and transcript.
+6. **campus_thesis** — end-to-end thesis (Skripsi) and Yudisium lifecycle:
+   Research Methodology prerequisite, program-locked Primary Supervisor and
+   optional Co-Supervisor, guidance progress logs, Thesis KRS enrollment gate,
+   3-step Yudisium approvals (Supervisor → Academic Advisor → Dean), and quota-locked
+   Graduation batch assignment.
 
 ## Tests
 
 ```
-./jalankan-test.sh            # the default database
-./jalankan-test.sh <db>       # another one
+./jalankan-test.sh -d <db>
 ```
 
-129 tests, in two kinds. Most are `TransactionCase` and call the methods
-directly. The rest are `HttpCase`: a real server, real requests, real
-rendering — the only way to reach routing and its methods, CSRF, the auth
-decorator, QWeb errors and which language a frontend page is served in.
+Over 280 tests across `TransactionCase` (model-level logic, ACLs, record rules,
+state machines, concurrency locks) and `HttpCase` (routes, CSRF, QWeb
+rendering, PDF generation, REST API, and language handling).
 
 ## Seeding a database to show
 
 ```
-odoo-bin -c odoo.conf -d <db> -i campus_portal,campus_pmb,campus_website --with-demo --stop-after-init
+odoo-bin -c odoo.conf -d <db> -i campus_portal,campus_pmb,campus_thesis,campus_website --with-demo --stop-after-init
 ```
 
 Two flags are easy to forget, and both have cost time here:
@@ -80,11 +86,12 @@ code, and plausible-looking test names collided with real ones.
   which *rows*. Several rules exist only to re-widen a restriction for
   administrators, because `group_campus_administrator` implies the lecturer and
   academic-staff groups and rules of different groups are OR'ed.
-- **Jurisdiction fields are the access-control map.** The four `academic_*` and
-  four `pmb_*` fields on `hr.employee` are what the record rules read. They are
-  restricted to campus administrators and writing them clears the registry
-  cache, because `ir.rule._compute_domain` is ormcached per user and the
-  jurisdiction is not part of that cache key.
+- **Jurisdiction fields (`campus.jurisdiction`) are the access-control map.**
+  Staff and PMB officers' faculty/programme assignments live on
+  `campus.jurisdiction` (restricted to campus administrators) and are enforced
+  by record rules on KRS, KHS, Thesis, Admission, and Student `res.partner`
+  records. Writing a jurisdiction clears the registry cache because
+  `ir.rule._compute_domain` is ormcached per user.
 - **State machines are enforced on `write()`, not only on buttons.** Both
   `academic.krs` and `campus.admission` carry a `_STATE_TRANSITIONS` map, so a
   list-view inline edit, an import or a server action is validated the same way
@@ -129,12 +136,8 @@ code, and plausible-looking test names collided with real ones.
   not a move: `campus_core` builds the teaching schedule and `campus_employees`
   only afterwards says which faculty those lecturers belong to, so an
   empty-to-set write has to stay legal or the demo data refuses itself.
-- **No migration scripts.** Every module sits at `19.0.1.0.0` and installs
-  clean. The database is built from the modules, not carried forward from an
-  earlier release, so there is no older state for a script to repair. A change
-  that does need existing data rewritten has nowhere to do it: either rebuild
-  the database, or add `<module>/migrations/<version>/` and bump that module's
-  manifest version in the same commit.
+- **Single-company design.** The campus suite models a single institution
+  (`env.company`) without per-record `company_id` multi-company overhead.
 
 ## Deliberate decisions that are not defects
 
@@ -173,11 +176,3 @@ code, and plausible-looking test names collided with real ones.
   adds its scope with `selection_add`. It is the access-control map, so its ACL
   admits campus administrators only — read included — and everything that
   consumes it goes through `_jurisdiction_domain`, which sudoes.
-- **No migration scripts, and that is a trade.** Odoo logs a warning and
-  carries on when an index cannot be created, so an upgrade over data that
-  violates a new constraint looks clean while the constraint silently does not
-  exist. Eleven scripts used to say so out loud and to re-home data across the
-  module split; they were removed deliberately, because this suite is installed
-  fresh rather than upgraded in place and every one of them had nothing left to
-  do. The day that stops being true, the first thing to add back is a
-  pre-migrate that reports.

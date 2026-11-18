@@ -9,7 +9,6 @@
                 <field name="document_type"/>
                 <field name="admission_path"/>
                 <field name="required"/>
-                <field name="company_id" groups="base.group_multi_company"/>
             </list>
         </field>
     </record>

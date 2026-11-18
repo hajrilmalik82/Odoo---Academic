@@ -23,7 +23,6 @@ class CampusThesis(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin', 'campus.searchpanel.group.domain.mixin']
     _order = 'create_date desc, id desc'
     _rec_names_search = ['name', 'title', 'student_id.name', 'student_id.nim']
-    _check_company_auto = True
 
     _unique_active_thesis_per_student = models.UniqueIndex(
         "(student_id) WHERE state != 'cancelled'",
@@ -43,7 +42,6 @@ class CampusThesis(models.Model):
         string='Student',
         required=True,
         domain=[('is_student', '=', True)],
-        check_company=True,
         ondelete='restrict',
         index=True,
         tracking=True,
@@ -81,7 +79,6 @@ class CampusThesis(models.Model):
         'academic.year',
         string='Academic Year',
         required=True,
-        check_company=True,
         ondelete='restrict',
         default=lambda self: self.env['academic.year']._get_current(),
         tracking=True,
@@ -94,8 +91,7 @@ class CampusThesis(models.Model):
         'hr.employee',
         string='Primary Supervisor',
         required=True,
-        domain="[('academic_role', '=', 'lecturer')]",
-        check_company=True,
+        domain="[('academic_role', '=', 'lecturer'), ('program_id', '!=', False), ('program_id', '=', program_id)]",
         index=True,
         tracking=True,
     )
@@ -103,7 +99,6 @@ class CampusThesis(models.Model):
         'hr.employee',
         string='Co-Supervisor (Optional)',
         domain="[('academic_role', '=', 'lecturer'), ('id', '!=', supervisor_id)]",
-        check_company=True,
         index=True,
         tracking=True,
     )
@@ -200,7 +195,6 @@ class CampusThesis(models.Model):
     graduation_id = fields.Many2one(
         'campus.graduation.schedule',
         string='Graduation Schedule',
-        check_company=True,
         tracking=True,
     )
     graduation_date = fields.Date(
@@ -227,10 +221,6 @@ class CampusThesis(models.Model):
         ('graduated', 'Yudisium Approved'),
         ('cancelled', 'Cancelled'),
     ], string='Status', default='draft', group_expand=True, tracking=True, index=True, copy=False)
-
-    company_id = fields.Many2one(
-        'res.company', string='Company', default=lambda self: self.env.company,
-    )
 
     # --- Computes ---------------------------------------------------------
 
@@ -307,14 +297,21 @@ class CampusThesis(models.Model):
         for record in self:
             self._validate_student_eligibility(record.student_id)
 
-    @api.constrains('supervisor_id', 'co_supervisor_id')
+    @api.constrains('supervisor_id', 'co_supervisor_id', 'program_id')
     def _check_supervisors_valid(self):
         for record in self:
-            if record.supervisor_id and record.supervisor_id.academic_role != 'lecturer':
-                raise ValidationError(_(
-                    "%(name)s is not a lecturer and cannot be assigned as Primary Supervisor.",
-                    name=record.supervisor_id.name,
-                ))
+            if record.supervisor_id:
+                if record.supervisor_id.academic_role != 'lecturer':
+                    raise ValidationError(_(
+                        "%(name)s is not a lecturer and cannot be assigned as Primary Supervisor.",
+                        name=record.supervisor_id.name,
+                    ))
+                if record.program_id and record.supervisor_id.program_id != record.program_id:
+                    raise ValidationError(_(
+                        "Primary Supervisor %(name)s must belong to the student's study program (%(program)s).",
+                        name=record.supervisor_id.name,
+                        program=record.program_id.display_name,
+                    ))
             if record.co_supervisor_id:
                 if record.co_supervisor_id.academic_role != 'lecturer':
                     raise ValidationError(_(
@@ -325,6 +322,19 @@ class CampusThesis(models.Model):
                     raise ValidationError(_(
                         "Primary Supervisor and Co-Supervisor must be different lecturers."
                     ))
+
+    @api.constrains('graduation_id', 'state')
+    def _check_graduation_quota(self):
+        for record in self:
+            if not record.graduation_id or record.state == 'cancelled':
+                continue
+            schedule = record.graduation_id
+            schedule._lock_for_quota()
+            schedule.invalidate_recordset(['participant_count'])
+            if schedule.quota > 0 and schedule.participant_count > schedule.quota:
+                raise ValidationError(_(
+                    "Graduation schedule '%(name)s' is full (quota: %(quota)s)."
+                ) % {'name': schedule.display_name, 'quota': schedule.quota})
 
     _STATE_TRANSITIONS = {
         'draft': {'supervisor_approval', 'cancelled'},
@@ -434,7 +444,29 @@ class CampusThesis(models.Model):
             ))
 
         is_admin = self._is_admin()
+        is_workflow = self.env.su or self.env.context.get('_thesis_workflow_action')
         if not is_admin:
+            admin_only_fields = {
+                'faculty_id',
+                'program_id',
+                'academic_year_id',
+                'proposal_approved_date',
+                'thesis_approved_date',
+                'rejection_reason',
+                'yudisium_supervisor_date',
+                'yudisium_advisor_date',
+                'yudisium_dean_date',
+            }
+            if admin_only_fields.intersection(vals) and not is_workflow:
+                raise AccessError(_(
+                    "Snapshot, academic year, and workflow audit fields cannot be modified directly."
+                ))
+            if 'graduation_id' in vals and not is_workflow and not self.env.user.has_group(
+                'campus_core.group_campus_academic_staff'
+            ):
+                raise AccessError(_(
+                    "Only Academic Staff or Campus Administrators can assign a graduation schedule."
+                ))
             if 'supervisor_id' in vals or 'co_supervisor_id' in vals:
                 locked = self.filtered(
                     lambda record: record.state not in ('draft', 'supervisor_rejected')
@@ -539,7 +571,7 @@ class CampusThesis(models.Model):
     def _ensure_default_documents(self):
         Document = self.env['campus.thesis.document']
         for record in self:
-            specs = Document._default_document_specs(company=record.company_id)
+            specs = Document._default_document_specs()
             existing_types = set(record.yudisium_document_ids.mapped('document_type'))
             lines = [
                 Command.create({
@@ -678,7 +710,7 @@ class CampusThesis(models.Model):
         today = fields.Date.context_today(self)
         for record in self:
             if record.student_id._has_enrolled_thesis_subject():
-                record.write({
+                record.with_context(_thesis_workflow_action=True).write({
                     'proposal_approved_date': today,
                     'state': 'thesis',
                 })
@@ -686,7 +718,7 @@ class CampusThesis(models.Model):
                     body=_("Proposal approved and Thesis course already enrolled in KRS. Advanced to Thesis Stage."),
                 )
             else:
-                record.write({
+                record.with_context(_thesis_workflow_action=True).write({
                     'proposal_approved_date': today,
                     'state': 'proposal_approved',
                 })
@@ -715,7 +747,7 @@ class CampusThesis(models.Model):
         today = fields.Date.context_today(self)
         for record in self:
             record._ensure_default_documents()
-            record.write({
+            record.with_context(_thesis_workflow_action=True).write({
                 'thesis_approved_date': today,
                 'state': 'yudisium_docs',
             })
@@ -799,7 +831,7 @@ class CampusThesis(models.Model):
         Schedule = self.env['campus.graduation.schedule'].sudo()
         for record in self:
             record._close_thesis_activities(['campus_thesis.mail_activity_type_yudisium_approval'])
-            graduation = record.graduation_id or Schedule._get_nearest_schedule(company=record.company_id)
+            graduation = record.graduation_id or Schedule._get_nearest_schedule(lock=True)
             record.with_context(_thesis_workflow_action=True).write({
                 'yudisium_dean_approved': True,
                 'yudisium_dean_date': now,
@@ -857,19 +889,27 @@ class CampusThesis(models.Model):
 
     def action_assign_nearest_graduation(self):
         self._require_state({'graduated'})
+        if not self._is_admin() and not self.env.user.has_group('campus_core.group_campus_academic_staff'):
+            raise AccessError(_(
+                "Only Academic Staff or Campus Administrators can assign a graduation schedule."
+            ))
         Schedule = self.env['campus.graduation.schedule'].sudo()
         for record in self:
-            nearest = Schedule._get_nearest_schedule(company=record.company_id)
+            nearest = Schedule._get_nearest_schedule(lock=True)
             if not nearest:
                 raise UserError(_("No open upcoming graduation schedule is available."))
-            record.graduation_id = nearest.id
+            record.with_context(_thesis_workflow_action=True).write({'graduation_id': nearest.id})
 
     def action_cancel(self):
+        if not self._is_admin() and not self.env.user.has_group('campus_core.group_campus_academic_staff'):
+            raise AccessError(_(
+                "Only Academic Staff or Campus Administrators can cancel a thesis."
+            ))
         if self.filtered(lambda record: record.state in ('graduated', 'cancelled')):
             raise UserError(_("Graduated or already cancelled theses cannot be cancelled."))
         self._close_thesis_activities([
             'campus_thesis.mail_activity_type_thesis_supervisor',
             'campus_thesis.mail_activity_type_yudisium_approval',
         ])
-        self.write({'state': 'cancelled'})
+        self.with_context(_thesis_workflow_action=True).write({'state': 'cancelled'})
 

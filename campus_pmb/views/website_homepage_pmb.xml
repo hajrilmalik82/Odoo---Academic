@@ -127,16 +127,16 @@
                     </div>
 
                     <!-- SECTION: PENDAFTARAN ONLINE -->
-                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Online Self-Registration (Public Website)</h4>
-                    <p class="text-muted mb-3">Prospective students can apply directly from the campus website without logging in first:</p>
+                    <h4 class="fw-bold border-bottom pb-2 mb-4 mt-5">Online Self-Registration (REST API &amp; Portal)</h4>
+                    <p class="text-muted mb-3">Prospective students can apply directly from the public admission frontend without logging in first:</p>
                     <div class="bg-light p-3 rounded mb-2">
-                        <i class="fa fa-globe text-primary me-2"/> <strong>Step 1 — Open Registration Form:</strong> Go to <strong>/admission</strong> (or click <em>PMB Admission</em> in the top menu), fill in personal details, and click <strong>Submit Application</strong>. A new <em>Draft</em> application is created automatically.
+                        <i class="fa fa-globe text-primary me-2"/> <strong>Step 1 — Fetch Options &amp; Submit Application:</strong> The public admission frontend loads active faculties, study programs, and fee rules from <code>GET /api/admission/options</code> and submits the applicant's details to <code>POST /api/admission/submit</code>, creating a new <em>Draft</em> application automatically.
                     </div>
                     <div class="bg-light p-3 rounded mb-2">
-                        <i class="fa fa-filter text-info me-2"/> <strong>Step 2 — Choosing Faculty &amp; Program:</strong> After choosing a Faculty, the Study Program list automatically narrows down to only programs inside that Faculty so applicants cannot pick a mismatched combination.
+                        <i class="fa fa-filter text-info me-2"/> <strong>Step 2 — Choosing Faculty &amp; Program:</strong> Study programs are validated against the chosen Faculty on the server so applicants cannot submit a mismatched combination.
                     </div>
                     <div class="bg-light p-3 rounded">
-                        <i class="fa fa-calendar-check-o text-success me-2"/> <strong>Step 3 — Active Academic Year:</strong> Applicants do not need to pick the Academic Year—the system automatically links the application to the currently active Academic Year, and the PMB Committee reviews it from the backend.
+                        <i class="fa fa-calendar-check-o text-success me-2"/> <strong>Step 3 — Payment Gates &amp; Active Academic Year:</strong> The system automatically links the application to the currently active Academic Year; the PMB Committee verifies required documents and registration fee payment before <em>Accept</em>, and re-registration fee payment before <em>Register Student</em>.
                     </div>
 
                     <!-- SECTION: PERAN & HAK AKSES PMB -->
@@ -153,7 +153,7 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Submit online application (/admission)</td>
+                                    <td>Submit online application (/api/admission/submit)</td>
                                     <td class="text-center text-success fw-bold">✓</td>
                                     <td class="text-center text-success fw-bold">✓</td>
                                     <td class="text-center text-success fw-bold">✓</td>

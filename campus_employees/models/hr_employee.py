@@ -179,6 +179,25 @@ class HrEmployee(models.Model):
     # Odoo's own ordering convention: every field declaration first, then the
     # onchange methods. These two used to sit in the middle of the field list.
 
+    @api.onchange('faculty_id')
+    def _onchange_faculty_id_clear_program(self):
+        if self.program_id and self.program_id.faculty_id != self.faculty_id:
+            self.program_id = False
+
+    @api.constrains('faculty_id', 'program_id')
+    def _check_program_belongs_to_faculty(self):
+        for employee in self:
+            if (
+                employee.program_id
+                and employee.faculty_id
+                and employee.program_id.faculty_id != employee.faculty_id
+            ):
+                raise ValidationError(_(
+                    "Program '%(program)s' does not belong to Faculty '%(faculty)s'.",
+                    program=employee.program_id.display_name,
+                    faculty=employee.faculty_id.display_name,
+                ))
+
     @api.onchange('job_id')
     def _onchange_job_id_academic(self):
         # Assigned unconditionally: the job position decides the campus role.
@@ -201,9 +220,29 @@ class HrEmployee(models.Model):
                 if self.department_id.parent_id and self.department_id.parent_id.manager_id:
                     self.parent_id = self.department_id.parent_id.manager_id
 
+    @api.model
+    def _infer_faculty_in_vals_list(self, vals_list):
+        """Fill omitted `faculty_id` from `program_id` when only `program_id` is written."""
+        program_ids = {
+            vals['program_id']
+            for vals in vals_list
+            if vals.get('program_id') and 'faculty_id' not in vals
+        }
+        if not program_ids:
+            return vals_list
+        programs = self.env['academic.program'].browse(list(program_ids)).grouped('id')
+        result = []
+        for vals in vals_list:
+            if vals.get('program_id') and 'faculty_id' not in vals:
+                prog = programs.get(vals['program_id'])
+                if prog and prog.faculty_id:
+                    vals = dict(vals, faculty_id=prog.faculty_id.id)
+            result.append(vals)
+        return result
+
     @api.model_create_multi
     def create(self, vals_list):
-        employees = super().create(vals_list)
+        employees = super().create(self._infer_faculty_in_vals_list(vals_list))
         # Only employees that actually carry a role need syncing. A new employee
         # without one has no campus groups to grant or strip, and running the
         # sync anyway would make ordinary HR hiring hit the administrator check
@@ -212,10 +251,42 @@ class HrEmployee(models.Model):
         return employees
 
     def write(self, vals):
-        self._filtered_moving(vals)._assert_nothing_still_attached()
-        res = super().write(vals)
-        if 'academic_role' in vals or 'user_id' in vals:
-            self._sync_academic_user_role()
+        vals = self._infer_faculty_in_vals_list([vals])[0]
+        to_check = self._filtered_moving(vals)
+        if vals.get('active') is False:
+            to_check |= self.filtered('active')
+        to_check._assert_nothing_still_attached()
+
+        sync_needed = {'academic_role', 'user_id', 'active'}.intersection(vals)
+        had_role = self.filtered('academic_role') if sync_needed else self.browse()
+        previous_users = had_role.mapped('user_id') if sync_needed else self.env['res.users']
+
+        stale = self.browse()
+        if 'faculty_id' in vals and 'program_id' not in vals:
+            target_faculty = vals['faculty_id'] or False
+            stale = self.filtered(
+                lambda emp: emp.program_id and emp.program_id.faculty_id.id != target_faculty
+            )
+
+        if stale:
+            rest = self - stale
+            res = super(HrEmployee, stale).write(dict(vals, program_id=False))
+            if rest:
+                res = res and super(HrEmployee, rest).write(vals)
+        else:
+            res = super().write(vals)
+
+        if sync_needed:
+            affected = had_role | self.filtered('academic_role')
+            affected._sync_academic_user_role(extra_users=previous_users)
+        return res
+
+    def unlink(self):
+        self._assert_nothing_still_attached()
+        affected_users = self.filtered('academic_role').mapped('user_id')
+        res = super().unlink()
+        if affected_users:
+            self.env['hr.employee']._sync_academic_user_role(extra_users=affected_users)
         return res
 
     # --- moving somebody between units ------------------------------------
@@ -362,32 +433,43 @@ class HrEmployee(models.Model):
             'academic': self.env.ref('campus_core.group_campus_academic_staff'),
         }
 
-    def _sync_academic_user_role(self):
+    def _sync_academic_user_role(self, extra_users=None):
+        """Recompute campus groups for affected users from active employee records.
+
+        Recomputing from active employees ensures clearing user_id, reassigning
+        to a different user, archiving, or deleting an employee revokes groups
+        that no other active employee record still grants.
+        """
         role_groups = self._academic_role_groups()
-        # Every group any role can grant: what a role change must take away as
-        # well as what it gives.
         academic_groups = self.env['res.groups'].union(*role_groups.values())
+        users = (self.mapped('user_id') | (extra_users or self.env['res.users'])).filtered(bool)
+        if not users:
+            return
+
+        active_by_user = {}
+        active_employees = self.env['hr.employee'].sudo().with_context(active_test=True).search([
+            ('user_id', 'in', users.ids),
+            ('academic_role', '!=', False),
+        ])
+        for employee in active_employees:
+            group = role_groups.get(employee.academic_role)
+            if group:
+                active_by_user[employee.user_id.id] = (
+                    active_by_user.get(employee.user_id.id, self.env['res.groups']) | group
+                )
 
         empty = self.env['res.groups']
-        for emp in self:
-            if not emp.user_id:
-                continue
-
-            keep = role_groups.get(emp.academic_role) or empty
-            # Read under sudo: this is a comparison, and an ordinary user is not
-            # entitled to read another user's group membership.
-            current = emp.user_id.sudo().group_ids
+        for user in users:
+            keep = active_by_user.get(user.id, empty)
+            # Read under sudo: comparing another user's group membership.
+            current = user.sudo().group_ids
             to_add = keep - current
             to_remove = (academic_groups - keep) & current
-
-            # Nothing to change: stay silent. create() runs this for every new
-            # employee, so raising unconditionally would stop HR officers
-            # creating ordinary staff at all.
             if not to_add and not to_remove:
                 continue
 
             self._check_may_grant_academic_groups()
-            emp.user_id.sudo().write({
+            user.sudo().write({
                 'group_ids': [Command.unlink(group.id) for group in to_remove]
                              + [Command.link(group.id) for group in to_add],
             })

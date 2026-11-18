@@ -199,3 +199,38 @@ class TestPortalRoutes(CampusHttpCommon):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.headers.get('Content-Type'), 'application/pdf')
         self.assertGreater(len(response.content), 1000)
+
+    def test_package_krs_allows_choosing_class_schedule_on_portal(self):
+        """Semester 1-3 package lines with schedule_id=False show Choose Class and bind schedule cleanly."""
+        pkg_krs = self.env['academic.krs'].create({
+            'student_id': self.student.id,
+            'academic_year_id': self.year_retake.id,
+            'line_ids': [(0, 0, {'subject_id': self.subject_a.id})],
+        })
+        self.sign_in_as_student()
+        html = self._get('/my/krs/%s' % pkg_krs.id).text
+        self.assertIn('Choose Class', html)
+        self.assertIn('Needs Schedule', html)
+        token = self._csrf_token(html)
+        response = self.url_open(
+            '/my/krs/%s/add_line' % pkg_krs.id,
+            data={'csrf_token': token, 'schedule_id': str(self.schedule_retake.id)},
+            allow_redirects=False,
+        )
+        self.assertIn(response.status_code, (302, 303))
+        self.assertNotIn('error=', response.headers.get('Location', ''))
+        pkg_krs.invalidate_recordset()
+        self.assertEqual(len(pkg_krs.line_ids), 1)
+        self.assertEqual(pkg_krs.line_ids.schedule_id, self.schedule_retake)
+
+    def test_register_inactive_student_redirects_to_krs_with_visible_error(self):
+        self.student.student_status = 'leave'
+        self.sign_in_as_student()
+        token = self._csrf_token(self._get('/my/krs').text)
+        response = self.url_open(
+            '/my/krs/register',
+            data={'csrf_token': token},
+            allow_redirects=False,
+        )
+        self.assertIn(response.status_code, (302, 303))
+        self.assertIn('/my/krs?error=', response.headers.get('Location', ''))

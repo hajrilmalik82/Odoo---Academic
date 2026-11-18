@@ -5,42 +5,36 @@
             <field name="sequence">10</field>
             <field name="document_type">final_manuscript</field>
             <field name="required">True</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="req_library_clearance" model="campus.thesis.requirement">
             <field name="sequence">20</field>
             <field name="document_type">library_clearance</field>
             <field name="required">True</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="req_tuition_clearance" model="campus.thesis.requirement">
             <field name="sequence">30</field>
             <field name="document_type">tuition_clearance</field>
             <field name="required">True</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="req_temporary_transcript" model="campus.thesis.requirement">
             <field name="sequence">40</field>
             <field name="document_type">temporary_transcript</field>
             <field name="required">True</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="req_graduation_photo" model="campus.thesis.requirement">
             <field name="sequence">50</field>
             <field name="document_type">graduation_photo</field>
             <field name="required">False</field>
-            <field name="company_id" eval="False"/>
         </record>
 
         <record id="req_journal_article" model="campus.thesis.requirement">
             <field name="sequence">60</field>
             <field name="document_type">journal_article</field>
             <field name="required">False</field>
-            <field name="company_id" eval="False"/>
         </record>
     </data>
 </odoo>

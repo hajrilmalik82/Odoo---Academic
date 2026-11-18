@@ -66,3 +66,11 @@ class ResPartner(models.Model):
                     student=student.name,
                     student_program=student.program_id.name or _("no programme"),
                 ))
+
+    def write(self, vals):
+        res = super().write(vals)
+        if not self.env.su and ('program_id' in vals or 'is_student' in vals):
+            # Re-verify record-rule write access after changing student/program
+            # so Academic Staff cannot transfer a student outside their jurisdiction.
+            self.check_access('write')
+        return res
