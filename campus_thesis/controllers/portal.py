@@ -73,6 +73,17 @@ class CampusThesisPortal(CustomerPortal):
             '|', ('company_id', '=', False), ('company_id', '=', company_id),
         ], order='name')
 
+    def _parse_supervisor_ids(self, post):
+        """Parse primary and optional co-supervisor IDs from a portal form."""
+        try:
+            supervisor_id = int(post.get('supervisor_id') or 0)
+            co_supervisor_id = int(post.get('co_supervisor_id') or 0) or False
+        except (TypeError, ValueError):
+            raise ValidationError(_("Please select a valid thesis supervisor."))
+        if not supervisor_id:
+            raise ValidationError(_("Primary thesis supervisor is required."))
+        return supervisor_id, co_supervisor_id
+
     def _parse_uploaded_file(self, field_name='attachment'):
         upload = request.httprequest.files.get(field_name)
         if not upload or not upload.filename:
@@ -128,14 +139,7 @@ class CampusThesisPortal(CustomerPortal):
         if not title:
             raise ValidationError(_("Thesis title is required."))
 
-        try:
-            supervisor_id = int(post.get('supervisor_id') or 0)
-            co_supervisor_id = int(post.get('co_supervisor_id') or 0) or False
-        except (TypeError, ValueError):
-            raise ValidationError(_("Please select a valid thesis supervisor."))
-
-        if not supervisor_id:
-            raise ValidationError(_("Primary thesis supervisor is required."))
+        supervisor_id, co_supervisor_id = self._parse_supervisor_ids(post)
 
         current_year = request.env['academic.year'].sudo()._get_current()
         if not current_year:
@@ -202,13 +206,7 @@ class CampusThesisPortal(CustomerPortal):
             'research_topic': (post.get('research_topic') or '').strip(),
         }
         if thesis.state in ('draft', 'supervisor_rejected'):
-            try:
-                supervisor_id = int(post.get('supervisor_id') or 0)
-                co_supervisor_id = int(post.get('co_supervisor_id') or 0) or False
-            except (TypeError, ValueError):
-                raise ValidationError(_("Please select a valid supervisor."))
-            if not supervisor_id:
-                raise ValidationError(_("Primary thesis supervisor is required."))
+            supervisor_id, co_supervisor_id = self._parse_supervisor_ids(post)
             vals.update({
                 'supervisor_id': supervisor_id,
                 'co_supervisor_id': co_supervisor_id,
