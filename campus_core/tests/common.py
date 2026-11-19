@@ -145,10 +145,9 @@ class CampusFixture:
         })
 
 
-    def _open_form_as(self, record, user, view_xmlid):
-        """Simulate opening a form view (`get_view` + `web_read`) as `user`."""
-        model = self.env[record._name].with_user(user)
-        view = model.get_view(self.env.ref(view_xmlid).id, 'form')
+    def _view_spec(self, model, view_xmlid, view_type):
+        """Return `(arch_str, web_read_spec)` for `view_xmlid` as `model.env.user`."""
+        view = model.get_view(self.env.ref(view_xmlid).id, view_type)
         arch = etree.fromstring(view['arch'])
         field_names = {
             el.attrib['name']
@@ -166,8 +165,21 @@ class CampusFixture:
                 spec[fname] = {'fields': {}}
             else:
                 spec[fname] = {}
+        return view['arch'], spec
+
+    def _open_form_as(self, record, user, view_xmlid):
+        """Simulate opening a form view (`get_view` + `web_read`) as `user`."""
+        model = self.env[record._name].with_user(user)
+        arch, spec = self._view_spec(model, view_xmlid, 'form')
         data = record.with_user(user).web_read(spec)
-        return view['arch'], data[0]
+        return arch, data[0]
+
+    def _open_collection_as(self, model_name, user, view_xmlid, view_type, domain=None, limit=5):
+        """Simulate opening a kanban or list view (`get_view` + `web_search_read`) as `user`."""
+        model = self.env[model_name].with_user(user)
+        arch, spec = self._view_spec(model, view_xmlid, view_type)
+        result = model.web_search_read(domain or [], spec, limit=limit)
+        return arch, result['records']
 
 
 class CampusCommon(CampusFixture, TransactionCase):

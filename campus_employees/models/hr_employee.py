@@ -5,6 +5,40 @@ from odoo.exceptions import AccessError, ValidationError
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
 
+    _HR_OR_CAMPUS_GROUPS = (
+        "hr.group_hr_user,"
+        "campus_core.group_campus_lecturer,"
+        "campus_core.group_campus_academic_staff"
+    )
+
+    # Odoo 19 delegates organizational fields (department_id, job_id,
+    # work_location_id, resource_calendar_id) to hr.version via version_id,
+    # and gates mail/activity chatter fields on hr.group_hr_user. Sensitive
+    # private and contract fields carry their own hr.group_hr_user/manager
+    # guards, so widening version_id and chatter fields lets Lecturers and
+    # Academic Staff open employee views and chatter without HR Officer rights.
+    version_id = fields.Many2one(groups=_HR_OR_CAMPUS_GROUPS)
+    message_main_attachment_id = fields.Many2one(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_ids = fields.One2many(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_state = fields.Selection(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_user_id = fields.Many2one(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_type_id = fields.Many2one(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_type_icon = fields.Char(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_date_deadline = fields.Date(groups=_HR_OR_CAMPUS_GROUPS)
+    my_activity_date_deadline = fields.Date(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_summary = fields.Char(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_exception_decoration = fields.Selection(groups=_HR_OR_CAMPUS_GROUPS)
+    activity_exception_icon = fields.Char(groups=_HR_OR_CAMPUS_GROUPS)
+    message_is_follower = fields.Boolean(groups=_HR_OR_CAMPUS_GROUPS)
+    message_follower_ids = fields.One2many(groups=_HR_OR_CAMPUS_GROUPS)
+    message_partner_ids = fields.Many2many(groups=_HR_OR_CAMPUS_GROUPS)
+    message_ids = fields.One2many(groups=_HR_OR_CAMPUS_GROUPS)
+    message_needaction = fields.Boolean(groups=_HR_OR_CAMPUS_GROUPS)
+    message_needaction_counter = fields.Integer(groups=_HR_OR_CAMPUS_GROUPS)
+    message_has_error = fields.Boolean(groups=_HR_OR_CAMPUS_GROUPS)
+    message_has_error_counter = fields.Integer(groups=_HR_OR_CAMPUS_GROUPS)
+    message_attachment_count = fields.Integer(groups=_HR_OR_CAMPUS_GROUPS)
+
     # 'pmb' is NOT listed here. It is added by campus_pmb through
     # selection_add, together with the action, the menu and the group it maps
     # to. This module must not depend on campus_pmb - campus_pmb depends on it -
@@ -473,6 +507,21 @@ class HrEmployee(models.Model):
                 'group_ids': [Command.unlink(group.id) for group in to_remove]
                              + [Command.link(group.id) for group in to_add],
             })
+
+    # Odoo 19's hr / hr_homeworking computes read hr.group_hr_user-gated fields
+    # (birthday, exceptional_location_id) without sudo() on kanban/list/form
+    # views. Running those computes under sudo() lets Lecturers and Academic
+    # Staff open employee views cleanly without granting hr.group_hr_user.
+    def _compute_birthday_public_display_string(self):
+        return super(HrEmployee, self.sudo())._compute_birthday_public_display_string()
+
+    def _compute_work_location_name(self):
+        if hasattr(super(), '_compute_work_location_name'):
+            return super(HrEmployee, self.sudo())._compute_work_location_name()
+
+    def _compute_work_location_type(self):
+        if hasattr(super(), '_compute_work_location_type'):
+            return super(HrEmployee, self.sudo())._compute_work_location_type()
 
 class HrEmployeePublic(models.Model):
     _inherit = 'hr.employee.public'

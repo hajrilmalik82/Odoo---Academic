@@ -397,3 +397,36 @@ class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
         self.assertNotIn('faculty_id', arch)
         self.assertNotIn('program_id', arch)
         self.assertNotIn('jurisdiction_ids', arch)
+
+    def test_lecturer_and_academic_staff_without_hr_group_can_open_employee_form(self):
+        """Lecturers and Academic Staff without hr.group_hr_user must open kanban, list, and form."""
+        lecturer_no_hr = self.env['res.users'].create({
+            'name': '%s Dosen Tanpa HR' % TAG,
+            'login': 'zz.dosen.nohr.test',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.lecturer_group.id,
+            ])],
+        })
+        for user in (lecturer_no_hr, self.staff_user):
+            with self.subTest(user=user.login):
+                self.assertFalse(user.has_group('hr.group_hr_user'))
+                for view_xmlid, view_type in (
+                    ('hr.hr_kanban_view_employees', 'kanban'),
+                    ('hr.view_employee_tree', 'list'),
+                ):
+                    arch_col, records = self._open_collection_as(
+                        'hr.employee', user, view_xmlid, view_type,
+                    )
+                    self.assertTrue(arch_col)
+                    self.assertTrue(records)
+                arch, values = self._open_form_as(
+                    self.advisor, user, 'hr.view_employee_form',
+                )
+                self.assertEqual(values['name'], self.advisor.name)
+                self.assertIn('faculty_id', arch)
+                chatter_data = self.advisor.with_user(user).web_read({
+                    'activity_ids': {'fields': {}},
+                    'message_ids': {'fields': {}},
+                })
+                self.assertEqual(len(chatter_data), 1)
