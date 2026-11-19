@@ -5,24 +5,33 @@
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form"/>
         <field name="arch" type="xml">
+            <!-- Keep is_student available in the base form for downstream modules
+                 (such as campus_pmb's Admissions stat button) without exposing
+                 academic relational fields to non-campus internal users. -->
+            <xpath expr="//div[@name='button_box']" position="before">
+                <field name="is_student" invisible="1"/>
+            </xpath>
             <!-- Same two counters on the ordinary contact form, for anyone who
                  reaches a student from Contacts rather than from the Students
-                 menu. Hidden on every contact who is not a student, which is
-                 most of res.partner. -->
+                 menu. Hidden on every contact who is not a student, and scoped
+                 to campus roles that have read access to KRS/KHS. -->
             <xpath expr="//div[@name='button_box']" position="inside">
                 <button name="action_open_krs" type="object"
                         class="oe_stat_button" icon="fa-list-alt"
-                        invisible="not is_student">
+                        invisible="not is_student"
+                        groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
                     <field name="krs_count" widget="statinfo" string="Study Plans"/>
                 </button>
                 <button name="action_open_khs" type="object"
                         class="oe_stat_button" icon="fa-trophy"
-                        invisible="not is_student">
+                        invisible="not is_student"
+                        groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
                     <field name="khs_count" widget="statinfo" string="Transcripts"/>
                 </button>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Academic Info">
+                <page string="Academic Info"
+                      groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
                     <group>
                         <group>
                             <field name="is_student"/>

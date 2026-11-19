@@ -42,7 +42,9 @@
                 </button>
             </xpath>
             <xpath expr="//notebook" position="inside">
-                <page string="Lecturer Profile" invisible="academic_role != 'lecturer'">
+                <page string="Lecturer Profile"
+                      invisible="academic_role != 'lecturer'"
+                      groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff">
                     <!-- The way to gain an advisee. Creation is off on the
                          Advisees list because a student is born in the
                          admissions flow, not here; this is what takes its

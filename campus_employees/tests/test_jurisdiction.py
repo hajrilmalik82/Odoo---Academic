@@ -379,3 +379,21 @@ class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
         emp_two.unlink()
         user_two.invalidate_recordset(['group_ids'])
         self.assertNotIn(self.lecturer_group, user_two.group_ids)
+
+    def test_hr_user_without_campus_role_can_open_lecturer_employee_form(self):
+        """An HR officer without campus groups must open lecturer employees without AccessError."""
+        hr_user = self.env['res.users'].create({
+            'name': '%s HR Biasa' % TAG,
+            'login': 'zz.hr.biasa.test',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.env.ref('hr.group_hr_user').id,
+            ])],
+        })
+        arch, values = self._open_form_as(
+            self.advisor, hr_user, 'hr.view_employee_form',
+        )
+        self.assertEqual(values['name'], self.advisor.name)
+        self.assertNotIn('faculty_id', arch)
+        self.assertNotIn('program_id', arch)
+        self.assertNotIn('jurisdiction_ids', arch)

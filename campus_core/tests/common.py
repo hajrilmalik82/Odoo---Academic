@@ -1,5 +1,7 @@
 from datetime import timedelta
 
+from lxml import etree
+
 from odoo import fields
 from odoo.tests.common import HttpCase, TransactionCase
 
@@ -141,6 +143,31 @@ class CampusFixture:
                 (0, 0, {'schedule_id': schedule.id}) for schedule in schedules
             ],
         })
+
+
+    def _open_form_as(self, record, user, view_xmlid):
+        """Simulate opening a form view (`get_view` + `web_read`) as `user`."""
+        model = self.env[record._name].with_user(user)
+        view = model.get_view(self.env.ref(view_xmlid).id, 'form')
+        arch = etree.fromstring(view['arch'])
+        field_names = {
+            el.attrib['name']
+            for el in arch.xpath('//field[@name]')
+            if not el.xpath('ancestor::field')
+        }
+        spec = {}
+        for fname in field_names:
+            field = model._fields.get(fname)
+            if not field:
+                continue
+            if field.type == 'many2one':
+                spec[fname] = {'fields': {'display_name': {}}}
+            elif field.type in ('one2many', 'many2many'):
+                spec[fname] = {'fields': {}}
+            else:
+                spec[fname] = {}
+        data = record.with_user(user).web_read(spec)
+        return view['arch'], data[0]
 
 
 class CampusCommon(CampusFixture, TransactionCase):

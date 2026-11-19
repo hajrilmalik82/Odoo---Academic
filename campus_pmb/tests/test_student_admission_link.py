@@ -55,3 +55,22 @@ class TestStudentAdmissionLink(CampusCommon):
                 arch = self.env['res.partner'].get_view(
                     self.env.ref(xmlid).id, 'form')['arch']
                 self.assertIn('admission_count', arch)
+
+    def test_pmb_staff_can_open_student_contact_form(self):
+        """PMB staff without academic roles can open student contacts and see Admissions."""
+        self._admission()
+        pmb_user = self.env['res.users'].create({
+            'name': '%s Staf PMB Kontak' % TAG,
+            'login': 'zz.pmb.kontak.test',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.env.ref('campus_pmb.group_pmb').id,
+            ])],
+        })
+        arch, values = self._open_form_as(
+            self.student, pmb_user, 'base.view_partner_form',
+        )
+        self.assertIn('admission_count', arch)
+        self.assertNotIn('krs_count', arch)
+        self.assertEqual(values['name'], self.student.name)
+        self.assertEqual(self.student.with_user(pmb_user).krs_count, 0)

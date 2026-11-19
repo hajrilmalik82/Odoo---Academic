@@ -18,8 +18,9 @@ class ResPartner(models.Model):
 
     @api.depends('admission_ids')
     def _compute_admission_count(self):
+        can_read = self.env['campus.admission'].has_access('read')
         for partner in self:
-            partner.admission_count = len(partner.admission_ids)
+            partner.admission_count = len(partner.admission_ids) if can_read else 0
 
     def action_open_admissions(self):
         """No creation. An admission is where a student comes FROM: it is

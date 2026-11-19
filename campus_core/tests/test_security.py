@@ -172,3 +172,24 @@ class TestCampusSecurity(CampusCommon):
             draft_krs.line_ids.with_user(staff_user).write({'krs_id': frozen_krs.id})
         with self.assertRaises(AccessError):
             draft_krs.line_ids.with_user(staff_user).write({'credits': 99})
+
+    def test_plain_internal_user_can_open_student_and_company_contacts(self):
+        """An internal user without campus roles must open Contacts without AccessError."""
+        accountant = self.env['res.users'].create({
+            'name': 'Akuntan Test', 'login': 'akuntan.sec.test',
+            'group_ids': [(6, 0, [self.internal_group.id])],
+        })
+        company_contact = self.env['res.partner'].create({
+            'name': 'PT Mitra Kampus', 'is_company': True,
+        })
+        for partner in (self.student, company_contact):
+            with self.subTest(partner=partner.name):
+                arch, values = self._open_form_as(
+                    partner, accountant, 'base.view_partner_form',
+                )
+                self.assertEqual(values['name'], partner.name)
+                self.assertNotIn('krs_count', arch)
+                self.assertNotIn('khs_count', arch)
+                self.assertNotIn('program_id', arch)
+                self.assertEqual(partner.with_user(accountant).krs_count, 0)
+                self.assertEqual(partner.with_user(accountant).khs_count, 0)

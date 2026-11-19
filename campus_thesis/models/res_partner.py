@@ -15,8 +15,9 @@ class ResPartner(models.Model):
 
     @api.depends('thesis_ids')
     def _compute_thesis_count(self):
+        can_read = self.env['campus.thesis'].has_access('read')
         for partner in self:
-            partner.thesis_count = len(partner.thesis_ids)
+            partner.thesis_count = len(partner.thesis_ids) if can_read else 0
 
     def _has_passed_research_method(self):
         """Whether this student has passed a Research Methodology subject in KHS.

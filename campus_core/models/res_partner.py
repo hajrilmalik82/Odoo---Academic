@@ -55,9 +55,11 @@ class ResPartner(models.Model):
 
     @api.depends('krs_ids', 'khs_ids')
     def _compute_academic_counts(self):
+        can_read_krs = self.env['academic.krs'].has_access('read')
+        can_read_khs = self.env['academic.khs'].has_access('read')
         for partner in self:
-            partner.krs_count = len(partner.krs_ids)
-            partner.khs_count = len(partner.khs_ids)
+            partner.krs_count = len(partner.krs_ids) if can_read_krs else 0
+            partner.khs_count = len(partner.khs_ids) if can_read_khs else 0
     cgpa = fields.Float(
         string='CGPA', compute='_compute_cgpa', store=True,
         digits=(5, 2), readonly=True
