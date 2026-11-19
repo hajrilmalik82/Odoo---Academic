@@ -118,6 +118,32 @@ class TestCampusSecurity(CampusCommon):
         with self.assertRaises(AccessError):
             khs_lines.with_user(self.lecturer_user).write({'numeric_grade': 95.0})
 
+    def test_teaching_lecturer_can_grade_via_khs_form_and_not_edit_header(self):
+        self.schedule.lecturer_id = self.advisor
+        self.advisor.user_id = self.lecturer_user
+        krs = self._make_krs()
+        krs.action_submit()
+        krs.action_approve()
+        krs.action_lock()
+        khs = self.env['academic.khs'].with_user(self.lecturer_user).search([
+            ('student_id', '=', self.student.id),
+            ('academic_year_id', '=', self.year.id),
+        ], limit=1)
+        self.assertTrue(khs)
+        arch = khs.get_view(self.env.ref('campus_core.view_academic_khs_form').id, 'form')['arch']
+        self.assertNotIn('edit="False"', arch)
+
+        line = khs.line_ids[:1]
+        khs.with_user(self.lecturer_user).write({'line_ids': [(1, line.id, {'numeric_grade': 85.0})]})
+        self.assertEqual(line.numeric_grade, 85.0)
+        self.assertTrue(line.is_graded)
+        self.assertGreater(khs.term_gpa, 0.0)
+
+        with self.assertRaises(AccessError):
+            khs.with_user(self.lecturer_user).write({'name': 'HACK'})
+        with self.assertRaises(AccessError):
+            khs.with_user(self.lecturer_user).write({'line_ids': [(2, line.id)]})
+
     def test_lecturer_can_read_course_packages_and_cannot_spoof_khs_credits(self):
         package = self.env['academic.course.package'].create({
             'name': 'Paket Test ACL', 'program_id': self.program.id,

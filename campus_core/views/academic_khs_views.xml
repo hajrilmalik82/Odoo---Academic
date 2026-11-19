@@ -31,8 +31,8 @@
                     </div>
                     <group>
                         <group>
-                            <field name="student_id"/>
-                            <field name="academic_year_id"/>
+                            <field name="student_id" readonly="id"/>
+                            <field name="academic_year_id" readonly="id"/>
                         </group>
                     </group>
                     <group string="GPA Summary">

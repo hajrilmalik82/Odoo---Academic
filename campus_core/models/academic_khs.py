@@ -88,6 +88,24 @@ class AcademicKhs(models.Model):
                 vals['name'] = self.env['ir.sequence'].sudo().next_by_code('academic.khs') or 'New'
         return super().create(vals_list)
 
+    def write(self, vals):
+        user = self.env.user
+        is_registrar = (
+            self.env.su
+            or user.has_group('campus_core.group_campus_administrator')
+            or user.has_group('campus_core.group_campus_academic_staff')
+        )
+        if not is_registrar:
+            disallowed = set(vals) - {'line_ids'}
+            if disallowed:
+                raise AccessError(_(
+                    "Lecturers can only update grade lines, not KHS details (%s)."
+                ) % ', '.join(sorted(disallowed)))
+            for cmd in vals.get('line_ids') or []:
+                if not isinstance(cmd, (list, tuple)) or not cmd or cmd[0] not in (Command.UPDATE, Command.LINK):
+                    raise AccessError(_("Lecturers cannot add, remove, or replace KHS grade lines."))
+        return super().write(vals)
+
     @api.constrains('student_id', 'academic_year_id')
     def _check_requires_approved_krs(self):
         """Ensure a KHS can only be created when an Approved or Locked KRS exists
