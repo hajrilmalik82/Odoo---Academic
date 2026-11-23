@@ -186,3 +186,17 @@ class CampusJurisdiction(models.Model):
         # A bare list of leaves is AND'ed by Odoo. Empty means both dimensions
         # are unrestricted, which is "everything".
         return domain or [(1, '=', 1)]
+
+    def _covers_program(self, program):
+        """Return whether this single jurisdiction row grants access to ``program``."""
+        self.ensure_one()
+        if not program:
+            return False
+        if not (self.all_faculties or self.all_programs
+                or self.faculty_ids or self.program_ids):
+            return False
+        if self.all_faculties and not self.all_programs and not self.program_ids:
+            return False
+        faculty_ok = self.all_faculties or not self.faculty_ids or program.faculty_id in self.faculty_ids
+        program_ok = self.all_programs or not self.program_ids or program in self.program_ids
+        return faculty_ok and program_ok

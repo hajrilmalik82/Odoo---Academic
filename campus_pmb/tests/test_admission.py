@@ -400,3 +400,55 @@ class TestAdmission(CampusCommon):
         adm.action_register()
         with self.assertRaises(ValidationError):
             adm.write({'reregistration_fee_paid': False})
+
+    def test_pmb_activity_assignee_respects_faculty_jurisdiction(self):
+        """An officer with all_programs=True on Faculty A must not get activities for Faculty B."""
+        pmb_group = self.env.ref('campus_pmb.group_pmb')
+        internal_group = self.env.ref('base.group_user')
+        other_faculty = self.env['academic.faculty'].create({
+            'name': '%s Fakultas Ekonomi C9' % TAG, 'code': 'ZEC',
+        })
+        other_program = self.env['academic.program'].create({
+            'name': '%s Manajemen C9' % TAG, 'code': 'ZMC',
+            'faculty_id': other_faculty.id,
+        })
+        officer_a_user = self.env['res.users'].create({
+            'name': '%s PMB FTI' % TAG, 'login': 'zz.pmb.fti.c9@contoh.test',
+            'group_ids': [(6, 0, [internal_group.id, pmb_group.id])],
+        })
+        officer_a_emp = self.env['hr.employee'].create({
+            'name': '%s PMB FTI' % TAG, 'academic_role': 'pmb',
+            'user_id': officer_a_user.id,
+        })
+        self.env['campus.jurisdiction'].create({
+            'employee_id': officer_a_emp.id, 'scope': 'pmb',
+            'faculty_ids': [(6, 0, [self.faculty.id])], 'all_programs': True,
+        })
+
+        adm_other = self._applicant(
+            email='zz.c9.feb1@contoh.test',
+            faculty_id=other_faculty.id, program_id=other_program.id,
+        )
+        adm_other.action_submit()
+        self.assertTrue(adm_other.activity_ids)
+        self.assertNotIn(officer_a_user, adm_other.activity_ids.mapped('user_id'))
+        self.assertEqual(set(adm_other.activity_ids.mapped('user_id').ids), {self.env.user.id})
+
+        officer_b_user = self.env['res.users'].create({
+            'name': '%s PMB FEB' % TAG, 'login': 'zz.pmb.feb.c9@contoh.test',
+            'group_ids': [(6, 0, [internal_group.id, pmb_group.id])],
+        })
+        officer_b_emp = self.env['hr.employee'].create({
+            'name': '%s PMB FEB' % TAG, 'academic_role': 'pmb',
+            'user_id': officer_b_user.id,
+        })
+        self.env['campus.jurisdiction'].create({
+            'employee_id': officer_b_emp.id, 'scope': 'pmb',
+            'faculty_ids': [(6, 0, [other_faculty.id])], 'all_programs': True,
+        })
+        adm_other_2 = self._applicant(
+            email='zz.c9.feb2@contoh.test',
+            faculty_id=other_faculty.id, program_id=other_program.id,
+        )
+        adm_other_2.action_submit()
+        self.assertEqual(set(adm_other_2.activity_ids.mapped('user_id').ids), {officer_b_user.id})

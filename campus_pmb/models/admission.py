@@ -325,15 +325,19 @@ class CampusAdmission(models.Model):
         return res
 
     def _pmb_activity_assignee(self, program):
-        """Return a PMB officer covering ``program`` or fallback to current user."""
-        jurisdictions = self.env['campus.jurisdiction'].sudo().search([('scope', '=', 'pmb')])
+        """Return an active PMB officer covering ``program`` or fallback to current user."""
+        pmb_group = self.env.ref('campus_pmb.group_pmb', raise_if_not_found=False)
+        jurisdictions = self.env['campus.jurisdiction'].sudo().search([
+            ('scope', '=', 'pmb'),
+            ('employee_id.active', '=', True),
+        ])
         for row in jurisdictions:
             user = row.employee_id.user_id
-            if not user or user._is_public():
+            if not user or not user.active or user._is_public():
                 continue
-            if row.all_faculties or row.all_programs or program in row.program_ids or (
-                not row.program_ids and program.faculty_id in row.faculty_ids
-            ):
+            if pmb_group and pmb_group not in user.group_ids:
+                continue
+            if row._covers_program(program):
                 return user
         return self.env.user if not self.env.user._is_public() else self.env['res.users']
 
