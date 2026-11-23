@@ -29,7 +29,7 @@ def _check_lecturer_eligible(records):
     """Validate assigned lecturers against the class's faculty/programme."""
     for record in records.filtered('lecturer_id'):
         lecturer = record.lecturer_id
-        if lecturer.academic_role and lecturer.academic_role != 'lecturer':
+        if lecturer.academic_role != 'lecturer':
             raise ValidationError(records.env._(
                 "%(person)s is not a lecturer and cannot be assigned to teach %(class_name)s.",
                 person=lecturer.name,

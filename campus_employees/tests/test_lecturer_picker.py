@@ -150,3 +150,8 @@ class TestLecturerPicker(CampusCommon):
             self.schedule.lecturer_id = self.staff
         with self.assertRaises(ValidationError):
             self.session.lecturer_id = self.far_lecturer
+        plain = self.env['hr.employee'].create({'name': '%s Pegawai Tanpa Role' % TAG})
+        with self.assertRaises(ValidationError):
+            self.schedule.lecturer_id = plain
+        with self.assertRaises(ValidationError):
+            self.session.lecturer_id = plain
