@@ -67,6 +67,27 @@ class TestAdmission(CampusCommon):
         with self.assertRaises(UserError):
             admission.action_submit()
 
+    def test_direct_write_cannot_bypass_accept_or_register(self):
+        """Even step-by-step valid transitions (document_review->accepted->registered) must fail on write()."""
+        admission = self._applicant(email='zz.bypass.c10@contoh.test')
+        admission.action_submit()
+        admission.action_start_document_review()
+        with self.assertRaises(ValidationError):
+            admission.write({'state': 'accepted'})
+        with self.assertRaises(ValidationError):
+            admission.with_context(_pmb_state_token=True).write({'state': 'accepted'})
+
+        admission.document_line_ids.write({'received': True})
+        admission.write({'registration_fee_paid': True})
+        admission.action_accept()
+        with self.assertRaises(ValidationError):
+            admission.write({'state': 'registered'})
+        with self.assertRaises(ValidationError):
+            admission.with_context(_pmb_state_token=True).write({'state': 'registered'})
+        self.assertEqual(admission.state, 'accepted')
+        self.assertFalse(admission.partner_id)
+        self.assertFalse(admission.user_id)
+
     # --- what registering produces ----------------------------------------
 
     def test_registering_creates_the_student_and_the_portal_account(self):

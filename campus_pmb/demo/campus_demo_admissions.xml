@@ -168,7 +168,9 @@
         {'received': True},
     ]"/>
     <function model="campus.admission" name="write"
-              eval="[[ref('demo_admission_registered')], {'state': 'accepted', 'registration_fee_paid': True, 'reregistration_fee_paid': True}]"/>
+              eval="[[ref('demo_admission_registered')], {'registration_fee_paid': True, 'reregistration_fee_paid': True}]"/>
+    <function model="campus.admission" name="action_accept"
+              eval="[[ref('demo_admission_registered')]]"/>
     <function model="campus.admission" name="action_register"
               eval="[[ref('demo_admission_registered')]]"/>
 </odoo>

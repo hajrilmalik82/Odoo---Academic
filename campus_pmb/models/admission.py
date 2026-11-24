@@ -5,6 +5,9 @@ from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
+# Unforgeable per-process sentinel: prevents JSON-RPC callers from passing a
+# truthy context flag to bypass action_accept() / action_register() via write().
+_STATE_TRANSITION_TOKEN = object()
 
 
 def _escape_like(value):
@@ -311,10 +314,19 @@ class CampusAdmission(models.Model):
                     "Application details, documents, and registration fees are locked after acceptance."
                 ))
 
+    def _write_state(self, new_state):
+        """Perform a state change authorized by a workflow action method."""
+        self.with_context(_pmb_state_token=_STATE_TRANSITION_TOKEN).write({'state': new_state})
+
     def write(self, vals):
         self._check_post_acceptance_locks(vals)
         if 'state' in vals:
             self._check_state_transition_allowed(vals['state'])
+            changing = self.filtered(lambda r: r.state != vals['state'])
+            if changing and self.env.context.get('_pmb_state_token') is not _STATE_TRANSITION_TOKEN:
+                raise ValidationError(_(
+                    "Admission status cannot be changed directly; use the workflow action buttons."
+                ))
         path_changing = (
             self.filtered(lambda r: r.state in ('draft', 'submitted', 'document_review') and r.admission_path != vals['admission_path'])
             if 'admission_path' in vals else self.browse()
@@ -372,7 +384,7 @@ class CampusAdmission(models.Model):
     def action_submit(self):
         self._require_state({'draft'})
         self._ensure_default_documents()
-        self.write({'state': 'submitted'})
+        self._write_state('submitted')
         for record in self:
             name = record.name or '-'
             record._schedule_pmb_activity(
@@ -387,7 +399,7 @@ class CampusAdmission(models.Model):
 
     def action_start_document_review(self):
         self._require_state({'submitted'})
-        self.write({'state': 'document_review'})
+        self._write_state('document_review')
         for record in self:
             name = record.name or '-'
             record._schedule_pmb_activity(
@@ -416,7 +428,7 @@ class CampusAdmission(models.Model):
             'campus_pmb.mail_activity_type_payment_verification',
             'campus_pmb.mail_activity_type_create_account',
         ])
-        self.write({'state': 'rejected'})
+        self._write_state('rejected')
 
     def action_accept(self):
         """The single path into the 'accepted' state.
@@ -435,7 +447,7 @@ class CampusAdmission(models.Model):
         )
         if unpaid_reg:
             raise UserError(_("Registration fee must be paid before accepting an applicant."))
-        self.write({'state': 'accepted'})
+        self._write_state('accepted')
         self.activity_feedback([
             'campus_pmb.mail_activity_type_document_review',
             'campus_pmb.mail_activity_type_payment_verification',
@@ -466,7 +478,7 @@ class CampusAdmission(models.Model):
             raise UserError(_("Re-registration fee must be paid before registering a student."))
         for record in self:
             record._create_account()
-            record.state = 'registered'
+            record._write_state('registered')
         self.activity_feedback([
             'campus_pmb.mail_activity_type_create_account',
             'campus_pmb.mail_activity_type_payment_verification',

@@ -25,6 +25,11 @@
         'demo/campus_demo_roles.xml',
     ],
     'post_init_hook': 'post_init_hook',
+    'assets': {
+        'web.assets_tests': [
+            'campus_employees/static/tests/**/*',
+        ],
+    },
     'installable': True,
     'application': False,
     'auto_install': False,

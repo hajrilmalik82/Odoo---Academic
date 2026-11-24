@@ -45,6 +45,11 @@
     'demo': [
         'demo/campus_demo_thesis.xml',
     ],
+    'assets': {
+        'web.assets_tests': [
+            'campus_thesis/static/tests/**/*',
+        ],
+    },
     'installable': True,
     'application': False,
     'auto_install': False,

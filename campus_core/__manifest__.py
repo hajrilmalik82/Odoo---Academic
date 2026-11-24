@@ -50,6 +50,11 @@
     # English; see _set_campus_language in __init__.py. The WEBSITE's language
     # is set by campus_website, which is the module that owns the site.
     'post_init_hook': 'post_init_hook',
+    'assets': {
+        'web.assets_tests': [
+            'campus_core/static/tests/**/*',
+        ],
+    },
     'installable': True,
     'application': True,
     'auto_install': False,

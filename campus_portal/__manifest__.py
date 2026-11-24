@@ -18,6 +18,11 @@
     'demo': [
         'demo/campus_demo_portal_users.xml',
     ],
+    'assets': {
+        'web.assets_tests': [
+            'campus_portal/static/tests/**/*',
+        ],
+    },
     'installable': True,
     'application': False,
     'auto_install': False,

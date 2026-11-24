@@ -42,21 +42,38 @@ PORT="${TEST_PORT:-8099}"
 
 DB=""
 MODULES="$SEMUA_MODUL"
+MODE="backend"
+
+ARGS=()
+for arg in "$@"; do
+    case "$arg" in
+        --backend) MODE="backend" ;;
+        --ui) MODE="ui" ;;
+        --all) MODE="all" ;;
+        *) ARGS+=("$arg") ;;
+    esac
+done
+set -- "${ARGS[@]+"${ARGS[@]}"}"
 
 cara_pakai() {
     cat <<PESAN
-Pakai: ./jalankan-test.sh -d <database> [-u <modul,modul>]
+Pakai: ./jalankan-test.sh -d <database> [-u <modul,modul>] [--backend | --ui | --all]
 
-  -d  database yang dipakai (wajib)
-  -u  modul yang di-upgrade dan diuji
-      bawaan: semua enam modul
-      pilihan: campus_core campus_website campus_employees campus_pmb campus_portal campus_thesis
-  -p  port HTTP untuk test (bawaan $PORT)
-  -h  tampilkan bantuan ini
+  -d         database yang dipakai (wajib)
+  -u         modul yang di-upgrade dan diuji
+             bawaan: semua enam modul
+             pilihan: campus_core campus_website campus_employees campus_pmb campus_portal campus_thesis
+  --backend  jalankan test backend & route saja (bawaan)
+  --ui       jalankan test UI browser (Odoo Tour) saja
+  --all      jalankan test backend + UI browser sekaligus
+  -p         port HTTP untuk test (bawaan $PORT)
+  -h         tampilkan bantuan ini
 
 Contoh:
   ./jalankan-test.sh -d academic-19
-  ./jalankan-test.sh -d academic-19 -u campus_core
+  ./jalankan-test.sh -d academic-19 --ui
+  ./jalankan-test.sh -d academic-19 -u campus_employees --ui
+  ./jalankan-test.sh -d academic-19 --all
 PESAN
 }
 
@@ -105,6 +122,7 @@ done
 
 echo "database : $DB"
 echo "modul    : $MODULES"
+echo "mode     : $MODE"
 
 if [ "$MODULES" != "$SEMUA_MODUL" ]; then
     echo "catatan  : hanya modul di atas yang diuji - jalankan tanpa -u sebelum commit"
@@ -149,49 +167,77 @@ PESAN
     exit 1
 fi
 
-LOG="$(mktemp -t campus-test-XXXXXX.log)"
-echo "log      : $LOG"
-echo
+jalankan_fase() {
+    local LABEL="$1"
+    local TAGS="$2"
+    local LOG
+    LOG="$(mktemp -t campus-test-XXXXXX.log)"
 
-set +e
-"$PYTHON" "$ODOO_DIR/odoo-bin" \
-    -c "$CONF" \
-    -d "$DB" \
-    -u "$MODULES" \
-    --test-enable \
-    --i18n-overwrite \
-    --stop-after-init \
-    --http-port="$PORT" \
-    --db-filter="^${DB}\$" \
-    --log-level=info > "$LOG" 2>&1
-STATUS=$?
-set -e
+    echo "========================================"
+    echo "[$LABEL]  tags: $TAGS"
+    echo "log      : $LOG"
+    echo
 
-grep -E "odoo\.tests\.stats" "$LOG" | sed 's/.*odoo.tests.stats: /  /' || true
-echo
+    local STATUS=0
+    set +e
+    "$PYTHON" "$ODOO_DIR/odoo-bin" \
+        -c "$CONF" \
+        -d "$DB" \
+        -u "$MODULES" \
+        --test-enable \
+        --test-tags="$TAGS" \
+        --i18n-overwrite \
+        --stop-after-init \
+        --http-port="$PORT" \
+        --db-filter="^${DB}\$" \
+        --log-level=info > "$LOG" 2>&1
+    STATUS=$?
+    set -e
 
-# The result line names its database, and a run can emit more than one - an
-# earlier line about a different database with zero tests matched a naive grep
-# and reported green over a red run.
-RESULT="$(grep -E "odoo\.tests\.result" "$LOG" | grep -F "database '$DB'" | tail -1 || true)"
+    grep -E "odoo\.tests\.stats" "$LOG" | sed 's/.*odoo.tests.stats: /  /' || true
+    echo
 
-if [ -z "$RESULT" ]; then
-    echo "MERAH: tidak ada hasil test untuk database '$DB'. Run-nya gagal sebelum test jalan."
-    tail -20 "$LOG"
-    exit 1
-fi
+    # The result line names its database, and a run can emit more than one - an
+    # earlier line about a different database with zero tests matched a naive grep
+    # and reported green over a red run.
+    local RESULT
+    RESULT="$(grep -E "odoo\.tests\.result" "$LOG" | grep -F "database '$DB'" | tail -1 || true)"
 
-if echo "$RESULT" | grep -qE "0 failed, 0 error"; then
-    echo "$RESULT" | sed 's/.*odoo.tests.result: /HIJAU: /'
-    rm -f "$LOG"
-    exit 0
-fi
+    if [ -z "$RESULT" ]; then
+        echo "MERAH [$LABEL]: tidak ada hasil test untuk database '$DB'. Run-nya gagal sebelum test jalan."
+        tail -20 "$LOG"
+        return 1
+    fi
 
-echo "$RESULT" | sed 's/.*odoo.tests.result: /MERAH: /'
-echo "Yang gagal:"
-grep -oE "(ERROR|FAIL): (Subtest )?Test[A-Za-z0-9_]*\.[A-Za-z0-9_]+" "$LOG" \
-    | sed -E 's/^(ERROR|FAIL): //' | sort -u | sed 's/^/  /' \
-    || echo "  (tidak ada baris test yang gagal - lihat log, mungkin gagal saat upgrade)"
-echo
-echo "Log lengkap: $LOG"
-exit "${STATUS:-1}"
+    if echo "$RESULT" | grep -qE "0 failed, 0 error"; then
+        echo "$RESULT" | sed "s/.*odoo.tests.result: /HIJAU [$LABEL]: /"
+        rm -f "$LOG"
+        echo
+        return 0
+    fi
+
+    echo "$RESULT" | sed "s/.*odoo.tests.result: /MERAH [$LABEL]: /"
+    echo "Yang gagal [$LABEL]:"
+    grep -oE "(ERROR|FAIL): (Subtest )?Test[A-Za-z0-9_]*\.[A-Za-z0-9_]+" "$LOG" \
+        | sed -E 's/^(ERROR|FAIL): //' | sort -u | sed 's/^/  /' \
+        || echo "  (tidak ada baris test yang gagal - lihat log, mungkin gagal saat upgrade)"
+    echo
+    echo "Log lengkap [$LABEL]: $LOG"
+    echo
+    return "${STATUS:-1}"
+}
+
+OVERALL_EXIT=0
+case "$MODE" in
+    backend)
+        jalankan_fase "BACKEND (BE)" "standard,-campus_ui" || OVERALL_EXIT=$?
+        ;;
+    ui)
+        jalankan_fase "UI (BROWSER TOUR)" "campus_ui" || OVERALL_EXIT=$?
+        ;;
+    all)
+        jalankan_fase "BACKEND (BE)" "standard,-campus_ui" || OVERALL_EXIT=$?
+        jalankan_fase "UI (BROWSER TOUR)" "campus_ui" || OVERALL_EXIT=$?
+        ;;
+esac
+exit "$OVERALL_EXIT"

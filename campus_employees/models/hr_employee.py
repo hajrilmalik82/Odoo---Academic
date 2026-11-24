@@ -282,6 +282,8 @@ class HrEmployee(models.Model):
         # sync anyway would make ordinary HR hiring hit the administrator check
         # whenever the linked user happened to hold a leftover campus group.
         employees.filtered('academic_role')._sync_academic_user_role()
+        if employees.filtered('user_id'):
+            self.env.registry.clear_cache()
         return employees
 
     def write(self, vals):
@@ -313,14 +315,21 @@ class HrEmployee(models.Model):
         if sync_needed:
             affected = had_role | self.filtered('academic_role')
             affected._sync_academic_user_role(extra_users=previous_users)
+            # ir.rule._compute_domain is @ormcache'd without jurisdiction values;
+            # moving user_id between employees with the same role leaves group_ids
+            # unchanged, so clear_cache() must run unconditionally here.
+            self.env.registry.clear_cache()
         return res
 
     def unlink(self):
         self._assert_nothing_still_attached()
+        had_user = bool(self.filtered('user_id'))
         affected_users = self.filtered('academic_role').mapped('user_id')
         res = super().unlink()
         if affected_users:
             self.env['hr.employee']._sync_academic_user_role(extra_users=affected_users)
+        if had_user:
+            self.env.registry.clear_cache()
         return res
 
     # --- moving somebody between units ------------------------------------

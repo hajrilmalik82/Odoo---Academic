@@ -35,6 +35,11 @@
     'demo': [
         'demo/campus_demo_admissions.xml',
     ],
+    'assets': {
+        'web.assets_tests': [
+            'campus_pmb/static/tests/**/*',
+        ],
+    },
     'installable': True,
     # campus_core is the single app tile for this suite; campus_pmb,
     # campus_employees and campus_portal are parts of it, not separate apps.

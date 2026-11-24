@@ -430,3 +430,35 @@ class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
                     'message_ids': {'fields': {}},
                 })
                 self.assertEqual(len(chatter_data), 1)
+
+    def test_moving_user_id_between_academic_staff_clears_rule_cache(self):
+        """Reassigning user_id to another employee with pre-existing jurisdiction must clear ir.rule cache."""
+        self.env['campus.jurisdiction'].sudo().create({
+            'employee_id': self.staff_employee.id,
+            'scope': 'academic',
+            'faculty_ids': [(6, 0, [self.faculty.id])],
+            'all_programs': True,
+        })
+        other_emp = self.env['hr.employee'].create({
+            'name': '%s Staf FEB B8' % TAG,
+            'academic_role': 'academic',
+        })
+        self.env['campus.jurisdiction'].sudo().create({
+            'employee_id': other_emp.id,
+            'scope': 'academic',
+            'faculty_ids': [(6, 0, [self.other_faculty.id])],
+            'all_programs': True,
+        })
+        krs_fti = self._make_krs(student=self.student)
+        krs_feb = self._make_krs(student=self.other_student)
+
+        visible_before = self.env['academic.krs'].with_user(self.staff_user).search([])
+        self.assertIn(krs_fti, visible_before)
+        self.assertNotIn(krs_feb, visible_before)
+
+        self.staff_employee.user_id = False
+        other_emp.user_id = self.staff_user
+
+        visible_after = self.env['academic.krs'].with_user(self.staff_user).search([])
+        self.assertNotIn(krs_fti, visible_after)
+        self.assertIn(krs_feb, visible_after)

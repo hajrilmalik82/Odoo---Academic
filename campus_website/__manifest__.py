@@ -27,6 +27,9 @@
             'campus_website/static/src/scss/campus_website.scss',
             'campus_website/static/src/js/campus_website.js',
         ],
+        'web.assets_tests': [
+            'campus_website/static/tests/**/*',
+        ],
     },
     'post_init_hook': 'post_init_hook',
     'installable': True,
