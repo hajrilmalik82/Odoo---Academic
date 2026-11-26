@@ -25,6 +25,7 @@
         'demo/campus_demo_roles.xml',
     ],
     'post_init_hook': 'post_init_hook',
+    'uninstall_hook': 'uninstall_hook',
     'assets': {
         'web.assets_tests': [
             'campus_employees/static/tests/**/*',

@@ -341,6 +341,23 @@ class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
                 'program_id': self.other_program.id,
             })
 
+    def test_uninstall_hook_restores_campus_core_partner_rules(self):
+        from odoo.addons.campus_employees import (
+            _BASE_PARTNER_DOMAIN,
+            _PARTNER_JURISDICTION_DOMAIN,
+            _PARTNER_RULE_XMLIDS,
+            post_init_hook,
+            uninstall_hook,
+        )
+
+        uninstall_hook(self.env)
+        for xmlid in _PARTNER_RULE_XMLIDS:
+            self.assertEqual(self.env.ref(xmlid).domain_force, _BASE_PARTNER_DOMAIN)
+
+        post_init_hook(self.env)
+        for xmlid in _PARTNER_RULE_XMLIDS:
+            self.assertEqual(self.env.ref(xmlid).domain_force, _PARTNER_JURISDICTION_DOMAIN)
+
     def test_revoking_employee_user_or_archiving_revokes_campus_groups(self):
         user = self.env['res.users'].create({
             'name': '%s Dosen Group' % TAG, 'login': 'zz.dosen.group.test',

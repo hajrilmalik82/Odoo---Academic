@@ -601,10 +601,11 @@ class CampusAdmission(models.Model):
             if partner:
                 partner_vals = {
                     'name': record.name,
-                    'phone': record.phone,
                     'is_student': True,
                     'program_id': record.program_id.id,
                 }
+                if record.phone:
+                    partner_vals['phone'] = record.phone
                 if not partner.nim:
                     partner_vals.update({
                         'nim': nim,
@@ -641,7 +642,11 @@ class CampusAdmission(models.Model):
                 'company_id': self.env.company.id,
             })
             record.user_id = user.id
-            _logger.info("Created Portal User and Partner for student NIM: %s (Email: %s)", nim, record.email)
+            _logger.info(
+                "Created Portal User and Partner for student NIM: %s (Email: %s)",
+                partner.nim or nim,
+                record.email,
+            )
 
     # The only fields an anonymous website visitor may supply. Everything else on
     # campus.admission is decided by the server. This list is the security

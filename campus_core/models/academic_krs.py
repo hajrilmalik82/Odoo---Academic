@@ -249,6 +249,10 @@ class AcademicKrs(models.Model):
         self._check_content_write_allowed(vals)
         if 'state' in vals:
             self._check_state_transition_allowed(vals['state'])
+            if vals['state'] == 'draft':
+                self.filtered(lambda record: record.state != 'draft')._check_no_orphan_khs(
+                    _("returning this KRS to draft")
+                )
         return super().write(vals)
 
     def unlink(self):

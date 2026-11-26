@@ -116,3 +116,20 @@ class TestGpa(CampusCommon):
         })
         self.assertTrue(line.is_graded)
         self.assertEqual(line.letter_grade, 'E')
+
+    def test_clearing_numeric_grade_does_not_mark_line_graded(self):
+        _krs, khs = self._locked_krs_with_khs()
+        line = khs.line_ids[0]
+        self.assertFalse(line.is_graded)
+
+        for empty_val in (False, None):
+            payload = {'numeric_grade': empty_val}
+            line.write(payload)
+            self.assertNotIn('is_graded', payload, "write() must not mutate caller vals")
+            self.assertFalse(line.is_graded)
+            self.assertEqual(line.letter_grade, '')
+            self.assertEqual(khs.graded_credits, 0)
+
+        line.write({'numeric_grade': 0.0})
+        self.assertTrue(line.is_graded)
+        self.assertEqual(line.letter_grade, 'E')

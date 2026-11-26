@@ -121,6 +121,23 @@ class TestKrsSubmission(CampusCommon):
         with self.assertRaises(ValidationError):
             krs.action_set_draft()
 
+    def test_raw_write_to_draft_blocked_while_khs_exists(self):
+        krs = self._make_krs()
+        krs.action_submit()
+        krs.action_approve()
+        krs.action_lock()
+        khs = self.env['academic.khs'].search([
+            ('student_id', '=', self.student.id),
+            ('academic_year_id', '=', self.year.id),
+        ])
+        self.assertTrue(khs)
+        krs.action_unlock()
+        with self.assertRaises(ValidationError):
+            krs.write({'state': 'draft'})
+        khs.unlink()
+        krs.write({'state': 'draft'})
+        self.assertEqual(krs.state, 'draft')
+
     def test_unlock_is_administrator_only(self):
         krs = self._make_krs()
         krs.action_submit()

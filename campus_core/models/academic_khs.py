@@ -217,14 +217,26 @@ class AcademicKhsLine(models.Model):
             record.letter_grade = band.letter if band else 'E'
             record.grade_points = band.grade_point if band else 0.0
 
+    @staticmethod
+    def _has_explicit_grade(vals):
+        """Return True when vals carries a real numeric score (0.0 included, False/None excluded)."""
+        return (
+            'numeric_grade' in vals
+            and vals['numeric_grade'] is not None
+            and not isinstance(vals['numeric_grade'], bool)
+        )
+
     @api.model_create_multi
     def create(self, vals_list):
+        cleaned_vals_list = []
         for vals in vals_list:
             # A line created with an explicit numeric_grade (including 0.0) is
             # already graded; blank lines from action_lock() leave it False.
-            if 'numeric_grade' in vals and vals['numeric_grade'] is not None:
+            if self._has_explicit_grade(vals):
+                vals = dict(vals)
                 vals.setdefault('is_graded', True)
-        return super().create(vals_list)
+            cleaned_vals_list.append(vals)
+        return super().create(cleaned_vals_list)
 
     _LECTURER_WRITABLE_FIELDS = {'numeric_grade', 'is_graded'}
 
@@ -241,7 +253,9 @@ class AcademicKhsLine(models.Model):
                 raise AccessError(_(
                     "Lecturers can only modify grade values, not transcript structure (%s)."
                 ) % ', '.join(sorted(disallowed)))
-        # Writing a grade marks the line graded, a deliberate 0 included.
-        if 'numeric_grade' in vals:
+        # Writing a numeric grade marks the line graded (a deliberate 0.0 included),
+        # while clearing it with False/None must not flip an ungraded line to graded.
+        if self._has_explicit_grade(vals):
+            vals = dict(vals)
             vals.setdefault('is_graded', True)
         return super().write(vals)

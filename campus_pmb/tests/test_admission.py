@@ -120,6 +120,23 @@ class TestAdmission(CampusCommon):
         self._register(self._applicant(email='zz.lama@contoh.test'))
         self.assertEqual(existing.nim, '%s-LAMA-0001' % TAG)
 
+    def test_reusing_existing_student_preserves_phone_when_blank_and_logs_nim(self):
+        existing_nim = '%s-LAMA-PHONE' % TAG
+        existing = self.env['res.partner'].create({
+            'name': '%s Mahasiswa Lama Phone' % TAG,
+            'email': 'zz.lama.phone@contoh.test',
+            'phone': '08111222333',
+            'is_student': True,
+            'nim': existing_nim,
+            'program_id': self.program.id,
+        })
+        applicant = self._applicant(email='zz.lama.phone@contoh.test', phone=False)
+        with self.assertLogs('odoo.addons.campus_pmb.models.admission', level='INFO') as logs:
+            self._register(applicant)
+        self.assertEqual(existing.phone, '08111222333')
+        self.assertTrue(any(existing_nim in msg for msg in logs.output))
+        self.assertFalse(any('NIM: None' in msg for msg in logs.output))
+
     def test_reusing_a_student_does_not_burn_a_sequence_number(self):
         self.env['res.partner'].create({
             'name': '%s Mahasiswa Lama 2' % TAG,
