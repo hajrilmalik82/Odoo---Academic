@@ -232,15 +232,15 @@ class TestPortalRoutes(CampusHttpCommon):
         self.assertGreater(len(response.content), 1000)
 
     def test_invalid_report_type_falls_back_to_pdf_and_khs_reports_work(self):
-        khs = self.env['academic.khs'].create({
-            'student_id': self.student.id,
-            'academic_year_id': self.year.id,
-            'line_ids': [(0, 0, {
-                'subject_id': self.subject_a.id,
-                'credits': self.subject_a.credits,
-                'numeric_grade': 85.0,
-            })],
-        })
+        self.krs.action_submit()
+        self.krs.action_approve()
+        self.krs.action_lock()
+        khs = self.env['academic.khs'].search([
+            ('student_id', '=', self.student.id),
+            ('academic_year_id', '=', self.year.id),
+        ], limit=1)
+        self.assertTrue(khs)
+        khs.line_ids.write({'numeric_grade': 85.0, 'is_graded': True})
         self.sign_in_as_student()
         for url in (
             '/my/krs/%s/report?report_type=bogus&download=0' % self.krs.id,
