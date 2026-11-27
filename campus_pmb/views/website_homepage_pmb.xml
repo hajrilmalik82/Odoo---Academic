@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="pmb_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="PMB ERP Documentation">
+    <template id="pmb_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="PMB ERP Documentation" priority="30">
 
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">
-            <button class="nav-link fw-bold py-3 text-start mb-1 text-danger" id="tab-pmb" data-bs-toggle="pill" data-bs-target="#content-pmb" type="button" role="tab" aria-controls="content-pmb" aria-selected="false">
-                <i class="fa fa-graduation-cap me-2"/> PMB Admission (New Students)
+            <button class="nav-link fw-bold py-3 text-start mb-1 campus-doc-tab campus-doc-tab-danger" id="tab-pmb" data-bs-toggle="pill" data-bs-target="#content-pmb" type="button" role="tab" aria-controls="content-pmb" aria-selected="false">
+                <i class="fa fa-graduation-cap me-2" aria-hidden="true"/> PMB Admission (New Students)
             </button>
         </xpath>
 
@@ -26,7 +26,7 @@
                     </p>
 
                     <!-- HIGHLIGHT FITUR -->
-                    <div class="row mb-5">
+                    <div class="row g-3 mb-5">
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
@@ -60,12 +60,12 @@
                         <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 1: Applicant Registration (Draft)</h5>
                         <p class="mb-2"><strong>Who performs this:</strong> Prospective Student (Online) or PMB Committee (Office)</p>
-                        <p class="mb-2">The applicant fills in personal data, email, phone, and desired Study Program. The system automatically assigns a unique Registration Number (e.g. <code>PMB/2026/0001</code>) and sets the status to <em>Draft</em>.</p>
+                        <p class="mb-2">The applicant fills in personal data, email, phone, and desired Study Program. The system automatically assigns a unique Registration Number (e.g. <code>PMB/2026/00001</code>) and sets the status to <em>Draft</em>.</p>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
                                 <li>Full name, valid email, chosen Faculty, and Study Program must be filled in before the application can be submitted.</li>
-                                <li>Click <strong>Submit</strong> when the initial data is ready to move to Document Review.</li>
+                                <li>Click <strong>Submit</strong> when the initial data is ready (<em>Draft → Submitted</em>), then click <strong>Start Document Review</strong> (<em>Submitted → Document Review</em>) to begin verification.</li>
                             </ul>
                         </div>
                     </div>
@@ -75,7 +75,7 @@
                         <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 2: Document Review &amp; Checklist</h5>
                         <p class="mb-2"><strong>Who performs this:</strong> PMB Committee</p>
-                        <p class="mb-2">When submitted, the system automatically creates a <strong>Document Checklist</strong> (e.g., Diploma, ID Card, Photo) based on the applicant's admission path. Check and mark each submitted document as verified.</p>
+                        <p class="mb-2">Every application arrives with a <strong>Document Checklist</strong> (e.g., Diploma, ID Card, Photo) based on the applicant's admission path. Click <strong>Start Document Review</strong>, then check and mark each submitted document and registration fee payment as verified.</p>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
@@ -107,7 +107,7 @@
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
-                                <li>An applicant can only be registered once. Make sure the applicant's email is unique and not already used by another portal account.</li>
+                                <li>An applicant can only be registered once. Returning students keep their permanent NIM and portal account, while emails already linked to non-student staff/lecturer accounts are refused.</li>
                             </ul>
                         </div>
                     </div>
@@ -121,7 +121,7 @@
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
-                                <li><strong>Protected Final Statuses:</strong> Applications that are already <em>Accepted</em> or <em>Registered</em> <strong>cannot</strong> be rejected, preventing accidental cancellation after a Student ID and account have been issued.</li>
+                                <li><strong>Protected Final Status:</strong> Applications that are already <em>Registered</em> (with an issued NIM and Student Account) <strong>cannot</strong> be rejected, preventing accidental cancellation of enrolled students. Accepted no-shows who have not registered can still be rejected.</li>
                             </ul>
                         </div>
                     </div>

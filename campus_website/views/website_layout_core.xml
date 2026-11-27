@@ -16,7 +16,7 @@
                     <div class="row align-items-center">
                         <div class="col-sm text-center">
                             <p class="mb-0 text-light">
-                                © 2026 Copyright: <span class="o_footer_copyright_name"><strong>Campus Academic by Hajril Malik</strong></span>. All Rights Reserved.
+                                © <t t-out="datetime.date.today().year"/> Copyright: <span class="o_footer_copyright_name"><strong>Campus Academic by Hajril Malik</strong></span>. All Rights Reserved.
                             </p>
                         </div>
                     </div>
@@ -72,12 +72,12 @@
                                 </a>
                             </p>
                             <p>
-                                <a href="https://wa.me/6281178783903" class="text-light text-decoration-none" target="_blank">
+                                <a href="https://wa.me/6281178783903" class="text-light text-decoration-none" target="_blank" rel="noopener noreferrer">
                                     <i class="fa fa-whatsapp me-3 text-success"></i> 081178783903
                                 </a>
                             </p>
                             <p>
-                                <a href="https://www.linkedin.com/in/hajrilmalik/" class="text-light text-decoration-none" target="_blank">
+                                <a href="https://www.linkedin.com/in/hajrilmalik/" class="text-light text-decoration-none" target="_blank" rel="noopener noreferrer">
                                     <i class="fa fa-linkedin me-3 text-info"></i> LinkedIn Profile
                                 </a>
                             </p>
@@ -87,7 +87,7 @@
 
                 <!-- Editable band, so the footer can still be extended from the
                      website editor without touching this file. -->
-                <div class="oe_structure"/>
+                <div id="oe_structure_campus_footer_bottom" class="oe_structure oe_empty"/>
             </div>
         </xpath>
     </template>

@@ -1,13 +1,20 @@
 import logging
 import re
+import secrets
 import zlib
+
+from psycopg2 import IntegrityError
+
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.tools import SQL, float_compare
 
 _logger = logging.getLogger(__name__)
 # Unforgeable per-process sentinel: prevents JSON-RPC callers from passing a
 # truthy context flag to bypass action_accept() / action_register() via write().
 _STATE_TRANSITION_TOKEN = object()
+_PG_INT4_MAX = 2147483647
+_NIM_LOCK_CLASSID = 0x43504D42  # 'CPMB' namespace for pg_advisory_xact_lock
 
 
 def _escape_like(value):
@@ -38,11 +45,7 @@ class CampusAdmission(models.Model):
         required=True,
         copy=False,
         readonly=True,
-        # Must NOT be translated. create() below compares this against the
-        # literal 'New' to decide whether to draw a sequence number. With _()
-        # an Indonesian session produced "Baru" (campus_pmb/i18n/id.po), the
-        # comparison failed, the sequence was never called, and every
-        # application was saved with the registration number "Baru".
+        index=True,
         default=lambda self: 'New',
         tracking=True,
     )
@@ -59,21 +62,23 @@ class CampusAdmission(models.Model):
         string='Registration Date', default=fields.Date.context_today, tracking=True
     )
     faculty_id = fields.Many2one(
-        'academic.faculty', string='Faculty', required=True, tracking=True,
+        'academic.faculty', string='Faculty', required=True, tracking=True, index=True,
     )
     program_id = fields.Many2one(
         'academic.program', string='Program', required=True, tracking=True,
-        domain="[('faculty_id', '=', faculty_id)]",
+        domain="[('faculty_id', '=', faculty_id)]", index=True,
     )
     academic_year_id = fields.Many2one(
-        'academic.year', string='Academic Year', required=True, tracking=True,
+        'academic.year', string='Academic Year', required=True, tracking=True, index=True,
     )
 
     partner_id = fields.Many2one(
-        'res.partner', string='Student Profile', readonly=True, tracking=True, copy=False
+        'res.partner', string='Student Profile', readonly=True, tracking=True, copy=False,
+        index='btree_not_null',
     )
     user_id = fields.Many2one(
-        'res.users', string='Portal User', readonly=True, tracking=True, copy=False
+        'res.users', string='Portal User', readonly=True, tracking=True, copy=False,
+        index='btree_not_null',
     )
 
     @api.onchange('faculty_id')
@@ -167,47 +172,85 @@ class CampusAdmission(models.Model):
         ('rejected', 'Rejected'),
     ], string='Status', default='draft', tracking=True, index=True, copy=False)
 
-    # Case-sensitive on purpose for now: Budi@x.com and budi@x.com are two
-    # applications. Lower-casing on write is the obvious fix, but it has to be
-    # paired with a migration that folds the rows already stored, and folding
-    # them can collide with this very constraint - two applicants who really are
-    # two people, typed differently. Doing it properly means deciding what
-    # happens to each collision, which is a registrar's call. Stated here rather
-    # than deferred to an "audit checklist" that is not in this repository.
-    _email_year_unique = models.Constraint(
-        'UNIQUE (email, academic_year_id)',
+    _unique_registration_number = models.UniqueIndex(
+        "(registration_number) WHERE registration_number <> 'New'",
+        "Admission registration number must be unique.",
+    )
+    _email_year_unique = models.UniqueIndex(
+        "(lower(email), academic_year_id)",
         "An admission record already exists for this email in this academic year.",
     )
 
+    @api.constrains('registration_fee', 'reregistration_fee')
+    def _check_non_negative_fees(self):
+        for record in self:
+            if record.registration_fee < 0 or record.reregistration_fee < 0:
+                raise ValidationError(_("Admission fees cannot be negative."))
+
+    _SYSTEM_MANAGED_FIELDS = frozenset(('partner_id', 'user_id', 'registration_number'))
+
+    @api.model
+    def _expected_configured_fees(self, admission_path, program):
+        """Return (registration_fee, reregistration_fee) from campus.admission.fee rules."""
+        Fee = self.env['campus.admission.fee']
+        fee_index = Fee._build_fee_index()
+        return (
+            Fee._lookup_fee_from_index(fee_index, 'registration', admission_path, program),
+            Fee._lookup_fee_from_index(fee_index, 'reregistration', admission_path, program),
+        )
+
     @api.model_create_multi
     def create(self, vals_list):
-        for vals in vals_list:
-            if vals.get('registration_number', 'New') == 'New':
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        Program = self.env['academic.program'].sudo()
+        cleaned = []
+        for raw_vals in vals_list:
+            vals = dict(raw_vals)
+            if vals.get('email'):
+                vals['email'] = str(vals['email']).strip().lower()
+            if not is_admin and ('partner_id' in vals or 'user_id' in vals):
+                raise AccessError(_("Student profile and portal user links are managed automatically upon registration."))
+            if not is_admin and ('registration_fee' in vals or 'reregistration_fee' in vals):
+                path = vals.get('admission_path') or 'regular'
+                program = Program.browse(vals['program_id']) if vals.get('program_id') else Program.browse()
+                exp_reg, exp_rereg = self._expected_configured_fees(path, program)
+                if 'registration_fee' in vals and float_compare(vals['registration_fee'] or 0.0, exp_reg, precision_digits=2) != 0:
+                    raise AccessError(_("Only Campus Administrators can manually override configured admission fees."))
+                if 'reregistration_fee' in vals and float_compare(vals['reregistration_fee'] or 0.0, exp_rereg, precision_digits=2) != 0:
+                    raise AccessError(_("Only Campus Administrators can manually override configured admission fees."))
+            if not vals.get('registration_number') or vals.get('registration_number') == 'New':
                 vals['registration_number'] = (
                     self.env['ir.sequence'].sudo().next_by_code('campus.admission') or 'New'
                 )
-        for vals in vals_list:
-            # Same reason as the write guard: creating straight into a later
-            # state would skip every step that produces the student's account.
+            elif not is_admin:
+                raise AccessError(_("Registration numbers are assigned automatically."))
             if vals.get('state') and vals['state'] != 'draft':
                 raise ValidationError(_("New admissions must start in draft status."))
-        # The checklist goes into the same insert. It used to be a second write
-        # per record right after create, which also re-triggered tracking and
-        # the document progress compute for every new applicant.
+            cleaned.append(vals)
+        # The checklist goes into the same insert, with specs cached per path across the batch.
         Document = self.env['campus.admission.document']
-        for vals in vals_list:
+        specs_by_path = {}
+        custom_doc_indices = []
+        for idx, vals in enumerate(cleaned):
             if not vals.get('document_line_ids'):
+                path = vals.get('admission_path', 'regular')
+                if path not in specs_by_path:
+                    specs_by_path[path] = Document._default_document_specs(path)
                 vals['document_line_ids'] = [
                     Command.create({'document_type': document_type, 'required': required})
-                    for document_type, required in Document._default_document_specs(
-                        vals.get('admission_path', 'regular'),
-                    )
+                    for document_type, required in specs_by_path[path]
                 ]
-        records = super().create(vals_list)
-        # Still called for the rows that arrived carrying their own checklist:
-        # a partial list must still be topped up with the missing types.
-        records._ensure_default_documents()
+            else:
+                custom_doc_indices.append(idx)
+        records = super().create(cleaned)
+        if custom_doc_indices:
+            records.browse([records[idx].id for idx in custom_doc_indices])._ensure_default_documents()
         return records
+
+    def copy(self, default=None):
+        raise UserError(_(
+            "Admission records cannot be duplicated. Create a new application for the applicant instead."
+        ))
 
     @api.depends('document_line_ids.required', 'document_line_ids.received')
     def _compute_document_progress(self):
@@ -216,33 +259,31 @@ class CampusAdmission(models.Model):
             received_lines = required_lines.filtered('received')
             record.required_document_count = len(required_lines)
             record.received_document_count = len(received_lines)
-            record.documents_complete = bool(required_lines) and len(required_lines) == len(received_lines)
+            record.documents_complete = bool(record.document_line_ids) and len(required_lines) == len(received_lines)
 
     @api.depends('admission_path', 'program_id')
     def _compute_fees(self):
         Fee = self.env['campus.admission.fee']
-        all_rules = Fee.sudo().search([])
+        fee_index = Fee._build_fee_index()
         for record in self:
-            if record.state in ('accepted', 'registered'):
-                # Preserve historical fees once acceptance is finalized.
+            if record.state in ('accepted', 'registered', 'rejected'):
+                # Preserve historical fees once acceptance/decision is finalized.
                 continue
-            record.registration_fee = Fee._get_fee_amount(
-                'registration',
-                admission_path=record.admission_path,
-                program=record.program_id,
-                rules=all_rules,
+            record.registration_fee = Fee._lookup_fee_from_index(
+                fee_index, 'registration', record.admission_path, record.program_id,
             )
-            record.reregistration_fee = Fee._get_fee_amount(
-                'reregistration',
-                admission_path=record.admission_path,
-                program=record.program_id,
-                rules=all_rules,
+            record.reregistration_fee = Fee._lookup_fee_from_index(
+                fee_index, 'reregistration', record.admission_path, record.program_id,
             )
 
     def _ensure_default_documents(self, prune_unreceived=False):
         Document = self.env['campus.admission.document']
+        specs_by_path = {}
         for record in self:
-            default_specs = Document._default_document_specs(record.admission_path)
+            path = record.admission_path
+            if path not in specs_by_path:
+                specs_by_path[path] = Document._default_document_specs(path)
+            default_specs = specs_by_path[path]
             spec_map = dict(default_specs)
             existing_by_type = {line.document_type: line for line in record.document_line_ids}
             commands = []
@@ -261,20 +302,15 @@ class CampusAdmission(models.Model):
                     if doc_type not in spec_map and not line.received:
                         commands.append(Command.delete(line.id))
             if commands:
-                record.write({'document_line_ids': commands})
+                record.with_context(_pmb_state_token=_STATE_TRANSITION_TOKEN).write({
+                    'document_line_ids': commands,
+                })
 
-    # The admission state graph, mirrored on academic.krs. The buttons already
-    # enforced their own order, but nothing enforced it on a plain write, so a
-    # PMB officer or administrator could set state='registered' straight from
-    # the list view, an import or a server action. action_register and therefore
-    # _create_account never ran, leaving a record that reads Registered with no
-    # NIM, no student contact and no portal account — a student who exists on
-    # the admission list and nowhere else in the system.
     _STATE_TRANSITIONS = {
         'draft': {'submitted', 'rejected'},
         'submitted': {'document_review', 'rejected'},
         'document_review': {'accepted', 'rejected'},
-        'accepted': {'registered'},
+        'accepted': {'registered', 'rejected'},
         'registered': set(),
         'rejected': set(),
     }
@@ -294,14 +330,13 @@ class CampusAdmission(models.Model):
         'email', 'registration_fee', 'registration_fee_paid', 'document_line_ids',
     }
     _REGISTERED_LOCKED_FIELDS = _ACCEPTED_LOCKED_FIELDS | {
+        'name', 'phone', 'previous_school', 'registration_date',
         'reregistration_fee', 'reregistration_fee_paid',
     }
 
     def _check_post_acceptance_locks(self, vals):
         """Freeze academic choice, checklist, and settled fees once decided."""
-        if self.env.context.get('pmb_skip_lock'):
-            return
-        if _REGISTERED_LOCKED_FIELDS := self._REGISTERED_LOCKED_FIELDS.intersection(vals):
+        if self._REGISTERED_LOCKED_FIELDS.intersection(vals):
             finalized = self.filtered(lambda r: r.state in ('registered', 'rejected'))
             if finalized:
                 raise ValidationError(_(
@@ -319,11 +354,43 @@ class CampusAdmission(models.Model):
         self.with_context(_pmb_state_token=_STATE_TRANSITION_TOKEN).write({'state': new_state})
 
     def write(self, vals):
+        is_token = self.env.context.get('_pmb_state_token') is _STATE_TRANSITION_TOKEN
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        if not is_token and not is_admin and self._SYSTEM_MANAGED_FIELDS.intersection(vals):
+            raise AccessError(_(
+                "Registration number, student profile, and portal user links cannot be modified directly."
+            ))
+        if not is_token and not is_admin and ('registration_fee' in vals or 'reregistration_fee' in vals):
+            Program = self.env['academic.program'].sudo()
+            for record in self:
+                path = vals.get('admission_path', record.admission_path)
+                program = (
+                    Program.browse(vals['program_id'])
+                    if 'program_id' in vals and vals['program_id']
+                    else (Program.browse() if 'program_id' in vals else record.program_id)
+                )
+                exp_reg, exp_rereg = self._expected_configured_fees(path, program)
+                if (
+                    'registration_fee' in vals
+                    and float_compare(vals['registration_fee'] or 0.0, exp_reg, precision_digits=2) != 0
+                ):
+                    raise AccessError(_(
+                        "Only Campus Administrators can manually override configured admission fees."
+                    ))
+                if (
+                    'reregistration_fee' in vals
+                    and float_compare(vals['reregistration_fee'] or 0.0, exp_rereg, precision_digits=2) != 0
+                ):
+                    raise AccessError(_(
+                        "Only Campus Administrators can manually override configured admission fees."
+                    ))
         self._check_post_acceptance_locks(vals)
+        if 'email' in vals and vals['email']:
+            vals = dict(vals, email=str(vals['email']).strip().lower())
         if 'state' in vals:
             self._check_state_transition_allowed(vals['state'])
             changing = self.filtered(lambda r: r.state != vals['state'])
-            if changing and self.env.context.get('_pmb_state_token') is not _STATE_TRANSITION_TOKEN:
+            if changing and not is_token:
                 raise ValidationError(_(
                     "Admission status cannot be changed directly; use the workflow action buttons."
                 ))
@@ -332,40 +399,83 @@ class CampusAdmission(models.Model):
             if 'admission_path' in vals else self.browse()
         )
         res = super().write(vals)
+        if not self.env.su and ('program_id' in vals or 'faculty_id' in vals):
+            self.flush_recordset()
+            self.check_access('write')
         if path_changing:
             path_changing._ensure_default_documents(prune_unreceived=True)
         return res
 
-    def _pmb_activity_assignee(self, program):
+    def unlink(self):
+        protected = self.filtered(lambda r: r.state in ('accepted', 'registered', 'rejected'))
+        if protected:
+            raise ValidationError(_(
+                "Accepted, registered, or rejected admissions cannot be deleted."
+            ))
+        return super().unlink()
+
+    def _pmb_activity_assignee(self, program, jurisdictions=None, pmb_group=None):
         """Return an active PMB officer covering ``program`` or fallback to current user."""
-        pmb_group = self.env.ref('campus_pmb.group_pmb', raise_if_not_found=False)
-        jurisdictions = self.env['campus.jurisdiction'].sudo().search([
-            ('scope', '=', 'pmb'),
-            ('employee_id.active', '=', True),
-        ])
+        if jurisdictions is None:
+            jurisdictions = self.env['campus.jurisdiction'].sudo().search([
+                ('scope', '=', 'pmb'),
+                ('employee_id.active', '=', True),
+            ])
         for row in jurisdictions:
             user = row.employee_id.user_id
             if not user or not user.active or user._is_public():
                 continue
-            if pmb_group and pmb_group not in user.group_ids:
+            if not user.has_group('campus_pmb.group_pmb'):
                 continue
             if row._covers_program(program):
                 return user
         return self.env.user if not self.env.user._is_public() else self.env['res.users']
 
-    def _schedule_pmb_activity(self, xmlid, summary):
+    def _schedule_pmb_activity(self, xmlid, summary_by_record):
         activity_type = self.env.ref(xmlid, raise_if_not_found=False)
-        if not activity_type:
+        if not activity_type or not self:
             return
+        pmb_group = self.env.ref('campus_pmb.group_pmb', raise_if_not_found=False)
+        jurisdictions = self.env['campus.jurisdiction'].sudo().search([
+            ('scope', '=', 'pmb'),
+            ('employee_id.active', '=', True),
+        ])
+        assignee_by_program = {}
         for record in self:
-            assignee = record._pmb_activity_assignee(record.program_id)
+            prog_id = record.program_id.id
+            if prog_id not in assignee_by_program:
+                assignee_by_program[prog_id] = record._pmb_activity_assignee(
+                    record.program_id, jurisdictions=jurisdictions, pmb_group=pmb_group,
+                )
+            assignee = assignee_by_program[prog_id]
             if not assignee:
                 continue
             open_same = record.activity_ids.filtered(
                 lambda act: act.activity_type_id == activity_type
             )
             if not open_same:
+                summary = summary_by_record(record) if callable(summary_by_record) else summary_by_record
                 record.activity_schedule(xmlid, user_id=assignee.id, summary=summary)
+
+    def _schedule_review_and_payment_activities(self, review_summary_tpl):
+        self._schedule_pmb_activity(
+            'campus_pmb.mail_activity_type_document_review',
+            lambda rec: review_summary_tpl % (rec.name or '-'),
+        )
+        unpaid = self.filtered(lambda rec: rec.registration_fee > 0 and not rec.registration_fee_paid)
+        if unpaid:
+            pay_tpl = _("Verify registration fee payment for %s")
+            unpaid._schedule_pmb_activity(
+                'campus_pmb.mail_activity_type_payment_verification',
+                lambda rec: pay_tpl % (rec.name or '-'),
+            )
+
+    def _check_registration_fee_paid(self, error_message):
+        unpaid_reg = self.filtered(
+            lambda record: record.registration_fee > 0 and not record.registration_fee_paid
+        )
+        if unpaid_reg:
+            raise UserError(error_message)
 
     def _require_state(self, allowed_states):
         """Refuse the action unless every record is in one of these states.
@@ -385,44 +495,37 @@ class CampusAdmission(models.Model):
         self._require_state({'draft'})
         self._ensure_default_documents()
         self._write_state('submitted')
-        for record in self:
-            name = record.name or '-'
-            record._schedule_pmb_activity(
-                'campus_pmb.mail_activity_type_document_review',
-                _("Review admission documents for %s") % name,
-            )
-            if record.registration_fee > 0 and not record.registration_fee_paid:
-                record._schedule_pmb_activity(
-                    'campus_pmb.mail_activity_type_payment_verification',
-                    _("Verify registration fee payment for %s") % name,
-                )
+        self._schedule_review_and_payment_activities(
+            _("Review admission documents for %s"),
+        )
 
     def action_start_document_review(self):
         self._require_state({'submitted'})
         self._write_state('document_review')
-        for record in self:
-            name = record.name or '-'
-            record._schedule_pmb_activity(
-                'campus_pmb.mail_activity_type_document_review',
-                _("Complete document verification for %s") % name,
-            )
-            if record.registration_fee > 0 and not record.registration_fee_paid:
-                record._schedule_pmb_activity(
-                    'campus_pmb.mail_activity_type_payment_verification',
-                    _("Verify registration fee payment for %s") % name,
-                )
+        self._schedule_review_and_payment_activities(
+            _("Complete document verification for %s"),
+        )
 
-    def _check_may_accept(self):
-        """Accepting an applicant is a PMB decision, not an ordinary edit."""
+    def _check_pmb_staff(self, action_label):
+        """Ensure only PMB staff or Campus Administrators run admission decisions."""
         if self.env.su:
             return
         user = self.env.user
         if user.has_group('campus_pmb.group_pmb') or user.has_group('campus_core.group_campus_administrator'):
+            self.check_access('write')
             return
-        raise AccessError(_("Only PMB staff can accept an application."))
+        raise AccessError(_("Only PMB staff or Campus Administrators can %s.") % action_label)
+
+    def _check_may_accept(self):
+        """Accepting an applicant is a PMB decision, not an ordinary edit."""
+        self._check_pmb_staff(_("accept an application"))
 
     def action_reject(self):
-        self._require_state({'draft', 'submitted', 'document_review'})
+        self._require_state({'draft', 'submitted', 'document_review', 'accepted'})
+        self._check_pmb_staff(_("reject an application"))
+        already_linked = self.filtered(lambda r: r.partner_id or r.user_id)
+        if already_linked:
+            raise UserError(_("Admissions that already have a linked student account cannot be rejected."))
         self.activity_feedback([
             'campus_pmb.mail_activity_type_document_review',
             'campus_pmb.mail_activity_type_payment_verification',
@@ -442,43 +545,53 @@ class CampusAdmission(models.Model):
         incomplete = self.filtered(lambda record: not record.documents_complete)
         if incomplete:
             raise UserError(_("All required documents must be received first."))
-        unpaid_reg = self.filtered(
-            lambda record: record.registration_fee > 0 and not record.registration_fee_paid
+        self._check_registration_fee_paid(
+            _("Registration fee must be paid before accepting an applicant.")
         )
-        if unpaid_reg:
-            raise UserError(_("Registration fee must be paid before accepting an applicant."))
         self._write_state('accepted')
         self.activity_feedback([
             'campus_pmb.mail_activity_type_document_review',
             'campus_pmb.mail_activity_type_payment_verification',
         ])
-        for record in self:
-            name = record.name or '-'
-            record._schedule_pmb_activity(
-                'campus_pmb.mail_activity_type_create_account',
-                _("Create student portal account and NIM for %s") % name,
+        account_tpl = _("Create student portal account and NIM for %s")
+        self._schedule_pmb_activity(
+            'campus_pmb.mail_activity_type_create_account',
+            lambda rec: account_tpl % (rec.name or '-'),
+        )
+        unpaid_rereg = self.filtered(
+            lambda rec: rec.reregistration_fee > 0 and not rec.reregistration_fee_paid
+        )
+        if unpaid_rereg:
+            rereg_tpl = _("Verify re-registration fee payment for %s")
+            unpaid_rereg._schedule_pmb_activity(
+                'campus_pmb.mail_activity_type_payment_verification',
+                lambda rec: rereg_tpl % (rec.name or '-'),
             )
-            if record.reregistration_fee > 0 and not record.reregistration_fee_paid:
-                record._schedule_pmb_activity(
-                    'campus_pmb.mail_activity_type_payment_verification',
-                    _("Verify re-registration fee payment for %s") % name,
-                )
 
     def action_register(self):
+        self._check_pmb_staff(_("register a student"))
+        if self.ids:
+            self.flush_recordset()
+            self.env.cr.execute(SQL(
+                "SELECT id FROM %s WHERE id IN %s ORDER BY id FOR UPDATE NOWAIT",
+                SQL.identifier(self._table), tuple(sorted(self.ids)),
+            ))
+            self.invalidate_recordset(['state', 'user_id', 'partner_id'])
         self._require_state({'accepted'})
-        unpaid_reg = self.filtered(
-            lambda record: record.registration_fee > 0 and not record.registration_fee_paid
+        self._check_registration_fee_paid(
+            _("Registration fee must be paid before registering a student.")
         )
-        if unpaid_reg:
-            raise UserError(_("Registration fee must be paid before registering a student."))
         unpaid_rereg = self.filtered(
             lambda record: record.reregistration_fee > 0 and not record.reregistration_fee_paid
         )
         if unpaid_rereg:
             raise UserError(_("Re-registration fee must be paid before registering a student."))
+        # Pre-validate every record before generating any NIM sequences so a
+        # batch failure on record #N never burns NIM numbers for #1..#N-1.
+        self._prevalidate_account_creation()
         for record in self:
             record._create_account()
-            record._write_state('registered')
+        self._write_state('registered')
         self.activity_feedback([
             'campus_pmb.mail_activity_type_create_account',
             'campus_pmb.mail_activity_type_payment_verification',
@@ -518,80 +631,95 @@ class CampusAdmission(models.Model):
         prefix = f"{faculty_str}-{program_str}-{year_short}-"
         seq_code = f"student.nim.{prefix}"
 
-        # Serialize sequence creation per prefix so concurrent first-time requests
-        # share one ir.sequence rather than creating duplicate "-0001" series.
-        lock_key = zlib.crc32(seq_code.encode('utf-8'))
-        self.env.cr.execute("SELECT pg_advisory_xact_lock(%s)", (lock_key,))
+        # Serialize sequence creation per prefix using a namespaced 2-arg advisory lock.
+        lock_key = zlib.crc32(seq_code.encode('utf-8')) & 0x7FFFFFFF
+        self.env.cr.execute("SELECT pg_advisory_xact_lock(%s, %s)", (_NIM_LOCK_CLASSID, lock_key))
         seq = self.env['ir.sequence'].sudo().search([('code', '=', seq_code)], limit=1)
         if not seq:
             seq = self.env['ir.sequence'].sudo().create({
                 'name': f'NIM Sequence {prefix}',
                 'code': seq_code,
-                'implementation': 'standard', # Standard is faster and less locking than no_gap
+                'implementation': 'standard',
                 'prefix': prefix,
                 'padding': 4,
-                'company_id': False, # Global sequence
+                'company_id': False,
             })
-        
-        # next_by_id() is thread-safe and atomic at the database level
-        nim_str = seq.next_by_id()
 
+        nim_str = seq.next_by_id()
         return nim_str, batch_year
+
+    def _find_account_targets(self):
+        """Resolve existing user/partner collisions for a single admission record."""
+        self.ensure_one()
+        if self.state not in ('accepted', 'registered'):
+            raise UserError(_("Only accepted applicants can have a portal account created."))
+        if not self.email:
+            raise UserError(_("Email is required to create a Portal account."))
+        if self.user_id:
+            raise UserError(_("A portal account has already been created."))
+
+        email_clean = self.email.strip().lower()
+        email_pattern = _escape_like(email_clean)
+        Users = self.env['res.users'].sudo().with_context(active_test=False)
+        existing_user = Users.search([('login', '=ilike', email_pattern)], limit=1)
+        if existing_user:
+            if not existing_user.active:
+                raise UserError(_(
+                    "The email %(email)s belongs to an archived account (%(name)s). "
+                    "Please contact an administrator to reactivate or resolve it first."
+                ) % {'email': self.email, 'name': existing_user.partner_id.display_name})
+            if existing_user._is_internal() or not existing_user.partner_id.is_student:
+                raise UserError(_(
+                    "The email %(email)s already belongs to another account in "
+                    "the system (%(name)s), which is not a student portal account. Register "
+                    "this applicant with a different email address, or ask an "
+                    "administrator to resolve the two accounts first."
+                ) % {
+                    'email': self.email,
+                    'name': existing_user.partner_id.display_name,
+                })
+            return email_clean, existing_user, existing_user.partner_id
+
+        partner = self.env['res.partner'].sudo().with_context(active_test=False).search([
+            ('email', '=ilike', email_pattern),
+            ('is_student', '=', True),
+        ], limit=1)
+        if partner:
+            existing_partner_users = partner.with_context(active_test=False).user_ids
+            if existing_partner_users:
+                raise UserError(_(
+                    "A student profile with email %(email)s already has a linked user account "
+                    "under a different login. Please ask an administrator to reconcile the accounts."
+                ) % {'email': self.email})
+        return email_clean, self.env['res.users'], partner
+
+    def _prevalidate_account_creation(self):
+        seen_emails = set()
+        for record in self:
+            email_clean, _user, _partner = record._find_account_targets()
+            if email_clean in seen_emails:
+                raise UserError(_(
+                    "Duplicate email '%s' found in the same registration batch."
+                ) % email_clean)
+            seen_emails.add(email_clean)
 
     def _create_account(self):
         for record in self:
-            if record.state not in ('accepted', 'registered'):
-                raise UserError(_("Only accepted applicants can have a portal account created."))
-            
-            if not record.email:
-                raise UserError(_("Email is required to create a Portal account."))
-                
-            if record.user_id:
-                raise UserError(_("A portal account has already been created."))
-                
-            # Case-insensitive exact lookup so mixed-case logins match cleanly.
-            email_clean = record.email.strip()
-            email_pattern = _escape_like(email_clean)
-            existing_user = self.env['res.users'].sudo().search(
-                [('login', '=ilike', email_pattern)], limit=1,
-            )
+            email_clean, existing_user, partner = record._find_account_targets()
             if existing_user:
-                if not existing_user.partner_id.is_student:
-                    raise UserError(_(
-                        "The email %(email)s already belongs to another account in "
-                        "the system (%(name)s), which is not a student. Register "
-                        "this applicant with a different email address, or ask an "
-                        "administrator to resolve the two accounts first."
-                    ) % {
-                        'email': record.email,
-                        'name': existing_user.partner_id.display_name,
-                    })
-                # Linked rather than created, to avoid the unique-login error.
-                record.user_id = existing_user.id
-                record.partner_id = existing_user.partner_id.id
-
-                # Update program for re-enrollment while keeping existing permanent NIM.
+                record.with_context(_pmb_state_token=_STATE_TRANSITION_TOKEN).write({
+                    'user_id': existing_user.id,
+                    'partner_id': existing_user.partner_id.id,
+                })
                 update_vals = {'is_student': True, 'program_id': record.program_id.id}
                 if not existing_user.partner_id.nim:
-                    nim, batch_year = record._generate_nim(record.faculty_id, record.program_id, record.academic_year_id)
-                    update_vals.update({
-                        'nim': nim,
-                        'batch_year': batch_year,
-                    })
-
+                    nim, batch_year = record._generate_nim(
+                        record.faculty_id, record.program_id, record.academic_year_id,
+                    )
+                    update_vals.update({'nim': nim, 'batch_year': batch_year})
                 existing_user.partner_id.sudo().write(update_vals)
                 continue
-            
-            partner = self.env['res.partner'].sudo().search([
-                ('email', '=ilike', email_pattern),
-                ('is_student', '=', True),
-            ], limit=1)
 
-            # The NIM is drawn only when one is actually going to be written.
-            # It used to be generated unconditionally above this block, so every
-            # registration that reused an existing student burned a sequence
-            # number that was never assigned to anybody, leaving permanent gaps
-            # in a campus's enrolment numbering.
             nim = batch_year = None
             if not partner or not partner.nim:
                 nim, batch_year = record._generate_nim(
@@ -602,18 +730,15 @@ class CampusAdmission(models.Model):
                 partner_vals = {
                     'name': record.name,
                     'is_student': True,
+                    'active': True,
                     'program_id': record.program_id.id,
                 }
                 if record.phone:
                     partner_vals['phone'] = record.phone
                 if not partner.nim:
-                    partner_vals.update({
-                        'nim': nim,
-                        'batch_year': batch_year,
-                    })
+                    partner_vals.update({'nim': nim, 'batch_year': batch_year})
                 partner.sudo().write(partner_vals)
             else:
-                # Create Partner
                 partner = self.env['res.partner'].sudo().create({
                     'name': record.name,
                     'email': email_clean,
@@ -624,24 +749,25 @@ class CampusAdmission(models.Model):
                     'program_id': record.program_id.id,
                     'company_id': self.env.company.id,
                 })
-            record.partner_id = partner.id
 
-            # Create User
             portal_group = self.env.ref('base.group_portal')
-            
-            # NOTE: Password auto-generated from email prefix for demo/onboarding convenience.
-            # In production, remove this and use Odoo's built-in 'Reset Password' email flow instead.
-            user_password = email_clean.split('@')[0]
-
+            # Generate a cryptographically secure random initial password and
+            # prepare an Odoo signup/password-setup token instead of deriving
+            # predictable credentials from the applicant's email prefix.
+            initial_password = secrets.token_urlsafe(24)
             user = self.env['res.users'].sudo().create({
                 'name': record.name,
                 'login': email_clean,
-                'password': user_password,
+                'password': initial_password,
                 'partner_id': partner.id,
                 'group_ids': [Command.set([portal_group.id])],
                 'company_id': self.env.company.id,
             })
-            record.user_id = user.id
+            partner.sudo().signup_prepare()
+            record.with_context(_pmb_state_token=_STATE_TRANSITION_TOKEN).write({
+                'partner_id': partner.id,
+                'user_id': user.id,
+            })
             _logger.info(
                 "Created Portal User and Partner for student NIM: %s (Email: %s)",
                 partner.nim or nim,
@@ -654,6 +780,12 @@ class CampusAdmission(models.Model):
     # never be passed to create() wholesale, or a visitor could set `state`,
     # `registration_number`, `partner_id` or `user_id` themselves.
     _PORTAL_WRITABLE_FIELDS = ('name', 'email', 'phone', 'previous_school', 'admission_path')
+    _PORTAL_MAX_LENGTHS = {
+        'name': 255,
+        'email': 254,
+        'phone': 32,
+        'previous_school': 255,
+    }
 
     @staticmethod
     def _parse_optional_int_id(value):
@@ -661,20 +793,24 @@ class CampusAdmission(models.Model):
             return False
         if isinstance(value, bool):
             raise ValidationError(_("Invalid faculty or program selection."))
-        return int(value)
+        parsed = int(value)
+        if parsed <= 0 or parsed > _PG_INT4_MAX:
+            raise ValidationError(_("Invalid faculty or program selection."))
+        return parsed
+
+    @staticmethod
+    def _clean_portal_text(value, field_label):
+        if value is None or value is False:
+            return ''
+        if not isinstance(value, str):
+            raise ValidationError(_("Field '%s' must be a text value.") % field_label)
+        if '\x00' in value:
+            raise ValidationError(_("Field '%s' contains invalid characters.") % field_label)
+        return value.strip()
 
     @api.model
     def _create_admission_from_portal(self, post_data):
-        """Create an admission from the public website form.
-
-        The leading underscore is load-bearing. In Odoo 19 any model method
-        without one, and without @api.private, can be invoked straight over
-        /web/dataset/call_kw by any logged-in user (see
-        odoo/service/model.py:get_public_method). Because this method sudo()s,
-        a public name let a portal student create admission records despite
-        having no ACL on campus.admission at all. Only the controller may call
-        this, and only for an anonymous visitor filling in the form.
-        """
+        """Create an admission from the public website form."""
         try:
             faculty_id = self._parse_optional_int_id(post_data.get('faculty_id'))
             program_id = self._parse_optional_int_id(post_data.get('program_id'))
@@ -702,45 +838,55 @@ class CampusAdmission(models.Model):
         if not active_year:
             raise ValidationError(_("No active academic year found for admission."))
 
-        vals = {
-            field: post_data.get(field)
-            for field in self._PORTAL_WRITABLE_FIELDS
-            if post_data.get(field)
-        }
+        vals = {}
+        for field in self._PORTAL_WRITABLE_FIELDS:
+            raw_val = post_data.get(field)
+            if raw_val in (None, False, ''):
+                continue
+            cleaned_val = self._clean_portal_text(raw_val, field)
+            if cleaned_val:
+                vals[field] = cleaned_val
+
         if not vals.get('name') or not vals.get('email'):
             raise ValidationError(_("Applicant name and email address are required."))
-        vals['email'] = vals['email'].strip()
+        vals['email'] = vals['email'].lower()
+        for field, max_len in self._PORTAL_MAX_LENGTHS.items():
+            if vals.get(field) and len(vals[field]) > max_len:
+                raise ValidationError(_(
+                    "Field '%(field)s' exceeds the maximum allowed length of %(max)s characters."
+                ) % {'field': field, 'max': max_len})
 
-        # A selection value straight off the wire is still untrusted input.
-        # Read through the helper, not off the field: the selection is a
-        # callable now, so _fields[...].selection is the function itself.
         admission_path = vals.get('admission_path') or 'regular'
         if admission_path not in dict(self._admission_path_selection()):
             raise ValidationError(_("Invalid admission path selection."))
         vals['admission_path'] = admission_path
 
-        # Checked before the insert so a second application with the same email
-        # reaches the applicant as "you have already applied" rather than an IntegrityError.
+        duplicate_msg = _(
+            "An application with this email address already exists for this "
+            "academic year. Please contact the admissions office if you need "
+            "to change it."
+        )
         if vals.get('email') and self.sudo().search_count([
             ('email', '=ilike', _escape_like(vals['email'])),
             ('academic_year_id', '=', active_year.id),
         ]):
-            raise ValidationError(_(
-                "An application with this email address already exists for this "
-                "academic year. Please contact the admissions office if you need "
-                "to change it."
-            ))
+            raise ValidationError(duplicate_msg)
 
         vals.update({
             'faculty_id': faculty_id,
             'program_id': program_id,
             'academic_year_id': active_year.id,
-            # Server-controlled, never taken from the request. A visitor must not
-            # be able to skip submission and document review by posting
-            # state=accepted and landing straight in the PMB officer's queue.
             'state': 'draft',
         })
-        return self.sudo().create(vals)
+        try:
+            with self.env.cr.savepoint():
+                record = self.sudo().create(vals)
+                record.flush_recordset()
+                return record
+        except IntegrityError as err:
+            if getattr(err, 'pgcode', None) == '23505':
+                raise ValidationError(duplicate_msg)
+            raise
 
 
 class CampusAdmissionRequirement(models.Model):
@@ -767,7 +913,7 @@ class CampusAdmissionRequirement(models.Model):
         string='Document Type', required=True,
     )
     admission_path = fields.Selection(
-        selection=lambda self: [('all', 'All Paths')] + self.env['campus.admission']._admission_path_selection(),
+        selection=lambda self: [('all', _('All Paths'))] + self.env['campus.admission']._admission_path_selection(),
         string='Admission Path', default='all', required=True,
         help="Which applicants are asked for this document. 'All Paths' covers every one.",
     )
@@ -866,24 +1012,44 @@ class CampusAdmissionDocument(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
-        if not self.env.context.get('pmb_skip_lock'):
-            adm_ids = {vals['admission_id'] for vals in vals_list if vals.get('admission_id')}
-            if adm_ids:
-                frozen = self.env['campus.admission'].browse(list(adm_ids)).filtered(
-                    lambda adm: adm.state in ('accepted', 'registered', 'rejected')
-                )
-                if frozen:
-                    raise ValidationError(_(
-                        "Documents cannot be added once an admission is accepted, registered, or rejected."
-                    ))
+        adm_ids = {vals['admission_id'] for vals in vals_list if vals.get('admission_id')}
+        if adm_ids:
+            frozen = self.env['campus.admission'].browse(list(adm_ids)).filtered(
+                lambda adm: adm.state in ('accepted', 'registered', 'rejected')
+            )
+            if frozen:
+                raise ValidationError(_(
+                    "Documents cannot be added once an admission is accepted, registered, or rejected."
+                ))
         return super().create(vals_list)
 
     def write(self, vals):
         self._check_admission_mutable()
-        return super().write(vals)
+        is_token = self.env.context.get('_pmb_state_token') is _STATE_TRANSITION_TOKEN
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        if 'required' in vals and not is_admin and not is_token:
+            raise AccessError(_("Only Campus Administrators can change whether an admission document is required."))
+        if 'admission_id' in vals:
+            target = (
+                self.env['campus.admission'].browse(vals['admission_id'])
+                if vals['admission_id'] else self.env['campus.admission']
+            )
+            if not target or target.state in ('accepted', 'registered', 'rejected'):
+                raise ValidationError(_(
+                    "Document checklists cannot be modified once an admission is accepted, registered, or rejected."
+                ))
+        res = super().write(vals)
+        if not self.env.su and 'admission_id' in vals:
+            self.flush_recordset()
+            self.check_access('write')
+        return res
 
     def unlink(self):
         self._check_admission_mutable()
+        is_token = self.env.context.get('_pmb_state_token') is _STATE_TRANSITION_TOKEN
+        is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        if not is_admin and not is_token and self.filtered('required'):
+            raise AccessError(_("Only Campus Administrators can delete required admission document lines."))
         return super().unlink()
 
 
@@ -917,7 +1083,7 @@ class CampusAdmissionFee(models.Model):
         string='Fee Type', required=True, default='registration',
     )
     admission_path = fields.Selection(
-        selection=lambda self: [('all', 'All Paths')] + self.env['campus.admission']._admission_path_selection(),
+        selection=lambda self: [('all', _('All Paths'))] + self.env['campus.admission']._admission_path_selection(),
         string='Admission Path', default='all', required=True,
         help="Which applicants this fee applies to. 'All Paths' covers every path unless overridden.",
     )
@@ -929,14 +1095,12 @@ class CampusAdmissionFee(models.Model):
         string='Amount', required=True, default=0.0, currency_field='currency_id',
     )
     currency_id = fields.Many2one(
-        'res.currency', compute='_compute_currency_id',
+        'res.currency',
+        compute='_compute_currency_id',
         default=lambda self: self.env.company.currency_id,
     )
 
-    def _compute_currency_id(self):
-        default_currency = self.env.company.currency_id
-        for record in self:
-            record.currency_id = default_currency
+    _compute_currency_id = CampusAdmission._compute_currency_id
 
     _unique_fee_rule = models.UniqueIndex(
         "(fee_type, admission_path, COALESCE(program_id, 0))",
@@ -963,42 +1127,45 @@ class CampusAdmissionFee(models.Model):
             record.name = ' - '.join(filter(None, parts))
 
     @api.model
+    def _build_fee_index(self, rules=None):
+        """Pre-index fee rules into a dict for O(1) lookups across paths/programs."""
+        all_rules = self.sudo().search([]) if rules is None else rules
+        return {
+            (r.fee_type, r.admission_path, r.program_id.id or False): r.amount
+            for r in all_rules
+        }
+
+    @staticmethod
+    def _lookup_fee_from_index(fee_index, fee_type, admission_path=None, program=None):
+        """Resolve a fee amount in O(1) following the 4-tier specificity precedence."""
+        prog_id = program.id if program else False
+        candidates = []
+        if admission_path:
+            if prog_id:
+                candidates.append((fee_type, admission_path, prog_id))
+            candidates.append((fee_type, admission_path, False))
+        if prog_id:
+            candidates.append((fee_type, 'all', prog_id))
+        candidates.append((fee_type, 'all', False))
+        for key in candidates:
+            if key in fee_index:
+                return fee_index[key]
+        return 0.0
+
+    @api.model
     def _get_fee_amount(
         self, fee_type, admission_path=None, program=None, rules=None,
     ):
-        """Return the configured fee amount for the given type, path, and program.
-
-        Specificity precedence:
-        1. Path-specific + Program-specific
-        2. Path-specific + All Programs (e.g. Scholarship exemption across programs)
-        3. All Paths + Program-specific (e.g. per-Prodi re-registration / UKT fee)
-        4. All Paths + All Programs (general campus fallback)
-        Pass a pre-fetched ``rules`` recordset to evaluate in memory without
-        issuing a query per call.
-        """
+        """Return the configured fee amount for the given type, path, and program."""
+        if rules is not None:
+            fee_index = self._build_fee_index(rules=rules)
+            return self._lookup_fee_from_index(fee_index, fee_type, admission_path, program)
         allowed_paths = {'all', admission_path} if admission_path else {'all'}
         allowed_programs = {program.id, False} if program else {False}
-
-        if rules is None:
-            domain = [
-                ('fee_type', '=', fee_type),
-                ('admission_path', 'in', list(allowed_paths)),
-                ('program_id', 'in', list(allowed_programs)),
-            ]
-            matching_rules = self.sudo().search(domain)
-        else:
-            matching_rules = rules.filtered(
-                lambda r: r.fee_type == fee_type
-                and r.admission_path in allowed_paths
-                and (r.program_id.id or False) in allowed_programs
-            )
-        if not matching_rules:
-            return 0.0
-        best_rule = max(
-            matching_rules,
-            key=lambda r: (
-                r.admission_path != 'all',
-                bool(r.program_id),
-            ),
-        )
-        return best_rule.amount
+        matching_rules = self.sudo().search([
+            ('fee_type', '=', fee_type),
+            ('admission_path', 'in', list(allowed_paths)),
+            ('program_id', 'in', list(allowed_programs)),
+        ])
+        fee_index = self._build_fee_index(rules=matching_rules)
+        return self._lookup_fee_from_index(fee_index, fee_type, admission_path, program)

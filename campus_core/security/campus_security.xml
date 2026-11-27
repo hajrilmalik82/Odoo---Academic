@@ -90,9 +90,9 @@
              working. A read restriction on res.partner would break name display,
              mail and reports across the whole system. -->
         <record id="rule_academic_staff_partner_write" model="ir.rule">
-            <field name="name">Academic Staff: Only Edit Student Contacts</field>
+            <field name="name">Academic Staff: Only Edit Student Contacts or Own Profile</field>
             <field name="model_id" ref="base.model_res_partner"/>
-            <field name="domain_force">[('is_student', '=', True)]</field>
+            <field name="domain_force">['|', ('is_student', '=', True), ('id', '=', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
             <field name="perm_read" eval="0"/>
             <field name="perm_write" eval="1"/>
@@ -142,15 +142,14 @@
             <field name="perm_unlink" eval="0"/>
         </record>
 
-        <!-- Lecturers hold create and write on academic.class.session through the
-             ACL so they can maintain their own calendar, but nothing scoped it:
-             any lecturer could edit or add sessions for every class in the
-             university. perm_read stays 0 so the shared timetable is still
-             readable by everyone. -->
+        <!-- Lecturers may only create or modify sessions for classes they actually
+             teach (and only sessions assigned to themselves when editing), so they
+             cannot inject sessions into unrelated classes or alter another
+             lecturer's section. -->
         <record id="rule_lecturer_class_session_write" model="ir.rule">
             <field name="name">Lecturer: Only Own Class Sessions</field>
             <field name="model_id" ref="model_academic_class_session"/>
-            <field name="domain_force">['|', ('lecturer_id.user_id', '=', user.id), ('class_id.schedule_ids.lecturer_id.user_id', '=', user.id)]</field>
+            <field name="domain_force">[('class_id.schedule_ids.lecturer_id.user_id', '=', user.id), '|', ('lecturer_id', '=', False), ('lecturer_id.user_id', '=', user.id)]</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer'))]"/>
             <field name="perm_read" eval="0"/>
             <field name="perm_write" eval="1"/>

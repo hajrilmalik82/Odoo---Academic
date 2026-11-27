@@ -33,6 +33,12 @@ class AcademicFaculty(models.Model):
         paste into the list view writes the field without ever consulting it."""
         for faculty in self.filtered('dean_id'):
             dean = faculty.dean_id
+            if not dean.active:
+                raise ValidationError(_(
+                    "%(person)s is archived and cannot be assigned as dean of %(faculty)s.",
+                    person=dean.name,
+                    faculty=faculty.name,
+                ))
             if dean.academic_role != 'lecturer':
                 raise ValidationError(_(
                     "%(person)s is not a lecturer, so they cannot be dean of %(faculty)s.",
@@ -64,6 +70,12 @@ class AcademicProgram(models.Model):
     def _check_head_is_a_lecturer_of_the_program(self):
         for program in self.filtered('head_id'):
             head = program.head_id
+            if not head.active:
+                raise ValidationError(_(
+                    "%(person)s is archived and cannot head %(program)s.",
+                    person=head.name,
+                    program=program.name,
+                ))
             if head.academic_role != 'lecturer':
                 raise ValidationError(_(
                     "%(person)s is not a lecturer, so they cannot head %(program)s.",
@@ -78,3 +90,13 @@ class AcademicProgram(models.Model):
                     their_program=head.program_id.name or _("no programme"),
                     program=program.name,
                 ))
+
+    @api.constrains('faculty_id')
+    def _check_faculty_move_consistency(self):
+        """Revalidate employees and jurisdictions when a program moves to another faculty."""
+        employees = self.env['hr.employee'].sudo().search([('program_id', 'in', self.ids)])
+        if employees:
+            employees._check_program_belongs_to_faculty()
+        jurisdictions = self.env['campus.jurisdiction'].sudo().search([('program_ids', 'in', self.ids)])
+        if jurisdictions:
+            jurisdictions._check_programs_lie_inside_the_faculties()

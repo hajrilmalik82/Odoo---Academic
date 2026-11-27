@@ -53,6 +53,7 @@
     <record id="view_partner_tree_student" model="ir.ui.view">
         <field name="name">res.partner.tree.student</field>
         <field name="model">res.partner</field>
+        <field name="priority">99</field>
         <field name="arch" type="xml">
             <list string="Students" create="0">
                 <field name="nim"/>
@@ -93,8 +94,9 @@
     <record id="view_campus_student_form_standalone" model="ir.ui.view">
         <field name="name">res.partner.form.student.standalone</field>
         <field name="model">res.partner</field>
+        <field name="priority">99</field>
         <field name="arch" type="xml">
-            <form string="Student">
+            <form string="Student" create="0">
                 <header>
                     <field name="student_status" widget="statusbar" options="{'clickable': '1'}"/>
                 </header>

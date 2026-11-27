@@ -705,3 +705,13 @@ msgstr ""
 #: code:addons/campus_employees/models/res_partner.py:0
 msgid "no programme"
 msgstr ""
+
+#. module: campus_employees
+#, python-format
+msgid "%(person)s is not a lecturer and cannot be assigned to teach %(class_name)s."
+msgstr ""
+
+#. module: campus_employees
+#, python-format
+msgid "%(person)s does not belong to Faculty '%(faculty)s' or Program '%(program)s'."
+msgstr ""

@@ -2702,3 +2702,78 @@ msgid ""
 " Academic System > Configuration instead; editing it here would leave the "
 "two disagreeing with nothing to notice."
 msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "%(lecturer)s is already teaching %(other)s at that time."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "A system error occurred."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "All selected students must belong to study program '%(program)s' (mismatched: %(students)s)."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Each KRS line must specify a subject."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Faculty code cannot be empty."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Lecturer overlap detected on %(schedule)s with %(other_class)s (%(other_schedule)s)."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Lecturers can only update grade lines, not KHS details (%s)."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Lecturers cannot add, remove, or replace KHS grade lines."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Only Campus Administrators can reset a KRS to draft."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Programme code cannot be empty."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Room %(room)s is already taken by %(other)s at that time."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Room overlap detected on %(schedule)s with %(other_class)s (%(other_schedule)s)."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "Session %(num)s: %(name)s"
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "That class or action conflicts with an existing registration rule."
+msgstr ""
+
+#. module: campus_core
+#, python-format
+msgid "The action could not be completed."
+msgstr ""

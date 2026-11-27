@@ -14,7 +14,7 @@
         <field name="name">academic.krs.kanban</field>
         <field name="model">academic.krs</field>
         <field name="arch" type="xml">
-            <kanban default_group_by="state" class="o_kanban_mobile">
+            <kanban default_group_by="state" class="o_kanban_mobile" records_draggable="0" group_create="0" group_delete="0" group_edit="0">
                 <templates>
                     <t t-name="card">
                         <field name="name" class="fw-bolder fs-5"/>
@@ -84,7 +84,7 @@
                         <group string="Academic Period">
                             <field name="academic_year_id" readonly="state not in ('draft', 'revision')"/>
 
-                            <field name="package_id" readonly="state not in ('draft', 'revision')"/>
+                            <field name="package_id" readonly="state not in ('draft', 'revision')" domain="[('program_id', '=?', program_id), ('academic_year_id', '=?', academic_year_id)]"/>
                             <field name="total_credits"/>
                         </group>
                     </group>
@@ -93,7 +93,7 @@
                             <field name="line_ids" readonly="state not in ('draft', 'revision')">
                                 <list editable="bottom">
                                     <field name="subject_id" options="{'no_create': True}" domain="[('program_id', '=', parent.program_id)]"/>
-                                    <field name="schedule_id" domain="[('class_id.subject_id', '=', subject_id)]" options="{'no_create': True}"/>
+                                    <field name="schedule_id" domain="[('class_id.subject_id', '=', subject_id), ('class_id.academic_year_id', '=', parent.academic_year_id)]" options="{'no_create': True}"/>
                                     <field name="class_id" column_invisible="1"/>
                                     <field name="credits" readonly="1"/>
                                 </list>
@@ -120,6 +120,7 @@
                 <filter string="Waiting for Approval" name="filter_submitted" domain="[('state','=','submitted')]"/>
                 <filter string="Approved" name="filter_approved" domain="[('state','=','approved')]"/>
                 <filter string="Needs Revision" name="filter_revision" domain="[('state','=','revision')]"/>
+                <filter string="Rejected" name="filter_rejected" domain="[('state','=','rejected')]"/>
                 <filter string="Locked" name="filter_locked" domain="[('state','=','locked')]"/>
                 <separator/>
                 <group name="group_by">
@@ -158,7 +159,7 @@
         <field name="group_ids" eval="[(6, 0, [ref('campus_core.group_campus_academic_staff'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-            records.filtered(lambda record: record.state == 'draft').action_submit()
+            records.filtered(lambda record: record.state in ('draft', 'revision')).action_submit()
         </field>
     </record>
 

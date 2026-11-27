@@ -1,46 +1,46 @@
 import base64
-import functools
+import io
 import logging
 import math
+import ntpath
 import os
-from urllib.parse import urlencode
+import re
+import zipfile
 
 from odoo import http, _
+from odoo.addons.campus_core.portal_utils import (
+    pop_flash_messages,
+    redirect_with_error as _redirect_with_error,
+    redirect_with_success as _redirect_with_success,
+    report_errors_to as _shared_report_errors_to,
+)
 from odoo.addons.portal.controllers.portal import CustomerPortal
-from odoo.exceptions import AccessError, UserError, ValidationError
+from odoo.exceptions import UserError, ValidationError
 from odoo.http import request
+from odoo.tools import str2bool
 
 _logger = logging.getLogger(__name__)
 
 _MAX_UPLOAD_BYTES = 10 * 1024 * 1024  # 10 MB safety cap
-
-
-def _redirect_with_error(url, message):
-    return request.redirect('%s?%s' % (url, urlencode({'error': message})))
-
-
-def _redirect_with_success(url, message):
-    return request.redirect('%s?%s' % (url, urlencode({'success': message})))
+_MAX_FILENAME_LEN = 180
+_MAX_PROGRESS_LOGS = 100
+_ALLOWED_REPORT_TYPES = frozenset({'pdf', 'html'})
+_ALLOWED_UPLOAD_EXTENSIONS = {'.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'}
+_DANGEROUS_UPLOAD_PREFIXES = (
+    b'<!doctype html',
+    b'<html',
+    b'<script',
+    b'<svg',
+    b'<?php',
+)
 
 
 def report_errors_to(url_for):
-    """Turn ValidationError/UserError into a readable banner on redirect."""
-    def decorator(route):
-        @functools.wraps(route)
-        def wrapper(self, *args, **kwargs):
-            try:
-                with request.env.cr.savepoint():
-                    return route(self, *args, **kwargs)
-            except (ValidationError, UserError, AccessError) as error:
-                message = error.args[0] if error.args else _("The action could not be completed.")
-                return _redirect_with_error(url_for(*args, **kwargs), message)
-            except Exception:
-                _logger.exception(
-                    "%s failed for user %s", route.__name__, request.env.user.login,
-                )
-                return _redirect_with_error(url_for(*args, **kwargs), _("A system error occurred."))
-        return wrapper
-    return decorator
+    return _shared_report_errors_to(
+        url_for,
+        logger=_logger,
+        integrity_message=_("This thesis action could not be saved because of a conflicting record."),
+    )
 
 
 def _thesis_page(thesis_id, *_args, **_kwargs):
@@ -48,6 +48,17 @@ def _thesis_page(thesis_id, *_args, **_kwargs):
 
 
 class CampusThesisPortal(CustomerPortal):
+
+    def _ensure_active_student(self, partner):
+        if not partner.is_student or partner.student_status != 'active':
+            raise UserError(_("Only active students can modify thesis records."))
+
+    def _normalize_report_params(self, report_type, download):
+        if report_type not in _ALLOWED_REPORT_TYPES:
+            report_type = 'pdf'
+        if not isinstance(download, bool):
+            download = str2bool(str(download), default=False)
+        return report_type, download
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
@@ -67,15 +78,17 @@ class CampusThesisPortal(CustomerPortal):
             return Thesis.sudo().browse()
         return thesis
 
-    def _get_available_lecturers(self, partner):
+    def _get_available_lecturers(self, program):
         Lecturer = request.env['hr.employee'].sudo()
-        primary_domain = [('academic_role', '=', 'lecturer')]
-        if partner.program_id:
-            primary_domain.append(('program_id', '=', partner.program_id.id))
+        primary_domain = [('academic_role', '=', 'lecturer'), ('active', '=', True)]
+        if program:
+            primary_domain.append(('program_id', '=', program.id))
         else:
             primary_domain.append((0, '=', 1))
         primary_lecturers = Lecturer.search(primary_domain, order='name')
-        co_lecturers = Lecturer.search([('academic_role', '=', 'lecturer')], order='name')
+        co_lecturers = Lecturer.search(
+            [('academic_role', '=', 'lecturer'), ('active', '=', True)], order='name',
+        )
         return primary_lecturers, co_lecturers
 
     def _parse_supervisor_ids(self, post):
@@ -89,21 +102,62 @@ class CampusThesisPortal(CustomerPortal):
             raise ValidationError(_("Primary thesis supervisor is required."))
         return supervisor_id, co_supervisor_id
 
+    def _validate_upload_signature(self, raw, ext):
+        head = raw[:512].lstrip().lower()
+        if head.startswith(_DANGEROUS_UPLOAD_PREFIXES) or raw.startswith(b'MZ'):
+            raise ValidationError(_("Executable or active script content is not allowed."))
+        if ext == '.pdf':
+            # Require PDF magic header at the start (after optional BOM/whitespace)
+            # to reject HTML/JS polyglot payloads containing %PDF- later in bytes.
+            signature_ok = raw[:64].lstrip(b'\xef\xbb\xbf \t\r\n').startswith(b'%PDF-')
+        elif ext == '.png':
+            signature_ok = raw.startswith(b'\x89PNG\r\n\x1a\n')
+        elif ext in ('.jpg', '.jpeg'):
+            signature_ok = raw.startswith(b'\xff\xd8\xff')
+        elif ext == '.docx':
+            signature_ok = False
+            if raw.startswith(b'PK\x03\x04'):
+                try:
+                    with zipfile.ZipFile(io.BytesIO(raw)) as archive:
+                        names = set(archive.namelist())
+                    signature_ok = '[Content_Types].xml' in names and 'word/document.xml' in names
+                except zipfile.BadZipFile:
+                    signature_ok = False
+        elif ext == '.doc':
+            signature_ok = raw.startswith(b'\xd0\xcf\x11\xe0')
+        else:
+            signature_ok = False
+        if not signature_ok:
+            raise ValidationError(_(
+                "Uploaded file content does not match its '%s' extension."
+            ) % ext)
+
     def _parse_uploaded_file(self, field_name='attachment'):
         upload = request.httprequest.files.get(field_name)
         if not upload or not upload.filename:
             return None, None
+        filename = os.path.basename(ntpath.basename(upload.filename)).strip()
+        filename = re.sub(r'[\x00-\x1f\x7f]', '', filename)
+        stem, ext = os.path.splitext(filename)
+        ext = ext.lower()
+        if not stem or ext not in _ALLOWED_UPLOAD_EXTENSIONS:
+            raise ValidationError(_(
+                "Unsupported file format '%(ext)s'. Allowed formats: PDF, DOC, DOCX, JPG, PNG."
+            ) % {'ext': ext or filename or '-'})
+        if len(filename) > _MAX_FILENAME_LEN:
+            filename = stem[: _MAX_FILENAME_LEN - len(ext)] + ext
         raw = upload.read(_MAX_UPLOAD_BYTES + 1)
         if len(raw) > _MAX_UPLOAD_BYTES:
             raise UserError(_("Uploaded file must not exceed 10 MB."))
         if not raw:
             raise UserError(_("Uploaded file is empty."))
-        filename = os.path.basename(upload.filename)
+        self._validate_upload_signature(raw, ext)
         return base64.b64encode(raw), filename
 
     @http.route(['/my/thesis'], type='http', auth='user', website=True, readonly=True)
     def portal_my_thesis(self, **kw):
         partner = request.env.user.partner_id
+        flash = pop_flash_messages()
         theses = request.env['campus.thesis'].sudo().search(
             [('student_id', '=', partner.id)],
             order='create_date desc, id desc',
@@ -113,7 +167,7 @@ class CampusThesisPortal(CustomerPortal):
         research_method_passed = partner.sudo()._has_passed_research_method() if partner.is_student else False
         thesis_course_enrolled = partner.sudo()._has_enrolled_thesis_subject() if partner.is_student else False
         if is_active_student and research_method_passed and not has_active_thesis:
-            primary_lecturers, co_lecturers = self._get_available_lecturers(partner)
+            primary_lecturers, co_lecturers = self._get_available_lecturers(partner.program_id)
         else:
             empty_emp = request.env['hr.employee'].sudo().browse()
             primary_lecturers = empty_emp
@@ -128,10 +182,9 @@ class CampusThesisPortal(CustomerPortal):
             'thesis_course_enrolled': thesis_course_enrolled,
             'primary_lecturers': primary_lecturers,
             'co_lecturers': co_lecturers,
-            'lecturers': primary_lecturers,
             'page_name': 'thesis',
-            'error': kw.get('error'),
-            'success': kw.get('success'),
+            'error': flash['error'],
+            'success': flash['success'],
         })
         return request.render('campus_thesis.portal_my_thesis', values)
 
@@ -169,13 +222,18 @@ class CampusThesisPortal(CustomerPortal):
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
 
+        flash = pop_flash_messages()
         partner = request.env.user.partner_id
-        primary_lecturers, co_lecturers = self._get_available_lecturers(partner)
-        research_method_passed = partner.sudo()._has_passed_research_method()
-        thesis_course_enrolled = partner.sudo()._has_enrolled_thesis_subject()
-        nearest_graduation = (
-            thesis.graduation_id
-            or request.env['campus.graduation.schedule'].sudo()._get_nearest_schedule()
+        if thesis.state in ('draft', 'supervisor_rejected'):
+            primary_lecturers, co_lecturers = self._get_available_lecturers(thesis.program_id)
+        else:
+            empty_emp = request.env['hr.employee'].sudo().browse()
+            primary_lecturers = empty_emp
+            co_lecturers = empty_emp
+        thesis_course_enrolled = (
+            partner.sudo()._has_enrolled_thesis_subject()
+            if thesis.state == 'proposal_approved'
+            else False
         )
         proposal_logs = thesis.progress_line_ids.filtered(lambda l: l.stage == 'proposal')
         thesis_logs = thesis.progress_line_ids.filtered(lambda l: l.stage == 'thesis')
@@ -185,15 +243,12 @@ class CampusThesisPortal(CustomerPortal):
             'thesis': thesis,
             'primary_lecturers': primary_lecturers,
             'co_lecturers': co_lecturers,
-            'lecturers': primary_lecturers,
-            'research_method_passed': research_method_passed,
             'thesis_course_enrolled': thesis_course_enrolled,
-            'nearest_graduation': nearest_graduation,
             'proposal_logs': proposal_logs,
             'thesis_logs': thesis_logs,
             'page_name': 'thesis_detail',
-            'error': kw.get('error'),
-            'success': kw.get('success'),
+            'error': flash['error'],
+            'success': flash['success'],
         })
         return request.render('campus_thesis.portal_thesis_detail', values)
 
@@ -203,6 +258,7 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
 
         if thesis.state not in ('draft', 'supervisor_rejected', 'proposal'):
             raise UserError(_("Thesis details can no longer be modified in the current status."))
@@ -231,6 +287,7 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
         thesis.action_submit_supervisor()
         return _redirect_with_success(
             '/my/thesis/%s' % thesis.id,
@@ -243,6 +300,11 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
+        if thesis.state != 'supervisor_rejected':
+            raise UserError(_(
+                "Only rejected supervision requests can be returned to Draft from the student portal."
+            ))
         thesis.action_reset_to_draft()
         return _redirect_with_success(
             '/my/thesis/%s' % thesis.id,
@@ -255,8 +317,14 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
         if thesis.state not in ('proposal', 'thesis'):
             raise UserError(_("Progress logs can only be added during Proposal or Thesis stages."))
+        if len(thesis.progress_line_ids) >= _MAX_PROGRESS_LOGS:
+            raise UserError(_(
+                "Maximum number of progress logs (%s) reached for this thesis.",
+                _MAX_PROGRESS_LOGS,
+            ))
 
         milestone = (post.get('milestone') or '').strip()
         description = (post.get('description') or '').strip()
@@ -295,6 +363,7 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
         thesis.action_start_thesis()
         return _redirect_with_success(
             '/my/thesis/%s' % thesis.id,
@@ -310,6 +379,7 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
         if thesis.state != 'yudisium_docs':
             raise UserError(_("Yudisium documents can only be uploaded during Yudisium Filing."))
 
@@ -325,7 +395,7 @@ class CampusThesisPortal(CustomerPortal):
             'attachment': attachment_data,
             'attachment_filename': filename,
             'submitted_by_student': True,
-            'note': (post.get('note') or doc.note or '').strip(),
+            'received': False,
         })
         return _redirect_with_success(
             '/my/thesis/%s' % thesis.id,
@@ -338,6 +408,7 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        self._ensure_active_student(request.env.user.partner_id)
         thesis.action_submit_yudisium()
         return _redirect_with_success(
             '/my/thesis/%s' % thesis.id,
@@ -349,6 +420,7 @@ class CampusThesisPortal(CustomerPortal):
         thesis = self._get_own_thesis(thesis_id)
         if not thesis:
             return _redirect_with_error('/my/thesis', _("That thesis record is not available."))
+        report_type, download = self._normalize_report_params(report_type, download)
         return self._show_report(
             model=thesis,
             report_type=report_type,

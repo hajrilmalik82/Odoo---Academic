@@ -160,7 +160,7 @@ registry.category("web_tour.tours").add("campus_core_create_faculty_ui_tour", {
         {
             content: "Enter Faculty Code",
             trigger: '.o_form_view div[name="code"] input',
-            run: "edit ZZUIFAC",
+            run: "edit ZUI1",
         },
         {
             content: "Save new Faculty",

@@ -203,3 +203,48 @@ class TestThesisSecurity(ThesisFixtureMixin, CampusCommon):
         })
         with self.assertRaises(AccessError):
             log.with_user(self.supervisor_user).write({'milestone': 'Supervisor Rewrote Milestone'})
+        # Raw write of review state without action_approve/action_request_revision is also blocked
+        with self.assertRaises(AccessError):
+            log.with_user(self.supervisor_user).write({'state': 'approved'})
+
+    def test_lecturer_cannot_edit_title_name_or_trigger_staff_actions(self):
+        with self.assertRaises(AccessError):
+            self.thesis_ft.with_user(self.supervisor_user).write({'title': 'Rewritten by Lecturer'})
+        with self.assertRaises(AccessError):
+            self.thesis_ft.with_user(self.supervisor_user).write({'name': 'SKR/FORGED'})
+        with self.assertRaises(AccessError):
+            self.thesis_ft.with_user(self.supervisor_user).action_submit_supervisor()
+
+    def test_staff_cannot_forge_protected_fields_on_create_or_drop_required_yudisium_doc(self):
+        base_group = self.env.ref('base.group_user')
+        staff_user = self.env['res.users'].create({
+            'name': '%s Staf TU Audit' % TAG,
+            'login': 'zz.tu.audit.thesis@contoh.test',
+            'group_ids': [Command.set([base_group.id])],
+        })
+        staff_emp = self.env['hr.employee'].create({
+            'name': '%s Staf Audit FT' % TAG,
+            'academic_role': 'academic',
+            'faculty_id': self.faculty.id,
+            'user_id': staff_user.id,
+        })
+        self.env['campus.jurisdiction'].create({
+            'employee_id': staff_emp.id,
+            'scope': 'academic',
+            'faculty_ids': [Command.set([self.faculty.id])],
+        })
+        with self.assertRaises(AccessError):
+            self.env['campus.thesis'].with_user(staff_user).create({
+                'student_id': self.student.id,
+                'academic_year_id': self.year.id,
+                'title': 'Forged Approval Create',
+                'supervisor_id': self.supervisor_emp.id,
+                'yudisium_dean_approved': True,
+            })
+
+        self.thesis_ft._ensure_default_documents()
+        req_doc = self.thesis_ft.yudisium_document_ids.filtered('required')[:1]
+        with self.assertRaises(AccessError):
+            req_doc.with_user(staff_user).write({'required': False})
+        with self.assertRaises(AccessError):
+            req_doc.with_user(staff_user).unlink()

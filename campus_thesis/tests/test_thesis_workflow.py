@@ -345,6 +345,73 @@ class TestThesisWorkflow(ThesisFixtureMixin, CampusCommon):
             thesis.write({'state': 'thesis'})
         with self.assertRaises(ValidationError):
             thesis.write({'state': 'graduated'})
+        # Even adjacent valid transitions or forged context flags must fail on raw write()
+        with self.assertRaises(ValidationError):
+            thesis.write({'state': 'cancelled'})
+        with self.assertRaises(ValidationError):
+            thesis.with_context(_thesis_workflow_action=True, _thesis_state_token=True).write({
+                'state': 'supervisor_approval',
+            })
+
+    def test_inactive_student_archived_supervisor_and_multi_reject_guards(self):
+        self._record_metopen_grade(self.student, score=85.0)
+        self.student.student_status = 'leave'
+        with self.assertRaises(ValidationError):
+            self._make_thesis()
+        self.student.student_status = 'active'
+
+        archived_lec = self.env['hr.employee'].create({
+            'name': '%s Dosen Arsip' % TAG,
+            'academic_role': 'lecturer',
+            'faculty_id': self.faculty.id,
+            'program_id': self.program.id,
+            'active': False,
+        })
+        with self.assertRaises(ValidationError):
+            self._make_thesis(supervisor_id=archived_lec.id)
+
+        s2 = self.env['res.partner'].create({
+            'name': '%s Mahasiswa Multi Reject' % TAG,
+            'is_student': True,
+            'student_status': 'active',
+            'program_id': self.program.id,
+            'academic_advisor_id': self.advisor.id,
+        })
+        self._record_metopen_grade(s2, score=85.0)
+        t1 = self._make_thesis(co_supervisor=True)
+        t2 = self._make_thesis(student=s2)
+        (t1 | t2).action_submit_supervisor()
+
+        with self.assertRaises(UserError):
+            (t1 | t2).action_supervisor_reject()
+
+        wizard = self.env['campus.thesis.reject.wizard'].create({
+            'thesis_id': t1.id,
+            'mode': 'supervisor_reject',
+            'reason': '   ',
+        })
+        with self.assertRaises(ValidationError):
+            wizard.action_confirm()
+
+        # Primary supervisor approves, then Admin clears co-supervisor -> auto-advances to proposal
+        t1.with_user(self.supervisor_user).action_supervisor_approve()
+        self.assertEqual(t1.state, 'supervisor_approval')
+        t1.write({'co_supervisor_id': False})
+        self.assertEqual(t1.state, 'proposal')
+
+        # Progress review is blocked once thesis is cancelled
+        log = self.env['campus.thesis.progress'].create({
+            'thesis_id': t1.id,
+            'stage': 'proposal',
+            'milestone': 'Bab I',
+            'description': 'Draft awal',
+            'progress_percent': 25.0,
+        })
+        t1.action_cancel()
+        with self.assertRaises(ValidationError):
+            log.with_user(self.supervisor_user).action_approve()
+        with self.assertRaises(AccessError):
+            t1.with_user(self.supervisor_user).action_reset_to_draft()
 
     def test_sequential_yudisium_and_nearest_graduation_assignment(self):
         today = fields.Date.context_today(self.env.user)
@@ -395,6 +462,8 @@ class TestThesisWorkflow(ThesisFixtureMixin, CampusCommon):
         self.assertTrue(thesis.documents_complete)
         thesis.action_submit_yudisium()
         self.assertEqual(thesis.state, 'yudisium_supervisor')
+        with self.assertRaises(ValidationError):
+            thesis.yudisium_document_ids[0].write({'received': False})
 
         # Step 1: Only Supervisor may approve
         with self.assertRaises(AccessError):
@@ -428,6 +497,8 @@ class TestThesisWorkflow(ThesisFixtureMixin, CampusCommon):
         self.assertTrue(thesis.yudisium_dean_approved)
         self.assertEqual(thesis.graduation_id, nearest_sched)
         self.assertEqual(self.student.student_status, 'graduated')
+        with self.assertRaises(UserError):
+            thesis.action_assign_nearest_graduation()
 
     def test_lecturer_move_guard_blocks_active_thesis_supervisor(self):
         self._record_metopen_grade(self.student, score=88.0)

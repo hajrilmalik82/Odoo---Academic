@@ -21,7 +21,7 @@
                  inline version AND'ed both dimensions as `in []` whenever an
                  assignment list was left empty, so an officer given a whole
                  faculty but no specific programme saw zero admissions. -->
-            <field name="domain_force">user.employee_id._pmb_admission_domain()</field>
+            <field name="domain_force">user.employee_ids._pmb_admission_domain()</field>
             <field name="groups" eval="[(4, ref('campus_pmb.group_pmb'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
@@ -36,7 +36,7 @@
         <record id="rule_pmb_admission_document_access" model="ir.rule">
             <field name="name">PMB: Documents Follow Admission Jurisdiction</field>
             <field name="model_id" ref="model_campus_admission_document"/>
-            <field name="domain_force">user.employee_id._pmb_admission_domain('admission_id.program_id')</field>
+            <field name="domain_force">user.employee_ids._pmb_admission_domain('admission_id.program_id')</field>
             <field name="groups" eval="[(4, ref('campus_pmb.group_pmb'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>

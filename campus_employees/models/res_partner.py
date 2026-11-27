@@ -48,6 +48,12 @@ class ResPartner(models.Model):
         """
         for student in self.filtered('academic_advisor_id'):
             advisor = student.academic_advisor_id
+            if not advisor.active:
+                raise ValidationError(_(
+                    "%(person)s is archived and cannot be the academic advisor of %(student)s.",
+                    person=advisor.name,
+                    student=student.name,
+                ))
             if advisor.academic_role != 'lecturer':
                 raise ValidationError(_(
                     "%(person)s is not a lecturer, so they cannot be the academic"
@@ -55,7 +61,7 @@ class ResPartner(models.Model):
                     person=advisor.name,
                     student=student.name,
                 ))
-            if advisor.program_id != student.program_id:
+            if not advisor.program_id or not student.program_id or advisor.program_id != student.program_id:
                 raise ValidationError(_(
                     "%(person)s teaches on %(advisor_program)s while %(student)s is"
                     " enrolled on %(student_program)s. An academic advisor belongs to"
@@ -70,7 +76,8 @@ class ResPartner(models.Model):
     def write(self, vals):
         res = super().write(vals)
         if not self.env.su and ('program_id' in vals or 'is_student' in vals):
-            # Re-verify record-rule write access after changing student/program
-            # so Academic Staff cannot transfer a student outside their jurisdiction.
+            # Flush before re-checking write access so the DB reflects the new
+            # program/student state and prevents transferring a student out of scope.
+            self.flush_recordset()
             self.check_access('write')
         return res

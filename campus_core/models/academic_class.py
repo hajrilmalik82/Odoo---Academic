@@ -14,21 +14,46 @@ class AcademicClass(models.Model):
     _inherit = ['mail.thread', 'mail.activity.mixin']
 
     name = fields.Char(string='Class Name', compute='_compute_class_name', store=True, tracking=True)
-    subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, ondelete='restrict')
-    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, tracking=True)
+    subject_id = fields.Many2one('academic.subject', string='Subject', required=True, tracking=True, ondelete='restrict', index=True)
+    academic_year_id = fields.Many2one('academic.year', string='Academic Year', required=True, tracking=True, ondelete='restrict', index=True)
     start_date = fields.Date(string='Start Date', required=True, tracking=True, help="Starting point for Generate Sessions. The number of meetings comes from Settings.")
     class_capacity_display = fields.Char(string='Total Class Capacity', compute='_compute_class_capacity_display')
     schedule_ids = fields.One2many('academic.class.schedule', 'class_id', string='Schedules')
     student_line_ids = fields.One2many('academic.krs.line', 'class_id', string='Students')
     session_ids = fields.One2many('academic.class.session', 'class_id', string='Sessions')
 
-    @api.depends('subject_id', 'academic_year_id')
+    _unique_subject_academic_year = models.Constraint(
+        'UNIQUE (subject_id, academic_year_id)',
+        "A class for this subject already exists in the selected academic year.",
+    )
+
+    @api.depends('subject_id.name', 'academic_year_id.name', 'academic_year_id.term_type')
     def _compute_class_name(self):
         for record in self:
             if record.subject_id and record.academic_year_id:
-                record.name = f"{record.subject_id.name} - {record.academic_year_id.name}"
+                record.name = f"{record.subject_id.name} - {record.academic_year_id.display_name}"
             else:
                 record.name = _("New Class")
+
+    @api.constrains('subject_id', 'academic_year_id')
+    def _check_academic_year_consistency(self):
+        for record in self:
+            if (
+                record.subject_id.term_type
+                and record.academic_year_id.term_type
+                and record.subject_id.term_type not in ('both', record.academic_year_id.term_type)
+            ):
+                raise ValidationError(_(
+                    "Subject '%(subject)s' is not offered in %(year)s."
+                ) % {
+                    'subject': record.subject_id.display_name,
+                    'year': record.academic_year_id.display_name,
+                })
+        if self.schedule_ids:
+            self.schedule_ids._check_schedule_overlap()
+        if self.student_line_ids:
+            self.student_line_ids._check_schedule_academic_year()
+            self.student_line_ids._check_schedule_subject()
 
     @api.depends('schedule_ids.room_capacity', 'student_line_ids', 'student_line_ids.state')
     def _compute_class_capacity_display(self):
@@ -111,7 +136,11 @@ class AcademicClass(models.Model):
                 utc_end_dt = user_tz.localize(local_end_dt).astimezone(pytz.utc).replace(tzinfo=None)
 
                 sessions.append(Command.create({
-                    'name': f"Session {i + 1}: {self.name}",
+                    'name': _("Session %(num)s (%(code)s): %(name)s") % {
+                        'num': i + 1,
+                        'code': schedule.class_code or '-',
+                        'name': self.name,
+                    },
                     'start_datetime': utc_start_dt,
                     'end_datetime': utc_end_dt,
                     'room_id': schedule.room_id.id,
@@ -129,11 +158,14 @@ class AcademicClassSession(models.Model):
     _order = 'start_datetime'
 
     name = fields.Char(string='Name', required=True)
-    class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade', index=True)
-    start_datetime = fields.Datetime(string='Start Datetime', required=True)
-    end_datetime = fields.Datetime(string='End Datetime', required=True)
-    room_id = fields.Many2one('campus.room', string='Room')
-    lecturer_id = fields.Many2one('hr.employee', string='Lecturer')
+    class_id = fields.Many2one('academic.class', string='Class', required=True, ondelete='cascade', index=True)
+    start_datetime = fields.Datetime(string='Start Datetime', required=True, index=True)
+    end_datetime = fields.Datetime(string='End Datetime', required=True, index=True)
+    room_id = fields.Many2one('campus.room', string='Room', index=True)
+    lecturer_id = fields.Many2one('hr.employee', string='Lecturer', index=True)
+
+    _room_window_index = models.Index("(room_id, start_datetime, end_datetime)")
+    _lecturer_window_index = models.Index("(lecturer_id, start_datetime, end_datetime)")
     # Carried for the dynamic domain campus_employees puts on lecturer_id, the
     # same way academic.class.schedule carries them. A dynamic domain is
     # evaluated by the client against the form, so a field it reads has to be
@@ -174,7 +206,7 @@ class AcademicClassSession(models.Model):
         # One window covering the batch. Narrower than "every session", and it
         # cannot miss a clash: anything overlapping a record in self must start
         # before the latest end and end after the earliest start.
-        candidates = self.search([
+        candidates = self.sudo().search([
             ('start_datetime', '<', max(relevant.mapped('end_datetime'))),
             ('end_datetime', '>', min(relevant.mapped('start_datetime'))),
             '|', ('room_id', 'in', relevant.room_id.ids),

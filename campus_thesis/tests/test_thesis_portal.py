@@ -195,3 +195,74 @@ class TestThesisPortal(ThesisFixtureMixin, CampusHttpCommon):
         resp = self.url_open('/')
         self.assertEqual(resp.status_code, 200)
         self.assertIn('Campus Thesis', resp.text)
+
+    def test_portal_upload_validation_reupload_resets_received_and_cancelled_reset_blocked(self):
+        self._record_metopen_grade(self.student, score=88.0)
+        self._enroll_thesis_krs(self.student, approve=True)
+        thesis = self._make_thesis()
+        thesis.action_submit_supervisor()
+        thesis.with_user(self.supervisor_user).action_supervisor_approve()
+
+        self.sign_in_as_student()
+        csrf = self._csrf_token(self.url_open('/my/thesis/%s' % thesis.id).text)
+
+        # Reject .html / .svg / spoofed .pdf / polyglot .pdf / fake ZIP .docx uploads
+        for bad_name, bad_bytes, bad_mime in (
+            ('xss.html', b'<html><script>alert(1)</script></html>', 'text/html'),
+            ('spoof.pdf', b'<script>alert(1)</script>', 'application/pdf'),
+            ('polyglot.pdf', b'<!-- %PDF-1.4 --><html><script>alert(1)</script></html>', 'application/pdf'),
+            ('fake.docx', b'PK\x03\x04not-a-real-docx-archive', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'),
+        ):
+            self.url_open(
+                '/my/thesis/%s/add_progress' % thesis.id,
+                data={
+                    'csrf_token': csrf,
+                    'milestone': 'Bad Upload',
+                    'description': 'Should fail',
+                    'progress_percent': '10',
+                },
+                files={'attachment': (bad_name, bad_bytes, bad_mime)},
+            )
+            self.assertFalse(thesis.progress_line_ids)
+
+        # Untrusted ?error= / ?success= query params must not render portal alerts
+        spoof_html = self.url_open('/my/thesis?error=Fake+Phish&success=Fake+Win').text
+        self.assertNotIn('Fake Phish', spoof_html)
+        self.assertNotIn('Fake Win', spoof_html)
+
+        # Windows fakepath is stripped cleanly on valid PDF
+        self.url_open(
+            '/my/thesis/%s/add_progress' % thesis.id,
+            data={
+                'csrf_token': csrf,
+                'milestone': 'Win Path',
+                'description': 'Valid PDF',
+                'progress_percent': '25',
+            },
+            files={'attachment': (r'C:\fakepath\bab1.pdf', b'%PDF-1.4 valid', 'application/pdf')},
+        )
+        self.assertEqual(thesis.progress_line_ids[:1].attachment_filename, 'bab1.pdf')
+
+        # Advance to yudisium_docs, verify doc, then re-upload -> received must reset to False
+        thesis.with_user(self.supervisor_user).action_approve_proposal()
+        thesis.with_user(self.supervisor_user).action_approve_thesis()
+        doc = thesis.yudisium_document_ids[:1]
+        thesis.yudisium_document_ids.write({'received': True})
+        self.assertTrue(thesis.documents_complete)
+
+        csrf = self._csrf_token(self.url_open('/my/thesis/%s' % thesis.id).text)
+        self.url_open(
+            '/my/thesis/%s/upload_document/%s' % (thesis.id, doc.id),
+            data={'csrf_token': csrf},
+            files={'attachment': ('revised.pdf', b'%PDF-1.4 revised', 'application/pdf')},
+        )
+        doc.invalidate_recordset()
+        thesis.invalidate_recordset()
+        self.assertFalse(doc.received)
+        self.assertFalse(thesis.documents_complete)
+
+        # Staff cancels thesis -> portal student cannot reset_draft back to draft
+        thesis.action_cancel()
+        self.url_open('/my/thesis/%s/reset_draft' % thesis.id, data={'csrf_token': csrf})
+        thesis.invalidate_recordset()
+        self.assertEqual(thesis.state, 'cancelled')

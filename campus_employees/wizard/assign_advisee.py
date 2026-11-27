@@ -51,8 +51,17 @@ class CampusAdviseeAssign(models.TransientModel):
 
     def action_assign(self):
         self.ensure_one()
+        if not self.advisor_id.active or self.advisor_id.academic_role != 'lecturer':
+            raise ValidationError(_("The selected Academic Advisor must be an active lecturer."))
         if not self.student_ids:
             raise ValidationError(_("Pick at least one student to assign."))
+        invalid = self.student_ids.filtered(
+            lambda s: not s.is_student or s.student_status != 'active'
+        )
+        if invalid:
+            raise ValidationError(_(
+                "Only active students can be assigned to an advisor (invalid: %s)."
+            ) % ', '.join(invalid.mapped('name')))
         # One write for the whole selection: assigning a cohort of forty used to
         # be the obvious place for a loop, and a loop here is forty round trips.
         self.student_ids.write({'academic_advisor_id': self.advisor_id.id})

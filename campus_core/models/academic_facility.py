@@ -8,7 +8,7 @@ class CampusBuilding(models.Model):
     _order = 'name'
 
     _check_code_unique = models.UniqueIndex(
-        "(code) WHERE code IS NOT NULL",
+        "(upper(code)) WHERE code IS NOT NULL AND code <> ''",
         "Building code must be unique!",
     )
 

@@ -149,3 +149,67 @@ class TestKrsSubmission(CampusCommon):
         })
         with self.assertRaises(AccessError):
             krs.with_user(plain_user).action_unlock()
+
+    def test_snapshot_fields_locked_after_submission_and_krs_line_requires_subject(self):
+        other_program = self.env['academic.program'].create({
+            'name': 'ZZTEST Prodi Snapshot',
+            'code': 'ZSN',
+            'faculty_id': self.faculty.id,
+        })
+        krs = self._make_krs()
+        with self.assertRaises(ValidationError):
+            self.env['academic.krs.line'].create({
+                'krs_id': krs.id,
+                'schedule_id': self.schedule.id,
+                'subject_id': False,
+            })
+        krs.action_submit()
+        with self.assertRaises(ValidationError):
+            krs.write({'program_id': other_program.id})
+        with self.assertRaises(ValidationError):
+            krs.write({'faculty_id': self.faculty.id})
+
+    def test_mass_submit_handles_revision_and_reset_to_draft_is_admin_only(self):
+        lecturer_group = self.env.ref('campus_core.group_campus_lecturer')
+        advisor_user = self.env['res.users'].create({
+            'name': 'ZZTEST Advisor Reset',
+            'login': 'zz.advisor.reset.test',
+            'group_ids': [(6, 0, [self.env.ref('base.group_user').id, lecturer_group.id])],
+        })
+        self.advisor.user_id = advisor_user
+        krs = self._make_krs()
+        krs.action_submit()
+        krs.with_user(advisor_user).action_request_revision()
+        self.assertEqual(krs.state, 'revision')
+
+        with self.assertRaises(AccessError):
+            krs.with_user(advisor_user).write({'state': 'draft'})
+        with self.assertRaises(AccessError):
+            krs.with_user(advisor_user).action_set_draft()
+
+        mass_submit = self.env.ref('campus_core.action_krs_mass_submit')
+        mass_submit.with_context(active_model='academic.krs', active_ids=krs.ids).run()
+        self.assertEqual(krs.state, 'submitted')
+
+    def test_falsy_name_draws_sequence_and_fractional_grade_scale_rows(self):
+        krs = self.env['academic.krs'].create({
+            'name': False,
+            'student_id': self.student.id,
+            'academic_year_id': self.year.id,
+            'line_ids': [(0, 0, {'schedule_id': self.schedule.id})],
+        })
+        self.assertTrue(krs.name and krs.name != 'New')
+        krs.action_submit()
+        krs.action_approve()
+        khs = self.env['academic.khs'].create({
+            'name': False,
+            'student_id': self.student.id,
+            'academic_year_id': self.year.id,
+        })
+        self.assertTrue(khs.name and khs.name != 'New')
+
+        Scale = self.env['academic.grade.scale']
+        Scale.create({'min_score': 82.5, 'letter': 'A-', 'grade_point': 3.7})
+        rows = Scale._get_scale_rows()
+        below = next(row for idx, row in enumerate(rows) if idx > 0 and rows[idx - 1]['letter'] == 'A-')
+        self.assertIn('82.49', below['range'])

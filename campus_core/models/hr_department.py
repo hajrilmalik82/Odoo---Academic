@@ -27,7 +27,7 @@ class HrDepartment(models.Model):
 
     # Fields an academic record owns. Everything else - the manager's own
     # settings, the colour, the company - stays editable from HR.
-    _MIRRORED_FIELDS = ('name', 'parent_id', 'manager_id')
+    _MIRRORED_FIELDS = ('name', 'parent_id', 'manager_id', 'active')
 
     def _academic_owner(self):
         """The faculty or programme mirrored by each department in self.

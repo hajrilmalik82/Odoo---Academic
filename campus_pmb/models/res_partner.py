@@ -12,15 +12,24 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     admission_ids = fields.One2many(
-        'campus.admission', 'partner_id', string="Admissions")
+        'campus.admission', 'partner_id', string="Admission Records")
     admission_count = fields.Integer(
         string="Admissions", compute='_compute_admission_count')
 
     @api.depends('admission_ids')
     def _compute_admission_count(self):
         can_read = self.env['campus.admission'].has_access('read')
+        saved = self.filtered('id')
+        counts = {}
+        if saved and can_read:
+            counts = {
+                partner.id: count
+                for partner, count in self.env['campus.admission']._read_group(
+                    [('partner_id', 'in', saved.ids)], ['partner_id'], ['__count'],
+                )
+            }
         for partner in self:
-            partner.admission_count = len(partner.admission_ids) if can_read else 0
+            partner.admission_count = counts.get(partner.id, 0)
 
     def action_open_admissions(self):
         """No creation. An admission is where a student comes FROM: it is

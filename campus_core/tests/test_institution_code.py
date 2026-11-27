@@ -71,6 +71,33 @@ class TestInstitutionCode(CampusCommon):
         program.code = 'ZTD'
         self.assertEqual(program.code, 'ZTD')
 
+    def test_code_normalizes_whitespace_and_case_and_outgoing_head_clears_manager(self):
+        program = self.env['academic.program'].create({
+            'name': '%s Teknik Elektro' % TAG,
+            'faculty_id': self.faculty.id,
+            'code': ' zte ',
+        })
+        self.assertEqual(program.code, 'ZTE')
+        program.code = ' ztx '
+        self.assertEqual(program.code, 'ZTX')
+
+        emp_kwargs = {}
+        if 'academic_role' in self.env['hr.employee']._fields:
+            emp_kwargs = {
+                'academic_role': 'lecturer',
+                'faculty_id': self.faculty.id,
+                'program_id': program.id,
+            }
+        dean = self.env['hr.employee'].create(dict({'name': '%s Dekan Kode' % TAG}, **emp_kwargs))
+        head_a = self.env['hr.employee'].create(dict({'name': '%s Kaprodi A' % TAG}, **emp_kwargs))
+        head_b = self.env['hr.employee'].create(dict({'name': '%s Kaprodi B' % TAG}, **emp_kwargs))
+        self.faculty.dean_id = dean
+        program.head_id = head_a
+        self.assertEqual(head_a.parent_id, dean)
+        program.head_id = head_b
+        self.assertFalse(head_a.parent_id)
+        self.assertEqual(head_b.parent_id, dean)
+
     def test_two_programmes_cannot_share_a_code(self):
         """Without this, two programmes under one faculty produce the same NIM.
 

@@ -1,5 +1,7 @@
 import logging
 
+from odoo import Command
+
 _logger = logging.getLogger(__name__)
 
 CAMPUS_LANG = 'id_ID'
@@ -29,7 +31,7 @@ def _offer_indonesian(env):
         # (4, id) ADDS. This was a (6, 0, ids), which REPLACES: it threw en_US
         # out of every site and pinned default_lang_id to Indonesian, so a
         # visitor had no way back to the language the source is written in.
-        websites.write({'language_ids': [(4, lang.id)]})
+        websites.write({'language_ids': [Command.link(lang.id)]})
         _logger.info("Added %s to %d website(s).", CAMPUS_LANG, len(websites))
     return lang
 
@@ -59,7 +61,9 @@ def _label_main_menu(env, with_indonesian):
     menus = env['website.menu'].sudo().search([('url', '=', '/')])
     if not menus:
         return
-    menus.write({'name': MAIN_MENU_LABEL})
+    # Explicitly write en_US so installing on a database with a different
+    # administrator language never overwrites another locale's translation.
+    menus.with_context(lang='en_US').write({'name': MAIN_MENU_LABEL})
     if with_indonesian:
         for menu in menus:
             menu.update_field_translations('name', {CAMPUS_LANG: MAIN_MENU_LABEL_ID})

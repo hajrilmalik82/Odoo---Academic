@@ -92,10 +92,11 @@ code, and plausible-looking test names collided with real ones.
   by record rules on KRS, KHS, Thesis, Admission, and Student `res.partner`
   records. Writing a jurisdiction clears the registry cache because
   `ir.rule._compute_domain` is ormcached per user.
-- **State machines are enforced on `write()`, not only on buttons.** Both
-  `academic.krs` and `campus.admission` carry a `_STATE_TRANSITIONS` map, so a
-  list-view inline edit, an import or a server action is validated the same way
-  the buttons are.
+- **State machines are enforced on `write()`, not only on buttons.**
+  `academic.krs`, `campus.admission`, and `campus.thesis` all enforce their
+  `_STATE_TRANSITIONS` graphs on `write()` (with unforgeable transition tokens
+  on `campus.admission` and `campus.thesis`), so a list-view inline edit, an
+  import, or an RPC write cannot bypass the workflow actions.
 - **The NIM prefix comes from `academic.faculty.code` and
   `academic.program.code`,** not from their names. A code is locked once a
   student number has been issued from it.
@@ -159,8 +160,8 @@ code, and plausible-looking test names collided with real ones.
   catalogue - never Indonesian in the source, because an Indonesian msgid
   cannot be translated and renders by falling back to itself. The one label
   outside the catalogue is the website main menu, which is record data rather
-  than a catalogue term: `campus_website` writes both keys by hand in
-  `data/website_configurator_bypass.xml`.
+  than a catalogue term: `campus_website` writes both keys in its
+  `post_init_hook` (`_label_main_menu` in `campus_website/__init__.py`).
 
   This is the second arrangement. The first one wrote `lang` on every user and
   set a default on `res.partner`, which switched an administrator working in

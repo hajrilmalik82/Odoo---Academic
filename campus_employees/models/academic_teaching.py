@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
 
 # Who may be put in front of a class.
@@ -25,12 +25,18 @@ LECTURER_DOMAIN = (
 )
 
 
-def _check_lecturer_eligible(records):
+def _check_lecturer_eligible(self):
     """Validate assigned lecturers against the class's faculty/programme."""
-    for record in records.filtered('lecturer_id'):
+    for record in self.filtered('lecturer_id'):
         lecturer = record.lecturer_id
+        if not lecturer.active:
+            raise ValidationError(_(
+                "%(person)s is archived and cannot be assigned to teach %(class_name)s.",
+                person=lecturer.name,
+                class_name=record.display_name,
+            ))
         if lecturer.academic_role != 'lecturer':
-            raise ValidationError(records.env._(
+            raise ValidationError(_(
                 "%(person)s is not a lecturer and cannot be assigned to teach %(class_name)s.",
                 person=lecturer.name,
                 class_name=record.display_name,
@@ -42,12 +48,23 @@ def _check_lecturer_eligible(records):
             # lecturer's unit is filled in, it must match the class faculty/program.
             continue
         if lecturer.program_id != class_program and lecturer.faculty_id != class_faculty:
-            raise ValidationError(records.env._(
+            raise ValidationError(_(
                 "%(person)s does not belong to Faculty '%(faculty)s' or Program '%(program)s'.",
                 person=lecturer.name,
                 faculty=class_faculty.name or '-',
                 program=class_program.name or '-',
             ))
+
+
+class AcademicClass(models.Model):
+    _inherit = 'academic.class'
+
+    @api.constrains('subject_id')
+    def _check_lecturers_match_new_subject(self):
+        if self.schedule_ids:
+            self.schedule_ids._check_lecturer_eligible()
+        if self.session_ids:
+            self.session_ids._check_lecturer_eligible()
 
 
 class AcademicClassSchedule(models.Model):

@@ -519,3 +519,13 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_portal.portal_krs_detail
 msgid "credits"
 msgstr ""
+
+#. module: campus_portal
+#, python-format
+msgid "Academic year KRS period is not configured."
+msgstr ""
+
+#. module: campus_portal
+#, python-format
+msgid "Current date is outside the allowed KRS period."
+msgstr ""

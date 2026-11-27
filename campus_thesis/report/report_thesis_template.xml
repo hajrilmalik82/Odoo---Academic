@@ -25,7 +25,7 @@
                                 <td><t t-out="o.academic_year_id.display_name or '-'"/></td>
                                 <td style="padding: 3px 0;">Advisor (PA)</td>
                                 <td>:</td>
-                                <td><t t-out="o.advisor_id.name or '-'"/></td>
+                                <td><t t-out="(o.yudisium_advisor_by_id or o.advisor_id).sudo().name or '-'"/></td>
                             </tr>
                             <tr>
                                 <td style="padding: 3px 0;">Status</td>
@@ -49,19 +49,25 @@
                                 </tr>
                                 <tr>
                                     <th style="background-color: #f4f6f8;">Primary Supervisor</th>
-                                    <td><t t-out="o.supervisor_id.name or '-'"/></td>
+                                    <td><t t-out="(o.yudisium_supervisor_by_id or o.supervisor_id).sudo().name or '-'"/></td>
                                 </tr>
                                 <tr t-if="o.co_supervisor_id">
                                     <th style="background-color: #f4f6f8;">Co-Supervisor</th>
-                                    <td><t t-out="o.co_supervisor_id.name"/></td>
+                                    <td><t t-out="o.co_supervisor_id.sudo().name"/></td>
                                 </tr>
                                 <tr>
                                     <th style="background-color: #f4f6f8;">Proposal Approved Date</th>
-                                    <td><t t-out="o.proposal_approved_date or '-'"/></td>
+                                    <td>
+                                        <span t-if="o.proposal_approved_date" t-field="o.proposal_approved_date"/>
+                                        <t t-else="">-</t>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th style="background-color: #f4f6f8;">Thesis Approved Date</th>
-                                    <td><t t-out="o.thesis_approved_date or '-'"/></td>
+                                    <td>
+                                        <span t-if="o.thesis_approved_date" t-field="o.thesis_approved_date"/>
+                                        <t t-else="">-</t>
+                                    </td>
                                 </tr>
                                 <tr t-if="o.graduation_id">
                                     <th style="background-color: #f4f6f8;">Graduation Schedule</th>
@@ -87,11 +93,11 @@
                             <tbody>
                                 <tr>
                                     <td style="padding: 12px;">
-                                        <div><strong t-out="o.supervisor_id.name or '-'"/></div>
+                                        <div><strong t-out="(o.yudisium_supervisor_by_id or o.supervisor_id).sudo().name or '-'"/></div>
                                         <div style="margin-top: 8px;">
                                             <t t-if="o.yudisium_supervisor_approved">
                                                 <span style="color: #198754; font-weight: bold;">APPROVED</span><br/>
-                                                <small t-out="o.yudisium_supervisor_date"/>
+                                                <small t-if="o.yudisium_supervisor_date" t-field="o.yudisium_supervisor_date"/>
                                             </t>
                                             <t t-else="">
                                                 <span style="color: #6c757d;">Pending</span>
@@ -99,11 +105,11 @@
                                         </div>
                                     </td>
                                     <td style="padding: 12px;">
-                                        <div><strong t-out="o.advisor_id.name or '-'"/></div>
+                                        <div><strong t-out="(o.yudisium_advisor_by_id or o.advisor_id).sudo().name or '-'"/></div>
                                         <div style="margin-top: 8px;">
                                             <t t-if="o.yudisium_advisor_approved">
                                                 <span style="color: #198754; font-weight: bold;">APPROVED</span><br/>
-                                                <small t-out="o.yudisium_advisor_date"/>
+                                                <small t-if="o.yudisium_advisor_date" t-field="o.yudisium_advisor_date"/>
                                             </t>
                                             <t t-else="">
                                                 <span style="color: #6c757d;">Pending</span>
@@ -111,11 +117,11 @@
                                         </div>
                                     </td>
                                     <td style="padding: 12px;">
-                                        <div><strong t-out="o.dean_id.name or '-'"/></div>
+                                        <div><strong t-out="(o.yudisium_dean_by_id or o.dean_id).sudo().name or '-'"/></div>
                                         <div style="margin-top: 8px;">
                                             <t t-if="o.yudisium_dean_approved">
                                                 <span style="color: #198754; font-weight: bold;">APPROVED</span><br/>
-                                                <small t-out="o.yudisium_dean_date"/>
+                                                <small t-if="o.yudisium_dean_date" t-field="o.yudisium_dean_date"/>
                                             </t>
                                             <t t-else="">
                                                 <span style="color: #6c757d;">Pending</span>

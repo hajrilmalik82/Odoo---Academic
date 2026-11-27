@@ -1,5 +1,7 @@
 from odoo import _, api, fields, models
+from odoo.exceptions import AccessError, ValidationError
 from odoo.fields import Domain
+from odoo.tools import float_compare
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -25,9 +27,12 @@ class ResPartner(models.Model):
     # Study Program and Faculty of every student enrolled in it, without warning.
     # A programme that is no longer offered should be archived, not deleted.
     program_id = fields.Many2one(
-        'academic.program', string="Study Program", ondelete='restrict',
+        'academic.program', string="Study Program", ondelete='restrict', index='btree_not_null',
     )
-    faculty_id = fields.Many2one('academic.faculty', related='program_id.faculty_id', string="Faculty", store=True)
+    faculty_id = fields.Many2one(
+        'academic.faculty', related='program_id.faculty_id', string="Faculty",
+        store=True, index='btree_not_null',
+    )
     student_status = fields.Selection([
         ('active', 'Active'),
         ('leave', 'On Leave'),
@@ -57,9 +62,26 @@ class ResPartner(models.Model):
     def _compute_academic_counts(self):
         can_read_krs = self.env['academic.krs'].has_access('read')
         can_read_khs = self.env['academic.khs'].has_access('read')
+        saved = self.filtered('id')
+        krs_counts = {}
+        khs_counts = {}
+        if saved and can_read_krs:
+            krs_counts = {
+                student.id: count
+                for student, count in self.env['academic.krs']._read_group(
+                    [('student_id', 'in', saved.ids)], ['student_id'], ['__count'],
+                )
+            }
+        if saved and can_read_khs:
+            khs_counts = {
+                student.id: count
+                for student, count in self.env['academic.khs']._read_group(
+                    [('student_id', 'in', saved.ids)], ['student_id'], ['__count'],
+                )
+            }
         for partner in self:
-            partner.krs_count = len(partner.krs_ids) if can_read_krs else 0
-            partner.khs_count = len(partner.khs_ids) if can_read_khs else 0
+            partner.krs_count = krs_counts.get(partner.id, 0)
+            partner.khs_count = khs_counts.get(partner.id, 0)
     cgpa = fields.Float(
         string='CGPA', compute='_compute_cgpa', store=True,
         digits=(5, 2), readonly=True
@@ -80,33 +102,51 @@ class ResPartner(models.Model):
              "yet repeated.",
     )
 
+    _COMPUTED_ACADEMIC_FIELDS = frozenset(('cgpa', 'graded_credits'))
+
+    def write(self, vals):
+        if not self.env.su and self._COMPUTED_ACADEMIC_FIELDS.intersection(vals):
+            raise AccessError(_("Student CGPA and graded credits are computed automatically and cannot be modified directly."))
+        if 'is_student' in vals and not vals['is_student'] and not self.env.su:
+            has_records = self.filtered(
+                lambda p: p.is_student and (
+                    p.nim
+                    or self.env['academic.krs'].sudo().search_count([('student_id', '=', p.id)])
+                    or self.env['academic.khs'].sudo().search_count([('student_id', '=', p.id)])
+                )
+            )
+            if has_records:
+                raise ValidationError(_(
+                    "Cannot remove Student status from contacts that already have a NIM, KRS, or KHS record."
+                ))
+        return super().write(vals)
+
     def _recognised_khs_lines(self):
         """The attempt that counts for each subject: one per subject, the best.
 
-        A SIAKAD transcript recognises a subject once. When a subject is
-        repeated, the recognised grade replaces the earlier attempt instead of
-        sitting beside it, so the earlier one is neither averaged in nor has its
-        credits counted again. The full attempt history stays visible on the
-        per-semester KHS, which is where it belongs.
-
-        Returned in transcript order: by academic year, then subject code. This
-        is the single selection behind both the CGPA and the printed transcript,
-        so the two cannot drift apart.
-
-        Ungraded lines are skipped. A Float grade defaults to 0.0, which converts
-        to an E, so counting them would collapse a student's CGPA the moment a
-        new semester's KHS is generated.
+        Uses sudo() when reading the student's grade lines so that stored CGPA,
+        earned_credits, and printed academic transcripts always agree rather
+        than printing a partial list for a teaching lecturer who only holds
+        read access to one subject.
         """
         self.ensure_one()
         best_per_subject = {}
-        for khs in self.khs_ids:
+        khs_records = self.sudo().khs_ids
+        for khs in khs_records:
+            term_rank = 0 if khs.academic_year_id.term_type == 'odd' else 1
+            year_name = khs.academic_year_id.name or ''
             for line in khs.line_ids:
                 if not line.is_graded or not line.subject_id:
                     continue
                 kept = best_per_subject.get(line.subject_id.id)
-                line_key = (line.grade_points, line.khs_id.academic_year_id.name or '', line.id)
+                line_key = (round(line.grade_points, 2), year_name, term_rank, line.id)
                 kept_key = (
-                    (kept.grade_points, kept.khs_id.academic_year_id.name or '', kept.id)
+                    (
+                        round(kept.grade_points, 2),
+                        kept.khs_id.academic_year_id.name or '',
+                        0 if kept.khs_id.academic_year_id.term_type == 'odd' else 1,
+                        kept.id,
+                    )
                     if kept else None
                 )
                 if kept_key is None or line_key > kept_key:
@@ -115,6 +155,7 @@ class ResPartner(models.Model):
             best_per_subject.values(),
             key=lambda line: (
                 line.khs_id.academic_year_id.name or '',
+                0 if line.khs_id.academic_year_id.term_type == 'odd' else 1,
                 line.subject_id.code or '',
             ),
         )
@@ -122,18 +163,13 @@ class ResPartner(models.Model):
     @api.depends('khs_ids.line_ids.grade_points', 'khs_ids.line_ids.credits',
                  'khs_ids.line_ids.is_graded', 'khs_ids.line_ids.subject_id')
     def _compute_earned_credits(self):
-        """SKS Lulus: credits from subjects actually passed.
-
-        Separate from graded_credits, which is the CGPA denominator and counts a
-        failed subject too. An Indonesian transcript states both: how many
-        credits were graded, and how many were earned.
-        """
+        """SKS Lulus: credits from subjects actually passed."""
         pass_grade_point = self.env['res.config.settings']._get_pass_grade_point()
         for record in self:
             record.earned_credits = sum(
                 line.credits
                 for line in record._recognised_khs_lines()
-                if line.grade_points >= pass_grade_point
+                if float_compare(line.grade_points, pass_grade_point, precision_digits=2) >= 0
             )
 
     @api.depends('khs_ids.line_ids.grade_points', 'khs_ids.line_ids.credits',

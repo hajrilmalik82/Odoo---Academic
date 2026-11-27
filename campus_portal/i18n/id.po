@@ -555,3 +555,13 @@ msgstr "Penuh"
 #. module: campus_portal
 msgid "Schedule & Room"
 msgstr "Jadwal & Ruang"
+
+#. module: campus_portal
+#, python-format
+msgid "Academic year KRS period is not configured."
+msgstr "Periode pengisian KRS untuk tahun akademik ini belum dikonfigurasi."
+
+#. module: campus_portal
+#, python-format
+msgid "Current date is outside the allowed KRS period."
+msgstr "Tanggal saat ini berada di luar periode pengisian KRS yang diizinkan."

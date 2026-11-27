@@ -135,6 +135,33 @@ class TestPublicAdmissionApi(CampusHttpCommon):
         self.assertEqual(response.status_code, 400)
         self.assertFalse(self._admission('zz.bool.http@contoh.test'))
 
+    def test_overlong_fields_and_malformed_json_are_refused(self):
+        overlong = self._submit(
+            email='zz.overlong.http@contoh.test',
+            fullName='A' * 300,
+        )
+        self.assertEqual(overlong.status_code, 400)
+        self.assertFalse(self._admission('zz.overlong.http@contoh.test'))
+
+        malformed = self.url_open(
+            '/api/admission/submit',
+            data=b'{not-valid-json',
+            headers={'Content-Type': 'application/json'},
+        )
+        self.assertEqual(malformed.status_code, 400)
+
+    def test_adversarial_json_types_overflow_and_nul_return_400_not_500(self):
+        for label, overrides in (
+            ('non-string name', {'fullName': 12345, 'email': 'zz.adv1@contoh.test'}),
+            ('list track', {'admissionTrackId': ['regular'], 'email': 'zz.adv2@contoh.test'}),
+            ('int4 overflow', {'studyProgramId': 99999999999999999999, 'email': 'zz.adv3@contoh.test'}),
+            ('nul byte', {'fullName': 'Alice\x00Bob', 'email': 'zz.adv4@contoh.test'}),
+            ('whitespace name', {'fullName': '   ', 'email': 'zz.adv5@contoh.test'}),
+        ):
+            with self.subTest(case=label):
+                resp = self._submit(**overrides)
+                self.assertEqual(resp.status_code, 400)
+
 
 @tagged('post_install', '-at_install')
 class TestPmbMenu(CampusHttpCommon):

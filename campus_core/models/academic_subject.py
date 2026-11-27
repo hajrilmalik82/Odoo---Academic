@@ -17,6 +17,7 @@ class AcademicSubject(models.Model):
     # needs too; see campus_mixins.py for what it works around and when to drop it.
     _inherit = ['campus.searchpanel.group.domain.mixin']
     _order = 'code, name'
+    _rec_names_search = ['name', 'code']
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Code', required=True)
@@ -54,26 +55,33 @@ class AcademicSubject(models.Model):
             if record.credits <= 0:
                 raise ValidationError(_("Credits must be greater than zero."))
 
-    @api.constrains('prerequisite_ids')
+    @api.constrains('prerequisite_ids', 'program_id')
     def _check_prerequisite_cycle(self):
-        """A subject must not require itself, directly or through a chain.
-
-        prerequisite_ids is a self-referential many2many with no guard, so a
-        subject could be made its own prerequisite. KRS submission then rejects
-        it forever: the prerequisite can never be passed, because passing it
-        requires passing it.
-        """
+        """A subject must not require itself or a prerequisite from another program."""
         if self._has_cycle('prerequisite_ids'):
             raise ValidationError(_(
                 "A subject cannot be its own prerequisite, directly or through a chain "
                 "of prerequisites."
             ))
+        for record in self:
+            if not record.program_id:
+                continue
+            cross_program = record.prerequisite_ids.filtered(
+                lambda pre: pre.program_id and pre.program_id != record.program_id
+            )
+            if cross_program:
+                raise ValidationError(_(
+                    "Prerequisite '%(pre)s' must belong to the same study program as '%(subject)s'."
+                ) % {
+                    'pre': cross_program[0].display_name,
+                    'subject': record.display_name,
+                })
 
 
 class AcademicYear(models.Model):
     _name = 'academic.year'
     _description = 'Academic Year'
-    _order = 'name desc'
+    _order = 'name desc, term_type asc, id desc'
 
     _name_term_unique = models.Constraint(
         'UNIQUE (name, term_type)',
@@ -90,6 +98,10 @@ class AcademicYear(models.Model):
     def _check_krs_period(self):
         for record in self:
             start, end = record.krs_start_date, record.krs_end_date
+            if bool(start) != bool(end):
+                raise ValidationError(_(
+                    "Both KRS Start Date and KRS End Date must be set together."
+                ))
             if start and end and start > end:
                 raise ValidationError(_(
                     "The KRS period cannot end before it starts."
@@ -97,11 +109,7 @@ class AcademicYear(models.Model):
 
     @api.model
     def _get_krs_period_open(self):
-        """The academic year whose KRS registration window covers today.
-
-        Empty when registration is closed, which is a meaningful answer: the
-        portal shows "registration is closed" rather than guessing a year.
-        """
+        """The academic year whose KRS registration window covers today."""
         today = fields.Date.context_today(self)
         return self.search([
             ('active', '=', True),
@@ -111,19 +119,9 @@ class AcademicYear(models.Model):
 
     @api.model
     def _get_current(self):
-        """The academic year the system should treat as current.
-
-        One definition, because there were two: campus_pmb took the highest id
-        among active years while campus_portal took the one whose KRS period
-        covered today, so the two modules could disagree about which year a
-        student was being put into.
-
-        Preference goes to the year currently open for registration. Outside any
-        registration window it falls back to the most recent active year, so
-        admissions still land somewhere sensible between terms.
-        """
+        """The academic year the system should treat as current."""
         return self._get_krs_period_open() or self.search(
-            [('active', '=', True)], order='id desc', limit=1,
+            [('active', '=', True)], order='name desc, term_type asc, id desc', limit=1,
         )
 
     @api.depends('name', 'term_type')

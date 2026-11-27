@@ -106,3 +106,20 @@ class TestSessionClash(CampusCommon):
         clashes with each other."""
         self.klass.action_generate_sessions()
         self.assertTrue(self.klass.session_ids)
+
+    def test_moving_class_academic_year_rechecks_weekly_schedule_overlap(self):
+        other_class = self.env['academic.class'].create({
+            'subject_id': self.subject_b.id,
+            'academic_year_id': self.year_next.id,
+            'start_date': self.year_next.krs_start_date,
+        })
+        self.env['academic.class.schedule'].create({
+            'class_id': other_class.id,
+            'class_code': 'A',
+            'day_of_week': self.schedule.day_of_week,
+            'start_time': self.schedule.start_time,
+            'end_time': self.schedule.end_time,
+            'room_id': self.schedule.room_id.id,
+        })
+        with self.assertRaises(ValidationError):
+            other_class.academic_year_id = self.year

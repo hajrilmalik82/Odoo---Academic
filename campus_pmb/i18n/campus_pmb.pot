@@ -1360,3 +1360,33 @@ msgstr ""
 #: model_terms:ir.ui.view,arch_db:campus_pmb.pmb_homepage_docs
 msgid "✓ (assigned programs only)"
 msgstr ""
+
+#. module: campus_pmb
+#, python-format
+msgid "Accepted or registered admissions cannot be deleted."
+msgstr ""
+
+#. module: campus_pmb
+#, python-format
+msgid "Admission status cannot be changed directly; use the workflow action buttons."
+msgstr ""
+
+#. module: campus_pmb
+#, python-format
+msgid "Document checklists cannot be modified once an admission is accepted, registered, or rejected."
+msgstr ""
+
+#. module: campus_pmb
+#, python-format
+msgid "Documents cannot be added once an admission is accepted, registered, or rejected."
+msgstr ""
+
+#. module: campus_pmb
+#, python-format
+msgid "Field '%(field)s' exceeds the maximum allowed length of %(max)s characters."
+msgstr ""
+
+#. module: campus_pmb
+#, python-format
+msgid "Invalid JSON request payload."
+msgstr ""

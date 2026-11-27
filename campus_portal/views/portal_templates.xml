@@ -8,10 +8,11 @@
                 <t t-set="title">My KRS</t>
                 <t t-set="url" t-value="'/my/krs'"/>
                 <t t-set="placeholder_count" t-value="'krs_count'"/>
-                <!-- show_count, not config_card: a config card renders no badge,
-                     so the two counters the controller computes were never
-                     visible and the stock hide-when-zero behaviour never applied. -->
+                <!-- show_count displays the live badge when >= 1; config_card is
+                     enabled only for active students with 0 KRS so freshmen can
+                     discover /my/krs on first login instead of the card hiding. -->
                 <t t-set="show_count" t-value="True"/>
+                <t t-set="config_card" t-value="campus_show_krs_onboarding"/>
             </t>
             <t t-call="portal.portal_docs_entry">
                 <t t-set="title">My KHS</t>
@@ -33,7 +34,7 @@
             </li>
 
             <li t-if="page_name == 'krs_detail'" class="breadcrumb-item active">
-                <span t-field="krs.name"/>
+                <t t-out="krs.name"/>
             </li>
             <li t-if="page_name == 'khs'" class="breadcrumb-item active">
                 My KHS
@@ -63,9 +64,13 @@
                 <t t-call="portal.portal_searchbar"/>
                 <!-- A form, not a link: the route creates a record, so it is a
                      POST carrying the CSRF token, matching add_line and submit below. -->
-                <form action="/my/krs/register" method="post" class="d-inline">
+                <form t-if="is_student" action="/my/krs/register" method="post" class="d-inline">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-edit"/> Register KRS Now</button>
+                    <button type="submit" class="btn btn-primary"
+                            t-att-disabled="'disabled' if not can_register_krs else None"
+                            t-att-title="'Register a study plan for the active term' if can_register_krs else 'KRS registration is only available for active students during an open KRS period.'">
+                        <i class="fa fa-edit"/> Register KRS Now
+                    </button>
                 </form>
             </div>
             <t t-if="not krs_records">
@@ -86,7 +91,7 @@
                             <td><span t-out="krs.academic_year_id.display_name"/></td>
                             <td>
                                 <span t-if="krs.state == 'draft'" class="badge rounded-pill text-bg-secondary">Draft</span>
-                                <span t-if="krs.state == 'submitted'" class="badge rounded-pill text-bg-info">Submitted</span>
+                                <span t-if="krs.state == 'submitted'" class="badge rounded-pill text-bg-info">Waiting for Approval</span>
                                 <span t-if="krs.state == 'approved'" class="badge rounded-pill text-bg-success">Approved</span>
                                 <span t-if="krs.state == 'revision'" class="badge rounded-pill text-bg-warning">Needs Revision</span>
                                 <span t-if="krs.state == 'rejected'" class="badge rounded-pill text-bg-danger">Rejected</span>
@@ -179,21 +184,21 @@
                  no controls at all: the student could neither fix it nor send it
                  back, even though the controller and the state machine both
                  accept 'revision'. -->
-            <t t-set="is_editable" t-value="krs.state in ['draft', 'revision']"/>
+            <t t-set="is_editable" t-value="is_editable if is_editable is not None else (krs.state in ['draft', 'revision'])"/>
             <div class="bg-white p-4 rounded shadow-sm mb-4">
-                <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3>KRS Details: <t t-out="krs.name"/></h3>
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-2">
+                    <h3 class="mb-0">KRS Details: <t t-out="krs.name"/></h3>
                     <div>
                         <a t-attf-href="/my/krs/#{krs.id}/report?download=1"
                            class="btn btn-sm btn-outline-secondary me-2" title="Download the KRS as a PDF">
                             <i class="fa fa-download me-1"/>Download PDF
                         </a>
-                        <span t-if="krs.state == 'draft'" class="badge bg-secondary fs-6">Draft</span>
-                        <span t-if="krs.state == 'submitted'" class="badge bg-info fs-6">Waiting for Approval</span>
-                        <span t-if="krs.state == 'approved'" class="badge bg-success fs-6">Approved</span>
-                        <span t-if="krs.state == 'revision'" class="badge bg-warning fs-6">Needs Revision</span>
-                        <span t-if="krs.state == 'rejected'" class="badge bg-danger fs-6">Rejected</span>
-                        <span t-if="krs.state == 'locked'" class="badge bg-dark fs-6">Locked</span>
+                        <span t-if="krs.state == 'draft'" class="badge text-bg-secondary fs-6">Draft</span>
+                        <span t-if="krs.state == 'submitted'" class="badge text-bg-info fs-6">Waiting for Approval</span>
+                        <span t-if="krs.state == 'approved'" class="badge text-bg-success fs-6">Approved</span>
+                        <span t-if="krs.state == 'revision'" class="badge text-bg-warning fs-6">Needs Revision</span>
+                        <span t-if="krs.state == 'rejected'" class="badge text-bg-danger fs-6">Rejected</span>
+                        <span t-if="krs.state == 'locked'" class="badge text-bg-dark fs-6">Locked</span>
                     </div>
                 </div>
 
@@ -202,13 +207,18 @@
                         <p><strong>Academic Year:</strong> <t t-out="krs.academic_year_id.display_name"/></p>
                     </div>
                     <div class="col-md-6">
-                        <p><strong>Total Credits:</strong> <t t-out="krs.total_credits"/></p>
+                        <p>
+                            <strong>Total Credits:</strong>
+                            <t t-out="krs.total_credits"/>
+                            <t t-if="max_credits"> / <t t-out="max_credits"/> max</t>
+                        </p>
                     </div>
                 </div>
 
                 <t t-if="error">
-                    <div class="alert alert-danger" role="alert">
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <i class="fa fa-warning me-2"/> <t t-out="error"/>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </t>
 
@@ -280,9 +290,6 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <t t-set="taken_schedule_ids" t-value="krs.line_ids.schedule_id.ids"/>
-                                        <t t-set="scheduled_subject_ids" t-value="krs.line_ids.filtered('schedule_id').subject_id.ids"/>
-                                        <t t-set="unscheduled_subject_ids" t-value="krs.line_ids.filtered(lambda l: not l.schedule_id).subject_id.ids"/>
                                         <t t-foreach="available_schedules" t-as="sch">
                                             <t t-set="is_enrolled" t-value="sch.id in taken_schedule_ids"/>
                                             <t t-set="needs_schedule" t-value="not is_enrolled and sch.class_id.subject_id.id in unscheduled_subject_ids"/>
@@ -294,7 +301,7 @@
                                                 <td>Class <t t-out="sch.class_code"/></td>
                                                 <td>
                                                     <t t-if="sch.lecturer_id">
-                                                        <span class="badge bg-secondary mb-1"><t t-out="sch.lecturer_id.name"/></span>
+                                                        <span class="badge text-bg-secondary mb-1"><t t-out="sch.lecturer_id.name"/></span>
                                                     </t>
                                                     <t t-else="">-</t>
                                                 </td>
@@ -307,9 +314,9 @@
                                                 </td>
                                                 <td>
                                                     <span t-if="seats_left &gt; 0" class="badge bg-light text-dark border"><t t-out="seats_left"/> / <t t-out="sch.room_capacity"/></span>
-                                                    <span t-else="" class="badge bg-danger">Full</span>
+                                                    <span t-else="" class="badge text-bg-danger">Full</span>
                                                 </td>
-                                                <td><span class="badge bg-info"><t t-out="sch.class_id.subject_id.credits"/> credits</span></td>
+                                                <td><span class="badge text-bg-info"><t t-out="sch.class_id.subject_id.credits"/> credits</span></td>
                                                 <td class="text-center">
                                                     <t t-if="is_enrolled">
                                                         <button class="btn btn-sm btn-secondary" disabled="1"><i class="fa fa-check"/> Taken</button>
@@ -318,13 +325,21 @@
                                                         <form t-attf-action="/my/krs/#{krs.id}/add_line" method="post" class="d-inline">
                                                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                                                             <input type="hidden" name="schedule_id" t-att-value="sch.id"/>
-                                                            <button type="submit" class="btn btn-sm btn-primary"><i class="fa fa-calendar-check-o"/> Choose Class</button>
+                                                            <button type="submit" class="btn btn-sm btn-primary"
+                                                                    t-att-disabled="'disabled' if seats_left &lt;= 0 else None">
+                                                                <i class="fa fa-calendar-check-o"/> Choose Class
+                                                            </button>
                                                         </form>
                                                     </t>
                                                     <t t-elif="other_section_taken">
                                                         <button class="btn btn-sm btn-outline-secondary" disabled="1"
                                                                 title="This subject is already taken in another section. Remove the existing one first to switch.">
                                                             <i class="fa fa-ban"/> Another section taken
+                                                        </button>
+                                                    </t>
+                                                    <t t-elif="seats_left &lt;= 0">
+                                                        <button class="btn btn-sm btn-outline-danger" disabled="1">
+                                                            <i class="fa fa-ban"/> Full
                                                         </button>
                                                     </t>
                                                     <t t-else="">

@@ -1,5 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools import float_compare
 
 
 class AcademicGradeScale(models.Model):
@@ -60,7 +61,11 @@ class AcademicGradeScale(models.Model):
         bands = self.search([], order='min_score desc')
         rows = []
         for index, band in enumerate(bands):
-            upper = 100.0 if index == 0 else bands[index - 1].min_score - 1
+            if index == 0:
+                upper = 100.0
+            else:
+                prev_min = bands[index - 1].min_score
+                upper = round(prev_min - 0.01, 2)
             rows.append({
                 'range': '%s – %s' % (self._format_score(band.min_score),
                                       self._format_score(upper)),
@@ -92,18 +97,21 @@ class AcademicGradeScale(models.Model):
             if record.grade_point < 0 or record.grade_point > 4:
                 raise ValidationError(_("Grade point must be between 0.00 and 4.00."))
 
+    @staticmethod
+    def _resolve_grade(bands, score):
+        """Resolve `(letter, grade_point)` from pre-fetched descending `bands`."""
+        value = score or 0.0
+        for band in bands:
+            if float_compare(value, band.min_score, precision_digits=2) >= 0:
+                return band.letter, band.grade_point
+        return 'E', 0.0
+
     @api.model
     def _get_grade(self, score):
         """Letter and grade point for a score.
 
         Falls back to the historical bottom band when nothing is configured, so
-        grading never crashes on a half-set-up database. Unlike the credit limit,
-        refusing here would block a lecturer mid-entry for no good reason.
+        grading never crashes on a half-set-up database.
         """
-        band = self.search(
-            [('min_score', '<=', score or 0.0)],
-            order='min_score desc, id desc', limit=1,
-        )
-        if band:
-            return band.letter, band.grade_point
-        return 'E', 0.0
+        bands = self.search([], order='min_score desc, id desc')
+        return self._resolve_grade(bands, score)

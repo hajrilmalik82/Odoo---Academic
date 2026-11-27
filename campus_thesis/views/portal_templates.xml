@@ -262,7 +262,10 @@
                 <!-- Supervisor Rejected Banner -->
                 <div t-if="thesis.state == 'supervisor_rejected'" class="alert alert-danger">
                     <h6 class="fw-bold"><i class="fa fa-times-circle me-1"/> Supervision / Proposal Rejected</h6>
-                    <p class="mb-3"><t t-out="thesis.rejection_reason or 'No reason specified.'"/></p>
+                    <p class="mb-3">
+                        <t t-if="thesis.rejection_reason"><t t-out="thesis.rejection_reason"/></t>
+                        <t t-else="">No reason specified.</t>
+                    </p>
                     <form t-attf-action="/my/thesis/#{thesis.id}/reset_draft" method="post" class="d-inline">
                         <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                         <button type="submit" class="btn btn-warning">
@@ -438,7 +441,12 @@
                                 <t t-foreach="thesis.progress_line_ids" t-as="log">
                                     <tr>
                                         <td><t t-out="log.date"/></td>
-                                        <td><span class="badge text-bg-light border"><t t-out="'Proposal' if log.stage == 'proposal' else 'Thesis'"/></span></td>
+                                        <td>
+                                            <span class="badge text-bg-light border">
+                                                <t t-if="log.stage == 'proposal'">Proposal</t>
+                                                <t t-else="">Thesis</t>
+                                            </span>
+                                        </td>
                                         <td><strong><t t-out="log.milestone"/></strong></td>
                                         <td>
                                             <t t-out="log.description"/>
@@ -521,7 +529,7 @@
                             <div t-attf-class="card h-100 #{ 'border-success' if thesis.yudisium_supervisor_approved else 'border-secondary' }">
                                 <div class="card-body">
                                     <h6 class="fw-bold">1. Thesis Supervisor</h6>
-                                    <p class="small mb-2"><t t-out="thesis.supervisor_id.name"/></p>
+                                    <p class="small mb-2"><t t-out="(thesis.yudisium_supervisor_by_id or thesis.supervisor_id).name"/></p>
                                     <span t-if="thesis.yudisium_supervisor_approved" class="badge text-bg-success">Approved</span>
                                     <span t-elif="thesis.state == 'yudisium_supervisor'" class="badge text-bg-warning">In Review</span>
                                     <span t-else="" class="badge text-bg-secondary">Waiting</span>
@@ -532,7 +540,7 @@
                             <div t-attf-class="card h-100 #{ 'border-success' if thesis.yudisium_advisor_approved else 'border-secondary' }">
                                 <div class="card-body">
                                     <h6 class="fw-bold">2. Academic Advisor (PA)</h6>
-                                    <p class="small mb-2"><t t-out="thesis.advisor_id.name or '-'"/></p>
+                                    <p class="small mb-2"><t t-out="(thesis.yudisium_advisor_by_id or thesis.advisor_id).name or '-'"/></p>
                                     <span t-if="thesis.yudisium_advisor_approved" class="badge text-bg-success">Approved</span>
                                     <span t-elif="thesis.state == 'yudisium_advisor'" class="badge text-bg-warning">In Review</span>
                                     <span t-else="" class="badge text-bg-secondary">Waiting</span>
@@ -543,7 +551,7 @@
                             <div t-attf-class="card h-100 #{ 'border-success' if thesis.yudisium_dean_approved else 'border-secondary' }">
                                 <div class="card-body">
                                     <h6 class="fw-bold">3. Dean of Faculty</h6>
-                                    <p class="small mb-2"><t t-out="thesis.dean_id.name or '-'"/></p>
+                                    <p class="small mb-2"><t t-out="(thesis.yudisium_dean_by_id or thesis.dean_id).name or '-'"/></p>
                                     <span t-if="thesis.yudisium_dean_approved" class="badge text-bg-success">Approved</span>
                                     <span t-elif="thesis.state == 'yudisium_dean'" class="badge text-bg-warning">In Review</span>
                                     <span t-else="" class="badge text-bg-secondary">Waiting</span>

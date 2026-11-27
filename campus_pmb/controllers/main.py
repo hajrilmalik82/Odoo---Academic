@@ -1,14 +1,28 @@
 import json
 import logging
 
+from psycopg2 import IntegrityError
+
 from odoo import http, _
 from odoo.exceptions import UserError, ValidationError
 from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
+_MAX_API_BODY_BYTES = 16 * 1024  # 16 KB cap against unauthenticated RAM DoS
+
+
 class CampusPMBWebsite(http.Controller):
-    """Public JSON REST API for the standalone React frontend-app."""
+    """Public JSON REST API for the standalone admission frontend."""
+
+    @staticmethod
+    def _cors_origin():
+        return (
+            request.env['ir.config_parameter']
+            .sudo()
+            .get_param('campus_pmb.cors_origin', '*')
+            or '*'
+        )
 
     @staticmethod
     def _track_descriptions():
@@ -18,22 +32,30 @@ class CampusPMBWebsite(http.Controller):
             'transfer': _("Transfer admission track with prior credit recognition."),
         }
 
+    @staticmethod
+    def _first_present(payload, *keys, default=''):
+        for key in keys:
+            if key in payload and payload[key] is not None:
+                return payload[key]
+        return default
+
     @http.route(
         '/api/admission/options',
         type='http', auth='public', methods=['GET', 'OPTIONS'],
         csrf=False, cors='*', readonly=True,
     )
     def api_admission_options(self, **kw):
+        origin = self._cors_origin()
         if request.httprequest.method == 'OPTIONS':
             return request.make_response('', headers={
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': origin,
                 'Access-Control-Allow-Methods': 'GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
             })
         faculties = request.env['academic.faculty'].sudo().search([])
         programs = request.env['academic.program'].sudo().search([])
         Fee = request.env['campus.admission.fee'].sudo()
-        all_fee_rules = Fee.search([])
+        fee_index = Fee._build_fee_index()
         path_selection = request.env['campus.admission']._admission_path_selection()
         paths = [key for key, _label in path_selection]
 
@@ -42,12 +64,8 @@ class CampusPMBWebsite(http.Controller):
             fee_matrix[path] = {}
             for prog in [None] + list(programs):
                 prog_key = str(prog.id) if prog else ''
-                reg_amount = Fee._get_fee_amount(
-                    'registration', admission_path=path, program=prog, rules=all_fee_rules,
-                )
-                rereg_amount = Fee._get_fee_amount(
-                    'reregistration', admission_path=path, program=prog, rules=all_fee_rules,
-                )
+                reg_amount = Fee._lookup_fee_from_index(fee_index, 'registration', path, prog)
+                rereg_amount = Fee._lookup_fee_from_index(fee_index, 'reregistration', path, prog)
                 fee_matrix[path][prog_key] = {
                     'registration': reg_amount,
                     'reregistration': rereg_amount,
@@ -93,27 +111,39 @@ class CampusPMBWebsite(http.Controller):
                 'discountPercentage': discount_pct,
             })
 
-        default_rereg_fee = base_rereg
-        return request.make_json_response({
-            'status': 'success',
-            'data': {
-                'faculties': faculty_list,
-                'studyPrograms': program_list,
-                'admissionTracks': track_list,
-                'feeMatrix': fee_matrix,
-                'defaultReRegistrationFee': default_rereg_fee,
+        return request.make_json_response(
+            {
+                'status': 'success',
+                'data': {
+                    'faculties': faculty_list,
+                    'studyPrograms': program_list,
+                    'admissionTracks': track_list,
+                    'feeMatrix': fee_matrix,
+                    'defaultReRegistrationFee': base_rereg,
+                },
             },
-        })
+            headers={'Cache-Control': 'public, max-age=60'},
+        )
 
     def _extract_payload(self):
-        raw = request.httprequest.get_data(as_text=True)
+        content_length = request.httprequest.content_length
+        if content_length and content_length > _MAX_API_BODY_BYTES:
+            raise ValidationError(_("Request payload is too large."))
+        raw_bytes = request.httprequest.get_data(cache=False)
+        if len(raw_bytes) > _MAX_API_BODY_BYTES:
+            raise ValidationError(_("Request payload is too large."))
+        raw = raw_bytes.decode('utf-8', errors='strict') if raw_bytes else ''
+        content_type = (request.httprequest.content_type or '').lower()
         if raw:
             try:
                 parsed = json.loads(raw)
                 if isinstance(parsed, dict):
                     return parsed
+                if 'application/json' in content_type:
+                    raise ValidationError(_("Invalid JSON request payload."))
             except ValueError:
-                pass
+                if 'application/json' in content_type:
+                    raise ValidationError(_("Invalid JSON request payload."))
         return dict(request.params)
 
     @http.route(
@@ -122,32 +152,32 @@ class CampusPMBWebsite(http.Controller):
         csrf=False, cors='*',
     )
     def api_admission_submit(self, **post):
+        origin = self._cors_origin()
         if request.httprequest.method == 'OPTIONS':
             return request.make_response('', headers={
-                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Origin': origin,
                 'Access-Control-Allow-Methods': 'POST, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With',
             })
         try:
             payload = self._extract_payload()
             normalized = {
-                'name': (payload.get('fullName') or payload.get('name') or '').strip(),
-                'email': (payload.get('email') or '').strip(),
-                'phone': (payload.get('phoneNumber') or payload.get('phone') or '').strip(),
-                'previous_school': (
-                    payload.get('schoolOrigin') or payload.get('previous_school') or ''
-                ).strip(),
-                'faculty_id': payload.get('facultyId') or payload.get('faculty_id'),
-                'program_id': payload.get('studyProgramId') or payload.get('program_id'),
-                'admission_path': (
-                    payload.get('admissionTrackId') or payload.get('admission_path') or 'regular'
+                'name': self._first_present(payload, 'fullName', 'name', default=''),
+                'email': self._first_present(payload, 'email', default=''),
+                'phone': self._first_present(payload, 'phoneNumber', 'phone', default=''),
+                'previous_school': self._first_present(payload, 'schoolOrigin', 'previous_school', default=''),
+                'faculty_id': self._first_present(payload, 'facultyId', 'faculty_id', default=None),
+                'program_id': self._first_present(payload, 'studyProgramId', 'program_id', default=None),
+                'admission_path': self._first_present(
+                    payload, 'admissionTrackId', 'admission_path', default='regular',
                 ),
             }
-            admission = (
-                request.env['campus.admission']
-                .sudo()
-                ._create_admission_from_portal(normalized)
-            )
+            with request.env.cr.savepoint():
+                admission = (
+                    request.env['campus.admission']
+                    .sudo()
+                    ._create_admission_from_portal(normalized)
+                )
             return request.make_json_response(
                 {
                     'status': 'success',
@@ -170,18 +200,41 @@ class CampusPMBWebsite(http.Controller):
                 },
                 status=201,
             )
-        except (ValidationError, UserError) as error:
-            user_msg = error.args[0] if error.args else _("Submission failed.")
+        except (ValidationError, UserError, UnicodeDecodeError) as error:
+            user_msg = (
+                _("Invalid UTF-8 request encoding.")
+                if isinstance(error, UnicodeDecodeError)
+                else (error.args[0] if error.args else _("Submission failed."))
+            )
             return request.make_json_response(
                 {'status': 'error', 'message': user_msg},
                 status=400,
             )
+        except IntegrityError as err:
+            if getattr(err, 'pgcode', None) == '23505':
+                user_msg = _(
+                    "An application with this email address already exists for this "
+                    "academic year. Please contact the admissions office if you need "
+                    "to change it."
+                )
+                return request.make_json_response(
+                    {'status': 'error', 'message': user_msg},
+                    status=400,
+                )
+            _logger.exception("Admission API submit hit unexpected IntegrityError")
+            return request.make_json_response(
+                {
+                    'status': 'error',
+                    'message': _("Submission failed because of a system error. Please try again later."),
+                },
+                status=500,
+            )
         except Exception:
             _logger.exception("Admission API submit failed")
-            user_msg = _(
-                "Submission failed because of a system error. Please try again later."
-            )
             return request.make_json_response(
-                {'status': 'error', 'message': user_msg},
+                {
+                    'status': 'error',
+                    'message': _("Submission failed because of a system error. Please try again later."),
+                },
                 status=500,
             )

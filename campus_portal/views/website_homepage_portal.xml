@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="portal_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Portal ERP Documentation">
+    <template id="portal_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Portal ERP Documentation" priority="40">
 
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">
-            <button class="nav-link fw-bold py-3 text-start mb-1 text-success" id="tab-portal" data-bs-toggle="pill" data-bs-target="#content-portal" type="button" role="tab" aria-controls="content-portal" aria-selected="false">
-                <i class="fa fa-laptop me-2"/> Student Portal (Self-Service)
+            <button class="nav-link fw-bold py-3 text-start mb-1 campus-doc-tab campus-doc-tab-success" id="tab-portal" data-bs-toggle="pill" data-bs-target="#content-portal" type="button" role="tab" aria-controls="content-portal" aria-selected="false">
+                <i class="fa fa-laptop me-2" aria-hidden="true"/> Student Portal (Self-Service)
             </button>
         </xpath>
 
@@ -49,14 +49,14 @@
                         <ol class="text-muted mb-2">
                             <li>Open your active KRS in <em>Draft</em> or <em>Needs Revision</em> status.</li>
                             <li>Review the list of <strong>Available Schedules</strong> at the bottom and click <strong>Take</strong> to add a class (or <strong>Remove</strong> to drop a selected class).</li>
-                            <li>Once your subjects and total SKS are ready, click <strong>Submit KRS</strong> to send it to your Academic Advisor (PA).</li>
+                            <li>Once your subjects and total SKS are ready, click <strong>Submit to Academic Advisor</strong> to send it to your Academic Advisor (PA).</li>
                         </ol>
                         <div class="bg-light p-3 rounded">
-                            <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations (What to do if blocked):</strong>
+                            <i class="fa fa-exclamation-triangle text-danger me-2" aria-hidden="true"/> <strong>System Rules &amp; Validations (What to do if blocked):</strong>
                             <ul class="mb-0 mt-1 text-muted small">
-                                <li><strong>Only Editable in Draft / Revision:</strong> You cannot add or remove subjects once the KRS is <em>Submitted</em>, <em>Approved</em>, or <em>Locked</em>. If you need changes after submitting, ask your Academic Advisor to return it for revision.</li>
+                                <li><strong>Only Editable in Draft / Revision:</strong> You cannot add or remove subjects once the KRS is <em>Waiting for Approval</em>, <em>Approved</em>, or <em>Locked</em>. If you need changes after submitting, ask your Academic Advisor to return it for revision.</li>
                                 <li><strong>KRS Period Must Be Open:</strong> Students can only edit KRS within the active KRS dates. Outside this period, contact Academic Admin.</li>
-                                <li><strong>Automatic Checks:</strong> Clicking <strong>Take</strong> or <strong>Choose Class</strong> immediately checks room seat availability and timetable overlaps, while clicking <strong>Submit KRS</strong> verifies prerequisites and your GPA SKS limit.</li>
+                                <li><strong>Automatic Checks:</strong> Clicking <strong>Take</strong> or <strong>Choose Class</strong> immediately checks room seat availability and timetable overlaps, while clicking <strong>Submit to Academic Advisor</strong> verifies prerequisites and your GPA SKS limit.</li>
                             </ul>
                         </div>
                     </div>
@@ -64,17 +64,17 @@
                     <!-- Step 3 -->
                     <div class="mb-4 ps-4 border-start border-4 border-primary position-relative">
                         <span class="badge bg-primary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
-                        <h5 class="fw-bold text-dark pt-1">Stage 3: Viewing KHS &amp; GPA</h5>
+                        <h5 class="fw-bold text-dark pt-1">Stage 3: Viewing KHS &amp; Downloading Official Transcripts</h5>
                         <p class="mb-2"><strong>Who performs this:</strong> Student</p>
-                        <p class="mb-2">Open the <strong>KHS</strong> menu to see your subjects, letter grades, semester GPA (IP), and cumulative GPA (IPK). Grades appear automatically as soon as your lecturer enters them.</p>
+                        <p class="mb-2">Open the <strong>My KHS</strong> menu (<code>/my/khs</code>) to view your total credits and semester GPA (IP) per term, download individual term <strong>KHS PDFs</strong>, or download your cumulative <strong>Academic Transcript PDF</strong> with subject-level grades and IPK.</p>
                     </div>
 
                     <!-- Step 4 -->
                     <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
                         <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">4</span>
-                        <h5 class="fw-bold text-dark pt-1">Stage 4: Tracking Thesis &amp; Uploading Yudisium Documents</h5>
-                        <p class="mb-2"><strong>Who performs this:</strong> Final-Year Student</p>
-                        <p class="mb-2">Open <strong>My Thesis</strong> (<code>/my/thesis</code>) to register your thesis, add consultation progress notes, upload Yudisium clearance documents, and download your Graduation Clearance Sheet PDF once approved.</p>
+                        <h5 class="fw-bold text-dark pt-1">Stage 4: Optional Extensions (Thesis &amp; Yudisium)</h5>
+                        <p class="mb-2"><strong>Who performs this:</strong> Final-Year Student (when Campus Thesis is installed)</p>
+                        <p class="mb-2">When the Campus Thesis module is enabled, students also get a <strong>My Thesis</strong> (<code>/my/thesis</code>) dashboard entry to register their thesis, log consultations, upload Yudisium documents, and download the Graduation Clearance PDF.</p>
                     </div>
 
                     <!-- Privacy & Data Protection -->

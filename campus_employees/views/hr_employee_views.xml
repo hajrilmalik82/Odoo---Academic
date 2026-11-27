@@ -87,13 +87,13 @@
                      also who the ACL on campus.jurisdiction admits. -->
                 <page string="Jurisdiction" name="campus_jurisdiction"
                       groups="campus_core.group_campus_administrator"
-                      invisible="academic_role not in ('academic', 'pmb')">
+                      invisible="not academic_role or academic_role == 'lecturer'">
                     <field name="jurisdiction_ids">
                         <list editable="bottom">
                             <field name="scope"/>
                             <field name="all_faculties"/>
                             <field name="faculty_ids" widget="many2many_tags"
-                                   column_invisible="0" invisible="all_faculties"/>
+                                   invisible="all_faculties"/>
                             <field name="all_programs"/>
                             <field name="program_ids" widget="many2many_tags"
                                    invisible="all_programs"/>
@@ -125,7 +125,7 @@
         <field name="context">{'default_academic_role': 'academic'}</field>
         <field name="help" type="html">
             <p class="o_view_nocontent_smiling_face">
-                Create a new Academic Staff (Staf TU)
+                Create a new Academic Staff (TU)
             </p>
         </field>
     </record>

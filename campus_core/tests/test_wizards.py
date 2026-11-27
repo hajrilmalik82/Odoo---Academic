@@ -87,6 +87,30 @@ class TestKrsGeneratorWizard(CampusCommon):
         with self.assertRaises(ValidationError):
             wizard.action_generate_krs()
 
+    def test_it_rejects_student_from_another_programme_and_recomputes_subject_changes(self):
+        other_program = self.env['academic.program'].create({
+            'name': '%s Prodi Lain Wizard' % TAG,
+            'code': 'ZPW',
+            'faculty_id': self.faculty.id,
+        })
+        outsider = self.env['res.partner'].create({
+            'name': '%s Mahasiswa Prodi Lain' % TAG,
+            'is_student': True,
+            'student_status': 'active',
+            'program_id': other_program.id,
+        })
+        with self.assertRaises(ValidationError):
+            self._wizard(outsider).action_generate_krs()
+
+        before_credits = self.package.total_credits
+        self.subject_a.credits += 1
+        self.package.invalidate_recordset(['total_credits'])
+        self.assertEqual(self.package.total_credits, before_credits + 1)
+
+        self.subject_a.name = '%s Algoritma Lanjut' % TAG
+        self.klass.invalidate_recordset(['name'])
+        self.assertIn('Algoritma Lanjut', self.klass.name)
+
 
 @tagged('post_install', '-at_install')
 class TestAssignScheduleWizard(CampusCommon):

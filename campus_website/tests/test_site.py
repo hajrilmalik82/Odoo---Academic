@@ -18,10 +18,23 @@ class TestCampusSite(HttpCase):
         """oe_structure is what the Website Builder saves blocks into.
         Replacing the stock wrap outright removed it, and Edit on / then had
         nowhere to put anything."""
-        self.assertIn('oe_structure', self.url_open('/').text)
+        html = self.url_open('/').text
+        self.assertIn('oe_structure_campus_homepage_top', html)
+        self.assertIn('oe_structure_campus_homepage_bottom', html)
 
-    def test_the_login_page_renders(self):
-        self.assertEqual(self.url_open('/web/login').status_code, 200)
+    def test_the_login_page_renders_and_demo_panel_is_fail_closed(self):
+        icp = self.env['ir.config_parameter'].sudo()
+        icp.search([('key', '=', 'campus_website.show_demo_login')]).unlink()
+        resp = self.url_open('/web/login')
+        self.assertEqual(resp.status_code, 200)
+        self.assertNotIn('portfolio-demo-box', resp.text)
+        self.assertNotIn('admincampus@gmail.com', resp.text)
+
+        icp.set_param('campus_website.show_demo_login', '1')
+        opted_in = self.url_open('/web/login')
+        self.assertEqual(opted_in.status_code, 200)
+        self.assertIn('portfolio-demo-box', opted_in.text)
+        self.assertIn('campus-demo-login-btn', opted_in.text)
 
     def test_the_main_menu_is_renamed_on_every_website(self):
         """The xmlid website.menu_home is the TEMPLATE menu, website_id False.

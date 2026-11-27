@@ -1524,3 +1524,33 @@ msgstr "Jalur penerimaan mahasiswa pindahan atau alih jenjang dengan pengakuan t
 #. module: campus_pmb
 msgid "Higher education programs offered by %s."
 msgstr "Program pendidikan tinggi di lingkungan %s."
+
+#. module: campus_pmb
+#, python-format
+msgid "Accepted or registered admissions cannot be deleted."
+msgstr "Pendaftaran yang sudah diterima atau terdaftar tidak dapat dihapus."
+
+#. module: campus_pmb
+#, python-format
+msgid "Admission status cannot be changed directly; use the workflow action buttons."
+msgstr "Status pendaftaran tidak dapat diubah secara langsung; gunakan tombol aksi alur kerja."
+
+#. module: campus_pmb
+#, python-format
+msgid "Document checklists cannot be modified once an admission is accepted, registered, or rejected."
+msgstr "Daftar periksa dokumen tidak dapat diubah setelah pendaftaran diterima, terdaftar, atau ditolak."
+
+#. module: campus_pmb
+#, python-format
+msgid "Documents cannot be added once an admission is accepted, registered, or rejected."
+msgstr "Dokumen tidak dapat ditambahkan setelah pendaftaran diterima, terdaftar, atau ditolak."
+
+#. module: campus_pmb
+#, python-format
+msgid "Field '%(field)s' exceeds the maximum allowed length of %(max)s characters."
+msgstr "Kolom '%(field)s' melebihi batas panjang maksimum %(max)s karakter."
+
+#. module: campus_pmb
+#, python-format
+msgid "Invalid JSON request payload."
+msgstr "Format payload JSON tidak valid."

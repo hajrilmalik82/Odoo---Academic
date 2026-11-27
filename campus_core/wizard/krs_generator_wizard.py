@@ -33,7 +33,7 @@ class KrsGeneratorWizard(models.TransientModel):
                 ('academic_year_id', '=', package.academic_year_id.id),
                 ('student_id', 'in', students.ids)
             ])
-            students_with_krs = existing_krs.mapped('student_id').ids
+            students_with_krs = set(existing_krs.mapped('student_id').ids)
             valid_students = students.filtered(lambda s: s.id not in students_with_krs)
             
             res['student_ids'] = [Command.set(valid_students.ids)]
@@ -42,6 +42,8 @@ class KrsGeneratorWizard(models.TransientModel):
 
     def action_generate_krs(self):
         self.ensure_one()
+        if not self.package_id.academic_year_id.active:
+            raise ValidationError(_("Cannot generate KRS drafts for an archived academic year."))
         if not self.package_id.line_ids:
             raise ValidationError(_("The selected course package has no subjects."))
         if not self.student_ids:
@@ -51,15 +53,25 @@ class KrsGeneratorWizard(models.TransientModel):
             raise ValidationError(_(
                 "Only active students can receive a KRS package (inactive: %s)."
             ) % ', '.join(inactive.mapped('name')))
+        mismatched = self.student_ids.filtered(
+            lambda student: student.program_id != self.package_id.program_id
+        )
+        if mismatched:
+            raise ValidationError(_(
+                "All selected students must belong to study program '%(program)s' (mismatched: %(students)s)."
+            ) % {
+                'program': self.package_id.program_id.display_name,
+                'students': ', '.join(mismatched.mapped('name')),
+            })
             
         krs_obj = self.env['academic.krs']
         
-        # Batch check to avoid duplicates (eliminates N+1 search queries)
+        # Batch check to avoid duplicates (O(1) set lookup)
         existing_krs = krs_obj.search([
             ('academic_year_id', '=', self.package_id.academic_year_id.id),
             ('student_id', 'in', self.student_ids.ids)
         ])
-        existing_student_ids = existing_krs.mapped('student_id').ids
+        existing_student_ids = set(existing_krs.mapped('student_id').ids)
         
         students_to_process = self.student_ids.filtered(lambda s: s.id not in existing_student_ids)
         if not students_to_process:

@@ -1,5 +1,7 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, ValidationError
+
+from .campus_thesis import _STATE_TRANSITION_TOKEN
 
 
 class CampusThesisRequirement(models.Model):
@@ -28,6 +30,18 @@ class CampusThesisRequirement(models.Model):
         types = dict(self.env['campus.thesis.document']._document_type_selection())
         for record in self:
             record.name = types.get(record.document_type, '')
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        # Keep in-progress Yudisium filing checklists in sync with newly added
+        # requirements without mutating the DB inside a failing submit call.
+        filing_theses = self.env['campus.thesis'].sudo().search([
+            ('state', '=', 'yudisium_docs'),
+        ])
+        if filing_theses:
+            filing_theses._ensure_default_documents()
+        return records
 
 
 class CampusThesisDocument(models.Model):
@@ -85,7 +99,56 @@ class CampusThesisDocument(models.Model):
         "Each Yudisium document type can only appear once per thesis.",
     )
 
+    _LOCKED_THESIS_STATES = {
+        'yudisium_supervisor',
+        'yudisium_advisor',
+        'yudisium_dean',
+        'graduated',
+        'cancelled',
+    }
+
+    def _check_thesis_mutable(self):
+        if self.env.context.get('_thesis_state_token') is _STATE_TRANSITION_TOKEN:
+            return
+        frozen = self.filtered(lambda line: line.thesis_id.state in self._LOCKED_THESIS_STATES)
+        if frozen:
+            raise ValidationError(_(
+                "Yudisium documents are locked once sequential Yudisium approval has begun or the thesis is finalized."
+            ))
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        if self.env.context.get('_thesis_state_token') is not _STATE_TRANSITION_TOKEN:
+            thesis_ids = {vals['thesis_id'] for vals in vals_list if vals.get('thesis_id')}
+            if thesis_ids:
+                frozen = self.env['campus.thesis'].browse(list(thesis_ids)).filtered(
+                    lambda thesis: thesis.state in self._LOCKED_THESIS_STATES
+                )
+                if frozen:
+                    raise ValidationError(_(
+                        "Yudisium documents cannot be added once sequential Yudisium approval has begun or the thesis is finalized."
+                    ))
+        return super().create(vals_list)
+
+    def _is_admin(self):
+        return self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+
     def write(self, vals):
+        self._check_thesis_mutable()
+        is_workflow = self.env.context.get('_thesis_state_token') is _STATE_TRANSITION_TOKEN
+        if 'required' in vals and not is_workflow and not self._is_admin():
+            raise AccessError(_(
+                "Only Campus Administrators can change whether a Yudisium document is required."
+            ))
+        if 'thesis_id' in vals:
+            target = (
+                self.env['campus.thesis'].browse(vals['thesis_id'])
+                if vals['thesis_id'] else self.env['campus.thesis']
+            )
+            if not target or target.state in self._LOCKED_THESIS_STATES:
+                raise ValidationError(_(
+                    "Yudisium documents cannot be moved to a locked or finalized thesis."
+                ))
         if 'received' in vals and not self.env.su:
             user = self.env.user
             if not (
@@ -95,4 +158,17 @@ class CampusThesisDocument(models.Model):
                 raise AccessError(_(
                     "Only Academic Staff or Campus Administrators can verify Yudisium documents."
                 ))
-        return super().write(vals)
+        res = super().write(vals)
+        if 'thesis_id' in vals and not self.env.su:
+            self.flush_recordset()
+            self.check_access('write')
+        return res
+
+    def unlink(self):
+        self._check_thesis_mutable()
+        is_workflow = self.env.context.get('_thesis_state_token') is _STATE_TRANSITION_TOKEN
+        if not is_workflow and not self._is_admin() and self.filtered('required'):
+            raise AccessError(_(
+                "Required Yudisium document checklist lines can only be deleted by Campus Administrators."
+            ))
+        return super().unlink()

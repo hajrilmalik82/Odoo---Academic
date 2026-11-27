@@ -43,6 +43,6 @@
         <field name="view_mode">form</field>
         <field name="target">new</field>
         <field name="binding_model_id" ref="model_academic_course_package"/>
-        <field name="binding_view_types">form,list</field>
+        <field name="binding_view_types">form</field>
     </record>
 </odoo>

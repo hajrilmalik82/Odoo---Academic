@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="employees_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Employees ERP Documentation">
+    <template id="employees_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Employees ERP Documentation" priority="20">
 
         <!-- Inject into Sidebar Navigation -->
         <xpath expr="//div[@id='docs-tab']" position="inside">
-            <button class="nav-link fw-bold py-3 text-start mb-1 text-info" id="tab-employee" data-bs-toggle="pill" data-bs-target="#content-employee" type="button" role="tab" aria-controls="content-employee" aria-selected="false">
-                <i class="fa fa-users me-2"/> HR &amp; Staff (Employees &amp; Access)
+            <button class="nav-link fw-bold py-3 text-start mb-1 campus-doc-tab campus-doc-tab-info" id="tab-employee" data-bs-toggle="pill" data-bs-target="#content-employee" type="button" role="tab" aria-controls="content-employee" aria-selected="false">
+                <i class="fa fa-users me-2" aria-hidden="true"/> HR &amp; Staff (Employees &amp; Access)
             </button>
         </xpath>
 
@@ -22,11 +22,11 @@
                         <h2 class="fw-bold mb-0 text-info">HR &amp; Staff Module (Employees &amp; Work Scope)</h2>
                     </div>
                     <p class="text-muted lead mb-4">
-                        This module manages campus staff and lecturer profiles—including Lecturers, Admissions (PMB) Staff, Academic Staff (TU), and Deans—and controls which Faculty or Study Program data each staff member is allowed to manage.
+                        This module manages campus staff and lecturer profiles—including Lecturers, Admissions (PMB) Staff, and Academic Staff (TU)—as well as Faculty Deans and Program Heads, controlling which Faculty or Study Program data each staff member is allowed to manage.
                     </p>
 
                     <!-- HIGHLIGHT FITUR -->
-                    <div class="row mb-5">
+                    <div class="row g-3 mb-5">
                         <div class="col-md-4">
                             <div class="card border-0 shadow-sm h-100 rounded-4">
                                 <div class="card-body">
@@ -59,8 +59,8 @@
                     <div class="mb-4 ps-4 border-start border-4 border-secondary position-relative">
                         <span class="badge bg-secondary position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">1</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 1: Setting Up Job Positions</h5>
-                        <p class="mb-2"><strong>Who performs this:</strong> HR Manager / System Admin</p>
-                        <p class="mb-2">Before adding employees, open <strong>Employees → Configuration → Job Positions</strong> and set the <strong>Academic Role</strong> for each position (such as <em>Lecturer</em>, <em>PMB Staff</em>, <em>Academic Staff</em>, or <em>Dean</em>).</p>
+                        <p class="mb-2"><strong>Who performs this:</strong> Campus Administrator</p>
+                        <p class="mb-2">Before adding employees, open <strong>Employees → Configuration → Job Positions</strong> and set the <strong>Academic Role</strong> for each position (<em>Lecturer</em>, <em>Academic Staff (TU)</em>, or <em>PMB Staff</em> when PMB is installed). Deans and Program Heads are appointed from active Lecturers under <strong>Academic System → Configuration → Faculties / Programs</strong>.</p>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
@@ -73,10 +73,10 @@
                     <div class="mb-4 ps-4 border-start border-4 border-info position-relative">
                         <span class="badge bg-info text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 2: Creating Employee &amp; Lecturer Profiles</h5>
-                        <p class="mb-2"><strong>Who performs this:</strong> HR Staff</p>
+                        <p class="mb-2"><strong>Who performs this:</strong> Campus Administrator (for Academic Role assignment) / HR Staff</p>
                         <p class="mb-2">Create the employee record, fill in personal details, choose their Department/Faculty, link their <strong>Related User</strong> account, and select their Job Position.</p>
                         <div class="bg-light p-3 rounded mb-2">
-                            <i class="fa fa-check-circle text-success me-2"/> <strong>What happens next:</strong> Choosing a <em>Lecturer</em> job reveals the academic profile fields (such as NIDN and Home Study Program). Choosing <em>PMB Staff</em> or <em>Academic Staff</em> reveals the Jurisdiction tab.
+                            <i class="fa fa-check-circle text-success me-2"/> <strong>What happens next:</strong> Choosing a <em>Lecturer</em> job reveals the academic profile fields (such as NIDN and Home Study Program). Choosing <em>PMB Staff</em> or <em>Academic Staff</em> reveals the <strong>Jurisdiction</strong> tab.
                         </div>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
@@ -91,8 +91,8 @@
                     <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
                         <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">3</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 3: Assigning Work Scope (Jurisdiction)</h5>
-                        <p class="mb-2"><strong>Who performs this:</strong> HR Manager / Campus Operations Manager</p>
-                        <p class="mb-2">Open the <strong>PMB / Academic Jurisdiction</strong> tab on the employee profile and select which <strong>Faculties</strong> or <strong>Study Programs</strong> that staff member is responsible for.</p>
+                        <p class="mb-2"><strong>Who performs this:</strong> Campus Administrator</p>
+                        <p class="mb-2">Open the <strong>Jurisdiction</strong> tab on the employee profile and select which <strong>Faculties</strong> or <strong>Study Programs</strong> that staff member is responsible for.</p>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">

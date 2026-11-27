@@ -2644,3 +2644,108 @@ msgstr ""
 #: code:addons/campus_thesis/models/campus_thesis.py:0
 msgid "tuition_clearance"
 msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "A graduation schedule is already assigned. Update the Graduation Schedule field directly if you need to reassign it."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "All required supervisors have approved. Thesis moved to Proposal Stage."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Co-Supervisor %(name)s is archived and cannot be assigned."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Executable or active script content is not allowed."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Guidance progress logs can only be modified during the Proposal or Thesis stages."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Guidance progress logs can only be reviewed during the Proposal or Thesis stages."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Only Academic Staff or Campus Administrators can reopen a cancelled thesis."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Only rejected supervision requests can be returned to Draft from the student portal."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Please open a single thesis record to enter a rejection or return reason."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Please provide a non-empty reason."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Please provide a non-empty rejection reason."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Please provide a non-empty return reason."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Primary Supervisor %(name)s is archived and cannot be assigned."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Student %(student)s must have Active status to proceed with their thesis."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Student %(student)s must have Active status to register or advance a thesis."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Thesis status cannot be changed directly; use the workflow action buttons."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Unsupported file format '%(ext)s'. Allowed formats: PDF, DOC, DOCX, JPG, PNG."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Uploaded file content does not match its '%s' extension."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Yudisium documents are locked once sequential Yudisium approval has begun or the thesis is finalized."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Yudisium documents cannot be added once sequential Yudisium approval has begun or the thesis is finalized."
+msgstr ""
+
+#. module: campus_thesis
+#, python-format
+msgid "Yudisium documents cannot be moved to a locked or finalized thesis."
+msgstr ""

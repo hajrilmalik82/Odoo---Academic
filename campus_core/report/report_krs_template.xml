@@ -6,7 +6,7 @@
                 <t t-call="web.external_layout">
                     <div class="page" style="font-family: 'Times New Roman', Times, serif;">
 
-                        <!-- DOKUMEN TITLE -->
+                        <!-- DOCUMENT TITLE -->
                         <div class="text-center mb-4">
                             <h3 style="font-weight: bold; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 2px;">
                                 Study Plan (KRS)
@@ -28,7 +28,7 @@
                                 <td><t t-out="o.academic_year_id.display_name or '-'"/></td>
                                 <td style="padding: 3px 0;">Advisor</td>
                                 <td>:</td>
-                                <td><t t-out="o.advisor_id.name or '-'"/></td>
+                                <td><t t-out="o.advisor_id.sudo().name or '-'"/></td>
                             </tr>
                             <tr>
                                 <td style="padding: 3px 0;">Status</td>
@@ -106,7 +106,7 @@
                                         <p style="margin-bottom: 0;">Academic Advisor,</p>
                                         <br/><br/><br/>
                                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                                            <t t-out="o.advisor_id.name or '____________________'"/>
+                                            <t t-out="o.advisor_id.sudo().name or '____________________'"/>
                                         </p>
                                     </td>
                                 </tr>

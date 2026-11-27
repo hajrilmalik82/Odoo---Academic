@@ -48,7 +48,7 @@
                         <p style="margin-bottom: 0;">Head of Study Program</p>
                         <br/><br/><br/>
                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                            <t t-if="program.head_id"><t t-out="program.head_id.name"/></t>
+                            <t t-if="program and program.sudo().head_id"><t t-out="program.sudo().head_id.name"/></t>
                             <t t-else="">____________________</t>
                         </p>
                     </td>
@@ -57,7 +57,7 @@
                         <p style="margin-bottom: 0;">Dean of Faculty</p>
                         <br/><br/><br/>
                         <p style="margin-bottom: 0; font-weight: bold; text-decoration: underline;">
-                            <t t-if="faculty.dean_id"><t t-out="faculty.dean_id.name"/></t>
+                            <t t-if="faculty and faculty.sudo().dean_id"><t t-out="faculty.sudo().dean_id.name"/></t>
                             <t t-else="">____________________</t>
                         </p>
                     </td>

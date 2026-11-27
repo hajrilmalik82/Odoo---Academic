@@ -30,10 +30,7 @@
         <record id="rule_academic_staff_krs_access" model="ir.rule">
             <field name="name">Academic Staff: Faculty and Program Access for KRS</field>
             <field name="model_id" ref="campus_core.model_academic_krs"/>
-            <!-- See _build_jurisdiction_domain: an empty assignment list means
-                 "no restriction on that dimension", as the field help says. The
-                 inline version turned it into `in []`, which matched nothing. -->
-            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('program_id')</field>
+            <field name="domain_force">user.employee_ids._academic_jurisdiction_domain('program_id')</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
@@ -44,7 +41,7 @@
         <record id="rule_academic_staff_khs_access" model="ir.rule">
             <field name="name">Academic Staff: Faculty and Program Access for KHS</field>
             <field name="model_id" ref="campus_core.model_academic_khs"/>
-            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('student_id.program_id')</field>
+            <field name="domain_force">user.employee_ids._academic_jurisdiction_domain('student_id.program_id')</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
@@ -52,16 +49,10 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
-        <!-- The jurisdiction has to reach the grade lines too. It was enforced on
-             academic.khs but not on academic.khs.line, and no other rule matched
-             this group there, so staff could read and edit the grades of every
-             student in the university simply by going at the line model directly.
-             Held back until now because the domain builder above had to be fixed
-             first: copied as it was, it would have shown them nothing. -->
         <record id="rule_academic_staff_khs_line_access" model="ir.rule">
             <field name="name">Academic Staff: Faculty and Program Access for KHS Lines</field>
             <field name="model_id" ref="campus_core.model_academic_khs_line"/>
-            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('khs_id.student_id.program_id')</field>
+            <field name="domain_force">user.employee_ids._academic_jurisdiction_domain('khs_id.student_id.program_id')</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
@@ -69,20 +60,87 @@
             <field name="perm_unlink" eval="1"/>
         </record>
 
-        <!-- The jurisdiction has to reach the KRS lines too. It was enforced on
-             academic.krs but not on its lines, and the line model stores its own
-             student_id and state, so a staff member scoped to one faculty could
-             read and edit the study-plan lines of every student in the
-             university simply by querying the child model. -->
         <record id="rule_academic_staff_krs_line_access" model="ir.rule">
             <field name="name">Academic Staff: Faculty and Program Access for KRS Lines</field>
             <field name="model_id" ref="campus_core.model_academic_krs_line"/>
-            <field name="domain_force">user.employee_id._academic_jurisdiction_domain('krs_id.program_id')</field>
+            <field name="domain_force">user.employee_ids._academic_jurisdiction_domain('krs_id.program_id')</field>
             <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
             <field name="perm_read" eval="1"/>
             <field name="perm_write" eval="1"/>
             <field name="perm_create" eval="1"/>
             <field name="perm_unlink" eval="1"/>
+        </record>
+
+        <!-- Scope student reads for Academic Staff while leaving non-student
+             contacts (companies, vendors, colleagues) readable so mail and
+             other Odoo apps keep working. -->
+        <record id="rule_academic_staff_partner_read" model="ir.rule">
+            <field name="name">Academic Staff: Read Non-Students and In-Jurisdiction Students</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">['|', ('is_student', '=', False)] + user.employee_ids._academic_jurisdiction_domain('program_id')</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_admin_partner_read" model="ir.rule">
+            <field name="name">Campus Admin: Read Any Contact</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <!-- Restrict non-HR campus users (Lecturers & Academic Staff) to reading
+             academic colleagues and their own employee profile, preventing HR
+             chatter and version-history leaks from non-academic personnel. -->
+        <record id="rule_campus_employee_read_academic" model="ir.rule">
+            <field name="name">Campus Roles: Only Read Academic Employees or Own Profile</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="domain_force">['|', ('academic_role', '!=', False), ('user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer')), (4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_hr_and_admin_employee_read_all" model="ir.rule">
+            <field name="name">HR &amp; Campus Admin: Read All Employees</field>
+            <field name="model_id" ref="hr.model_hr_employee"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_user')), (4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_campus_hr_version_read_academic" model="ir.rule">
+            <field name="name">Campus Roles: Only Read Academic Employee Versions</field>
+            <field name="model_id" ref="hr.model_hr_version"/>
+            <field name="domain_force">['|', ('employee_id.academic_role', '!=', False), ('employee_id.user_id', '=', user.id)]</field>
+            <field name="groups" eval="[(4, ref('campus_core.group_campus_lecturer')), (4, ref('campus_core.group_campus_academic_staff'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
+        </record>
+
+        <record id="rule_hr_and_admin_hr_version_read_all" model="ir.rule">
+            <field name="name">HR &amp; Campus Admin: Read All Employee Versions</field>
+            <field name="model_id" ref="hr.model_hr_version"/>
+            <field name="domain_force">[(1, '=', 1)]</field>
+            <field name="groups" eval="[(4, ref('hr.group_hr_user')), (4, ref('campus_core.group_campus_administrator'))]"/>
+            <field name="perm_read" eval="1"/>
+            <field name="perm_write" eval="0"/>
+            <field name="perm_create" eval="0"/>
+            <field name="perm_unlink" eval="0"/>
         </record>
     </data>
 </odoo>

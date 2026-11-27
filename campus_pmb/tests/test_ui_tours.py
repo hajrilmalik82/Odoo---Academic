@@ -54,7 +54,7 @@ class TestCampusPmbUiTours(CampusHttpCommon):
             'amount': 250000.0,
         })
         cls.req_rule = cls.env['campus.admission.requirement'].search([], limit=1) or cls.env['campus.admission.requirement'].create({
-            'document_type': 'ijazah',
+            'document_type': 'diploma',
             'admission_path': 'all',
         })
 

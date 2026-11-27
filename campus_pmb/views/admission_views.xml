@@ -11,7 +11,7 @@
                     <button name="action_submit" string="Submit" type="object" class="oe_highlight" invisible="state != 'draft'"/>
                     <button name="action_start_document_review" string="Start Document Review" type="object" class="oe_highlight" invisible="state != 'submitted'"/>
                     <button name="action_accept" string="Accept" type="object" class="btn-success" invisible="state != 'document_review'"/>
-                    <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state in ('accepted', 'registered', 'rejected')"/>
+                    <button name="action_reject" string="Reject" type="object" class="btn-danger" invisible="state in ('registered', 'rejected')"/>
                     <button name="action_register" type="object" string="Register Student" class="oe_highlight" invisible="state != 'accepted'"/>
                     <!-- Not clickable on purpose: clicking the statusbar writes `state`
                          directly and bypasses every action_* method. Jumping to
@@ -31,23 +31,23 @@
                              rendered above the registration number instead. -->
                         <label for="name" class="oe_edit_only" string="Applicant Name"/>
                         <h1>
-                            <field name="name" placeholder="e.g. John Doe"/>
+                            <field name="name" placeholder="e.g. John Doe" readonly="state in ('registered', 'rejected')"/>
                         </h1>
                     </div>
                     <group>
                         <group string="Personal Information">
                             <field name="email" widget="email" readonly="state in ('accepted', 'registered', 'rejected')"/>
-                            <field name="phone" widget="phone"/>
-                            <field name="previous_school"/>
+                            <field name="phone" widget="phone" readonly="state in ('registered', 'rejected')"/>
+                            <field name="previous_school" readonly="state in ('registered', 'rejected')"/>
                         </group>
                         <group string="Application Details">
-                            <field name="registration_date"/>
+                            <field name="registration_date" readonly="state in ('registered', 'rejected')"/>
                             <field name="admission_path" readonly="state in ('accepted', 'registered', 'rejected')"/>
                             <field name="faculty_id" readonly="state in ('accepted', 'registered', 'rejected')"/>
                             <field name="program_id" readonly="state in ('accepted', 'registered', 'rejected')"/>
                             <field name="academic_year_id" readonly="state in ('accepted', 'registered', 'rejected')"/>
-                            <field name="partner_id" invisible="1"/>
-                            <field name="user_id" invisible="1"/>
+                            <field name="partner_id" readonly="1" invisible="not partner_id"/>
+                            <field name="user_id" readonly="1" invisible="not user_id"/>
                         </group>
                     </group>
                     <group string="Verification &amp; Payment">
@@ -98,11 +98,13 @@
                      filter and not a hard domain on the action, it can be
                      cleared: registered applicants used to be unreachable from
                      anywhere in the backend once they were registered. -->
-                <filter string="In Progress" name="in_progress" domain="[('state', '!=', 'registered')]"/>
+                <filter string="In Progress" name="in_progress" domain="[('state', 'not in', ('registered', 'rejected'))]"/>
                 <filter string="Registered" name="registered" domain="[('state', '=', 'registered')]"/>
+                <filter string="Rejected" name="rejected" domain="[('state', '=', 'rejected')]"/>
                 <separator/>
                 <filter string="Draft" name="draft" domain="[('state', '=', 'draft')]"/>
                 <filter string="Submitted" name="submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter string="Document Review" name="document_review" domain="[('state', '=', 'document_review')]"/>
                 <filter string="Accepted" name="accepted" domain="[('state', '=', 'accepted')]"/>
                 <group name="group_by">
                     <filter string="Status" name="group_by_state" context="{'group_by': 'state'}"/>
@@ -149,12 +151,13 @@
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
-        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_pmb.group_pmb'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
 eligible = records.filtered(lambda r: r.state == 'draft')
-if eligible:
-    eligible.action_submit()
+if not eligible:
+    raise UserError("No Draft admissions selected.")
+eligible.action_submit()
         </field>
     </record>
 
@@ -163,12 +166,13 @@ if eligible:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
-        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_pmb.group_pmb'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
 eligible = records.filtered(lambda r: r.state == 'submitted')
-if eligible:
-    eligible.action_start_document_review()
+if not eligible:
+    raise UserError("No Submitted admissions selected.")
+eligible.action_start_document_review()
         </field>
     </record>
 
@@ -177,12 +181,13 @@ if eligible:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
-        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_pmb.group_pmb'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
 eligible = records.filtered(lambda r: r.state == 'document_review')
-if eligible:
-    eligible.action_accept()
+if not eligible:
+    raise UserError("No Document Review admissions selected.")
+eligible.action_accept()
         </field>
     </record>
 
@@ -191,12 +196,13 @@ if eligible:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
-        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_pmb.group_pmb'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
-eligible = records.filtered(lambda r: r.state in ('draft', 'submitted', 'document_review'))
-if eligible:
-    eligible.action_reject()
+eligible = records.filtered(lambda r: r.state in ('draft', 'submitted', 'document_review', 'accepted'))
+if not eligible:
+    raise UserError("No rejectable admissions selected.")
+eligible.action_reject()
         </field>
     </record>
 
@@ -205,12 +211,13 @@ if eligible:
         <field name="model_id" ref="model_campus_admission"/>
         <field name="binding_model_id" ref="model_campus_admission"/>
         <field name="binding_view_types">list</field>
-        <field name="group_ids" eval="[(4, ref('campus_pmb.group_pmb')), (4, ref('campus_core.group_campus_administrator'))]"/>
+        <field name="group_ids" eval="[(6, 0, [ref('campus_pmb.group_pmb'), ref('campus_core.group_campus_administrator')])]"/>
         <field name="state">code</field>
         <field name="code">
 eligible = records.filtered(lambda r: r.state == 'accepted')
-if eligible:
-    eligible.action_register()
+if not eligible:
+    raise UserError("No Accepted admissions selected.")
+eligible.action_register()
         </field>
     </record>
 

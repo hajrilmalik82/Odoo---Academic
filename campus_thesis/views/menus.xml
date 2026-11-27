@@ -29,10 +29,4 @@
               parent="menu_campus_thesis_config"
               action="action_campus_thesis_requirement"
               sequence="10"/>
-
-    <menuitem id="menu_campus_graduation_schedule_config"
-              name="Graduation Schedules"
-              parent="menu_campus_thesis_config"
-              action="action_campus_graduation_schedule"
-              sequence="20"/>
 </odoo>

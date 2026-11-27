@@ -116,7 +116,7 @@ msgstr ""
 
 #. module: campus_website
 #: model_terms:ir.ui.view,arch_db:campus_website.campus_demo_login
-msgid "<i class=\"fa fa-user-secret me-1\"/> Login Admin Kampus"
+msgid "<i class=\"fa fa-user-secret me-1\"/> Login as Campus Admin"
 msgstr ""
 
 #. module: campus_website

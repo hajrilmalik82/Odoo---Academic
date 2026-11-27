@@ -191,3 +191,18 @@ class TestLecturerMove(CampusCommon):
             self.mover.active = False
         with self.assertRaises(ValidationError):
             self.mover.unlink()
+
+    def test_advising_an_archived_student_still_blocks_the_move(self):
+        student = self._advises()
+        student.active = False
+        with self.assertRaises(ValidationError) as caught:
+            self.mover.program_id = self.elsewhere_program
+        self.assertIn(student.name, str(caught.exception))
+
+    def test_numeric_zero_active_write_is_blocked_and_graduated_advisee_allows_move(self):
+        student = self._advises()
+        with self.assertRaises(ValidationError):
+            self.mover.write({'active': 0})
+        student.student_status = 'graduated'
+        self.mover.program_id = self.elsewhere_program
+        self.assertEqual(self.mover.program_id, self.elsewhere_program)

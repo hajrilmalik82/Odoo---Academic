@@ -1,9 +1,26 @@
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, ValidationError
+from odoo.fields import Domain
+
+
+def _expand_implied_groups(groups):
+    """Return ``groups`` plus every group transitively implied by them."""
+    seen = groups
+    frontier = groups
+    while frontier:
+        next_groups = frontier.mapped('implied_ids') - seen
+        seen |= next_groups
+        frontier = next_groups
+    return seen
 
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
+
+    _unique_nidn = models.UniqueIndex(
+        "(nidn) WHERE nidn IS NOT NULL AND nidn <> ''",
+        "NIDN must be unique across employees.",
+    )
 
     _HR_OR_CAMPUS_GROUPS = (
         "hr.group_hr_user,"
@@ -49,13 +66,11 @@ class HrEmployee(models.Model):
     academic_role = fields.Selection([
         ('lecturer', 'Lecturer'),
         ('academic', 'Academic Staff (TU)')
-    ], string="Academic Role", store=True, tracking=True)
-    # The label is the acronym alone, the way the credential is actually
-    # written on a lecturer's record. Its Indonesian expansion is domain
-    # terminology, so it belongs in help text rather than in a msgid that a
-    # translator would have nothing to translate.
+    ], string="Academic Role", store=True, tracking=True, index=True, copy=False)
     nidn = fields.Char(
         string="NIDN",
+        copy=False,
+        index='btree_not_null',
         help="National lecturer identification number (Nomor Induk Dosen Nasional).",
     )
     academic_rank = fields.Selection([
@@ -64,11 +79,12 @@ class HrEmployee(models.Model):
         ('lektor_kepala', 'Lektor Kepala'),
         ('guru_besar', 'Guru Besar')
     ], string="Academic Rank")
-    faculty_id = fields.Many2one('academic.faculty', string="Faculty")
+    faculty_id = fields.Many2one('academic.faculty', string="Faculty", index=True)
     program_id = fields.Many2one(
         'academic.program', 
         string="Program", 
-        domain="[('faculty_id', '=', faculty_id)]"
+        domain="[('faculty_id', '=', faculty_id)]",
+        index=True,
     )
 
     # NOTE: the PMB jurisdiction fields (pmb_all_faculties, pmb_faculty_ids,
@@ -221,6 +237,11 @@ class HrEmployee(models.Model):
     @api.constrains('faculty_id', 'program_id')
     def _check_program_belongs_to_faculty(self):
         for employee in self:
+            if employee.program_id and not employee.faculty_id:
+                raise ValidationError(_(
+                    "Faculty is required when assigning Program '%(program)s'.",
+                    program=employee.program_id.display_name,
+                ))
             if (
                 employee.program_id
                 and employee.faculty_id
@@ -247,27 +268,28 @@ class HrEmployee(models.Model):
         if self.department_id:
             dept_manager = self.department_id.manager_id
             # If there's a manager and it's NOT the current employee
-            if dept_manager and dept_manager._origin.id != self._origin.id:
+            if dept_manager and dept_manager._origin != self._origin:
                 self.parent_id = dept_manager
             # If this employee IS the manager, their boss is the parent department's manager (e.g. Dean)
-            elif dept_manager and dept_manager._origin.id == self._origin.id:
-                if self.department_id.parent_id and self.department_id.parent_id.manager_id:
-                    self.parent_id = self.department_id.parent_id.manager_id
+            elif dept_manager and dept_manager._origin == self._origin:
+                parent_mgr = self.department_id.parent_id.manager_id
+                if parent_mgr and parent_mgr._origin != self._origin:
+                    self.parent_id = parent_mgr
 
     @api.model
     def _infer_faculty_in_vals_list(self, vals_list):
-        """Fill omitted `faculty_id` from `program_id` when only `program_id` is written."""
+        """Fill missing/falsy `faculty_id` from `program_id` when `program_id` is written."""
         program_ids = {
             vals['program_id']
             for vals in vals_list
-            if vals.get('program_id') and 'faculty_id' not in vals
+            if vals.get('program_id') and not vals.get('faculty_id')
         }
         if not program_ids:
             return vals_list
         programs = self.env['academic.program'].browse(list(program_ids)).grouped('id')
         result = []
         for vals in vals_list:
-            if vals.get('program_id') and 'faculty_id' not in vals:
+            if vals.get('program_id') and not vals.get('faculty_id'):
                 prog = programs.get(vals['program_id'])
                 if prog and prog.faculty_id:
                     vals = dict(vals, faculty_id=prog.faculty_id.id)
@@ -276,26 +298,38 @@ class HrEmployee(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        if any(vals.get('academic_role') for vals in vals_list):
+            self._check_may_grant_academic_groups()
         employees = super().create(self._infer_faculty_in_vals_list(vals_list))
-        # Only employees that actually carry a role need syncing. A new employee
-        # without one has no campus groups to grant or strip, and running the
-        # sync anyway would make ordinary HR hiring hit the administrator check
-        # whenever the linked user happened to hold a leftover campus group.
-        employees.filtered('academic_role')._sync_academic_user_role()
-        if employees.filtered('user_id'):
+        academic_employees = employees.filtered('academic_role')
+        academic_employees._sync_academic_user_role()
+        if academic_employees.filtered('user_id'):
             self.env.registry.clear_cache()
         return employees
 
     def write(self, vals):
         vals = self._infer_faculty_in_vals_list([vals])[0]
+        if 'academic_role' in vals:
+            target_role = vals['academic_role'] or False
+            if any((emp.academic_role or False) != target_role for emp in self):
+                self._check_may_grant_academic_groups()
+        # Prevent non-admin HR officers who already hold a campus group from
+        # hijacking an academic employee's jurisdiction or lecturer/dean identity
+        # by reassigning user_id or toggling active.
+        if {'user_id', 'active'}.intersection(vals):
+            if any(emp.academic_role or emp.sudo().jurisdiction_ids for emp in self):
+                self._check_may_grant_academic_groups()
+
         to_check = self._filtered_moving(vals)
-        if vals.get('active') is False:
+        if 'active' in vals and not vals['active']:
             to_check |= self.filtered('active')
         to_check._assert_nothing_still_attached()
 
         sync_needed = {'academic_role', 'user_id', 'active'}.intersection(vals)
-        had_role = self.filtered('academic_role') if sync_needed else self.browse()
-        previous_users = had_role.mapped('user_id') if sync_needed else self.env['res.users']
+        cache_needed = sync_needed or ('company_id' in vals)
+        had_role = self.filtered('academic_role') if cache_needed else self.browse()
+        had_jurisdiction = self.filtered(lambda e: e.sudo().jurisdiction_ids) if cache_needed else self.browse()
+        previous_users = (had_role | had_jurisdiction).mapped('user_id') if cache_needed else self.env['res.users']
 
         stale = self.browse()
         if 'faculty_id' in vals and 'program_id' not in vals:
@@ -312,23 +346,37 @@ class HrEmployee(models.Model):
         else:
             res = super().write(vals)
 
+        # If a lecturer's faculty/program was filled in from empty, ensure any
+        # pre-existing schedules or sessions still match the assigned unit.
+        if 'faculty_id' in vals or 'program_id' in vals:
+            assigned_schedules = self.env['academic.class.schedule'].sudo().search([
+                ('lecturer_id', 'in', self.ids),
+            ])
+            if assigned_schedules:
+                assigned_schedules._check_lecturer_eligible()
+            assigned_sessions = self.env['academic.class.session'].sudo().search([
+                ('lecturer_id', 'in', self.ids),
+            ])
+            if assigned_sessions:
+                assigned_sessions._check_lecturer_eligible()
+
         if sync_needed:
             affected = had_role | self.filtered('academic_role')
             affected._sync_academic_user_role(extra_users=previous_users)
-            # ir.rule._compute_domain is @ormcache'd without jurisdiction values;
-            # moving user_id between employees with the same role leaves group_ids
-            # unchanged, so clear_cache() must run unconditionally here.
+        if cache_needed and (had_role or had_jurisdiction or self.filtered('academic_role')):
             self.env.registry.clear_cache()
         return res
 
     def unlink(self):
-        self._assert_nothing_still_attached()
-        had_user = bool(self.filtered('user_id'))
+        if any(emp.academic_role or emp.sudo().jurisdiction_ids for emp in self):
+            self._check_may_grant_academic_groups()
+        self.with_context(_campus_unlink_check=True)._assert_nothing_still_attached()
+        had_academic_or_juris = bool(self.filtered(lambda e: e.academic_role or e.sudo().jurisdiction_ids))
         affected_users = self.filtered('academic_role').mapped('user_id')
         res = super().unlink()
         if affected_users:
             self.env['hr.employee']._sync_academic_user_role(extra_users=affected_users)
-        if had_user:
+        if had_academic_or_juris:
             self.env.registry.clear_cache()
         return res
 
@@ -366,6 +414,75 @@ class HrEmployee(models.Model):
                     break
         return moving
 
+    def _what_still_points_by_employee(self):
+        """Return ``{employee_id: [messages]}`` across ``self`` using batched queries.
+
+        During moves or archiving, only active commitments block (active academic
+        years for schedules, active/future sessions, and non-graduated/non-dropout
+        advisees) so lecturers can retire or transfer after a semester ends.
+        During permanent deletion (``_campus_unlink_check``), all historical
+        references block to preserve referential integrity.
+        """
+        saved = self.browse([eid for eid in self.ids if isinstance(eid, int)])
+        if not saved:
+            return {}
+        include_history = bool(self.env.context.get('_campus_unlink_check'))
+        by_emp = {emp.id: [] for emp in saved}
+
+        for faculty in self.env['academic.faculty'].sudo().search([('dean_id', 'in', saved.ids)]):
+            by_emp[faculty.dean_id.id].append(_("Dean of %(faculty)s", faculty=faculty.name))
+
+        for program in self.env['academic.program'].sudo().search([('head_id', 'in', saved.ids)]):
+            by_emp[program.head_id.id].append(_("Head of %(program)s", program=program.name))
+
+        schedule_domain = [('lecturer_id', 'in', saved.ids)]
+        if not include_history:
+            schedule_domain.append(('class_id.academic_year_id.active', '=', True))
+        schedules_by_emp = {}
+        for schedule in self.env['academic.class.schedule'].sudo().search(schedule_domain):
+            schedules_by_emp.setdefault(schedule.lecturer_id.id, []).append(schedule)
+        for emp_id, schedules in schedules_by_emp.items():
+            subjects = sorted({
+                sched.class_id.subject_id.name
+                for sched in schedules
+                if sched.class_id.subject_id.name
+            })
+            by_emp[emp_id].append(_(
+                "Teaching %(count)s weekly schedule(s): %(subjects)s",
+                count=len(schedules),
+                subjects=", ".join(subjects) or "-",
+            ))
+
+        session_domain = [('lecturer_id', 'in', saved.ids)]
+        if not include_history:
+            session_domain += [
+                '|',
+                ('class_id.academic_year_id.active', '=', True),
+                ('end_datetime', '>=', fields.Datetime.now()),
+            ]
+        session_groups = self.env['academic.class.session'].sudo()._read_group(
+            session_domain, groupby=['lecturer_id'], aggregates=['__count'],
+        )
+        for emp, count in session_groups:
+            if count:
+                by_emp[emp.id].append(_("Named on %(count)s class session(s)", count=count))
+
+        students_by_emp = {}
+        partner_domain = [('academic_advisor_id', 'in', saved.ids)]
+        if not include_history:
+            partner_domain.append(('student_status', 'in', ('active', 'leave')))
+        archived_aware_partners = self.env['res.partner'].sudo().with_context(active_test=False)
+        for student in archived_aware_partners.search(partner_domain):
+            students_by_emp.setdefault(student.academic_advisor_id.id, []).append(student.name or '-')
+        for emp_id, names in students_by_emp.items():
+            by_emp[emp_id].append(_(
+                "Academic advisor to %(count)s student(s): %(names)s",
+                count=len(names),
+                names=", ".join(names[:5]) + ("..." if len(names) > 5 else ""),
+            ))
+
+        return by_emp
+
     def _what_still_points_here(self):
         """Everything that would be left dangling, named so a user can act.
 
@@ -375,36 +492,7 @@ class HrEmployee(models.Model):
         to have it.
         """
         self.ensure_one()
-        attached = []
-
-        for faculty in self.env['academic.faculty'].sudo().search([('dean_id', '=', self.id)]):
-            attached.append(_("Dean of %(faculty)s", faculty=faculty.name))
-
-        for program in self.env['academic.program'].sudo().search([('head_id', '=', self.id)]):
-            attached.append(_("Head of %(program)s", program=program.name))
-
-        schedules = self.env['academic.class.schedule'].sudo().search([('lecturer_id', '=', self.id)])
-        if schedules:
-            subjects = sorted(set(schedules.mapped('class_id.subject_id.name')))
-            attached.append(_(
-                "Teaching %(count)s weekly schedule(s): %(subjects)s",
-                count=len(schedules),
-                subjects=", ".join(subjects),
-            ))
-
-        sessions = self.env['academic.class.session'].sudo().search([('lecturer_id', '=', self.id)])
-        if sessions:
-            attached.append(_("Named on %(count)s class session(s)", count=len(sessions)))
-
-        students = self.env['res.partner'].sudo().search([('academic_advisor_id', '=', self.id)])
-        if students:
-            attached.append(_(
-                "Academic advisor to %(count)s student(s): %(names)s",
-                count=len(students),
-                names=", ".join(students[:5].mapped('name')) + ("..." if len(students) > 5 else ""),
-            ))
-
-        return attached
+        return self._what_still_points_by_employee().get(self.id, [])
 
     def _assert_nothing_still_attached(self):
         """Refuse a move while anything still points at the person.
@@ -413,8 +501,11 @@ class HrEmployee(models.Model):
         class, fixing it, and then being told about a second is a worse
         experience than being handed the whole list once.
         """
+        if not self:
+            return
+        by_emp = self._what_still_points_by_employee()
         for employee in self:
-            attached = employee._what_still_points_here()
+            attached = by_emp.get(employee.id, [])
             if not attached:
                 continue
             raise ValidationError(_(
@@ -426,21 +517,24 @@ class HrEmployee(models.Model):
             ))
 
     def _jurisdiction(self, scope):
-        """This employee's assignment for one purpose, or an empty recordset.
-
-        sudo() because ir.rule evaluates domain_force as the user themselves
-        (ir_rule.py:48 passes env.user), while campus.jurisdiction is
-        administrator-only. Reading one's own assignment in order to build
-        one's own restriction grants nothing.
-        """
-        employee = self[:1].sudo()
-        if not employee:
+        """This employee's assignment for one purpose, or an empty recordset."""
+        employees = self.sudo()
+        if not employees:
             return self.env['campus.jurisdiction']
-        return employee.jurisdiction_ids.filtered(lambda row: row.scope == scope)[:1]
+        return employees.jurisdiction_ids.filtered(lambda row: row.scope == scope)[:1]
 
     def _jurisdiction_domain(self, scope, program_path):
-        """Record-rule domain for one employee and one purpose."""
-        return self._jurisdiction(scope)._domain_for(program_path)
+        """Record-rule domain across all matching active employee records."""
+        employees = self.sudo()
+        if not employees:
+            return [(0, '=', 1)]
+        rows = employees.jurisdiction_ids.filtered(lambda row: row.scope == scope)
+        if not rows:
+            return [(0, '=', 1)]
+        if len(rows) == 1:
+            return rows._domain_for(program_path)
+        domains = [row._domain_for(program_path) for row in rows]
+        return list(Domain.OR([Domain(d) for d in domains]))
 
     def _academic_jurisdiction_domain(self, program_path='program_id'):
         """Domain for an Academic Staff member, called from ir.rule.domain_force."""
@@ -506,8 +600,14 @@ class HrEmployee(models.Model):
             keep = active_by_user.get(user.id, empty)
             # Read under sudo: comparing another user's group membership.
             current = user.sudo().group_ids
+            # Preserve any academic group implied by a higher non-managed group
+            # (for example campus_core.group_campus_administrator implies
+            # lecturer, academic staff, and PMB). Unlinking an implied group
+            # triggers Odoo's reverse-implication cascade and silently demotes
+            # the administrator.
+            retained_by_implication = _expand_implied_groups(current - academic_groups)
             to_add = keep - current
-            to_remove = (academic_groups - keep) & current
+            to_remove = (academic_groups - keep - retained_by_implication) & current
             if not to_add and not to_remove:
                 continue
 

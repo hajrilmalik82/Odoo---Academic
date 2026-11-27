@@ -2,9 +2,10 @@ from odoo import _, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
 
-# Marker for the guard on hr.department: writes coming from THIS file are the
-# sync itself and must be allowed through. See campus_core/models/hr_department.py.
-_SYNC = {'campus_mirror_sync': True}
+def _normalize_code(code):
+    """Trim surrounding whitespace and uppercase an explicit institution code."""
+    cleaned = (code or '').strip().upper()
+    return cleaned or False
 
 
 def _drop_linked_departments(departments):
@@ -24,7 +25,11 @@ def _drop_linked_departments(departments):
     """
     if not departments:
         return
-    occupied = departments.filtered('member_ids')
+    occupied = departments.with_context(active_test=False).filtered(
+        lambda dept: dept.env['hr.employee'].sudo().with_context(active_test=False).search_count([
+            ('department_id', '=', dept.id),
+        ])
+    )
     if occupied:
         raise UserError(_(
             "Cannot delete %(names)s: employees are still assigned to the "
@@ -51,6 +56,7 @@ class AcademicFaculty(models.Model):
     _name = 'academic.faculty'
     _description = 'Academic Faculty'
     _order = 'name'
+    _rec_names_search = ['name', 'code']
 
     # Immutable short code used as part of the student number (NIM) prefix.
     # Derived from the name only at creation when omitted; locked once NIMs exist.
@@ -72,6 +78,11 @@ class AcademicFaculty(models.Model):
         "Faculty name must be unique!",
     )
 
+    _unique_department = models.UniqueIndex(
+        "(department_id) WHERE department_id IS NOT NULL",
+        "Each HR department can only mirror one academic faculty.",
+    )
+
     name = fields.Char(string='Name', required=True)
     dean_id = fields.Many2one('hr.employee', string="Head of Faculty / Dean")
     department_id = fields.Many2one('hr.department', string="Linked HR Department", ondelete='restrict', copy=False)
@@ -80,24 +91,20 @@ class AcademicFaculty(models.Model):
     def _issued_nim_count(self):
         """How many student numbers already carry this record's code."""
         self.ensure_one()
-        return self.env['res.partner'].sudo().search_count([
-            ('nim', '!=', False),
+        return self.env['res.partner'].sudo().with_context(active_test=False).search_count([
+            ('nim', 'not in', (False, '')),
             ('program_id.faculty_id', '=', self.id),
         ])
 
     @api.model_create_multi
     def create(self, vals_list):
         # Checked up front: the loop below creates an hr.department before
-        # super() gets to verify the caller may create a faculty at all. Without
-        # this, a user without create rights was refused by a message naming
-        # hr.department, which says nothing about what they actually lack.
+        # super() gets to verify the caller may create a faculty at all.
         self.check_access('create')
-        for vals in vals_list:
-            if not vals.get('code'):
-                vals['code'] = _derive_code(vals.get('name'))
-        # One hr.department.create for the whole batch rather than one per
-        # faculty: seeding master data used to cost a round trip per row.
-        needing = [vals for vals in vals_list if 'name' in vals and not vals.get('department_id')]
+        cleaned = [dict(vals) for vals in vals_list]
+        for vals in cleaned:
+            vals['code'] = _normalize_code(vals.get('code')) or _derive_code(vals.get('name'))
+        needing = [vals for vals in cleaned if 'name' in vals and not vals.get('department_id')]
         if needing:
             departments = self.env['hr.department'].create([{
                 'name': vals['name'],
@@ -105,12 +112,17 @@ class AcademicFaculty(models.Model):
             } for vals in needing])
             for vals, department in zip(needing, departments):
                 vals['department_id'] = department.id
-        return super().create(vals_list)
+        return super().create(cleaned)
 
     def write(self, vals):
         if 'code' in vals:
+            vals = dict(vals)
+            normalized = _normalize_code(vals['code'])
+            if not normalized:
+                raise ValidationError(_("Faculty code cannot be empty."))
+            vals['code'] = normalized
             for record in self:
-                if vals['code'] != record.code and record._issued_nim_count():
+                if normalized != record.code and record._issued_nim_count():
                     raise ValidationError(_(
                         "The code of '%(name)s' can no longer be changed: student "
                         "numbers have already been issued from it."
@@ -156,6 +168,7 @@ class AcademicProgram(models.Model):
     _name = 'academic.program'
     _description = 'Academic Program'
     _order = 'name'
+    _rec_names_search = ['name', 'code']
 
     _unique_code = models.UniqueIndex(
         "(upper(code)) WHERE code IS NOT NULL",
@@ -165,6 +178,11 @@ class AcademicProgram(models.Model):
     _unique_name_case_insensitive = models.UniqueIndex(
         "(lower(name))",
         "Program name must be unique!",
+    )
+
+    _unique_department = models.UniqueIndex(
+        "(department_id) WHERE department_id IS NOT NULL",
+        "Each HR department can only mirror one academic program.",
     )
 
     name = fields.Char(string='Name', required=True)
@@ -187,8 +205,8 @@ class AcademicProgram(models.Model):
     def _issued_nim_count(self):
         """How many student numbers already carry this record's code."""
         self.ensure_one()
-        return self.env['res.partner'].sudo().search_count([
-            ('nim', '!=', False),
+        return self.env['res.partner'].sudo().with_context(active_test=False).search_count([
+            ('nim', 'not in', (False, '')),
             ('program_id', '=', self.id),
         ])
 
@@ -196,10 +214,10 @@ class AcademicProgram(models.Model):
     def create(self, vals_list):
         # Same reason as on the faculty above.
         self.check_access('create')
-        for vals in vals_list:
-            if not vals.get('code'):
-                vals['code'] = _derive_code(vals.get('name'))
-        needing = [vals for vals in vals_list if 'name' in vals and not vals.get('department_id')]
+        cleaned = [dict(vals) for vals in vals_list]
+        for vals in cleaned:
+            vals['code'] = _normalize_code(vals.get('code')) or _derive_code(vals.get('name'))
+        needing = [vals for vals in cleaned if 'name' in vals and not vals.get('department_id')]
         if needing:
             faculty_ids = {vals['faculty_id'] for vals in needing if vals.get('faculty_id')}
             faculties = {
@@ -217,7 +235,7 @@ class AcademicProgram(models.Model):
             } for vals in needing])
             for vals, department in zip(needing, departments):
                 vals['department_id'] = department.id
-        programs = super().create(vals_list)
+        programs = super().create(cleaned)
         for program in programs:
             program._set_head_reports_to(program.faculty_id.dean_id)
         return programs
@@ -248,15 +266,28 @@ class AcademicProgram(models.Model):
 
     def write(self, vals):
         if 'code' in vals:
+            vals = dict(vals)
+            normalized = _normalize_code(vals['code'])
+            if not normalized:
+                raise ValidationError(_("Programme code cannot be empty."))
+            vals['code'] = normalized
             for record in self:
-                if vals['code'] != record.code and record._issued_nim_count():
+                if normalized != record.code and record._issued_nim_count():
                     raise ValidationError(_(
                         "The code of '%(name)s' can no longer be changed: student "
                         "numbers have already been issued from it."
                     ) % {'name': record.display_name})
+        outgoing_heads = (
+            {program.id: program.head_id for program in self}
+            if 'head_id' in vals else {}
+        )
+        outgoing_faculties = (
+            {program.id: program.faculty_id for program in self}
+            if ('faculty_id' in vals or 'head_id' in vals) else {}
+        )
         outgoing_deans = (
             {program.id: program.faculty_id.dean_id for program in self}
-            if 'faculty_id' in vals else {}
+            if ('faculty_id' in vals or 'head_id' in vals) else {}
         )
         res = super().write(vals)
         for program in self:
@@ -264,16 +295,30 @@ class AcademicProgram(models.Model):
                 if 'name' in vals:
                     program.department_id.with_context(campus_mirror_sync=True).name = program.name
                 if 'head_id' in vals:
-                    # Same reasoning as the dean above: a cleared Head of Program
-                    # leaves the programme's department without a manager.
                     program.department_id.with_context(campus_mirror_sync=True).manager_id = program.head_id.id
-                    if program.head_id:
-                        program._set_head_reports_to(program.faculty_id.dean_id)
                 if 'faculty_id' in vals:
                     program.department_id.with_context(campus_mirror_sync=True).parent_id = (
                         program.faculty_id.department_id.id if program.faculty_id.department_id else False
                     )
-            if 'faculty_id' in vals:
+            if 'head_id' in vals:
+                old_head = outgoing_heads.get(program.id)
+                old_faculty = outgoing_faculties.get(program.id) or program.faculty_id
+                old_dean = outgoing_deans.get(program.id)
+                if (
+                    old_head
+                    and old_head != program.head_id
+                    and old_dean
+                    and old_head.parent_id == old_dean
+                    and old_head.department_id != old_faculty.department_id
+                    and not self.env['academic.program'].search_count([
+                        ('faculty_id', '=', old_faculty.id),
+                        ('head_id', '=', old_head.id),
+                    ])
+                ):
+                    old_head.parent_id = False
+                if program.head_id:
+                    program._set_head_reports_to(program.faculty_id.dean_id)
+            elif 'faculty_id' in vals:
                 program._set_head_reports_to(program.faculty_id.dean_id, outgoing_deans.get(program.id))
         return res
 

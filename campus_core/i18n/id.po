@@ -2741,3 +2741,78 @@ msgstr "Mahasiswa %(student)s sudah memiliki kelas untuk '%(subject)s' di KRS-ny
 #. module: campus_core
 msgid "Assigning %(student)s to %(target)s overlaps with %(existing)s."
 msgstr "Menjadwalkan %(student)s ke %(target)s bentrok dengan %(existing)s."
+
+#. module: campus_core
+#, python-format
+msgid "%(lecturer)s is already teaching %(other)s at that time."
+msgstr "%(lecturer)s sudah mengajar %(other)s pada waktu tersebut."
+
+#. module: campus_core
+#, python-format
+msgid "A system error occurred."
+msgstr "Terjadi kesalahan sistem."
+
+#. module: campus_core
+#, python-format
+msgid "All selected students must belong to study program '%(program)s' (mismatched: %(students)s)."
+msgstr "Semua mahasiswa yang dipilih harus berasal dari program studi '%(program)s' (tidak sesuai: %(students)s)."
+
+#. module: campus_core
+#, python-format
+msgid "Each KRS line must specify a subject."
+msgstr "Setiap baris KRS wajib mencantumkan mata kuliah."
+
+#. module: campus_core
+#, python-format
+msgid "Faculty code cannot be empty."
+msgstr "Kode fakultas tidak boleh kosong."
+
+#. module: campus_core
+#, python-format
+msgid "Lecturer overlap detected on %(schedule)s with %(other_class)s (%(other_schedule)s)."
+msgstr "Bentrok jadwal dosen terdeteksi pada %(schedule)s dengan %(other_class)s (%(other_schedule)s)."
+
+#. module: campus_core
+#, python-format
+msgid "Lecturers can only update grade lines, not KHS details (%s)."
+msgstr "Dosen hanya dapat memperbarui baris nilai, bukan detail KHS (%s)."
+
+#. module: campus_core
+#, python-format
+msgid "Lecturers cannot add, remove, or replace KHS grade lines."
+msgstr "Dosen tidak dapat menambah, menghapus, atau mengganti baris nilai KHS."
+
+#. module: campus_core
+#, python-format
+msgid "Only Campus Administrators can reset a KRS to draft."
+msgstr "Hanya Administrator Kampus yang dapat mengembalikan KRS ke status draf."
+
+#. module: campus_core
+#, python-format
+msgid "Programme code cannot be empty."
+msgstr "Kode program studi tidak boleh kosong."
+
+#. module: campus_core
+#, python-format
+msgid "Room %(room)s is already taken by %(other)s at that time."
+msgstr "Ruangan %(room)s sudah digunakan oleh %(other)s pada waktu tersebut."
+
+#. module: campus_core
+#, python-format
+msgid "Room overlap detected on %(schedule)s with %(other_class)s (%(other_schedule)s)."
+msgstr "Bentrok ruangan terdeteksi pada %(schedule)s dengan %(other_class)s (%(other_schedule)s)."
+
+#. module: campus_core
+#, python-format
+msgid "Session %(num)s: %(name)s"
+msgstr "Pertemuan %(num)s: %(name)s"
+
+#. module: campus_core
+#, python-format
+msgid "That class or action conflicts with an existing registration rule."
+msgstr "Kelas atau tindakan tersebut bertentangan dengan aturan pendaftaran yang ada."
+
+#. module: campus_core
+#, python-format
+msgid "The action could not be completed."
+msgstr "Tindakan tidak dapat diselesaikan."

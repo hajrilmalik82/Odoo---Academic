@@ -40,7 +40,22 @@ class TestThresholdBands(CampusCommon):
         )
 
     def test_the_credit_cap_comes_from_the_configured_bands(self):
-        cap = self.env['academic.credit.limit']._get_max_credits(0.0)
-        self.assertTrue(cap and cap > 0)
+        Limits = self.env['academic.credit.limit']
+        top_cap = Limits._get_max_credits(4.0)
+        floor_cap = Limits._get_max_credits(0.0)
+        band_200_cap = Limits._get_max_credits(2.0)
+        self.assertTrue(top_cap and floor_cap and floor_cap < band_200_cap <= top_cap)
+        # Freshmen with zero graded credits receive the top configured band.
         krs = self._make_krs()
-        self.assertEqual(krs._get_max_credits_allowed(), cap)
+        self.assertEqual(krs._get_max_credits_allowed(), top_cap)
+        # Once graded with a low CGPA (< 2.00), the student drops to the floor band.
+        krs.action_submit()
+        krs.action_approve()
+        krs.action_lock()
+        khs = self.env['academic.khs'].search([
+            ('student_id', '=', self.student.id),
+            ('academic_year_id', '=', self.year.id),
+        ], limit=1)
+        khs.line_ids.write({'numeric_grade': 45.0})
+        next_krs = self._make_krs(year=self.year_retake, schedules=self.schedule_retake)
+        self.assertEqual(next_krs._get_max_credits_allowed(), floor_cap)

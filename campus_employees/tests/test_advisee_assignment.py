@@ -201,3 +201,15 @@ class TestAdviseeAssignment(CampusCommon):
             {'program_id': False},
         )
         self.assertFalse(self.env['hr.employee'].search(domain))
+
+    def test_assigning_programless_lecturer_to_programless_student_is_refused(self):
+        homeless_lecturer = self.env['hr.employee'].create({
+            'name': '%s Dosen Tanpa Prodi' % TAG,
+            'academic_role': 'lecturer',
+        })
+        homeless_student = self.env['res.partner'].create({
+            'name': '%s Mahasiswa Tanpa Prodi' % TAG,
+            'is_student': True,
+        })
+        with self.assertRaises(ValidationError):
+            homeless_student.academic_advisor_id = homeless_lecturer

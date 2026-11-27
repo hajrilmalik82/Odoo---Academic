@@ -58,7 +58,7 @@
                         </page>
                         <page string="Students">
                             <div class="mb-2">
-                                <button name="%(action_assign_schedule_wizard)d" string="Assign Schedule (Massive)" type="action" class="oe_highlight" icon="fa-magic"/>
+                                <button name="%(action_assign_schedule_wizard)d" string="Assign Schedule (Massive)" type="action" class="oe_highlight" icon="fa-magic" groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                             </div>
                             <field name="student_line_ids">
                                 <list editable="bottom" create="0" delete="0">
@@ -71,7 +71,7 @@
                         </page>
                         <page string="Real Sessions">
                             <div class="mb-2">
-                                <button name="action_generate_sessions" string="Generate Sessions" type="object" class="oe_highlight"/>
+                                <button name="action_generate_sessions" string="Generate Sessions" type="object" class="oe_highlight" groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                             </div>
                             <field name="session_ids" readonly="1">
                                 <list>

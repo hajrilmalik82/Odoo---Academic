@@ -1,6 +1,10 @@
 from odoo import _, api, fields, models, Command
 from odoo.exceptions import AccessError, UserError, ValidationError
 
+# Unforgeable per-process sentinel: prevents JSON-RPC callers from passing a
+# truthy context flag or writing `state` directly without workflow methods.
+_STATE_TRANSITION_TOKEN = object()
+
 
 class CampusThesis(models.Model):
     """End-to-end student thesis (Skripsi) and Yudisium lifecycle.
@@ -55,6 +59,8 @@ class CampusThesis(models.Model):
         compute='_compute_student_info',
         store=True,
         readonly=False,
+        index=True,
+        ondelete='restrict',
     )
     program_id = fields.Many2one(
         'academic.program',
@@ -62,6 +68,8 @@ class CampusThesis(models.Model):
         compute='_compute_student_info',
         store=True,
         readonly=False,
+        index=True,
+        ondelete='restrict',
     )
     advisor_id = fields.Many2one(
         'hr.employee',
@@ -80,6 +88,7 @@ class CampusThesis(models.Model):
         string='Academic Year',
         required=True,
         ondelete='restrict',
+        index=True,
         default=lambda self: self.env['academic.year']._get_current(),
         tracking=True,
     )
@@ -92,6 +101,7 @@ class CampusThesis(models.Model):
         string='Primary Supervisor',
         required=True,
         domain="[('academic_role', '=', 'lecturer'), ('program_id', '!=', False), ('program_id', '=', program_id)]",
+        ondelete='restrict',
         index=True,
         tracking=True,
     )
@@ -99,6 +109,7 @@ class CampusThesis(models.Model):
         'hr.employee',
         string='Co-Supervisor (Optional)',
         domain="[('academic_role', '=', 'lecturer'), ('id', '!=', supervisor_id)]",
+        ondelete='restrict',
         index=True,
         tracking=True,
     )
@@ -176,17 +187,26 @@ class CampusThesis(models.Model):
     yudisium_supervisor_approved = fields.Boolean(
         string='Yudisium: Supervisor Approved', readonly=True, copy=False, tracking=True,
     )
+    yudisium_supervisor_by_id = fields.Many2one(
+        'hr.employee', string='Yudisium Supervisor Signer', readonly=True, copy=False, ondelete='restrict',
+    )
     yudisium_supervisor_date = fields.Datetime(
         string='Supervisor Yudisium Date', readonly=True, copy=False,
     )
     yudisium_advisor_approved = fields.Boolean(
         string='Yudisium: Academic Advisor Approved', readonly=True, copy=False, tracking=True,
     )
+    yudisium_advisor_by_id = fields.Many2one(
+        'hr.employee', string='Yudisium Advisor Signer', readonly=True, copy=False, ondelete='restrict',
+    )
     yudisium_advisor_date = fields.Datetime(
         string='Advisor Yudisium Date', readonly=True, copy=False,
     )
     yudisium_dean_approved = fields.Boolean(
         string='Yudisium: Dean Approved', readonly=True, copy=False, tracking=True,
+    )
+    yudisium_dean_by_id = fields.Many2one(
+        'hr.employee', string='Yudisium Dean Signer', readonly=True, copy=False, ondelete='restrict',
     )
     yudisium_dean_date = fields.Datetime(
         string='Dean Yudisium Date', readonly=True, copy=False,
@@ -195,6 +215,8 @@ class CampusThesis(models.Model):
     graduation_id = fields.Many2one(
         'campus.graduation.schedule',
         string='Graduation Schedule',
+        ondelete='restrict',
+        index='btree_not_null',
         tracking=True,
     )
     graduation_date = fields.Date(
@@ -232,13 +254,18 @@ class CampusThesis(models.Model):
 
     @api.depends('student_id')
     def _compute_subject_eligibility(self):
+        Partner = self.env['res.partner']
+        student_ids = {
+            record.student_id.id
+            for record in self
+            if record.student_id and isinstance(record.student_id.id, int)
+        }
+        passed_ids = Partner._students_passed_research_method(student_ids)
+        enrolled_ids = Partner._students_enrolled_thesis_subject(student_ids)
         for record in self:
-            if not record.student_id or not isinstance(record.student_id.id, int):
-                record.research_method_passed = False
-                record.thesis_course_enrolled = False
-                continue
-            record.research_method_passed = record.student_id._has_passed_research_method()
-            record.thesis_course_enrolled = record.student_id._has_enrolled_thesis_subject()
+            sid = record.student_id.id if record.student_id else False
+            record.research_method_passed = sid in passed_ids
+            record.thesis_course_enrolled = sid in enrolled_ids
 
     @api.depends(
         'progress_line_ids.stage',
@@ -276,15 +303,27 @@ class CampusThesis(models.Model):
             received_lines = required_lines.filtered('received')
             record.required_document_count = len(required_lines)
             record.received_document_count = len(received_lines)
-            record.documents_complete = bool(required_lines) and len(required_lines) == len(received_lines)
+            record.documents_complete = (
+                bool(record.yudisium_document_ids)
+                and len(required_lines) == len(received_lines)
+            )
 
     # --- Constraints & Guards ---------------------------------------------
 
     @api.model
-    def _validate_student_eligibility(self, student):
-        """Verify that a partner is a student who passed Research Methodology."""
+    def _validate_student_eligibility(self, student, allow_graduated=False):
+        """Verify that a partner is an active student with a program who passed Research Methodology."""
         if not student.exists() or not student.is_student:
             raise ValidationError(_("Only contacts marked as Student can register a thesis."))
+        if not student.program_id or not student.faculty_id:
+            raise ValidationError(_(
+                "Student %(student)s must have a Study Program and Faculty assigned before registering a thesis."
+            ) % {'student': student.display_name})
+        allowed_statuses = ('active', 'graduated') if allow_graduated else ('active',)
+        if student.student_status not in allowed_statuses:
+            raise ValidationError(_(
+                "Student %(student)s must have Active status to register or advance a thesis."
+            ) % {'student': student.display_name})
         if not student._has_passed_research_method():
             raise ValidationError(_(
                 "Student %(student)s cannot take a thesis yet: they must pass a "
@@ -292,15 +331,46 @@ class CampusThesis(models.Model):
                 student=student.display_name,
             ))
 
+    @api.constrains('student_id', 'program_id', 'faculty_id')
+    def _check_program_faculty_consistency(self):
+        for record in self:
+            if record.state == 'cancelled':
+                continue
+            if not record.program_id or not record.faculty_id:
+                raise ValidationError(_("Thesis must specify both a Study Program and a Faculty."))
+            if record.program_id.faculty_id != record.faculty_id:
+                raise ValidationError(_(
+                    "Study Program '%(program)s' does not belong to Faculty '%(faculty)s'.",
+                    program=record.program_id.display_name,
+                    faculty=record.faculty_id.display_name,
+                ))
+            if (
+                record.state == 'draft'
+                and record.student_id.program_id
+                and record.program_id != record.student_id.program_id
+            ):
+                raise ValidationError(_(
+                    "Draft thesis program must match the student's current study program."
+                ))
+
     @api.constrains('student_id')
     def _check_student_eligible(self):
         for record in self:
-            self._validate_student_eligibility(record.student_id)
+            if record.state == 'cancelled':
+                continue
+            self._validate_student_eligibility(
+                record.student_id, allow_graduated=(record.state == 'graduated'),
+            )
 
     @api.constrains('supervisor_id', 'co_supervisor_id', 'program_id')
     def _check_supervisors_valid(self):
         for record in self:
             if record.supervisor_id:
+                if not record.supervisor_id.active:
+                    raise ValidationError(_(
+                        "Primary Supervisor %(name)s is archived and cannot be assigned.",
+                        name=record.supervisor_id.name,
+                    ))
                 if record.supervisor_id.academic_role != 'lecturer':
                     raise ValidationError(_(
                         "%(name)s is not a lecturer and cannot be assigned as Primary Supervisor.",
@@ -313,6 +383,11 @@ class CampusThesis(models.Model):
                         program=record.program_id.display_name,
                     ))
             if record.co_supervisor_id:
+                if not record.co_supervisor_id.active:
+                    raise ValidationError(_(
+                        "Co-Supervisor %(name)s is archived and cannot be assigned.",
+                        name=record.co_supervisor_id.name,
+                    ))
                 if record.co_supervisor_id.academic_role != 'lecturer':
                     raise ValidationError(_(
                         "%(name)s is not a lecturer and cannot be assigned as Co-Supervisor.",
@@ -328,7 +403,16 @@ class CampusThesis(models.Model):
         for record in self:
             if not record.graduation_id or record.state == 'cancelled':
                 continue
+            if record.state != 'graduated':
+                raise ValidationError(_(
+                    "A graduation schedule can only be assigned after Yudisium is approved."
+                ))
             schedule = record.graduation_id
+            if schedule.state != 'open':
+                raise ValidationError(_(
+                    "Graduation schedule '%(name)s' is not open for assignment.",
+                    name=schedule.display_name,
+                ))
             schedule._lock_for_quota()
             schedule.invalidate_recordset(['participant_count'])
             if schedule.quota > 0 and schedule.participant_count > schedule.quota:
@@ -369,16 +453,31 @@ class CampusThesis(models.Model):
     @api.constrains('state')
     def _check_state_prerequisites(self):
         """Enforce business invariants regardless of how state is written."""
-        for record in self:
-            if record.state in ('draft', 'cancelled'):
-                continue
-            if not record.student_id._has_passed_research_method():
+        active_records = self.filtered(lambda r: r.state not in ('draft', 'cancelled'))
+        if not active_records:
+            return
+        Partner = self.env['res.partner']
+        student_ids = {r.student_id.id for r in active_records if r.student_id}
+        passed_ids = Partner._students_passed_research_method(student_ids)
+        thesis_stage_ids = {
+            r.student_id.id
+            for r in active_records
+            if r.state in self._THESIS_STAGE_STATES and r.student_id
+        }
+        enrolled_ids = Partner._students_enrolled_thesis_subject(thesis_stage_ids)
+        for record in active_records:
+            allowed_statuses = ('active', 'graduated') if record.state == 'graduated' else ('active',)
+            if record.student_id.student_status not in allowed_statuses:
+                raise ValidationError(_(
+                    "Student %(student)s must have Active status to proceed with their thesis."
+                ) % {'student': record.student_id.display_name})
+            if record.student_id.id not in passed_ids:
                 raise ValidationError(_(
                     "Student %(student)s must pass a Research Methodology subject before "
                     "proceeding with their thesis.",
                     student=record.student_id.display_name,
                 ))
-            if record.state in self._THESIS_STAGE_STATES and not record.student_id._has_enrolled_thesis_subject():
+            if record.state in self._THESIS_STAGE_STATES and record.student_id.id not in enrolled_ids:
                 raise ValidationError(_(
                     "Student %(student)s must enroll in a Thesis subject in an approved "
                     "or locked KRS before entering the Thesis stage.",
@@ -421,53 +520,64 @@ class CampusThesis(models.Model):
                     new=new_state,
                 ))
 
+    def _is_workflow_context(self):
+        return self.env.context.get('_thesis_state_token') is _STATE_TRANSITION_TOKEN
+
+    def _workflow_write(self, vals):
+        """Execute a state or audit write authorized by a workflow action method."""
+        return self.with_context(_thesis_state_token=_STATE_TRANSITION_TOKEN).write(vals)
+
+    _WORKFLOW_APPROVAL_FIELDS = {
+        'supervisor_approved',
+        'co_supervisor_approved',
+        'yudisium_supervisor_approved',
+        'yudisium_advisor_approved',
+        'yudisium_dean_approved',
+    }
+    _ADMIN_ONLY_FIELDS = {
+        'name',
+        'faculty_id',
+        'program_id',
+        'academic_year_id',
+        'proposal_approved_date',
+        'thesis_approved_date',
+        'rejection_reason',
+        'yudisium_supervisor_by_id',
+        'yudisium_supervisor_date',
+        'yudisium_advisor_by_id',
+        'yudisium_advisor_date',
+        'yudisium_dean_by_id',
+        'yudisium_dean_date',
+    }
+
     def _check_protected_writes(self, vals):
         if 'student_id' in vals:
             for record in self:
                 if vals['student_id'] != record.student_id.id:
                     raise ValidationError(_("The student on a thesis record cannot be changed."))
 
-        workflow_fields = {
-            'supervisor_approved',
-            'co_supervisor_approved',
-            'yudisium_supervisor_approved',
-            'yudisium_advisor_approved',
-            'yudisium_dean_approved',
-        }
-        if (
-            workflow_fields.intersection(vals)
-            and not self.env.su
-            and not self.env.context.get('_thesis_workflow_action')
-        ):
+        is_workflow = self._is_workflow_context()
+        if self._WORKFLOW_APPROVAL_FIELDS.intersection(vals) and not self.env.su and not is_workflow:
             raise AccessError(_(
                 "Approval flags can only be updated through the official approval buttons."
             ))
 
         is_admin = self._is_admin()
-        is_workflow = self.env.su or self.env.context.get('_thesis_workflow_action')
+        is_staff = self.env.user.has_group('campus_core.group_campus_academic_staff')
         if not is_admin:
-            admin_only_fields = {
-                'faculty_id',
-                'program_id',
-                'academic_year_id',
-                'proposal_approved_date',
-                'thesis_approved_date',
-                'rejection_reason',
-                'yudisium_supervisor_date',
-                'yudisium_advisor_date',
-                'yudisium_dean_date',
-            }
-            if admin_only_fields.intersection(vals) and not is_workflow:
+            if self._ADMIN_ONLY_FIELDS.intersection(vals) and not is_workflow:
                 raise AccessError(_(
-                    "Snapshot, academic year, and workflow audit fields cannot be modified directly."
+                    "Reference number, snapshot, academic year, and workflow audit fields cannot be modified directly."
                 ))
-            if 'graduation_id' in vals and not is_workflow and not self.env.user.has_group(
-                'campus_core.group_campus_academic_staff'
-            ):
+            if 'graduation_id' in vals and not is_workflow and not is_staff:
                 raise AccessError(_(
                     "Only Academic Staff or Campus Administrators can assign a graduation schedule."
                 ))
-            if 'supervisor_id' in vals or 'co_supervisor_id' in vals:
+            if ('supervisor_id' in vals or 'co_supervisor_id' in vals) and not is_workflow:
+                if not is_staff:
+                    raise AccessError(_(
+                        "Only Academic Staff or Campus Administrators can reassign thesis supervisors."
+                    ))
                 locked = self.filtered(
                     lambda record: record.state not in ('draft', 'supervisor_rejected')
                 )
@@ -475,7 +585,11 @@ class CampusThesis(models.Model):
                     raise ValidationError(_(
                         "Supervisors can only be changed while the thesis is in Draft or Supervisor Rejected."
                     ))
-            if 'title' in vals or 'research_topic' in vals:
+            if ('title' in vals or 'research_topic' in vals) and not is_workflow:
+                if not is_staff:
+                    raise AccessError(_(
+                        "Only Academic Staff or Campus Administrators can edit thesis title or topic from the backend."
+                    ))
                 locked_titles = self.filtered(
                     lambda record: record.state not in ('draft', 'supervisor_rejected', 'proposal')
                 )
@@ -487,40 +601,116 @@ class CampusThesis(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         self.check_access('create')
-        for vals in vals_list:
+        is_admin = self._is_admin()
+        is_workflow = self._is_workflow_context()
+        clean_list = []
+        forbidden_create = (
+            self._WORKFLOW_APPROVAL_FIELDS
+            | (self._ADMIN_ONLY_FIELDS - {'academic_year_id', 'name', 'faculty_id', 'program_id'})
+            | {'graduation_id'}
+        )
+        for raw_vals in vals_list:
+            vals = dict(raw_vals)
             if vals.get('state') and vals['state'] != 'draft':
                 raise ValidationError(_("New thesis records must start in Draft status."))
+            if not is_admin and not is_workflow:
+                blocked = forbidden_create.intersection(vals)
+                if blocked:
+                    raise AccessError(_(
+                        "Protected fields (%s) cannot be set when creating a thesis."
+                    ) % ', '.join(sorted(blocked)))
+                if vals.get('name') and vals['name'] != 'New':
+                    raise AccessError(_("Thesis numbers are assigned automatically."))
             if vals.get('student_id'):
                 student = self.env['res.partner'].sudo().browse(vals['student_id'])
                 self._validate_student_eligibility(student)
+                if not is_admin and not is_workflow:
+                    if vals.get('program_id') and vals['program_id'] != student.program_id.id:
+                        raise AccessError(_("Thesis study program must match the student's program."))
+                    if vals.get('faculty_id') and vals['faculty_id'] != student.faculty_id.id:
+                        raise AccessError(_("Thesis faculty must match the student's faculty."))
+                # Always snapshot program/faculty from the student on creation so
+                # jurisdiction rules cannot be bypassed via spoofed create vals.
+                if not is_admin or ('program_id' not in vals and 'faculty_id' not in vals):
+                    vals['program_id'] = student.program_id.id
+                    vals['faculty_id'] = student.faculty_id.id
                 existing = self.sudo().search_count([
                     ('student_id', '=', vals['student_id']),
                     ('state', '!=', 'cancelled'),
                 ])
                 if existing:
                     raise ValidationError(_("This student already has an active thesis record."))
-        for vals in vals_list:
-            if vals.get('name', 'New') == 'New':
+            if not vals.get('name') or vals.get('name') == 'New':
                 vals['name'] = self.env['ir.sequence'].sudo().next_by_code('campus.thesis') or 'New'
-        return super().create(vals_list)
+            clean_list.append(vals)
+        return super().create(clean_list)
+
+    def copy(self, default=None):
+        raise UserError(_("Thesis records cannot be duplicated."))
+
+    def _sync_supervisor_approval_after_change(self):
+        """Re-evaluate activities and auto-transition if supervisors change in supervisor_approval."""
+        for record in self.filtered(lambda r: r.state == 'supervisor_approval'):
+            record._close_thesis_activities(['campus_thesis.mail_activity_type_thesis_supervisor'])
+            all_approved = record.supervisor_approved and (
+                not record.co_supervisor_id or record.co_supervisor_approved
+            )
+            if all_approved:
+                record._workflow_write({'state': 'proposal'})
+                record.message_post(
+                    body=_("All required supervisors have approved. Thesis moved to Proposal Stage."),
+                )
+            else:
+                pending = self.env['hr.employee']
+                if not record.supervisor_approved and record.supervisor_id:
+                    pending |= record.supervisor_id
+                if record.co_supervisor_id and not record.co_supervisor_approved:
+                    pending |= record.co_supervisor_id
+                if pending:
+                    record._schedule_thesis_activity(
+                        'campus_thesis.mail_activity_type_thesis_supervisor',
+                        pending,
+                        _("Review thesis supervision request from %s") % record.student_id.name,
+                    )
 
     def write(self, vals):
         self._check_protected_writes(vals)
+        is_workflow = self._is_workflow_context()
         if 'state' in vals:
             self._check_state_transition_allowed(vals['state'])
+            changing = self.filtered(lambda r: r.state != vals['state'])
+            if changing and not is_workflow:
+                raise ValidationError(_(
+                    "Thesis status cannot be changed directly; use the workflow action buttons."
+                ))
         changed_sup = (
-            'supervisor_id' in vals
-            and self.filtered(lambda r: r.supervisor_id.id != vals['supervisor_id'])
+            self.filtered(lambda r: r.supervisor_id.id != vals['supervisor_id'])
+            if 'supervisor_id' in vals else self.browse()
         )
         changed_cosup = (
-            'co_supervisor_id' in vals
-            and self.filtered(lambda r: (r.co_supervisor_id.id or False) != (vals['co_supervisor_id'] or False))
+            self.filtered(lambda r: (r.co_supervisor_id.id or False) != (vals['co_supervisor_id'] or False))
+            if 'co_supervisor_id' in vals else self.browse()
         )
         res = super().write(vals)
-        if changed_sup and not self.env.context.get('_thesis_workflow_action'):
-            changed_sup.with_context(_thesis_workflow_action=True).write({'supervisor_approved': False})
-        if changed_cosup and not self.env.context.get('_thesis_workflow_action'):
-            changed_cosup.with_context(_thesis_workflow_action=True).write({'co_supervisor_approved': False})
+        if not is_workflow and (changed_sup or changed_cosup):
+            pre_approval_states = ('draft', 'supervisor_approval', 'supervisor_rejected')
+            sup_to_reset = changed_sup.filtered(lambda r: r.state in pre_approval_states)
+            cosup_to_reset = changed_cosup.filtered(lambda r: r.state in pre_approval_states)
+            if sup_to_reset:
+                sup_to_reset._workflow_write({'supervisor_approved': False})
+            if cosup_to_reset:
+                cosup_to_reset._workflow_write({'co_supervisor_approved': False})
+            (sup_to_reset | cosup_to_reset)._sync_supervisor_approval_after_change()
+            # If an Admin reassigns the Primary Supervisor while Step 1 Yudisium
+            # approval is pending, move the pending activity to the new supervisor.
+            for record in changed_sup.filtered(lambda r: r.state == 'yudisium_supervisor'):
+                record._close_thesis_activities(['campus_thesis.mail_activity_type_yudisium_approval'])
+                if record.supervisor_id:
+                    record._schedule_thesis_activity(
+                        'campus_thesis.mail_activity_type_yudisium_approval',
+                        record.supervisor_id,
+                        _("Yudisium Step 1: Thesis Supervisor approval for %s") % record.student_id.name,
+                    )
         return res
 
     def unlink(self):
@@ -582,16 +772,24 @@ class CampusThesis(models.Model):
                 if doc_type not in existing_types
             ]
             if lines:
-                record.sudo().write({'yudisium_document_ids': lines})
+                record.sudo()._workflow_write({'yudisium_document_ids': lines})
+
+    def _require_staff_or_admin(self, action_label):
+        if not self._is_admin() and not self.env.user.has_group('campus_core.group_campus_academic_staff'):
+            raise AccessError(_(
+                "Only Academic Staff or Campus Administrators can %(action)s.",
+                action=action_label,
+            ))
 
     def _get_report_base_filename(self):
         self.ensure_one()
-        return 'Thesis - %s' % (self.student_id.name or self.name)
+        return _('Thesis - %s') % (self.student_id.name or self.name)
 
     # --- Workflow Actions -------------------------------------------------
 
     def action_submit_supervisor(self):
         self._require_state({'draft'})
+        self._require_staff_or_admin(_("submit a thesis for supervisor approval from the backend"))
         for record in self:
             if record.student_id.student_status != 'active':
                 raise ValidationError(_("Student status must be active to submit a thesis."))
@@ -600,7 +798,7 @@ class CampusThesis(models.Model):
                     "Student %(student)s must pass a Research Methodology subject before submitting.",
                     student=record.student_id.display_name,
                 ))
-            record.with_context(_thesis_workflow_action=True).write({
+            record._workflow_write({
                 'supervisor_approved': False,
                 'co_supervisor_approved': False,
                 'rejection_reason': False,
@@ -620,6 +818,9 @@ class CampusThesis(models.Model):
             _("Thesis Supervisor"),
         )
         is_admin = self._is_admin()
+        sup_act_type = self.env.ref(
+            'campus_thesis.mail_activity_type_thesis_supervisor', raise_if_not_found=False,
+        )
         for record in self:
             vals = {}
             if is_admin:
@@ -627,29 +828,42 @@ class CampusThesis(models.Model):
                 if record.co_supervisor_id:
                     vals['co_supervisor_approved'] = True
             else:
-                if record.supervisor_id.user_id == self.env.user:
+                if record.supervisor_id.user_id == self.env.user and not record.supervisor_approved:
                     vals['supervisor_approved'] = True
-                if record.co_supervisor_id and record.co_supervisor_id.user_id == self.env.user:
+                if (
+                    record.co_supervisor_id
+                    and record.co_supervisor_id.user_id == self.env.user
+                    and not record.co_supervisor_approved
+                ):
                     vals['co_supervisor_approved'] = True
+                if not vals:
+                    raise UserError(_("Your supervision approval has already been recorded."))
 
-            record.with_context(_thesis_workflow_action=True).write(vals)
+            record._workflow_write(vals)
             all_approved = record.supervisor_approved and (
                 not record.co_supervisor_id or record.co_supervisor_approved
             )
             if all_approved:
                 record._close_thesis_activities(['campus_thesis.mail_activity_type_thesis_supervisor'])
-                record.write({'state': 'proposal'})
+                record._workflow_write({'state': 'proposal'})
                 record.message_post(
                     body=_("Supervisor(s) approved the supervision request. Thesis moved to Proposal Stage."),
                 )
             else:
+                if sup_act_type:
+                    record.activity_ids.filtered(
+                        lambda act: act.activity_type_id == sup_act_type and act.user_id == self.env.user
+                    ).action_feedback()
                 record.message_post(
                     body=_("Supervision approval recorded by %s. Waiting for the other supervisor.") % self.env.user.name,
                 )
 
     def _open_reject_wizard(self, title, mode):
         """Open the shared rejection/return reason wizard for this thesis."""
-        self.ensure_one()
+        if len(self) != 1:
+            raise UserError(_(
+                "Please open a single thesis record to enter a rejection or return reason."
+            ))
         return {
             'type': 'ir.actions.act_window',
             'name': title,
@@ -668,14 +882,17 @@ class CampusThesis(models.Model):
             lambda record: record.supervisor_id | record.co_supervisor_id,
             _("Thesis Supervisor"),
         )
-        if not reason and not self.env.context.get('_skip_reject_wizard'):
+        if reason is None and not (self.env.su and self.env.context.get('_skip_reject_wizard')):
             return self._open_reject_wizard(_("Reject / Return Thesis"), 'supervisor_reject')
-        self._do_supervisor_reject(reason or _("Rejected by supervisor."))
+        cleaned = (reason or '').strip()
+        if reason is not None and not cleaned:
+            raise ValidationError(_("Please provide a non-empty rejection reason."))
+        self._do_supervisor_reject(cleaned or _("Rejected by supervisor."))
 
     def _do_supervisor_reject(self, reason):
         for record in self:
             record._close_thesis_activities(['campus_thesis.mail_activity_type_thesis_supervisor'])
-            record.with_context(_thesis_workflow_action=True).write({
+            record._workflow_write({
                 'supervisor_approved': False,
                 'co_supervisor_approved': False,
                 'rejection_reason': reason,
@@ -687,17 +904,45 @@ class CampusThesis(models.Model):
 
     def action_reset_to_draft(self):
         self._require_state({'supervisor_rejected', 'cancelled'})
-        self.with_context(_thesis_workflow_action=True).write({
+        is_staff = self._is_admin() or self.env.user.has_group('campus_core.group_campus_academic_staff')
+        cancelled_records = self.filtered(lambda record: record.state == 'cancelled')
+        if cancelled_records and not is_staff:
+            raise AccessError(_(
+                "Only Academic Staff or Campus Administrators can reopen a cancelled thesis."
+            ))
+        if not is_staff:
+            self._require_actor(
+                lambda record: record.supervisor_id | record.co_supervisor_id,
+                _("Thesis Supervisor, Academic Staff,"),
+            )
+        for record in cancelled_records:
+            self._validate_student_eligibility(record.student_id)
+            other_active = self.sudo().search_count([
+                ('student_id', '=', record.student_id.id),
+                ('state', '!=', 'cancelled'),
+                ('id', '!=', record.id),
+            ])
+            if other_active:
+                raise ValidationError(_(
+                    "Student %(student)s already has another active thesis record.",
+                    student=record.student_id.display_name,
+                ))
+        self._workflow_write({
             'supervisor_approved': False,
             'co_supervisor_approved': False,
+            'rejection_reason': False,
             'proposal_approved_date': False,
             'thesis_approved_date': False,
             'yudisium_supervisor_approved': False,
+            'yudisium_supervisor_by_id': False,
             'yudisium_supervisor_date': False,
             'yudisium_advisor_approved': False,
+            'yudisium_advisor_by_id': False,
             'yudisium_advisor_date': False,
             'yudisium_dean_approved': False,
+            'yudisium_dean_by_id': False,
             'yudisium_dean_date': False,
+            'graduation_id': False,
             'state': 'draft',
         })
 
@@ -710,7 +955,7 @@ class CampusThesis(models.Model):
         today = fields.Date.context_today(self)
         for record in self:
             if record.student_id._has_enrolled_thesis_subject():
-                record.with_context(_thesis_workflow_action=True).write({
+                record._workflow_write({
                     'proposal_approved_date': today,
                     'state': 'thesis',
                 })
@@ -718,7 +963,7 @@ class CampusThesis(models.Model):
                     body=_("Proposal approved and Thesis course already enrolled in KRS. Advanced to Thesis Stage."),
                 )
             else:
-                record.with_context(_thesis_workflow_action=True).write({
+                record._workflow_write({
                     'proposal_approved_date': today,
                     'state': 'proposal_approved',
                 })
@@ -728,6 +973,7 @@ class CampusThesis(models.Model):
 
     def action_start_thesis(self):
         self._require_state({'proposal_approved'})
+        self._require_staff_or_admin(_("start the Thesis stage from the backend"))
         for record in self:
             if not record.student_id._has_enrolled_thesis_subject():
                 raise ValidationError(_(
@@ -735,7 +981,7 @@ class CampusThesis(models.Model):
                     "subject in an approved or locked KRS yet.",
                     student=record.student_id.display_name,
                 ))
-            record.write({'state': 'thesis'})
+            record._workflow_write({'state': 'thesis'})
             record.message_post(body=_("Thesis course KRS verified. Advanced to Thesis Stage."))
 
     def action_approve_thesis(self):
@@ -747,7 +993,7 @@ class CampusThesis(models.Model):
         today = fields.Date.context_today(self)
         for record in self:
             record._ensure_default_documents()
-            record.with_context(_thesis_workflow_action=True).write({
+            record._workflow_write({
                 'thesis_approved_date': today,
                 'state': 'yudisium_docs',
             })
@@ -757,13 +1003,13 @@ class CampusThesis(models.Model):
 
     def action_submit_yudisium(self):
         self._require_state({'yudisium_docs'})
+        self._require_staff_or_admin(_("submit Yudisium from the backend"))
         for record in self:
-            record._ensure_default_documents()
             if not record.documents_complete:
                 raise UserError(_(
                     "All required Yudisium documents must be verified before submitting for Yudisium approval."
                 ))
-            record.write({'state': 'yudisium_supervisor'})
+            record._workflow_write({'state': 'yudisium_supervisor'})
             record._schedule_thesis_activity(
                 'campus_thesis.mail_activity_type_yudisium_approval',
                 record.supervisor_id,
@@ -771,14 +1017,17 @@ class CampusThesis(models.Model):
             )
 
     def _advance_yudisium_step(
-        self, approved_field, date_field, next_state, get_next_actor, next_summary_fn, message,
+        self, approved_field, by_field, date_field, get_signer,
+        next_state, get_next_actor, next_summary_fn, message,
     ):
         """Record an intermediate Yudisium approval and notify the next approver."""
         now = fields.Datetime.now()
         for record in self:
             record._close_thesis_activities(['campus_thesis.mail_activity_type_yudisium_approval'])
-            record.with_context(_thesis_workflow_action=True).write({
+            signer = get_signer(record)
+            record._workflow_write({
                 approved_field: True,
+                by_field: signer.id if signer else False,
                 date_field: now,
                 'state': next_state,
             })
@@ -797,12 +1046,15 @@ class CampusThesis(models.Model):
             lambda record: record.supervisor_id,
             _("Primary Thesis Supervisor"),
         )
+        step2_tpl = _("Yudisium Step 2: Academic Advisor approval for %s")
         self._advance_yudisium_step(
             'yudisium_supervisor_approved',
+            'yudisium_supervisor_by_id',
             'yudisium_supervisor_date',
+            lambda record: record.supervisor_id,
             'yudisium_advisor',
             lambda record: record.advisor_id,
-            lambda record: _("Yudisium Step 2: Academic Advisor approval for %s") % record.student_id.name,
+            lambda record: step2_tpl % record.student_id.name,
             _("Yudisium Step 1 approved by Thesis Supervisor. Forwarded to Academic Advisor."),
         )
 
@@ -812,12 +1064,15 @@ class CampusThesis(models.Model):
             lambda record: record.advisor_id,
             _("Academic Advisor (PA)"),
         )
+        step3_tpl = _("Yudisium Step 3: Dean approval for %s")
         self._advance_yudisium_step(
             'yudisium_advisor_approved',
+            'yudisium_advisor_by_id',
             'yudisium_advisor_date',
+            lambda record: record.advisor_id,
             'yudisium_dean',
             lambda record: record.dean_id,
-            lambda record: _("Yudisium Step 3: Dean approval for %s") % record.student_id.name,
+            lambda record: step3_tpl % record.student_id.name,
             _("Yudisium Step 2 approved by Academic Advisor. Forwarded to Dean of Faculty."),
         )
 
@@ -832,8 +1087,9 @@ class CampusThesis(models.Model):
         for record in self:
             record._close_thesis_activities(['campus_thesis.mail_activity_type_yudisium_approval'])
             graduation = record.graduation_id or Schedule._get_nearest_schedule(lock=True)
-            record.with_context(_thesis_workflow_action=True).write({
+            record._workflow_write({
                 'yudisium_dean_approved': True,
+                'yudisium_dean_by_id': record.dean_id.id if record.dean_id else False,
                 'yudisium_dean_date': now,
                 'graduation_id': graduation.id if graduation else False,
                 'state': 'graduated',
@@ -866,19 +1122,25 @@ class CampusThesis(models.Model):
                         "Only the assigned %(role)s or a Campus Administrator may return this Yudisium.",
                         role=label,
                     ))
-        if not reason and not self.env.context.get('_skip_reject_wizard'):
+        if reason is None and not (self.env.su and self.env.context.get('_skip_reject_wizard')):
             return self._open_reject_wizard(_("Return Yudisium for Revision"), 'yudisium_return')
-        self._do_yudisium_return(reason or _("Returned for document revision."))
+        cleaned = (reason or '').strip()
+        if reason is not None and not cleaned:
+            raise ValidationError(_("Please provide a non-empty return reason."))
+        self._do_yudisium_return(cleaned or _("Returned for document revision."))
 
     def _do_yudisium_return(self, reason):
         for record in self:
             record._close_thesis_activities(['campus_thesis.mail_activity_type_yudisium_approval'])
-            record.with_context(_thesis_workflow_action=True).write({
+            record._workflow_write({
                 'yudisium_supervisor_approved': False,
+                'yudisium_supervisor_by_id': False,
                 'yudisium_supervisor_date': False,
                 'yudisium_advisor_approved': False,
+                'yudisium_advisor_by_id': False,
                 'yudisium_advisor_date': False,
                 'yudisium_dean_approved': False,
+                'yudisium_dean_by_id': False,
                 'yudisium_dean_date': False,
                 'rejection_reason': reason,
                 'state': 'yudisium_docs',
@@ -893,12 +1155,19 @@ class CampusThesis(models.Model):
             raise AccessError(_(
                 "Only Academic Staff or Campus Administrators can assign a graduation schedule."
             ))
+        if self.filtered('graduation_id'):
+            raise UserError(_(
+                "A graduation schedule is already assigned. Update the Graduation Schedule field directly if you need to reassign it."
+            ))
         Schedule = self.env['campus.graduation.schedule'].sudo()
         for record in self:
             nearest = Schedule._get_nearest_schedule(lock=True)
             if not nearest:
                 raise UserError(_("No open upcoming graduation schedule is available."))
-            record.with_context(_thesis_workflow_action=True).write({'graduation_id': nearest.id})
+            record._workflow_write({'graduation_id': nearest.id})
+            record.message_post(
+                body=_("Assigned to nearest graduation schedule: %s.") % nearest.display_name,
+            )
 
     def action_cancel(self):
         if not self._is_admin() and not self.env.user.has_group('campus_core.group_campus_academic_staff'):
@@ -911,5 +1180,5 @@ class CampusThesis(models.Model):
             'campus_thesis.mail_activity_type_thesis_supervisor',
             'campus_thesis.mail_activity_type_yudisium_approval',
         ])
-        self.with_context(_thesis_workflow_action=True).write({'state': 'cancelled'})
+        self._workflow_write({'state': 'cancelled'})
 

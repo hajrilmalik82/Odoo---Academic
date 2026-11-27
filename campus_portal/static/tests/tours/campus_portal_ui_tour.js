@@ -57,7 +57,7 @@ registry.category("web_tour.tours").add("campus_portal_krs_register_add_remove_s
         },
         {
             content: "Verify KRS submitted badge rendered",
-            trigger: '.badge.bg-info:contains("Waiting for Approval"), .badge.bg-info',
+            trigger: '.badge.text-bg-info:contains("Waiting for Approval")',
         },
     ],
 });

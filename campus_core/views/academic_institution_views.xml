@@ -24,7 +24,7 @@
                              has been issued from it. -->
                         <field name="code" placeholder="e.g. FT"/>
                         <field name="dean_id"/>
-                        <field name="department_id" options="{'no_create': True}"/>
+                        <field name="department_id" readonly="1" options="{'no_create': True}"/>
                     </group>
                 </sheet>
             </form>
@@ -55,7 +55,7 @@
                         <field name="code" placeholder="e.g. TI"/>
                         <field name="faculty_id"/>
                         <field name="head_id"/>
-                        <field name="department_id" options="{'no_create': True}"/>
+                        <field name="department_id" readonly="1" options="{'no_create': True}"/>
                     </group>
                 </sheet>
             </form>

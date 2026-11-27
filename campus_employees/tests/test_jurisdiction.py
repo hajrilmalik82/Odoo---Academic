@@ -133,7 +133,8 @@ class TestAcademicJurisdiction(CampusCommon):
         on hr.employee. A third kind of officer is one selection value now."""
         scopes = dict(self.env['campus.jurisdiction']._fields['scope']._description_selection(self.env))
         self.assertIn('academic', scopes)
-        self.assertIn('pmb', scopes)
+        if 'campus_pmb' in self.env['ir.module.module']._installed():
+            self.assertIn('pmb', scopes)
 
     def test_the_jurisdiction_is_not_mirrored_onto_the_public_model(self):
         """hr.employee.public is readable by every internal user, so publishing
@@ -280,6 +281,23 @@ class TestJurisdictionConsistency(CampusCommon):
         row.write({'all_programs': False})
         self.assertEqual(row._domain_for('program_id'), [(0, '=', 1)])
 
+    def test_all_programs_without_faculties_fails_closed(self):
+        """Symmetric guard: all_programs=True with all_faculties=False and empty faculty_ids must fail closed."""
+        row = self._jurisdiction(
+            all_faculties=False,
+            all_programs=True,
+        )
+        self.assertEqual(row._domain_for('program_id'), [(0, '=', 1)])
+        self.assertFalse(row._covers_program(self.program))
+
+    def test_empty_program_command_with_all_faculties_enables_all_programs(self):
+        row = self._jurisdiction(
+            all_faculties=True,
+            program_ids=[(6, 0, [])],
+        )
+        self.assertTrue(row.all_programs)
+        self.assertEqual(row._domain_for('program_id'), [(1, '=', 1)])
+
 
 @tagged('post_install', '-at_install')
 class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
@@ -343,20 +361,19 @@ class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
 
     def test_uninstall_hook_restores_campus_core_partner_rules(self):
         from odoo.addons.campus_employees import (
-            _BASE_PARTNER_DOMAIN,
-            _PARTNER_JURISDICTION_DOMAIN,
-            _PARTNER_RULE_XMLIDS,
+            _BASE_DOMAINS_BY_RULE,
+            _JURISDICTION_DOMAINS_BY_RULE,
             post_init_hook,
             uninstall_hook,
         )
 
         uninstall_hook(self.env)
-        for xmlid in _PARTNER_RULE_XMLIDS:
-            self.assertEqual(self.env.ref(xmlid).domain_force, _BASE_PARTNER_DOMAIN)
+        for xmlid, expected in _BASE_DOMAINS_BY_RULE.items():
+            self.assertEqual(self.env.ref(xmlid).domain_force, expected)
 
         post_init_hook(self.env)
-        for xmlid in _PARTNER_RULE_XMLIDS:
-            self.assertEqual(self.env.ref(xmlid).domain_force, _PARTNER_JURISDICTION_DOMAIN)
+        for xmlid, expected in _JURISDICTION_DOMAINS_BY_RULE.items():
+            self.assertEqual(self.env.ref(xmlid).domain_force, expected)
 
     def test_revoking_employee_user_or_archiving_revokes_campus_groups(self):
         user = self.env['res.users'].create({
@@ -479,3 +496,93 @@ class TestStaffPartnerAndEmployeeSecurity(CampusCommon):
         visible_after = self.env['academic.krs'].with_user(self.staff_user).search([])
         self.assertNotIn(krs_fti, visible_after)
         self.assertIn(krs_feb, visible_after)
+
+    def test_krs_transfer_outside_jurisdiction_and_hr_role_change_without_user_blocked(self):
+        self.env['campus.jurisdiction'].sudo().create({
+            'employee_id': self.staff_employee.id,
+            'scope': 'academic',
+            'faculty_ids': [(6, 0, [self.faculty.id])],
+            'all_programs': True,
+        })
+        krs = self._make_krs(student=self.student)
+        with self.assertRaises(AccessError):
+            krs.with_user(self.staff_user).write({'program_id': self.other_program.id})
+        with self.assertRaises(AccessError):
+            krs.with_user(self.staff_user).write({'student_id': self.other_student.id})
+
+        hr_user = self.env['res.users'].create({
+            'name': '%s HR Role Guard' % TAG,
+            'login': 'zz.hr.roleguard.test',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.env.ref('hr.group_hr_user').id,
+            ])],
+        })
+        no_user_emp = self.env['hr.employee'].create({'name': '%s Tanpa User' % TAG})
+        with self.assertRaises(AccessError):
+            no_user_emp.with_user(hr_user).write({'academic_role': 'academic'})
+        with self.assertRaises(AccessError):
+            self.env['hr.employee'].with_user(hr_user).create({
+                'name': '%s Baru Tanpa User' % TAG,
+                'academic_role': 'lecturer',
+            })
+
+    def test_department_onchange_avoids_self_manager_loop(self):
+        dean_emp = self.env['hr.employee'].create({
+            'name': '%s Dekan Self Loop' % TAG,
+            'academic_role': 'lecturer',
+            'faculty_id': self.faculty.id,
+            'program_id': self.program.id,
+        })
+        self.faculty.dean_id = dean_emp
+        self.program.head_id = dean_emp
+        form_rec = dean_emp.browse(dean_emp.id)
+        form_rec.department_id = self.program.department_id
+        form_rec._onchange_department_id_sync_manager()
+        self.assertNotEqual(form_rec.parent_id, dean_emp)
+
+    def test_linking_and_archiving_campus_admin_employee_keeps_admin_group(self):
+        admin_group = self.env.ref('campus_core.group_campus_administrator')
+        admin_user = self.env['res.users'].create({
+            'name': '%s Admin Dosen' % TAG,
+            'login': 'zz.admin.dosen.test',
+            'group_ids': [(6, 0, [self.env.ref('base.group_user').id, admin_group.id])],
+        })
+        emp = self.env['hr.employee'].create({
+            'name': '%s Admin Dosen' % TAG,
+            'academic_role': 'lecturer',
+            'user_id': admin_user.id,
+        })
+        admin_user.invalidate_recordset(['group_ids'])
+        self.assertTrue(admin_user.has_group('campus_core.group_campus_administrator'))
+        emp.active = False
+        admin_user.invalidate_recordset(['group_ids'])
+        self.assertTrue(admin_user.has_group('campus_core.group_campus_administrator'))
+
+    def test_hr_officer_with_lecturer_group_cannot_hijack_unassigned_lecturer(self):
+        hr_lecturer = self.env['res.users'].create({
+            'name': '%s HR Lecturer' % TAG,
+            'login': 'zz.hr.lecturer.test',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.env.ref('hr.group_hr_user').id,
+                self.lecturer_group.id,
+            ])],
+        })
+        unassigned_dean = self.env['hr.employee'].create({
+            'name': '%s Dekan Tanpa User' % TAG,
+            'academic_role': 'lecturer',
+            'faculty_id': self.faculty.id,
+            'program_id': self.program.id,
+        })
+        with self.assertRaises(AccessError):
+            unassigned_dean.with_user(hr_lecturer).write({'user_id': hr_lecturer.id})
+
+    def test_non_academic_hr_employee_hidden_from_campus_staff(self):
+        non_academic = self.env['hr.employee'].create({
+            'name': '%s Finance Executive' % TAG,
+        })
+        visible = self.env['hr.employee'].with_user(self.staff_user).search([
+            ('id', '=', non_academic.id),
+        ])
+        self.assertFalse(visible)

@@ -8,26 +8,36 @@
             <form string="Student Thesis">
                 <header>
                     <button name="action_submit_supervisor" string="Submit for Supervisor Approval"
-                            type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                            type="object" class="oe_highlight" invisible="state != 'draft'"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <button name="action_supervisor_approve" string="Approve Supervision"
-                            type="object" class="btn-success" invisible="state != 'supervisor_approval'"/>
+                            type="object" class="btn-success" invisible="state != 'supervisor_approval'"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_approve_proposal" string="Approve Proposal"
-                            type="object" class="oe_highlight" invisible="state != 'proposal'"/>
+                            type="object" class="oe_highlight" invisible="state != 'proposal'"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_start_thesis" string="Start Thesis Stage"
-                            type="object" class="oe_highlight" invisible="state != 'proposal_approved'"/>
+                            type="object" class="oe_highlight" invisible="state != 'proposal_approved'"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <button name="action_approve_thesis" string="Approve Thesis (Proceed to Yudisium)"
-                            type="object" class="btn-success" invisible="state != 'thesis'"/>
+                            type="object" class="btn-success" invisible="state != 'thesis'"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_submit_yudisium" string="Submit for Yudisium Approval"
-                            type="object" class="oe_highlight" invisible="state != 'yudisium_docs'"/>
+                            type="object" class="oe_highlight" invisible="state != 'yudisium_docs'"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <button name="action_yudisium_approve_supervisor" string="Approve Yudisium (Supervisor)"
-                            type="object" class="btn-success" invisible="state != 'yudisium_supervisor'"/>
+                            type="object" class="btn-success" invisible="state != 'yudisium_supervisor'"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_yudisium_approve_advisor" string="Approve Yudisium (Advisor)"
-                            type="object" class="btn-success" invisible="state != 'yudisium_advisor'"/>
+                            type="object" class="btn-success" invisible="state != 'yudisium_advisor'"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_yudisium_approve_dean" string="Approve Yudisium (Dean)"
-                            type="object" class="btn-success" invisible="state != 'yudisium_dean'"/>
+                            type="object" class="btn-success" invisible="state != 'yudisium_dean'"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_assign_nearest_graduation" string="Assign Nearest Graduation"
                             type="object" class="oe_highlight"
-                            invisible="state != 'graduated' or graduation_id != False"/>
+                            invisible="state != 'graduated' or graduation_id != False"
+                            groups="campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <button name="action_supervisor_reject" string="Reject"
                             type="object" class="btn-danger"
                             invisible="state not in ('supervisor_approval', 'proposal')"
@@ -38,7 +48,8 @@
                             groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                     <button name="action_reset_to_draft" string="Reset to Draft"
                             type="object" class="btn-secondary"
-                            invisible="state not in ('supervisor_rejected', 'cancelled')"/>
+                            invisible="state not in ('supervisor_rejected', 'cancelled')"
+                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_academic_staff,campus_core.group_campus_administrator"/>
                     <button name="action_cancel" string="Cancel"
                             type="object" class="btn-secondary"
                             invisible="state in ('graduated', 'cancelled')"
@@ -66,13 +77,15 @@
                         </h2>
                         <label for="title" class="oe_edit_only" string="Thesis Title"/>
                         <h1>
-                            <field name="title" placeholder="e.g. Design and Implementation of Academic ERP System"/>
+                            <field name="title"
+                                   readonly="state not in ('draft', 'supervisor_rejected', 'proposal')"
+                                   placeholder="e.g. Design and Implementation of Academic ERP System"/>
                         </h1>
                     </div>
 
                     <group>
                         <group string="Student &amp; Curriculum Gate">
-                            <field name="student_id" readonly="state != 'draft'"/>
+                            <field name="student_id" readonly="id"/>
                             <field name="nim"/>
                             <field name="faculty_id" readonly="1"/>
                             <field name="program_id" readonly="1"/>
@@ -97,7 +110,9 @@
                         <page string="Proposal &amp; Timeline" name="proposal_outline">
                             <group>
                                 <group>
-                                    <field name="research_topic" placeholder="Research background, objectives, and scope..."/>
+                                    <field name="research_topic"
+                                           readonly="state not in ('draft', 'supervisor_rejected', 'proposal')"
+                                           placeholder="Research background, objectives, and scope..."/>
                                     <field name="rejection_reason" readonly="1" invisible="not rejection_reason"/>
                                 </group>
                                 <group>
@@ -109,6 +124,7 @@
 
                         <page string="Guidance &amp; Progress Logs" name="progress_logs">
                             <field name="progress_line_ids"
+                                   readonly="state not in ('proposal', 'thesis')"
                                    context="{'default_stage': 'thesis' if state == 'thesis' else 'proposal'}">
                                 <list>
                                     <field name="date"/>
@@ -124,17 +140,23 @@
                                            decoration-warning="state == 'revision'"/>
                                     <button name="action_approve" string="Approve" type="object"
                                             icon="fa-check" class="btn-success"
-                                            invisible="state == 'approved'"/>
+                                            invisible="state == 'approved' or parent.state not in ('proposal', 'thesis') or parent.state != stage"
+                                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                                     <button name="action_request_revision" string="Revise" type="object"
                                             icon="fa-undo" class="btn-warning"
-                                            invisible="state == 'revision'"/>
+                                            invisible="state == 'revision' or parent.state not in ('proposal', 'thesis') or parent.state != stage"
+                                            groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                                 </list>
                                 <form string="Guidance Log">
                                     <header>
                                         <button name="action_approve" string="Approve Log" type="object"
-                                                class="btn-success" invisible="state == 'approved'"/>
+                                                class="btn-success"
+                                                invisible="state == 'approved' or parent.state not in ('proposal', 'thesis') or parent.state != stage"
+                                                groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                                         <button name="action_request_revision" string="Request Revision" type="object"
-                                                class="btn-warning" invisible="state == 'revision'"/>
+                                                class="btn-warning"
+                                                invisible="state == 'revision' or parent.state not in ('proposal', 'thesis') or parent.state != stage"
+                                                groups="campus_core.group_campus_lecturer,campus_core.group_campus_administrator"/>
                                         <field name="state" widget="statusbar"/>
                                     </header>
                                     <group>
@@ -163,10 +185,13 @@
                             <group string="Sequential Approval Sign-Off (Supervisor → Advisor → Dean)">
                                 <group>
                                     <field name="yudisium_supervisor_approved"/>
+                                    <field name="yudisium_supervisor_by_id" invisible="not yudisium_supervisor_by_id"/>
                                     <field name="yudisium_supervisor_date"/>
                                     <field name="yudisium_advisor_approved"/>
+                                    <field name="yudisium_advisor_by_id" invisible="not yudisium_advisor_by_id"/>
                                     <field name="yudisium_advisor_date"/>
                                     <field name="yudisium_dean_approved"/>
+                                    <field name="yudisium_dean_by_id" invisible="not yudisium_dean_by_id"/>
                                     <field name="yudisium_dean_date"/>
                                 </group>
                                 <group string="Document Verification Summary">
@@ -175,7 +200,8 @@
                                     <field name="documents_complete"/>
                                 </group>
                             </group>
-                            <field name="yudisium_document_ids">
+                            <field name="yudisium_document_ids"
+                                   readonly="state in ('yudisium_supervisor', 'yudisium_advisor', 'yudisium_dean', 'graduated', 'cancelled')">
                                 <list editable="bottom">
                                     <field name="document_type"/>
                                     <field name="required"/>
@@ -191,7 +217,7 @@
                         <page string="Graduation (Wisuda)" name="graduation">
                             <group>
                                 <group>
-                                    <field name="graduation_id"/>
+                                    <field name="graduation_id" readonly="state != 'graduated'" domain="[('state', '=', 'open')]"/>
                                     <field name="graduation_date"/>
                                     <field name="graduation_location"/>
                                 </group>

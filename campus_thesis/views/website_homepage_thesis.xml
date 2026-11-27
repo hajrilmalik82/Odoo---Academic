@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="thesis_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Thesis ERP Documentation">
+    <template id="thesis_homepage_docs" inherit_id="campus_website.core_homepage_docs" name="Thesis ERP Documentation" priority="50">
         <xpath expr="//div[@id='docs-tab']" position="inside">
-            <button class="nav-link fw-bold py-3 text-start mb-1 text-info" id="tab-thesis"
+            <button class="nav-link fw-bold py-3 text-start mb-1 campus-doc-tab campus-doc-tab-info" id="tab-thesis"
                     data-bs-toggle="pill" data-bs-target="#content-thesis" type="button"
                     role="tab" aria-controls="content-thesis" aria-selected="false">
-                <i class="fa fa-graduation-cap me-2"/> Thesis, Yudisium &amp; Graduation
+                <i class="fa fa-graduation-cap me-2" aria-hidden="true"/> Thesis, Yudisium &amp; Graduation
             </button>
         </xpath>
 
@@ -45,13 +45,13 @@
                     <div class="mb-4 ps-4 border-start border-4 border-warning position-relative">
                         <span class="badge bg-warning text-dark position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">2</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 2: Supervisor Review (Approve or Reject)</h5>
-                        <p class="mb-2"><strong>Who performs this:</strong> Primary Thesis Supervisor (Lecturer)</p>
-                        <p class="mb-2">The assigned Primary Supervisor reviews the request and clicks <strong>Approve</strong> to open the Proposal stage, or <strong>Reject</strong> with a written reason.</p>
+                        <p class="mb-2"><strong>Who performs this:</strong> Assigned Thesis Supervisor(s) (Primary Supervisor &amp; optional Co-Supervisor)</p>
+                        <p class="mb-2">Each assigned supervisor reviews the request and clicks <strong>Approve Supervision</strong> (if a Co-Supervisor is assigned, both must approve before advancing to the Proposal stage), or clicks <strong>Reject</strong> with a written reason.</p>
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
-                                <li><strong>If Rejected:</strong> The student or Admin can click <strong>Reset to Draft</strong>, revise the title or choose a different supervisor, and submit again.</li>
-                                <li><strong>Access Check:</strong> Only the assigned Primary Supervisor (or Admin) can approve or reject the request.</li>
+                                <li><strong>If Rejected:</strong> The student (via Portal) or Academic Staff/Admin can return the thesis to <strong>Draft</strong>, revise the title or choose a different supervisor, and submit again.</li>
+                                <li><strong>Access Check:</strong> Only the assigned Primary Supervisor, assigned Co-Supervisor, or Campus Administrator can approve or reject the supervision request.</li>
                             </ul>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                         <div class="bg-light p-3 rounded">
                             <i class="fa fa-exclamation-triangle text-danger me-2"/> <strong>System Rules &amp; Validations:</strong>
                             <ul class="mb-0 mt-1 text-muted small">
-                                <li><strong>File Upload Rules:</strong> Uploaded files must not be empty and cannot exceed <strong>10 MB</strong>.</li>
+                                <li><strong>File Upload Rules:</strong> Uploaded files must use an allowed format (<strong>PDF, DOC, DOCX, JPG, PNG</strong>), must not be empty, and cannot exceed <strong>10 MB</strong>.</li>
                                 <li><strong>Before Moving to Thesis Stage:</strong> To advance from Proposal to Thesis Writing, the student <strong>must already be enrolled in a Thesis subject</strong> inside an <strong>Approved</strong> or <strong>Locked</strong> KRS. If blocked here, make sure the student's KRS containing the Thesis subject has been approved by their Academic Advisor.</li>
                             </ul>
                         </div>
@@ -83,9 +83,9 @@
                     <div class="mb-4 ps-4 border-start border-4 border-success position-relative">
                         <span class="badge bg-success position-absolute" style="left: -15px; top: 0px; font-size: 1rem;">5</span>
                         <h5 class="fw-bold text-dark pt-1">Stage 5: Yudisium Documents &amp; 3-Step Sequential Clearance</h5>
-                        <p class="mb-2"><strong>Who performs this:</strong> Student / Admin (uploads documents), then Supervisor → Academic Advisor (PA) → Faculty Dean</p>
+                        <p class="mb-2"><strong>Who performs this:</strong> Student (uploads documents), Academic Staff / Admin (verifies documents), then Supervisor → Academic Advisor (PA) → Faculty Dean</p>
                         <ol class="text-muted mb-2">
-                            <li><strong>Document Filing:</strong> Upload all required Yudisium clearance documents (via Portal or Backend) and verify them, then submit for Yudisium approval.</li>
+                            <li><strong>Document Filing:</strong> Upload all required Yudisium clearance documents and have Academic Staff verify them (re-uploading a file resets verification so staff re-checks it), then submit for Yudisium approval.</li>
                             <li><strong>Step 1 — Thesis Supervisor Approval:</strong> Primary Supervisor confirms thesis clearance.</li>
                             <li><strong>Step 2 — Academic Advisor (PA) Approval:</strong> The student's Academic Advisor confirms academic clearance.</li>
                             <li><strong>Step 3 — Faculty Dean Approval:</strong> The Faculty Dean gives the final Yudisium sign-off.</li>

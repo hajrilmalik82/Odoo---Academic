@@ -138,6 +138,8 @@ class TestAdmission(CampusCommon):
         self.assertFalse(any('NIM: None' in msg for msg in logs.output))
 
     def test_reusing_a_student_does_not_burn_a_sequence_number(self):
+        # Ensure the NIM sequence for this faculty/program/year exists first.
+        self._register(self._applicant(email='zz.seed.seq@contoh.test'))
         self.env['res.partner'].create({
             'name': '%s Mahasiswa Lama 2' % TAG,
             'email': 'zz.lama2@contoh.test',
@@ -147,11 +149,11 @@ class TestAdmission(CampusCommon):
         })
         code = 'student.nim.%s-%s-' % (self.faculty.code, self.program.code)
         sequence = self.env['ir.sequence'].sudo().search([('code', '=like', code + '%')], limit=1)
-        before = sequence.number_next_actual if sequence else None
+        self.assertTrue(sequence)
+        before = sequence.number_next_actual
         self._register(self._applicant(email='zz.lama2@contoh.test'))
-        if sequence:
-            sequence.invalidate_recordset()
-            self.assertEqual(sequence.number_next_actual, before)
+        sequence.invalidate_recordset()
+        self.assertEqual(sequence.number_next_actual, before)
 
     def test_a_non_student_contact_is_never_renamed(self):
         """res.partner.email is not unique, so a vendor may share an address."""
@@ -438,6 +440,33 @@ class TestAdmission(CampusCommon):
         adm.action_register()
         with self.assertRaises(ValidationError):
             adm.write({'reregistration_fee_paid': False})
+        with self.assertRaises(ValidationError):
+            adm.write({'name': 'Tampered Name'})
+        with self.assertRaises(ValidationError):
+            adm.write({'phone': '08199999999'})
+        with self.assertRaises(ValidationError):
+            adm.unlink()
+
+        draft_adm = self._applicant(email='zz.doc.move.src@contoh.test')
+        with self.assertRaises(ValidationError):
+            draft_adm.document_line_ids[0].write({'admission_id': adm.id})
+
+    def test_pmb_staff_config_models_are_read_only(self):
+        pmb_user = self.env['res.users'].create({
+            'name': '%s PMB ACL Check' % TAG,
+            'login': 'zz.pmb.acl@contoh.test',
+            'group_ids': [(6, 0, [
+                self.env.ref('base.group_user').id,
+                self.env.ref('campus_pmb.group_pmb').id,
+            ])],
+        })
+        for model in ('campus.admission.fee', 'campus.admission.requirement'):
+            with self.subTest(model=model):
+                env_model = self.env[model].with_user(pmb_user)
+                self.assertTrue(env_model.has_access('read'))
+                self.assertFalse(env_model.has_access('write'))
+                self.assertFalse(env_model.has_access('create'))
+                self.assertFalse(env_model.has_access('unlink'))
 
     def test_pmb_activity_assignee_respects_faculty_jurisdiction(self):
         """An officer with all_programs=True on Faculty A must not get activities for Faculty B."""
@@ -490,3 +519,30 @@ class TestAdmission(CampusCommon):
         )
         adm_other_2.action_submit()
         self.assertEqual(set(adm_other_2.activity_ids.mapped('user_id').ids), {officer_b_user.id})
+
+    def test_existing_student_partner_with_different_login_cannot_be_hijacked(self):
+        student = self.env['res.partner'].create({
+            'name': '%s Student Original' % TAG,
+            'email': 'zz.hijack@contoh.test',
+            'is_student': True,
+            'nim': '%s-HIJ-0001' % TAG,
+            'program_id': self.program.id,
+        })
+        self._account_for(student, 'nim.login.hijack@contoh.test')
+        admission = self._applicant(email='zz.hijack@contoh.test', name='Attacker')
+        with self.assertRaises(UserError):
+            self._register(admission)
+        self.assertEqual(student.name, '%s Student Original' % TAG)
+
+    def test_accepted_no_show_can_be_rejected_and_copy_raises_user_error(self):
+        admission = self._applicant(email='zz.noshow@contoh.test')
+        admission.action_submit()
+        admission.action_start_document_review()
+        admission.document_line_ids.write({'received': True})
+        admission.registration_fee_paid = True
+        admission.action_accept()
+        admission.action_reject()
+        self.assertEqual(admission.state, 'rejected')
+        self.assertFalse(admission.activity_ids)
+        with self.assertRaises(UserError):
+            admission.copy()

@@ -2564,3 +2564,108 @@ msgstr "Hanya Pembimbing Skripsi yang ditugaskan atau Administrator Kampus yang 
 #. module: campus_thesis
 msgid "Supervisors can only update review status and feedback, not student log entries (%s)."
 msgstr "Pembimbing hanya dapat memperbarui status tinjauan dan catatan umpan balik, bukan isi log mahasiswa (%s)."
+
+#. module: campus_thesis
+#, python-format
+msgid "A graduation schedule is already assigned. Update the Graduation Schedule field directly if you need to reassign it."
+msgstr "Jadwal wisuda sudah ditetapkan. Ubah kolom Jadwal Wisuda secara langsung jika perlu memindahkan gelombang."
+
+#. module: campus_thesis
+#, python-format
+msgid "All required supervisors have approved. Thesis moved to Proposal Stage."
+msgstr "Seluruh dosen pembimbing telah menyetujui. Skripsi dilanjutkan ke Tahap Proposal."
+
+#. module: campus_thesis
+#, python-format
+msgid "Co-Supervisor %(name)s is archived and cannot be assigned."
+msgstr "Pembimbing Pendamping %(name)s berstatus arsip dan tidak dapat ditugaskan."
+
+#. module: campus_thesis
+#, python-format
+msgid "Executable or active script content is not allowed."
+msgstr "Berkas eksekusi atau skrip aktif tidak diizinkan."
+
+#. module: campus_thesis
+#, python-format
+msgid "Guidance progress logs can only be modified during the Proposal or Thesis stages."
+msgstr "Catatan progres bimbingan hanya dapat diubah selama Tahap Proposal atau Tahap Skripsi."
+
+#. module: campus_thesis
+#, python-format
+msgid "Guidance progress logs can only be reviewed during the Proposal or Thesis stages."
+msgstr "Catatan progres bimbingan hanya dapat direviu selama Tahap Proposal atau Tahap Skripsi."
+
+#. module: campus_thesis
+#, python-format
+msgid "Only Academic Staff or Campus Administrators can reopen a cancelled thesis."
+msgstr "Hanya Staf Akademik atau Administrator Kampus yang dapat membuka kembali skripsi yang dibatalkan."
+
+#. module: campus_thesis
+#, python-format
+msgid "Only rejected supervision requests can be returned to Draft from the student portal."
+msgstr "Hanya pengajuan pembimbing yang ditolak yang dapat dikembalikan ke Draf melalui portal mahasiswa."
+
+#. module: campus_thesis
+#, python-format
+msgid "Please open a single thesis record to enter a rejection or return reason."
+msgstr "Silakan buka satu data skripsi saja untuk mengisi alasan penolakan atau pengembalian."
+
+#. module: campus_thesis
+#, python-format
+msgid "Please provide a non-empty reason."
+msgstr "Harap isi alasan yang tidak kosong."
+
+#. module: campus_thesis
+#, python-format
+msgid "Please provide a non-empty rejection reason."
+msgstr "Harap isi alasan penolakan yang tidak kosong."
+
+#. module: campus_thesis
+#, python-format
+msgid "Please provide a non-empty return reason."
+msgstr "Harap isi alasan pengembalian yang tidak kosong."
+
+#. module: campus_thesis
+#, python-format
+msgid "Primary Supervisor %(name)s is archived and cannot be assigned."
+msgstr "Pembimbing Utama %(name)s berstatus arsip dan tidak dapat ditugaskan."
+
+#. module: campus_thesis
+#, python-format
+msgid "Student %(student)s must have Active status to proceed with their thesis."
+msgstr "Mahasiswa %(student)s harus berstatus Aktif untuk melanjutkan proses skripsinya."
+
+#. module: campus_thesis
+#, python-format
+msgid "Student %(student)s must have Active status to register or advance a thesis."
+msgstr "Mahasiswa %(student)s harus berstatus Aktif untuk mendaftarkan atau melanjutkan skripsi."
+
+#. module: campus_thesis
+#, python-format
+msgid "Thesis status cannot be changed directly; use the workflow action buttons."
+msgstr "Status skripsi tidak dapat diubah secara langsung; gunakan tombol aksi alur kerja."
+
+#. module: campus_thesis
+#, python-format
+msgid "Unsupported file format '%(ext)s'. Allowed formats: PDF, DOC, DOCX, JPG, PNG."
+msgstr "Format berkas '%(ext)s' tidak didukung. Format yang diizinkan: PDF, DOC, DOCX, JPG, PNG."
+
+#. module: campus_thesis
+#, python-format
+msgid "Uploaded file content does not match its '%s' extension."
+msgstr "Isi berkas yang diunggah tidak sesuai dengan ekstensi '%s'."
+
+#. module: campus_thesis
+#, python-format
+msgid "Yudisium documents are locked once sequential Yudisium approval has begun or the thesis is finalized."
+msgstr "Dokumen Yudisium terkunci setelah persetujuan berjenjang dimulai atau skripsi telah selesai."
+
+#. module: campus_thesis
+#, python-format
+msgid "Yudisium documents cannot be added once sequential Yudisium approval has begun or the thesis is finalized."
+msgstr "Dokumen Yudisium tidak dapat ditambahkan setelah persetujuan berjenjang dimulai atau skripsi telah selesai."
+
+#. module: campus_thesis
+#, python-format
+msgid "Yudisium documents cannot be moved to a locked or finalized thesis."
+msgstr "Dokumen Yudisium tidak dapat dipindahkan ke skripsi yang terkunci atau telah selesai."

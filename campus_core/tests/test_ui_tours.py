@@ -167,13 +167,13 @@ class TestCampusCoreUiTours(CampusHttpCommon):
                 login=self.admin_user.login,
             )
 
-    def test_09_admin_creates_subject_via_ui_tour(self):
+    def test_09_admin_creates_faculty_via_ui_tour(self):
         action = self.env.ref('campus_core.action_academic_faculty')
         self.start_tour(
             '/odoo/action-%d' % action.id,
             'campus_core_create_faculty_ui_tour',
             login=self.admin_user.login,
         )
-        created = self.env['academic.faculty'].search([('code', '=', 'ZZUIFAC')], limit=1)
+        created = self.env['academic.faculty'].search([('code', '=', 'ZUI1')], limit=1)
         self.assertTrue(created)
         self.assertEqual(created.name, 'ZZTEST Fakultas UI')

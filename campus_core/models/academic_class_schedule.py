@@ -15,7 +15,7 @@ class AcademicClassSchedule(models.Model):
     # display_name itself is computed below.
     _rec_names_search = ['class_code', 'class_id.name', 'room_id.name']
 
-    class_id = fields.Many2one('academic.class', string='Class', ondelete='cascade')
+    class_id = fields.Many2one('academic.class', string='Class', required=True, ondelete='cascade', index=True)
     class_program_id = fields.Many2one('academic.program', related='class_id.subject_id.program_id')
     class_faculty_id = fields.Many2one('academic.faculty', related='class_id.subject_id.faculty_id')
     class_code = fields.Char(string='Class Code (A/B/C)', required=True, default="A")
@@ -27,7 +27,7 @@ class AcademicClassSchedule(models.Model):
         ('4', 'Friday'),
         ('5', 'Saturday'),
         ('6', 'Sunday')
-    ], string='Day of Week', required=True)
+    ], string='Day of Week', required=True, index=True)
     start_time = fields.Float(string='Start Time', required=True)
     end_time = fields.Float(string='End Time', required=True)
     room_id = fields.Many2one('campus.room', string='Room', required=True, index=True)
@@ -40,9 +40,10 @@ class AcademicClassSchedule(models.Model):
     lecturer_id = fields.Many2one(
         'hr.employee',
         string='Lecturer',
+        index=True,
     )
     enrolled_count = fields.Integer(string='Enrolled', compute='_compute_capacity_display')
-    capacity_display = fields.Char(string='Capacity (Max/Filled)', compute='_compute_capacity_display')
+    capacity_display = fields.Char(string='Capacity (Filled/Max)', compute='_compute_capacity_display')
 
     @api.constrains('start_time', 'end_time')
     def _check_time_range(self):
@@ -51,8 +52,46 @@ class AcademicClassSchedule(models.Model):
                 raise ValidationError(_("Schedule times cannot be negative."))
             if record.start_time >= record.end_time:
                 raise ValidationError(_("Schedule end time must be after start time."))
+            if round(record.end_time * 60) <= round(record.start_time * 60):
+                raise ValidationError(_("Schedule duration must be at least one minute."))
             if record.end_time > 24:
                 raise ValidationError(_("Schedule end time cannot be later than 24:00."))
+
+    @api.constrains('class_id')
+    def _check_linked_krs_lines_consistency(self):
+        linked = self.env['academic.krs.line'].sudo().search([('schedule_id', 'in', self.ids)])
+        if linked:
+            linked._check_schedule_subject()
+            linked._check_schedule_academic_year()
+
+    @api.constrains('room_id')
+    def _check_room_capacity_not_below_enrolled(self):
+        counts = self._enrolled_counts()
+        for record in self:
+            enrolled = counts.get(record.id, 0)
+            if enrolled and record.room_capacity < enrolled:
+                raise ValidationError(_(
+                    "Room '%(room)s' (capacity %(capacity)s) is too small for schedule "
+                    "'%(schedule)s', which already has %(enrolled)s enrolled student(s)."
+                ) % {
+                    'room': record.room_id.display_name,
+                    'capacity': record.room_capacity,
+                    'schedule': record.display_name,
+                    'enrolled': enrolled,
+                })
+
+    def unlink(self):
+        krs_count = self.env['academic.krs.line'].sudo().search_count([('schedule_id', 'in', self.ids)])
+        if krs_count:
+            raise ValidationError(_(
+                "Cannot delete class schedule(s) referenced by %s student KRS line(s)."
+            ) % krs_count)
+        khs_count = self.env['academic.khs.line'].sudo().search_count([('schedule_ids', 'in', self.ids)])
+        if khs_count:
+            raise ValidationError(_(
+                "Cannot delete class schedule(s) referenced by %s student KHS grade line(s)."
+            ) % khs_count)
+        return super().unlink()
 
     # A seat is only taken once the student's KRS has left their own hands.
     # Draft and rejected plans must not hold places for everyone else.
@@ -125,10 +164,29 @@ class AcademicClassSchedule(models.Model):
         # statement, and the table name comes from _table instead of a literal
         # so renaming the model cannot silently disable the lock.
         self.flush_recordset()
+        ordered_ids = tuple(sorted(self.ids))
+        # Acquire row locks in deterministic primary-key order first so
+        # concurrent multi-section submissions cannot deadlock, then touch the
+        # rows to force REPEATABLE READ serialization conflict on races.
+        self.env.cr.execute(SQL(
+            "SELECT id FROM %s WHERE id IN %s ORDER BY id FOR NO KEY UPDATE",
+            SQL.identifier(self._table), ordered_ids,
+        ))
         self.env.cr.execute(SQL(
             "UPDATE %s SET write_date = write_date WHERE id IN %s",
-            SQL.identifier(self._table), tuple(self.ids),
+            SQL.identifier(self._table), ordered_ids,
         ))
+
+    def _overlaps_with(self, other):
+        """Return True when two weekly schedules fall on the same day with overlapping times."""
+        self.ensure_one()
+        other.ensure_one()
+        return (
+            bool(self.day_of_week and other.day_of_week)
+            and self.day_of_week == other.day_of_week
+            and self.start_time < other.end_time
+            and self.end_time > other.start_time
+        )
 
     @api.depends('room_capacity', 'class_id.student_line_ids.schedule_id', 'class_id.student_line_ids.state')
     def _compute_capacity_display(self):
@@ -183,7 +241,7 @@ class AcademicClassSchedule(models.Model):
         if not relevant:
             return
         years = relevant.class_id.academic_year_id
-        candidates = self.search([
+        candidates = self.sudo().search([
             ('day_of_week', 'in', list(set(relevant.mapped('day_of_week')))),
             ('class_id.academic_year_id', 'in', years.ids),
         ])
@@ -195,11 +253,21 @@ class AcademicClassSchedule(models.Model):
         for record in relevant:
             key = (record.class_id.academic_year_id.id, record.day_of_week)
             for other in by_slot.get(key, ()):
-                if other.id == record.id:
-                    continue
-                if not (record.start_time < other.end_time and record.end_time > other.start_time):
+                if other.id == record.id or not record._overlaps_with(other):
                     continue
                 if record.room_id and other.room_id == record.room_id:
-                    raise ValidationError(_("Room overlap detected on %s") % record.display_name)
+                    raise ValidationError(_(
+                        "Room overlap detected on %(schedule)s with %(other_class)s (%(other_schedule)s)."
+                    ) % {
+                        'schedule': record.display_name,
+                        'other_class': other.class_id.display_name,
+                        'other_schedule': other.display_name,
+                    })
                 if record.lecturer_id and other.lecturer_id == record.lecturer_id:
-                    raise ValidationError(_("Lecturer overlap detected on %s") % record.display_name)
+                    raise ValidationError(_(
+                        "Lecturer overlap detected on %(schedule)s with %(other_class)s (%(other_schedule)s)."
+                    ) % {
+                        'schedule': record.display_name,
+                        'other_class': other.class_id.display_name,
+                        'other_schedule': other.display_name,
+                    })

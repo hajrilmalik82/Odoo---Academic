@@ -1,5 +1,6 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import ValidationError
+from odoo.tools import float_compare
 
 
 class AcademicCreditLimit(models.Model):
@@ -53,8 +54,9 @@ class AcademicCreditLimit(models.Model):
     @api.model
     def _get_max_credits(self, cgpa):
         """Credit cap for a CGPA, or None when no band is configured."""
-        band = self.search(
-            [('min_cgpa', '<=', cgpa or 0.0)],
-            order='min_cgpa desc, id desc', limit=1,
-        )
-        return band.max_credits if band else None
+        value = cgpa or 0.0
+        bands = self.search([], order='min_cgpa desc, id desc')
+        for band in bands:
+            if float_compare(value, band.min_cgpa, precision_digits=2) >= 0:
+                return band.max_credits
+        return None

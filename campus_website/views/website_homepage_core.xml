@@ -18,7 +18,7 @@
         <xpath expr="//div[@id='wrap']" position="replace">
             <div id="wrap" class="bg-light pb-5">
                 <!-- Editable band above the documentation. -->
-                <div class="oe_structure"/>
+                <div id="oe_structure_campus_homepage_top" class="oe_structure oe_empty"/>
 
                 <!-- Header -->
                 <section class="bg-white border-bottom pt-5 pb-4 mb-5 shadow-sm">
@@ -46,14 +46,14 @@
 
                         <!-- Documentation Content -->
                         <div class="col-lg-9">
-                            <div class="tab-content bg-white shadow-sm rounded-4 p-5" id="docs-tabContent">
+                            <div class="tab-content bg-white shadow-sm rounded-4 p-3 p-md-5" id="docs-tabContent">
 
                                 <!-- MODUL CAMPUS CORE -->
                                 <div class="tab-pane fade show active" id="content-core" role="tabpanel" aria-labelledby="tab-core">
                                     <section class="mb-5">
                                         <div class="d-flex align-items-center mb-4">
                                             <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 50px; height: 50px; font-size: 1.25rem;">
-                                                <i class="fa fa-cogs"/>
+                                                <i class="fa fa-cogs" aria-hidden="true"/>
                                             </div>
                                             <h2 class="fw-bold mb-0 text-primary">Campus Core Module (Academic, KRS &amp; KHS)</h2>
                                         </div>
@@ -62,7 +62,7 @@
                                         </p>
 
                                         <!-- HIGHLIGHT FITUR -->
-                                        <div class="row mb-5">
+                                        <div class="row g-3 mb-5">
                                             <div class="col-md-3">
                                                 <div class="card border-0 shadow-sm h-100 rounded-4">
                                                     <div class="card-body">
@@ -278,7 +278,7 @@
                 </div>
 
                 <!-- Editable band below the documentation. -->
-                <div class="oe_structure"/>
+                <div id="oe_structure_campus_homepage_bottom" class="oe_structure oe_empty"/>
             </div>
         </xpath>
     </template>

@@ -1,5 +1,5 @@
 from odoo import _, api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, UserError, ValidationError
 from odoo.tools import SQL
 
 
@@ -47,9 +47,21 @@ class CampusGraduationSchedule(models.Model):
     @api.depends('thesis_ids.state')
     def _compute_participant_count(self):
         for record in self:
-            record.participant_count = len(
-                record.thesis_ids.filtered(lambda thesis: thesis.state != 'cancelled')
+            record.participant_count = 0
+        saved = self.browse([sid for sid in self.ids if isinstance(sid, int)])
+        if not saved:
+            return
+        counts = {
+            schedule.id: count
+            for schedule, count in self.env['campus.thesis'].sudo()._read_group(
+                [('graduation_id', 'in', saved.ids), ('state', '!=', 'cancelled')],
+                ['graduation_id'],
+                ['__count'],
             )
+            if schedule
+        }
+        for record in saved:
+            record.participant_count = counts.get(record.id, 0)
 
     @api.depends('name', 'graduation_date')
     def _compute_display_name(self):
@@ -60,17 +72,30 @@ class CampusGraduationSchedule(models.Model):
                 record.display_name = record.name or ""
 
     def _lock_for_quota(self):
-        """Serialize concurrent batch assignment under PostgreSQL REPEATABLE READ."""
-        if not self.ids:
+        """Serialize concurrent batch assignment under PostgreSQL REPEATABLE READ.
+
+        Acquires row locks in ascending ID order so multi-schedule operations
+        cannot deadlock against each other.
+        """
+        ids = tuple(sorted(self.ids))
+        if not ids:
             return
         self.flush_recordset()
         self.env.cr.execute(SQL(
+            "SELECT id FROM %s WHERE id IN %s ORDER BY id FOR NO KEY UPDATE",
+            SQL.identifier(self._table), ids,
+        ))
+        self.env.cr.execute(SQL(
             "UPDATE %s SET write_date = write_date WHERE id IN %s",
-            SQL.identifier(self._table), tuple(self.ids),
+            SQL.identifier(self._table), ids,
         ))
 
     @api.constrains('graduation_date', 'registration_deadline', 'quota')
     def _check_schedule_validity(self):
+        quota_checked = self.filtered(lambda r: r.quota > 0 and isinstance(r.id, int))
+        if quota_checked:
+            quota_checked._lock_for_quota()
+            quota_checked.invalidate_recordset(['participant_count'])
         for record in self:
             if (
                 record.registration_deadline
@@ -95,26 +120,59 @@ class CampusGraduationSchedule(models.Model):
         candidates = self.search([
             ('state', '=', 'open'),
             ('graduation_date', '>=', today),
+            '|',
+            ('registration_deadline', '=', False),
+            ('registration_deadline', '>=', today),
         ], order='graduation_date asc, id asc')
         for schedule in candidates:
-            if schedule.registration_deadline and schedule.registration_deadline < today:
+            # Skip already-full schedules before acquiring a row lock.
+            if schedule.quota > 0 and schedule.participant_count >= schedule.quota:
                 continue
             if lock:
                 schedule._lock_for_quota()
-                schedule.invalidate_recordset(['participant_count'])
+                schedule.invalidate_recordset(['participant_count', 'state'])
+                if schedule.state != 'open':
+                    continue
             if schedule.quota > 0 and schedule.participant_count >= schedule.quota:
                 continue
             return schedule
         return self.browse()
 
+    def _require_schedule_manager(self):
+        if not (
+            self.env.su
+            or self.env.user.has_group('campus_core.group_campus_academic_staff')
+            or self.env.user.has_group('campus_core.group_campus_administrator')
+        ):
+            raise AccessError(_(
+                "Only Academic Staff or Campus Administrators can manage graduation schedules."
+            ))
+
     def action_close(self):
+        self._require_schedule_manager()
+        if self.filtered(lambda r: r.state != 'open'):
+            raise UserError(_("Only Open graduation schedules can be closed."))
         self.write({'state': 'closed'})
 
     def action_reopen(self):
+        self._require_schedule_manager()
+        if self.filtered(lambda r: r.state != 'closed'):
+            raise UserError(_("Only Closed graduation schedules can be reopened."))
         self.write({'state': 'open'})
 
     def action_complete(self):
+        self._require_schedule_manager()
+        if self.filtered(lambda r: r.state not in ('open', 'closed')):
+            raise UserError(_("This graduation schedule is already completed."))
         self.write({'state': 'completed'})
+
+    def unlink(self):
+        self._require_schedule_manager()
+        if self.filtered('thesis_ids'):
+            raise ValidationError(_(
+                "Graduation schedules with assigned students cannot be deleted."
+            ))
+        return super().unlink()
 
     def action_open_participants(self):
         self.ensure_one()

@@ -219,3 +219,70 @@ class TestCampusSecurity(CampusCommon):
                 self.assertNotIn('program_id', arch)
                 self.assertEqual(partner.with_user(accountant).krs_count, 0)
                 self.assertEqual(partner.with_user(accountant).khs_count, 0)
+
+    def test_lecturer_can_read_rooms_and_buildings_and_cannot_inject_foreign_sessions(self):
+        self.assertTrue(self.room.with_user(self.lecturer_user).has_access('read'))
+        self.assertTrue(self.building.with_user(self.lecturer_user).has_access('read'))
+        emp_vals = {
+            'name': 'ZZTEST Dosen Lain Session',
+            'user_id': self.lecturer_user.id,
+        }
+        if 'academic_role' in self.env['hr.employee']._fields:
+            emp_vals.update({
+                'academic_role': 'lecturer',
+                'faculty_id': self.faculty.id,
+                'program_id': self.program.id,
+            })
+        foreign_emp = self.env['hr.employee'].create(emp_vals)
+        with self.assertRaises(AccessError):
+            self.env['academic.class.session'].with_user(self.lecturer_user).create({
+                'name': 'Injected Session',
+                'class_id': self.klass.id,
+                'start_datetime': '2026-09-01 08:00:00',
+                'end_datetime': '2026-09-01 10:00:00',
+                'room_id': self.room.id,
+                'lecturer_id': foreign_emp.id,
+            })
+
+    def test_computed_totals_and_direct_lock_are_protected(self):
+        krs = self._make_krs()
+        with self.assertRaises(ValidationError):
+            self.env['academic.krs'].create({
+                'student_id': self.student.id,
+                'academic_year_id': self.year_next.id,
+                'state': 'approved',
+            })
+        krs.action_submit()
+        krs.action_approve()
+        with self.assertRaises(ValidationError):
+            krs.write({'state': 'locked'})
+        krs.action_lock()
+        khs = self.env['academic.khs'].search([
+            ('student_id', '=', self.student.id),
+            ('academic_year_id', '=', self.year.id),
+        ], limit=1)
+        staff_user = self.env['res.users'].create({
+            'name': 'ZZTEST Staf Computed', 'login': 'zz.staf.computed.test',
+            'group_ids': [(6, 0, [
+                self.internal_group.id,
+                self.env.ref('campus_core.group_campus_academic_staff').id,
+            ])],
+        })
+        if 'campus.jurisdiction' in self.env:
+            staff_emp = self.env['hr.employee'].create({
+                'name': 'ZZTEST Staf Computed Emp',
+                'academic_role': 'academic',
+                'user_id': staff_user.id,
+            })
+            self.env['campus.jurisdiction'].create({
+                'employee_id': staff_emp.id,
+                'scope': 'academic',
+                'all_faculties': True,
+                'all_programs': True,
+            })
+        with self.assertRaises(AccessError):
+            khs.with_user(staff_user).write({'term_gpa': 4.0})
+        with self.assertRaises(AccessError):
+            khs.line_ids[:1].with_user(staff_user).write({'letter_grade': 'A'})
+        with self.assertRaises(AccessError):
+            self.student.with_user(staff_user).write({'cgpa': 4.0})

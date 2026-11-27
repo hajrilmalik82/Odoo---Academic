@@ -76,11 +76,7 @@ class AssignScheduleWizard(models.TransientModel):
                 if other == line or not other.schedule_id:
                     continue
                 other_sched = other.schedule_id
-                if (
-                    other_sched.day_of_week == self.schedule_id.day_of_week
-                    and other_sched.start_time < self.schedule_id.end_time
-                    and other_sched.end_time > self.schedule_id.start_time
-                ):
+                if other_sched._overlaps_with(self.schedule_id):
                     raise ValidationError(
                         _("Assigning %(student)s to %(target)s overlaps with %(existing)s.") % {
                             'student': line.student_id.name,

@@ -1,6 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_campus_building_admin,campus.building admin,model_campus_building,group_campus_administrator,1,1,1,1
+access_campus_building_lecturer,campus.building lecturer,model_campus_building,group_campus_lecturer,1,0,0,0
 access_campus_room_admin,campus.room admin,model_campus_room,group_campus_administrator,1,1,1,1
+access_campus_room_lecturer,campus.room lecturer,model_campus_room,group_campus_lecturer,1,0,0,0
 access_campus_room_portal,campus.room portal,model_campus_room,base.group_portal,1,0,0,0
 access_campus_building_portal,campus.building portal,model_campus_building,base.group_portal,1,0,0,0
 access_academic_faculty_admin,academic.faculty admin,model_academic_faculty,group_campus_administrator,1,1,1,1

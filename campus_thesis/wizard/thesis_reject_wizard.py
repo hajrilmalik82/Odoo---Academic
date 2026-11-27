@@ -1,4 +1,5 @@
-from odoo import fields, models
+from odoo import _, fields, models
+from odoo.exceptions import ValidationError
 
 
 class CampusThesisRejectWizard(models.TransientModel):
@@ -18,8 +19,11 @@ class CampusThesisRejectWizard(models.TransientModel):
 
     def action_confirm(self):
         self.ensure_one()
+        cleaned = (self.reason or '').strip()
+        if not cleaned:
+            raise ValidationError(_("Please provide a non-empty reason."))
         if self.mode == 'yudisium_return':
-            self.thesis_id.action_yudisium_return_to_docs(reason=self.reason)
+            self.thesis_id.action_yudisium_return_to_docs(reason=cleaned)
         else:
-            self.thesis_id.action_supervisor_reject(reason=self.reason)
+            self.thesis_id.action_supervisor_reject(reason=cleaned)
         return {'type': 'ir.actions.act_window_close'}

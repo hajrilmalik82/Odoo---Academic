@@ -1,6 +1,11 @@
 from odoo import _, api, fields, models
 from odoo.exceptions import AccessError, ValidationError
 
+# Unforgeable per-process sentinel ensuring supervisor review status/audit
+# fields are only mutated through _set_review_state() (action_approve /
+# action_request_revision), never by raw RPC write().
+_PROGRESS_REVIEW_TOKEN = object()
+
 
 class CampusThesisProgress(models.Model):
     """Guidance and progress milestones logged during Proposal and Thesis stages."""
@@ -66,23 +71,36 @@ class CampusThesisProgress(models.Model):
                     stage=stage,
                     state=thesis.state,
                 ))
-            if vals.get('state') in ('approved', 'revision') and not self._is_supervisor_or_admin(thesis):
-                raise AccessError(_(
-                    "Only the assigned Thesis Supervisor(s) can create pre-approved progress logs."
-                ))
         return super().create(vals_list)
 
-    _SUPERVISOR_WRITABLE_FIELDS = {'state', 'supervisor_note', 'reviewed_by_id', 'reviewed_date'}
+    _SUPERVISOR_WRITABLE_FIELDS = {'supervisor_note'}
+    _REVIEW_WORKFLOW_FIELDS = {'state', 'reviewed_by_id', 'reviewed_date'}
 
     def write(self, vals):
         is_admin = self.env.su or self.env.user.has_group('campus_core.group_campus_administrator')
+        is_review = self.env.context.get('_progress_review_token') is _PROGRESS_REVIEW_TOKEN
         if not is_admin:
             self._check_supervisor_review_permission()
-            disallowed = set(vals) - self._SUPERVISOR_WRITABLE_FIELDS
+            allowed = (
+                self._SUPERVISOR_WRITABLE_FIELDS | self._REVIEW_WORKFLOW_FIELDS
+                if is_review
+                else self._SUPERVISOR_WRITABLE_FIELDS
+            )
+            disallowed = set(vals) - allowed
             if disallowed:
                 raise AccessError(_(
-                    "Supervisors can only update review status and feedback, not student log entries (%s)."
+                    "Supervisors can only update feedback or use the Approve/Revise buttons, not edit log fields (%s)."
                 ) % ', '.join(sorted(disallowed)))
+        if not self.env.su:
+            for line in self:
+                if line.thesis_id.state not in ('proposal', 'thesis'):
+                    raise ValidationError(_(
+                        "Guidance progress logs can only be modified during the Proposal or Thesis stages."
+                    ))
+                if line.thesis_id.state != line.stage:
+                    raise ValidationError(_(
+                        "Guidance progress logs from an earlier stage can no longer be modified."
+                    ))
         if 'stage' in vals:
             for line in self:
                 if line.thesis_id.state != vals['stage']:
@@ -94,8 +112,17 @@ class CampusThesisProgress(models.Model):
     def _set_review_state(self, new_state):
         """Record supervisor review decision, reviewer, and timestamp."""
         self._check_supervisor_review_permission()
+        for line in self:
+            if line.thesis_id.state not in ('proposal', 'thesis'):
+                raise ValidationError(_(
+                    "Guidance progress logs can only be reviewed during the Proposal or Thesis stages."
+                ))
+            if line.thesis_id.state != line.stage:
+                raise ValidationError(_(
+                    "Guidance progress logs from an earlier stage can no longer be reviewed."
+                ))
         reviewer = self.env.user.employee_id
-        self.write({
+        self.with_context(_progress_review_token=_PROGRESS_REVIEW_TOKEN).write({
             'state': new_state,
             'reviewed_by_id': reviewer.id if reviewer else False,
             'reviewed_date': fields.Datetime.now(),
